@@ -61,15 +61,15 @@ public class TypesTest {
 
     @Test
     void mapObject() {
-        Map<String,String> map = new HashMap<>();
-        map.put("errCode","1");
-        map.put("errMsg","haha");
-        Foo f = Types.mapObject(map,Foo.class);
+        Map<String, String> map = new HashMap<>();
+        map.put("errCode", "1");
+        map.put("errMsg", "haha");
+        Foo f = Types.mapObject(map, Foo.class);
         System.out.println("---" + Types.toJson(f));
     }
 
     @Test
-    void testStringTointeger(){
+    void testStringTointeger() {
         String s = "1316";
         Integer integer = TypesConv.toInt(s);
         System.out.println(integer);
