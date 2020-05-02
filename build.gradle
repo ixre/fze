@@ -1,0 +1,24 @@
+allprojects {
+    group 'com.github.ixre'
+    version '0.1.0'
+    repositories {
+        maven{ url "http://maven.aliyun.com/nexus/content/groups/public/"}
+        mavenCentral()
+    }
+}
+
+
+subprojects {
+    apply plugin: "java"
+    sourceCompatibility = 1.8
+
+    dependencies {
+        compile(
+                "org.jetbrains.kotlin:kotlin-stdlib",
+        )
+        testCompile(
+                "org.junit.jupiter:junit-jupiter-api:5.+",
+                 'org.junit.jupiter:junit-jupiter-engine'
+        )
+    }
+}

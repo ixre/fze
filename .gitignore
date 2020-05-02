@@ -1,0 +1,22 @@
+build
+*.tar.gz
+.idea
+.gradle
+api_docs
+*.docx
+.DS_Store
+*.class
+*.jar
+*.gen
+out
+*.vpp.*
+*.vpp~*
+output
+tmp
+uploads
+# Project exclude paths
+node_modules
+*.lock
+*.hprof
+*.log
+gradlew
