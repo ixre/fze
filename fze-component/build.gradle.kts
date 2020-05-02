@@ -2,6 +2,8 @@ plugins {
     java
     kotlin("jvm") version ("1.3.72")
 }
+
+apply("../deploy.gradle")
 dependencies {
     implementation(project(":fze-commons"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")

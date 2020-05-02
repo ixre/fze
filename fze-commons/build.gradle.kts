@@ -2,6 +2,8 @@ plugins {
     java
     kotlin("jvm") version ("1.3.72")
 }
+
+apply("../deploy.gradle")
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     api("javax.servlet:javax.servlet-api:4.+")

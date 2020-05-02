@@ -1,0 +1,20 @@
+apply plugin: "maven"
+apply plugin: "maven-publish"
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url = "http://git.tech.meizhuli.net:8082/repository/maven-releases"
+            credentials {
+                username 'line'
+                password "line888"
+            }
+        }
+    }
+}
+

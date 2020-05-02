@@ -1,3 +1,10 @@
-# 圆球基础库
-
-1. [数据库(JDBC)操作示例](http://git.tech.meizhuli.cn/arch/user-center/blob/feature/src/fze-commons/src/test/java/com/line/arch/commons/jdb/JdbConnectorTest.java)
+添加仓库：
+```
+repositories {
+  maven("http://git.tech.meizhuli.net:8082/repository/maven-public")
+}
+```
+添加依赖：
+```
+implementation("net.fze.arch:fze-commons:0.1.10")
+```
