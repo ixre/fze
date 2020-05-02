@@ -47,7 +47,7 @@ class Utils {
                 if(paramMappings[0] =='{') {
                     val mp = Types.fromJson(paramMappings, Map::class.java);
                     mp.forEach {
-                        params.value.put(it.key.toString(), it.value.toString())
+                        params.value[it.key.toString()] = it.value.toString()
                     }
                 }else {
                     val mapping = paramMappings.replace("%3d", "=")

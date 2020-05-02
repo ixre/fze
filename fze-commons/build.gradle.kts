@@ -8,6 +8,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     api("javax.servlet:javax.servlet-api:4.+")
     api("com.google.inject:guice:4.2.2")
+    api("io.agroal:agroal-pool:1.8")
+    implementation("io.agroal:agroal-api:1.8")
     implementation("commons-cli:commons-cli:1.4")
     api("com.google.code.gson:gson:2.8.6")
     implementation("com.mchange:c3p0:0.9.5.5") //C3P0连接池

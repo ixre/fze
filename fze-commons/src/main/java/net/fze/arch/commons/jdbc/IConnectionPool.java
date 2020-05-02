@@ -1,10 +1,12 @@
 package net.fze.arch.commons.jdbc;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public interface IConnector {
+public interface IConnectionPool {
     /**
      * 获取连接URL
      */
@@ -16,7 +18,12 @@ public interface IConnector {
      * @return 数据源
      */
     DataSource dataSource();
-
+    /**
+     * 获取JDB连接
+     *
+     * @return 返回连接，如果连接失败，则返回null
+     */
+    JdbcConnection acquire();
     /**
      * 获取连接
      */
@@ -58,4 +65,5 @@ public interface IConnector {
      * @param seconds 秒,默认3600秒
      */
     void setIdleConnectionTestPeriod(int seconds);
+
 }

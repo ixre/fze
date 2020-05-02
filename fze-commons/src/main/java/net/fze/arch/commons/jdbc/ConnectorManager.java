@@ -12,22 +12,22 @@ import java.util.Map;
  */
 public class ConnectorManager {
     public List<String> keys = new ArrayList<>();
-    public Map<String, JdbcConnector> data = new LinkedHashMap<>();
+    public Map<String, Cp30PoolWrapper> data = new LinkedHashMap<>();
     private String defaultKey = "";
 
-    public void put(String key, JdbcConnector c) {
+    public void put(String key, Cp30PoolWrapper c) {
         this.data.put(key, c);
         this.keys.add(key);
     }
 
-    public JdbcConnector get(String key) {
+    public Cp30PoolWrapper get(String key) {
         return this.data.get(key);
     }
 
     /**
      * 获取第一个JDBC连接
      */
-    public JdbcConnector first() {
+    public Cp30PoolWrapper first() {
         if (this.keys.size() > 0) {
             return this.data.get(this.keys.get(0));
         }
@@ -37,7 +37,7 @@ public class ConnectorManager {
     /**
      * 获取默认的JDBC连接
      */
-    public JdbcConnector getDefault() {
+    public Cp30PoolWrapper getDefault() {
         if (Types.emptyOrNull(this.defaultKey)) {
             return this.first();
         }

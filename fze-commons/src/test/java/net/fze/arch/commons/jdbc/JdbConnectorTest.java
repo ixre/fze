@@ -14,9 +14,10 @@ public class JdbConnectorTest {
     @Test
     public void testAcquire() throws PropertyVetoException, ClassNotFoundException {
         String driverClass = "com.mysql.jdbc.Driver";
-        String driverUrl = JdbcConnector.createDriverUrl("mysql", "localhost", 3306, "test", null);
+        String connectionUrl = DataSourceBuilder.Companion.createDriverUrl("mysql", "localhost", 3306, "test");
         // 创建连接器,连接器应是全局的
-        JdbcConnector jdb = new JdbcConnector(driverClass, driverUrl, "root", "123456");
+        IConnectionPool jdb = new DataSourceBuilder().create(driverClass,connectionUrl)
+                .credential("root","123456").build();
         // 获取连接，通过连接器获得
         JdbcConnection conn = jdb.acquire();
         // 开启事务
