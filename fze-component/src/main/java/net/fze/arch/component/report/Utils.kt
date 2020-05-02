@@ -1,8 +1,5 @@
 package net.fze.arch.component.report
 
-import com.github.ixre.fze.commons.report.ColumnMapping
-import com.github.ixre.fze.commons.report.ItemConfig
-import com.github.ixre.fze.commons.report.Params
 import net.fze.arch.commons.std.Types
 import java.io.File
 import javax.xml.bind.JAXBContext

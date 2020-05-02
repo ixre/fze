@@ -1,6 +1,5 @@
-package com.github.ixre.fze.commons.report
+package net.fze.arch.component.report
 
-import net.fze.arch.component.report.Utils
 import java.io.File
 import java.sql.Connection
 import java.sql.PreparedStatement

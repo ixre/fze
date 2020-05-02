@@ -1,10 +1,5 @@
 package net.fze.arch.component.report
 
-import com.github.ixre.fze.commons.report.DataResult
-import com.github.ixre.fze.commons.report.IDbProvider
-import com.github.ixre.fze.commons.report.ItemManager
-import com.github.ixre.fze.commons.report.Params
-
 /**
  * 导出仓库
  */
