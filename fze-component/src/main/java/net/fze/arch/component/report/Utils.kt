@@ -40,7 +40,7 @@ class Utils {
         /** 转换参数 */
         fun parseParams(paramMappings: String): Params {
             val params = Params(mutableMapOf())
-            if (!Types.emptyOrNull(paramMappings)) {
+            if (paramMappings != null && paramMappings.length > 1) {
                 if(paramMappings[0] =='{') {
                     val mp = Types.fromJson(paramMappings, Map::class.java);
                     mp.forEach {
