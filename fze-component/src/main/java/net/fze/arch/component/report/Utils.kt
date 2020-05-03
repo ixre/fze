@@ -15,7 +15,6 @@ class Utils {
             val ctx = JAXBContext.newInstance(ItemConfig::class.java)
             return ctx.createUnmarshaller().unmarshal(f) as ItemConfig
         }
-
         /** 转换列与字段的映射 */
         fun parseColumnMapping(str: String): Array<ColumnMapping> {
             throw Error("not implement")
