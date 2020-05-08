@@ -26,7 +26,6 @@ public class Types {
     /**
      * 时间扩展,使用TypedStd.time代替
      */
-    @Deprecated
     public static final TimeExtensions time = new TimeExtensions();
 
     /**

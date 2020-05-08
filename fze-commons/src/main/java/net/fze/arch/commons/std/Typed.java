@@ -12,11 +12,6 @@ public class Typed {
      */
     public static final LangExtension std = new LangExtension();
     /**
-     * 时间扩展
-     */
-    public static final TimeExtensions time = new TimeExtensions();
-
-    /**
      * 编码器
      */
     public static final EncoderExtensions encoder = new EncoderExtensions();
