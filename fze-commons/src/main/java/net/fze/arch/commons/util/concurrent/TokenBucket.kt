@@ -1,6 +1,6 @@
 package net.fze.arch.commons.util.concurrent
 
-import net.fze.arch.commons.std.Typed
+import net.fze.arch.commons.std.Types
 
 // 令牌桶算法, 参见: https://github.com/ixre/gof/blob/master/util/concurrent/token_bucket.go
 class TokenBucket {
@@ -23,7 +23,7 @@ class TokenBucket {
 
     // 获取n个令牌
     fun acquire(n: Int): Boolean {
-        val now = Typed.time.unix()
+        val now = Types.time.unix()
         val s = ((now - this.timestamp).toDouble() * this.rate).toInt()
         // 计算当前的令牌数
         this.tokens = this.tokens + s
