@@ -1,11 +1,5 @@
 package net.fze.arch.commons.std
 
-/** 是否开发环境 */
-fun dev():Boolean{
-    return Standard.dev()
-}
-
-
 /**
  * 捕获异常,将异常返回错误
  *

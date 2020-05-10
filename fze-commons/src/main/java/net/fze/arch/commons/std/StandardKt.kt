@@ -1,7 +1,7 @@
 package net.fze.arch.commons.std
 
 /** 标准类 */
-class Standard {
+private class StandardKt {
     companion object {
         private var devFlag: Int = -1
         fun classInJar(c: Class<*>): Boolean {

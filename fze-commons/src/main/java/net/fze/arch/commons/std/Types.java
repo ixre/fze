@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,20 +18,9 @@ import java.util.Map;
  */
 public class Types {
     /**
-     * 标准库扩展,使用TypedStd.std
-     */
-    @Deprecated
-    public static final LangExtension std = new LangExtension();
-    /**
      * 时间扩展,使用TypedStd.time代替
      */
     public static final TimeExtensions time = new TimeExtensions();
-
-    /**
-     * 编码器,使用TypedStd.encoder代替
-     */
-    @Deprecated
-    public static final EncoderExtensions encoder = new EncoderExtensions();
 
     /**
      * 是否为空字符串或空
@@ -104,22 +92,6 @@ public class Types {
     public static <T> T mapObject(Object src, Class<T> classes) {
         Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         return mapper.map(src, classes);
-    }
-
-    /**
-     * 获取包下所有的类型
-     *
-     * @param pkg    包名
-     * @param filter 筛选符合条件的类型，可以为空
-     */
-    public static Class<?>[] getPkgClasses(String pkg, Types.TCond<Class<?>> filter) {
-        return ClassResolver.Companion.getClasses(pkg, filter);
-    }
-
-    public static Type getActualType(Object o, int index) {
-        Type clazz = o.getClass().getGenericSuperclass();
-        ParameterizedType pt = (ParameterizedType) clazz;
-        return pt.getActualTypeArguments()[index];
     }
 
     /**

@@ -1,7 +1,7 @@
 package net.fze.arch.commons.infrastructure;
 
 import com.google.inject.Singleton;
-import net.fze.arch.commons.std.Typed;
+import net.fze.arch.commons.std.Standard;
 
 @Singleton
 public class DomainSupportImpl implements DomainSupport {
@@ -33,7 +33,7 @@ public class DomainSupportImpl implements DomainSupport {
      */
     public Validator validator() {
         if (this._validator == null) {
-            this._validator = new Validator(Typed.std);
+            this._validator = new Validator(Standard.std);
         }
         return this._validator;
     }
@@ -45,7 +45,7 @@ public class DomainSupportImpl implements DomainSupport {
      */
     public Generator generator() {
         if (this._generator == null) {
-            this._generator = new Generator(Typed.std);
+            this._generator = new Generator(Standard.std);
         }
         return this._generator;
     }

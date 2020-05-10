@@ -10,7 +10,7 @@ internal class KotlinLangExtensionTest {
         var map = mutableMapOf<String, String>()
         var str = ""
         for (i in 0 until 10000) {
-            str = Typed.std.randomLetters(6)
+            str = Standard.std.randomLetters(6)
             println("$i|$str")
             if (map.containsKey(str)) {
                 fail<String>("重复")
@@ -22,7 +22,7 @@ internal class KotlinLangExtensionTest {
 
     @Test
     fun replaceN() {
-        val s = Typed.std.replaceN("13162222872", 3, 4, "*")
+        val s = Standard.std.replaceN("13162222872", 3, 4, "*")
         println(" content = $s")
     }
 }
