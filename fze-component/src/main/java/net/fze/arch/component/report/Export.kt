@@ -194,13 +194,18 @@ class ExportItem(db: IDbProvider, key: String, cfg: ItemConfig) : IDataExportPor
                 r.err = "[ Export][ Error] -" + ex.message + "\n" + sql
             }
         }
-        if (this.sqlConfig.query != "") {
-            r.rows = execQuery(conn, this.sqlConfig.query, p)
-        } else {
-            r.err = "not contain any query"
-        }
-        if (this.sqlConfig.subQuery != "") {
-            r.sub = this.execQuery(conn, this.sqlConfig.query, p)
+        try {
+            if (this.sqlConfig.query != "") {
+                r.rows = execQuery(conn, this.sqlConfig.query, p)
+            } else {
+                r.err = "not contain any query"
+            }
+            if (this.sqlConfig.subQuery != "") {
+                r.sub = this.execQuery(conn, this.sqlConfig.query, p)
+            }
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
+            r.err = "[ Export][ Error] -" + ex.message + "\n" + this.sqlConfig.query
         }
         conn.close()
         return r
