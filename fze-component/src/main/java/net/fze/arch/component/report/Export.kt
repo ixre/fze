@@ -20,6 +20,14 @@ class Params(var value: MutableMap<String, String>) {
             this.value[s.key] = s.value.trim()
         }
     }
+    /** 添加参数 */
+    fun add(key: String,value:String){
+        this.value[key] = value
+    }
+    /** 删除参数 */
+    fun remove(key:String){
+        this.value.remove(key)
+    }
 }
 
 /** 列映射 */
