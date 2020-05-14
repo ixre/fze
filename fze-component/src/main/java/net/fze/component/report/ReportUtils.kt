@@ -7,7 +7,7 @@ import javax.xml.bind.JAXBContext
 /**
  * 导出工具类
  */
-class Utils {
+class ReportUtils {
     companion object {
         /** 获取列映射数组 */
         fun readItemConfigFromXml(xmlFilePath: String): ItemConfig? {
@@ -67,6 +67,15 @@ class Utils {
                 formatted = formatted.replace("{" + e.key + "}", e.value)
             }
             return formatted.trim()
+        }
+
+        /** 生成时间返回SQL */
+        fun timeRangeSQL(range:String,field:String):String {
+            if (range == "") return ""
+            val arr = ReportParses.parseTimeRange(range)
+            if (arr.size == 1) return String.format("%s >= %d", field, arr[0])
+            if(arr[1] %3600 == 0)arr[1]+=3600*24-1 // 添加结束时间
+            return String.format("%s BETWEEN %d AND %d", field, arr[0], arr[1])
         }
     }
 }

@@ -1,6 +1,6 @@
 allprojects {
     group 'net.fze.arch'
-    version '0.1.29'
+    version '0.1.32'
     repositories {
         maven{ url "http://maven.aliyun.com/nexus/content/groups/public/"}
         mavenCentral()
@@ -17,7 +17,7 @@ subprojects {
         )
         testCompile(
                 "org.junit.jupiter:junit-jupiter-api:5.+",
-                 'org.junit.jupiter:junit-jupiter-engine'
+                 'org.junit.jupiter:junit-jupiter-engine:5.+'
         )
     }
 }

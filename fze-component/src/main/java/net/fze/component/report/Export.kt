@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement
 import javax.xml.bind.annotation.XmlRootElement
 
 /** 参数 */
-class Params(var value: MutableMap<String, String>) {
+class Params(internal var value: MutableMap<String, String>) {
     /** 从Map中拷贝数据 */
     fun copy(src: Map<String, String>) {
         for (s in src) {
@@ -21,9 +21,19 @@ class Params(var value: MutableMap<String, String>) {
         }
     }
     /** 添加参数 */
-    fun add(key: String,value:String){
+    fun set(key: String,value:String){
         this.value[key] = value
     }
+    /** 获取参数 */
+    fun get(key:String):String?{
+        return this.value[key]
+    }
+
+    /** 是否包含参数 */
+    fun contains(key:String):Boolean{
+        return this.value.contains(key)
+    }
+
     /** 删除参数 */
     fun remove(key:String){
         this.value.remove(key)
@@ -145,7 +155,7 @@ class ExportItem(db: IDbProvider, key: String, cfg: ItemConfig) : IDataExportPor
     override fun getColumnMapping(): Array<ColumnMapping> {
         if (this.mapping == null) {
             this.sqlConfig.columnMapping = this.formatMappingString(this.sqlConfig.columnMapping)
-            this.mapping = Utils.parseColumnMapping(this.sqlConfig.columnMapping)
+            this.mapping = ReportUtils.parseColumnMapping(this.sqlConfig.columnMapping)
         }
         return this.mapping!!
     }
@@ -159,28 +169,32 @@ class ExportItem(db: IDbProvider, key: String, cfg: ItemConfig) : IDataExportPor
         val r = DataResult()
         r.rows = mutableListOf()
         //初始化添加参数
-        if (!p.value.containsKey("pageSize")) {
-            p.value["pageSize"] = "10000000000"
+        if (!p.contains("pageSize")) {
+            p.set("pageSize","10000000000")
         }
-        if (!p.value.containsKey("pageIndex")) {
-            p.value["pageIndex"] = "1"
+        if (!p.contains("pageIndex")) {
+            p.set("pageIndex","1")
         }
         // 获取页码和每页加载数量
-        val pageIndex = p.value["pageIndex"]!!.toInt()
-        val pageSize = p.value["pageSize"]!!.toInt()
+        val pageIndex = (p.get("pageIndex")?:"0").toInt()
+        val pageSize = (p.get("pageSize")?:"0").toInt()
         // 设置SQL分页信息
         if (pageIndex > 0) {
-            p.value["page_start"] = ((pageIndex - 1) * pageSize).toString()
+            val offset = ((pageIndex - 1) * pageSize).toString()
+            p.set("page_offset",offset)
+            p.set("page_start",offset)  //todo: remove
         } else {
-            p.value["page_start"] = "0"
+            p.set("page_offset","0")
+            p.set("page_start","0") //todo: remove
         }
-        p.value["page_end"] = (pageIndex * pageSize).toString()
-        p.value["page_size"] = pageSize.toString()
+        p.set("page_over", (pageIndex * pageSize).toString())
+        p.set("page_end", (pageIndex * pageSize).toString()) //todo: remove
+        p.set("page_size", pageSize.toString())
         // 创建连接
         val conn = this.dbProvider.getDB()
         //统计总行数
         if (this.sqlConfig.total != "") {
-            val sql = Utils.sqlFormat(this.sqlConfig.total, p.value)
+            val sql = ReportUtils.sqlFormat(this.sqlConfig.total, p.value)
             try {
                 val stmt = conn.prepareStatement(sql)
                 val rs = stmt.executeQuery()
@@ -213,7 +227,7 @@ class ExportItem(db: IDbProvider, key: String, cfg: ItemConfig) : IDataExportPor
 
     private fun execQuery(conn: Connection, query: String, p: Params): MutableList<Map<String, Any>> {
         val list = mutableListOf<Map<String, Any>>()
-        var sql = Utils.sqlFormat(query, p.value)
+        var sql = ReportUtils.sqlFormat(query, p.value)
         if (sql == "") return mutableListOf()
         var rs: ResultSet? = null
         var stmt: PreparedStatement? = null
@@ -336,7 +350,7 @@ class ItemManager {
         if (f.isDirectory) {
             throw Error("[ Export][ Error]: export item config is a directory; path: $filePath")
         }
-        val cfg = Utils.readItemConfigFromXml(filePath)
+        val cfg = ReportUtils.readItemConfigFromXml(filePath)
                 ?: throw Error(
                 "[ Export][ Error]: can't load export item; path: $filePath")
         return ExportItem(this.dbGetter, portalKey, cfg)
