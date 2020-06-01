@@ -1,5 +1,6 @@
 package net.fze.commons.jdbc
 
+import com.google.common.base.Strings
 import net.fze.commons.std.Types
 import java.net.URLEncoder
 
@@ -8,6 +9,9 @@ class DataSourceBuilder {
    private var poolType = Pools.Agroal
    fun create(driverClass: String, connectionUrl: String): DataSourceBuilder {
       Class.forName(driverClass) // search class
+      if(!this.params.driverClass.isNullOrEmpty() || !this.params.connectionUrl.isNullOrEmpty()){
+         throw Exception("please not setting repeat!")
+      }
       this.params.driverClass = driverClass
       this.params.connectionUrl = connectionUrl
       return this

@@ -117,6 +117,19 @@ public class TypesConv {
      * @return 如果obj为空则返回默认，不为空则返回转换后的long结果
      */
     public static Long toLong(Object obj, long defaultVal) {
+        if (obj instanceof Double) {
+            return ((Double) obj).longValue();
+        }
+        if (obj instanceof Float) {
+            return ((Float) obj).longValue();
+        }
+        if (obj instanceof Long) {
+
+            return (Long) obj;
+        }
+        if (obj instanceof Integer) {
+            return ((Integer) obj).longValue();
+        }
         return (obj != null) ? Long.parseLong(toString(obj)) : defaultVal;
     }
 

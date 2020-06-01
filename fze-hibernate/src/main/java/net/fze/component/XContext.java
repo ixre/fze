@@ -2,7 +2,6 @@ package net.fze.component;
 
 import net.fze.commons.Context;
 import net.fze.component.hibernate.TinySession;
-import net.fze.component.hibernate.TinySession;
 
 /**
  * 扩展的上下文
