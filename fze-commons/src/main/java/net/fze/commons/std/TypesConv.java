@@ -14,7 +14,9 @@ public class TypesConv {
      * @return obj转换为string
      */
     public static String toString(Object obj, String defaultVal) {
-        return (obj != null) ? obj.toString() : defaultVal;
+        if(obj == null)return defaultVal;
+        if(obj == "" && defaultVal == "0")return "0";
+        return  obj.toString();
     }
 
     /**

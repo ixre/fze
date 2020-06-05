@@ -16,12 +16,12 @@ import java.util.Map;
  * API客户端
  */
 public class ApiClient {
-    private String _apiUrl = "";
-    private String _key = "";
-    private String _secret = "";
-    private String _version = "";
-    private String _signType = "";
-    private int _timeout = 0;
+    private String _apiUrl;
+    private String _key;
+    private String _secret;
+    private String _version;
+    private String _signType;
+    private int _timeout;
     private Map<String, String> extraParams = new HashMap<>();
 
     public ApiClient(String apiUrl, String key, String secret, String version, String signType, int timeout) {
