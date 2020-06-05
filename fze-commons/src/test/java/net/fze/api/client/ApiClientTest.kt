@@ -13,9 +13,9 @@ internal class ApiClientTest {
         var secert = "fs2309soa23434098fs"
         val cli = ApiClient(url, key, secert, IAccessToken { key, secret ->
             val url = url + "/access_token?key=${key}&secret=${secret}"
-            val bytes = HttpClient.request(url, "GET", null, 15)
+            val bytes = HttpClient.request(url, "GET", null, 15000)
             String(bytes)
-        }, 30, 60)
+        }, 30, 15000)
         val params = mutableMapOf<String, String>()
         params["app"] = "33e844ca-e7d0-4c26-96c7-4ac9610c98ad"
         val ret = String(cli.request("app/info", params))
