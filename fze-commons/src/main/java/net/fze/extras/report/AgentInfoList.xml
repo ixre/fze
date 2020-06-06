@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ExportItemConfig>
+    <ColumnMapping>
+        recommend_phone:推荐人手机号;agent_name:代理商名称;agent_phone:电话;
+        agency_fee:代理费;count:已推商户;fst_agent_income:销售收入;
+        yunIncome:云服务费收入;agency_referral_fee_split:代理转介绍(元);is_resgister:缴费状态
+    </ColumnMapping>
+    <Query>
+        <![CDATA[
+ select * from agent_info WHERE c.agent_level=2  and g.agent_name like '%{agent_name}%'
+   ORDER BY g.id DESC limit {page_start},{page_size}
+     ]]>
+    </Query>
+    <Import><![CDATA[]]></Import>
+    <Total>
+        <![CDATA[
+       SELECT count(0) FROM ag_agent g
+    LEFT JOIN agent_commission c
+    ON c.agent_id=g.id
+    LEFT JOIN ag_user u
+    ON u.agent_id=g.id
+    LEFT JOIN (SELECT COUNT(1) AS 'count',agent_id FROM shop_list where status=1 GROUP BY agent_id)s ON s.agent_id=c.agent_id
+    WHERE c.agent_level=2 AND c.parent_id={agentId} and g.agent_name like '%{agent_name}%'
+        ]]>
+    </Total>
+    <SubQuery>
+        <![CDATA[]]>
+    </SubQuery>
+</ExportItemConfig>

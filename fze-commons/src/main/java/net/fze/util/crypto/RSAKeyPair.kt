@@ -1,0 +1,69 @@
+package net.fze.util.crypto
+
+import java.io.InputStream
+import java.nio.charset.Charset
+import java.security.KeyFactory
+import java.security.KeyPairGenerator
+import java.security.PrivateKey
+import java.security.spec.PKCS8EncodedKeySpec
+import java.util.*
+
+
+/** 证书生成器 */
+class RSAKeyPair {
+    companion object {
+        /** 生成RSA密钥对 */
+        fun generate(bits: Int = 2048): KeyPair {
+            val keyGen = KeyPairGenerator.getInstance("RSA")
+            keyGen.initialize(bits)
+            val pair = keyGen.generateKeyPair()
+            var p = KeyPair()
+            p.bits = bits
+            p.publicKey = Base64.getMimeEncoder().encodeToString(pair.private.encoded)
+            p.privateKey = Base64.getMimeEncoder().encodeToString(pair.public.encoded)
+            return p
+        }
+
+        /**
+         * Read a PEM encoded private key from the classpath
+         *
+         * @param pemStream - input stream of classpath file
+         * @return PrivateKey
+         * @throws Exception on decode failure
+         */
+        @Throws(Exception::class)
+        fun readFromStream(pemStream: InputStream): PrivateKey {
+            val tmp = ByteArray(4096)
+            val length = pemStream.read(tmp)
+            return decodePrivateKey(String(tmp, 0, length, Charset.forName("UTF-8")))
+        }
+
+        /**
+         * Decode a PEM encoded private key string to an RSA PrivateKey
+         *
+         * @param privateKey - PEM string for private key
+         * @return PrivateKey
+         * @throws Exception on decode failure
+         */
+        @Throws(Exception::class)
+        fun decodePrivateKey(privateKey: String): PrivateKey {
+            val encodedBytes = toEncodedBytes(privateKey)
+            val keySpec = PKCS8EncodedKeySpec(encodedBytes)
+            val kf = KeyFactory.getInstance("RSA")
+            return kf.generatePrivate(keySpec)
+        }
+
+        private fun removeBeginEnd(pem: String): String {
+            var pem = pem
+            pem = pem.replace("-----BEGIN\\s*(.*)-----".toRegex(), "")
+            pem = pem.replace("-----END\\s*(.*)----".toRegex(), "")
+            pem = pem.replace("\r\n".toRegex(), "")
+            pem = pem.replace("\n".toRegex(), "")
+            return pem.trim { it <= ' ' }
+        }
+        private fun toEncodedBytes(pemEncoded: String): ByteArray {
+            val normalizedPem = removeBeginEnd(pemEncoded)
+            return Base64.getMimeDecoder().decode(normalizedPem)
+        }
+    }
+}

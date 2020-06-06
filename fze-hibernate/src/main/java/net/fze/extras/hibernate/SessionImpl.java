@@ -1,4 +1,4 @@
-package net.fze.component.hibernate;
+package net.fze.extras.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;

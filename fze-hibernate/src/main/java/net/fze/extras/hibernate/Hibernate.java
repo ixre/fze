@@ -1,4 +1,4 @@
-package net.fze.component.hibernate;
+package net.fze.extras.hibernate;
 
 import net.fze.commons.Registry;
 import org.hibernate.Session;

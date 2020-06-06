@@ -7,6 +7,7 @@ apply("../deploy.gradle")
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     api("javax.servlet:javax.servlet-api:4.+")
+    api("javax.xml.bind:jaxb-api:2.3.1")
     api("com.google.inject:guice:4.2.2")
     api("io.agroal:agroal-pool:1.8")
     implementation("io.agroal:agroal-api:1.8")
