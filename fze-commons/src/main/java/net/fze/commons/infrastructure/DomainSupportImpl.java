@@ -1,8 +1,7 @@
 package net.fze.commons.infrastructure;
 
 import com.google.inject.Singleton;
-import net.fze.commons.std.Standard;
-import net.fze.commons.std.Standard;
+import net.fze.commons.Standard;
 
 @Singleton
 public class DomainSupportImpl implements DomainSupport {

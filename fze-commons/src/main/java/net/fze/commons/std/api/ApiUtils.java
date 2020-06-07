@@ -1,7 +1,7 @@
 package net.fze.commons.std.api;
 
-import net.fze.commons.std.Result;
-import net.fze.commons.std.TypesConv;
+import net.fze.commons.Result;
+import net.fze.commons.TypesConv;
 import net.fze.util.DigestEncode;
 import com.google.gson.Gson;
 

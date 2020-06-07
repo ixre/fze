@@ -1,6 +1,6 @@
 package net.fze.web.http;
 
-import net.fze.commons.std.Types;
+import net.fze.commons.Types;
 
 public class HttpUtils {
     /**

@@ -3,7 +3,7 @@ package net.fze.web.jetty
 import freemarker.template.Configuration
 import freemarker.template.Template
 import net.fze.commons.std.Creator
-import net.fze.commons.std.Standard
+import net.fze.commons.Standard
 import org.eclipse.jetty.server.Request
 import org.eclipse.jetty.server.handler.AbstractHandler
 import java.io.File

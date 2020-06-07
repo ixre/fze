@@ -3,9 +3,8 @@ package net.fze.mock;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import net.fze.commons.std.LangExtension;
-import net.fze.commons.std.Types;
-import net.fze.commons.std.LangExtension;
+import net.fze.commons.LangExtension;
+import net.fze.commons.Types;
 
 import java.util.HashMap;
 import java.util.Map;

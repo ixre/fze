@@ -23,6 +23,9 @@ dependencies {
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     implementation("com.belerweb:pinyin4j:2.5.0")
     implementation("com.esotericsoftware:reflectasm:1.11.9")
+
+    // quarkus
+    implementation("io.quarkus:quarkus-hibernate-orm-panache:1.4.2.Final")
     testCompileOnly("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }

@@ -1,6 +1,6 @@
 package net.fze.commons.std.api.wrapper;
 
-import net.fze.commons.std.http.HttpUtils;
+import net.fze.commons.http.HttpUtils;
 import net.fze.commons.std.api.Request;
 
 import javax.servlet.http.HttpServletRequest;

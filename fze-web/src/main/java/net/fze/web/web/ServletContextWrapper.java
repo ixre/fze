@@ -1,8 +1,7 @@
 package net.fze.web.web;
 
-import net.fze.commons.std.Result;
-import net.fze.commons.std.Types;
-import net.fze.commons.std.Result;
+import net.fze.commons.Result;
+import net.fze.commons.Types;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

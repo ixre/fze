@@ -1,6 +1,6 @@
 package net.fze.util
 
-import net.fze.commons.std.storage.Storage
+import net.fze.libs.storage.Storage
 import net.fze.util.concurrent.TokenBucket
 
 // 请求限制

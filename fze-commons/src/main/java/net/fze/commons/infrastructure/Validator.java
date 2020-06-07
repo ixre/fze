@@ -6,9 +6,8 @@ package net.fze.commons.infrastructure;
   description: 
  */
 
-import net.fze.commons.std.LangExtension;
+import net.fze.commons.LangExtension;
 import kotlin.text.Regex;
-import net.fze.commons.std.LangExtension;
 import org.jetbrains.annotations.NotNull;
 
 /**

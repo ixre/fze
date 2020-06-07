@@ -1,12 +1,11 @@
 package net.fze.commons.std.api.client;
 
-import net.fze.commons.std.http.HttpClient;
+import net.fze.commons.http.HttpClient;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import net.fze.commons.std.Types;
-import net.fze.commons.std.TypesConv;
+import net.fze.commons.Types;
+import net.fze.commons.TypesConv;
 import net.fze.commons.std.api.ApiUtils;
-import net.fze.commons.std.http.HttpClient;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;

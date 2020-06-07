@@ -1,6 +1,6 @@
 package net.fze.util
 
-import net.fze.commons.std.CatchResult
+import net.fze.commons.CatchResult
 import java.util.*
 
 /**

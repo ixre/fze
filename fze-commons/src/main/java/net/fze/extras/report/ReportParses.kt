@@ -1,6 +1,6 @@
 package net.fze.extras.report
 
-import net.fze.commons.std.Types
+import net.fze.commons.Types
 
 class ReportParses {
     companion object{

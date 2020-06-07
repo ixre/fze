@@ -1,6 +1,6 @@
 package net.fze.extras.report
 
-import net.fze.commons.std.Types
+import net.fze.commons.Types
 import java.io.File
 import javax.xml.bind.JAXBContext
 

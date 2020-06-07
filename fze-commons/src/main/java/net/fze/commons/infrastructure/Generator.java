@@ -6,7 +6,7 @@ package net.fze.commons.infrastructure;
   description: 
  */
 
-import net.fze.commons.std.LangExtension;
+import net.fze.commons.LangExtension;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
