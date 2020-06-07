@@ -2,9 +2,9 @@ package net.fze.libs.api.client;
 
 public class APiTst {
     public void test(){
-        IAccessToken ac = (k,v)->{
+        ApiClient cli = new ApiClient("","","",30);
+        cli.useToken((k,v)->{
             return "";
-        };
-        ApiClient cli = new ApiClient("","","",ac,30,30);
+        },30000);
     }
 }
