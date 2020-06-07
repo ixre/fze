@@ -66,7 +66,7 @@ class ApiClient {
      * @return 响应字节
      */
     @Throws(Exception::class)
-    fun request(apiPath: String, method:String, body:ByteArray?,jsonData:Boolean): ByteArray {
+    fun request(apiPath: String, method:String, body:ByteArray?,contentType:String?): ByteArray {
         //val data = Types.cloneMap(params)
         //Types.copyMap(extraParams, data)
         //data["\$key"] = key
@@ -82,54 +82,54 @@ class ApiClient {
                 .setHeader("api-user",this.key)
                 .body(body).timeout(this._timeout)
         // 设置格式
-        if(jsonData)b.contentType(ContentTypes.JSON.value)
+        if(!contentType.isNullOrEmpty())b.contentType(contentType)
         // 请求
         return HttpClient.request(b.build())
     }
 
 
     fun get(apiPath:String):ByteArray{
-        return this.request(apiPath,"GET",null,false)
+        return this.request(apiPath,"GET",null,null)
     }
 
     fun post(apiPath:String,params: Map<String, String>?): ByteArray{
         val bytes =HttpClient.parseBody(params,ContentTypes.FORM)
-        return this.request(apiPath,"POST",bytes,false)
+        return this.request(apiPath,"POST",bytes,null)
     }
 
     fun patch(apiPath:String,params: Map<String, String>?):ByteArray{
         val bytes =HttpClient.parseBody(params,ContentTypes.FORM)
-        return this.request(apiPath,"PATCH",bytes,false)
+        return this.request(apiPath,"PATCH",bytes,null)
     }
 
     fun put(apiPath:String,params: Map<String, String>?):ByteArray{
         val bytes =HttpClient.parseBody(params,ContentTypes.FORM)
-        return this.request(apiPath,"PUT",bytes,false)
+        return this.request(apiPath,"PUT",bytes,null)
     }
 
     fun delete(apiPath:String,params: Map<String, String>?):ByteArray{
         val bytes =HttpClient.parseBody(params,ContentTypes.FORM)
-        return this.request(apiPath,"DELETE",bytes,false)
+        return this.request(apiPath,"DELETE",bytes,null)
     }
 
     fun postJSON(apiPath:String,params: Any): ByteArray{
         val bytes =HttpClient.parseJsonBody(params)
-        return this.request(apiPath,"POST",bytes,true)
+        return this.request(apiPath,"POST",bytes,ContentTypes.JSON.value)
     }
 
     fun patchJSON(apiPath:String,params: Any):ByteArray{
         val bytes =HttpClient.parseJsonBody(params)
-        return this.request(apiPath,"PATCH",bytes,true)
+        return this.request(apiPath,"PATCH",bytes,ContentTypes.JSON.value)
     }
 
     fun putJSON(apiPath:String,params: Any):ByteArray{
         val bytes =HttpClient.parseJsonBody(params)
-        return this.request(apiPath,"PUT",bytes,false)
+        return this.request(apiPath,"PUT",bytes,ContentTypes.JSON.value)
     }
 
     fun deleteJSON(apiPath:String,params: Any):ByteArray{
         val bytes =HttpClient.parseJsonBody(params)
-        return this.request(apiPath,"DELETE",bytes,false)
+        return this.request(apiPath,"DELETE",bytes,ContentTypes.JSON.value)
     }
 
     private fun concat(apiName: String): String {
@@ -140,30 +140,13 @@ class ApiClient {
         return this.apiUrl + path
     }
 
-    /**
-     * 调用接口
-     *
-     * @param apiName 接口名称
-     * @param params  参数
-     * @return 响应
-     */
-    @Throws(Exception::class)
-    fun call(apiName: String, params: Map<String, String>?): String {
-        val ret = String(this.post(apiName, params))
-        this.except(ret)
-        return ret
-    }
 
     /**
-     * 支持泛型的调用接口
-     *
-     * @param apiName 接口名称
-     * @param params  参数
-     * @return 响应
+     * 反序列化结果
      */
     @Throws(Exception::class)
-    fun <T> callByClass(apiName: String, params: Map<String, String>?, classOfT: Class<*>?, vararg classOfArgs: Class<*>?): T? {
-        val ret = String(this.post(apiName, params))
+    fun <T> deserizeTypes(bytes:ByteArray, classOfT: Class<*>?, vararg classOfArgs: Class<*>?): T? {
+        val ret = String(bytes)
         if (ret.isEmpty()) return null
         this.except(ret)
         val gt: Type = if (classOfArgs.isEmpty()) {
@@ -175,15 +158,11 @@ class ApiClient {
     }
 
     /**
-     * 支持泛型的调用接口
-     *
-     * @param apiName 接口名称
-     * @param params  参数
-     * @return 响应
+     * 反序列化结果
      */
     @Throws(Exception::class)
-    fun <T> callByType(apiName: String, params: Map<String, String>?, gt: Type?): T? {
-        val ret = String(this.post(apiName, params))
+    fun <T> deserize(bytes:ByteArray, gt: Type?): T? {
+        val ret = String(bytes)
         if (ret.isEmpty()) return null
         this.except(ret)
         return Gson().fromJson(ret, gt)
