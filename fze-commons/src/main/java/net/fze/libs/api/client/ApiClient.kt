@@ -79,7 +79,7 @@ class ApiClient {
         // 发送请求
         val b = HttpRequestBuilder().create(this.concat(apiPath), method)
                 .setHeader(this.headerKey,this.accessToken)
-                .setHeader("api-user",this.key)
+                .setHeader("user-key",this.key)
                 .body(body).timeout(this._timeout)
         // 设置格式
         if(!contentType.isNullOrEmpty())b.contentType(contentType)
