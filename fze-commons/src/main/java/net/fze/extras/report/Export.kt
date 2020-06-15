@@ -146,11 +146,10 @@ internal class InternalFormatter : IExportFormatter {
 
 
 // 导出项目
-class ExportItem(db: IDbProvider, key: String, cfg: ItemConfig) : IDataExportPortal {
+class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
     var mapping: Array<ColumnMapping>? = null
     private var sqlConfig: ItemConfig = cfg
     private var dbProvider: IDbProvider = db
-    private var portalKey: String = key
 
     override fun getColumnMapping(): Array<ColumnMapping> {
         if (this.mapping == null) {
@@ -314,11 +313,11 @@ class ItemManager {
     // 缓存配置文件
     private var cacheFiles: Boolean = false
 
-    constructor(db: IDbProvider, rootPath: String, cacheFiles: Boolean) {
+    constructor(db: IDbProvider, rootPath: String, cache: Boolean) {
         this.rootPath = rootPath
         this.dbGetter = db
         this.cfgFileExt = ".xml"
-        this.cacheFiles = cacheFiles
+        this.cacheFiles = cache
         if (this.rootPath == "") {
             this.rootPath = "/query/"
         }
@@ -328,18 +327,18 @@ class ItemManager {
     }
 
     /** 获取导出项 */
-    fun getItem(portalKey: String): IDataExportPortal {
-        var item = this.exportItems[portalKey]
+    fun getItem(path: String): IDataExportPortal {
+        var item = this.exportItems[path]
         if (item == null) {
-            item = this.loadExportItem(portalKey)
+            item = this.loadExportItem(path)
             if (this.cacheFiles) {
-                this.exportItems[portalKey] = item!!
+                this.exportItems[path] = item!!
             }
         }
         return item!!
     }
 
-    /**创建导出项,watch：是否监视文件变化 */
+    /**创建导出项 */
     private fun loadExportItem(portalKey: String): ExportItem? {
         val pwd = System.getProperty("user.dir")
         val filePath = arrayOf(pwd, this.rootPath, portalKey, this.cfgFileExt).joinToString("")
@@ -353,7 +352,7 @@ class ItemManager {
         val cfg = ReportUtils.readItemConfigFromXml(filePath)
                 ?: throw Error(
                 "[ Export][ Error]: can't load export item; path: $filePath")
-        return ExportItem(this.dbGetter, portalKey, cfg)
+        return ExportItem(this.dbGetter, cfg)
     }
 }
 
