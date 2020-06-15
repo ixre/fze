@@ -9,7 +9,7 @@ import java.util.TimeZone;
 public class TimeExtensions {
     private static SimpleDateFormat defaultDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     // 格式化如：2020-05-06T16:00:00.000Z的时间
-    private static SimpleDateFormat ISO_8601_24H_FULL_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    private static SimpleDateFormat ISO_RFC_3339_24H_FULL_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
     TimeExtensions() {
     }
@@ -63,7 +63,7 @@ public class TimeExtensions {
      */
     public Date parseISOTime(String s) {
         try {
-            return ISO_8601_24H_FULL_FORMAT.parse(s);
+            return ISO_RFC_3339_24H_FULL_FORMAT.parse(s);
         } catch (ParseException ex) {
             ex.printStackTrace();
         }

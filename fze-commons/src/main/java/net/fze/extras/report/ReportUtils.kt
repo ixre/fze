@@ -69,7 +69,7 @@ class ReportUtils {
             return formatted.trim()
         }
 
-        /** 生成时间返回SQL */
+        /** 生成时间范围SQL */
         fun timeRangeSQL(range:String,field:String):String {
             if (range == "") return ""
             val arr = ReportParses.parseTimeRange(range)
