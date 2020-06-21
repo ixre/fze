@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBContext
  */
 class ReportUtils {
     companion object {
+        private val injectRegexp = Regex("\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|DELETE.+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)")
         /** 获取列映射数组 */
         fun readItemConfigFromXml(xmlFilePath: String): ItemConfig? {
             val f = File(xmlFilePath)
@@ -35,7 +36,6 @@ class ReportUtils {
             */
         }
 
-
         /** 转换参数 */
         fun parseParams(paramMappings: String): Params {
             val params = Params(mutableMapOf())
@@ -58,6 +58,11 @@ class ReportUtils {
                 }
             }
             return params
+        }
+
+        /** 判断是否存在危险的注入操作 */
+        internal fun checkInject(str: String):Boolean{
+            return injectRegexp.matches(str)
         }
 
         // 格式化sql语句

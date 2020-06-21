@@ -4,6 +4,7 @@ import java.io.File
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
+import java.sql.SQLException
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
 import javax.xml.bind.annotation.XmlElement
@@ -168,15 +169,15 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
         val r = DataResult()
         r.rows = mutableListOf()
         //初始化添加参数
-        if (!p.contains("pageSize")) {
-            p.set("pageSize","10000000000")
+        if (!p.contains("page_size")) {
+            p.set("page_size","10000000000")
         }
-        if (!p.contains("pageIndex")) {
-            p.set("pageIndex","1")
+        if (!p.contains("page_index")) {
+            p.set("page_index","1")
         }
         // 获取页码和每页加载数量
-        val pageIndex = (p.get("pageIndex")?:"0").toInt()
-        val pageSize = (p.get("pageSize")?:"0").toInt()
+        val pageIndex = p.get("page_index")!!.toInt()
+        val pageSize = p.get("page_size")!!.toInt()
         // 设置SQL分页信息
         if (pageIndex > 0) {
             val offset = ((pageIndex - 1) * pageSize).toString()
@@ -186,16 +187,15 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
             p.set("page_offset","0")
             p.set("page_start","0") //todo: remove
         }
-        p.set("page_over", (pageIndex * pageSize).toString())
-        p.set("page_end", (pageIndex * pageSize).toString()) //todo: remove
-        p.set("page_size", pageSize.toString())
+        p.set("page_over", (pageIndex * pageSize).toString()) //todo: remove
+        p.set("page_end", (pageIndex * pageSize).toString())
         // 创建连接
         val conn = this.dbProvider.getDB()
         //统计总行数
         if (this.sqlConfig.total != "") {
             val sql = ReportUtils.sqlFormat(this.sqlConfig.total, p.value)
             try {
-                val stmt = conn.prepareStatement(sql)
+                val stmt = conn.prepareStatement(this.check(sql))
                 val rs = stmt.executeQuery()
                 if (rs.next()) {
                     r.total = rs.getInt(1)
@@ -209,7 +209,7 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
         }
         try {
             if (this.sqlConfig.query != "") {
-                r.rows = execQuery(conn, this.sqlConfig.query, p)
+                r.rows = this.execQuery(conn, this.sqlConfig.query, p)
             } else {
                 r.err = "not contain any query"
             }
@@ -244,7 +244,7 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
                 }
                 sql = sqlLines[t - 1]
             }
-            stmt = conn.prepareStatement(sql)
+            stmt = conn.prepareStatement(this.check(sql))
             rs = stmt.executeQuery()
             val meta = rs.metaData
             val colCount = meta.columnCount
@@ -262,7 +262,13 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
             rs?.close()
             stmt?.close()
         }
-        return list;
+        return list
+    }
+
+    /** 判断注入 */
+    private fun check(sql: String):String{
+        if (ReportUtils.checkInject(sql)) throw SQLException("sql is dangers")
+        return sql
     }
 
     override fun getJsonData(p: Params): String {

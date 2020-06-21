@@ -8,10 +8,10 @@ class ExportHub(ip: IDbProvider, rootPath: String, cacheFiles: Boolean) {
     fun fetchData(portal: String, p: Params, page: String, rows: String): DataResult {
         val item = _manager.getItem(portal)
         if (page != "") {
-            p.value["pageIndex"] = page
+            p.value["page_index"] = page
         }
         if (rows != "") {
-            p.value["pageSize"] = rows
+            p.value["page_size"] = rows
         }
         return item.getSchemaAndData(p)
     }
