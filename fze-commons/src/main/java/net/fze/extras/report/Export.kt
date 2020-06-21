@@ -267,7 +267,7 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
 
     /** 判断注入 */
     private fun check(sql: String):String{
-        if (ReportUtils.checkInject(sql)) throw SQLException("sql is dangers")
+        if (!ReportUtils.checkInject(sql)) throw SQLException("sql is dangers")
         return sql
     }
 

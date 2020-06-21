@@ -62,7 +62,7 @@ class ReportUtils {
 
         /** 判断是否存在危险的注入操作 */
         internal fun checkInject(str: String):Boolean{
-            return injectRegexp.matches(str)
+            return !injectRegexp.matches(str)
         }
 
         // 格式化sql语句
