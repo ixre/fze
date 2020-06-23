@@ -15,12 +15,13 @@ private class StandardKt {
 
         fun resolveEnvironment(main: Class<*>):Boolean {
             devFlag = if (classInJar(main)) 1 else 0
-            if(dev()){
+            if (dev()) {
                 // 在IDEA下开发时设置项目真实的工作空间
-                val workSpace = System.getProperty("user.dir")
-                var i = workSpace.indexOfAny(arrayListOf("/build/","/target/"))
-                if(i != -1){
-                   System.setProperty("user.dir",workSpace.substring(0,i)+"/")
+                var workspace = System.getProperty("user.dir")
+                // Windows下以"\"分隔
+                var i = workspace.indexOfAny(arrayListOf("/build", "/target","\\build", "\\target"))
+                if (i != -1) {
+                    System.setProperty("user.dir", workspace.substring(0, i))
                 }
             }
             return true
