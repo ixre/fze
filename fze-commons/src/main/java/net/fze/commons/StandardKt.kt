@@ -13,6 +13,7 @@ private class StandardKt {
             return (pkgPath?.path ?: "").indexOf(".jar!") == -1
         }
 
+        /** 解析环境,如果是生产环境返回true,反之返回false */
         fun resolveEnvironment(main: Class<*>):Boolean {
             devFlag = if (classInJar(main)) 1 else 0
             if (dev()) {
@@ -23,6 +24,7 @@ private class StandardKt {
                 if (i != -1) {
                     System.setProperty("user.dir", workspace.substring(0, i))
                 }
+                return false
             }
             return true
         }
