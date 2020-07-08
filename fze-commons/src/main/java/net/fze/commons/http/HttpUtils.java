@@ -94,4 +94,18 @@ public class HttpUtils {
         }
         return ip;
     }
+
+    /// <summary>
+    /// 是否通过代理https请求
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    public static boolean IsHttpsProxyRequest(IHeaderFetch h)
+    {
+        // nginx反向代理
+        if (h.get("X-Forwarded-Proto") == "https") return true;
+        // 兼容西部数码虚拟主机
+        if (h.get("SSL-FLAG") == "SSL" || h.get("From-Https") == "on") return true;
+        return false;
+    }
 }
