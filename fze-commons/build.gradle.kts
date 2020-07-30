@@ -15,7 +15,7 @@ dependencies {
     api("com.google.code.gson:gson:2.8.6")
     implementation("com.mchange:c3p0:0.9.5.5") //C3P0连接池
     api("org.apache.thrift:libthrift:0.13.0")
-    implementation("redis.clients:jedis:3.2.0")
+    implementation("redis.clients:jedis:3.3.0")
     api("com.moandjiezana.toml:toml4j:0.7.2")
     //"org.apache.commons:commons-lang3:3.7"
     implementation("mysql:mysql-connector-java:8.0.18")
