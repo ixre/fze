@@ -18,17 +18,18 @@ class ClassResolver {
      * 获取包下所有的类型,[pkg]包名,[filter]筛选符合条件的类型，可以为空
      */
     fun getClasses(pkg: String, filter: Types.TCond<Class<*>>): Array<Class<*>> {
-        try {
-            var scope = pkg
-            val loader = Thread.currentThread().contextClassLoader
-            if (scope.isNullOrEmpty()) {
-                val definedPackages = loader.definedPackages
-                scope = definedPackages[definedPackages.size - 1].name
-            }
-            return walkPkg(loader, scope!!, filter).toTypedArray()
-        } catch (ex: Throwable) {
-            throw ex
-        }
+        throw NotImplementedError("")
+//        try {
+//            var scope = pkg
+//            val loader = Thread.currentThread().contextClassLoader
+//            if (scope.isNullOrEmpty()) {
+//                val definedPackages = loader.definedPackages
+//                scope = definedPackages[definedPackages.size - 1].name
+//            }
+//            return walkPkg(loader, scope!!, filter).toTypedArray()
+//        } catch (ex: Throwable) {
+//            throw ex
+//        }
     }
 
     private fun walkPkg(loader: ClassLoader, pkg: String, filter: Types.TCond<Class<*>>?): List<Class<*>> {

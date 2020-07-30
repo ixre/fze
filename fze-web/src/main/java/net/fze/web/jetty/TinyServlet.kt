@@ -39,8 +39,9 @@ class RouteResolver {
     var creator: Creator<*>? = null
 
     constructor() {
-        val definedPackages = Thread.currentThread().contextClassLoader.definedPackages
-        this.pkg = definedPackages[definedPackages.size - 1].name
+        //todo: not implement
+//        val definedPackages = Thread.currentThread().contextClassLoader.definedPackages
+//        this.pkg = definedPackages[definedPackages.size - 1].name
         this.creator = Creator.CLASS
     }
 

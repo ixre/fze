@@ -1,6 +1,6 @@
 allprojects {
     group 'net.fze.arch'
-    version '0.1.56'
+    version '0.1.57'
     repositories {
         maven{ url "http://maven.aliyun.com/nexus/content/groups/public/"}
         mavenCentral()

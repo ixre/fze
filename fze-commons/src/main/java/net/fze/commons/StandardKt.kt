@@ -8,7 +8,7 @@ private class StandardKt {
             //var className= Thread.currentThread().stackTrace[1].className;
             // val c = Class.forName(className)
             //var c = Typed::class.java
-            val resName = c.packageName.replace(".", "/")
+            val resName = c.`package`.name.replace(".", "/")
             val pkgPath = c.classLoader.getResource(resName)
             return (pkgPath?.path ?: "").indexOf(".jar!") == -1
         }
