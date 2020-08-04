@@ -66,12 +66,28 @@ public class HttpUtils {
         return Types.mapObject(data, classes);
     }
 
+
     /**
      * 获取客户端IP地址
      *
      * @return
      */
     public static String remoteAddr(HttpServletRequest request) {
+        String ip = getRealIP(it-> request.getHeader(it));
+        if (ip == null) ip = request.getRemoteAddr();
+        // 如果是多级代理，那么取第一个ip为客户端ip
+        if (ip != null && ip.contains(",")) {
+            return ip.substring(0, ip.indexOf(",")).trim();
+        }
+        return ip;
+    }
+
+    /**
+     * 获取客户端真实的IP地址,如果返回空,则需要调用request的RemoteAddr方法以获取IP
+     *
+     * @return
+     */
+    public static String getRealIP(IHeaderFetch headers) {
         String[] keys = new String[]{
                 "X-REAL-IP",  // nginx自定义配置
                 "X-FORWARDER-FOR",
@@ -82,15 +98,10 @@ public class HttpUtils {
         };
         String ip = null;
         for (int i = 0; i < keys.length; i++) {
-            ip = request.getHeader(keys[i]);
+            ip = headers.get(keys[i]);
             if (ip != null && !ip.equals("") && !"unknown".equalsIgnoreCase(ip)) {
                 break;
             }
-        }
-        if (ip == null) ip = request.getRemoteAddr();
-        // 如果是多级代理，那么取第一个ip为客户端ip
-        if (ip != null && ip.contains(",")) {
-            return ip.substring(0, ip.indexOf(",")).trim();
         }
         return ip;
     }
