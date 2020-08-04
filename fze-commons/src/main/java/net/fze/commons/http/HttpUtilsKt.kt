@@ -1,7 +1,7 @@
 package net.fze.commons.http
 
 import net.fze.commons.Types
-import net.fze.util.OsUtils
+import net.fze.util.IoUtils
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -111,7 +111,7 @@ class HttpUtilsKt {
                 }
                 // 从输入流读取返回内容
                 val ist = conn.inputStream
-                val ret = OsUtils.streamToByteArray(ist)
+                val ret = IoUtils.streamToByteArray(ist)
                 ist.close()
                 ret
             } catch (ex: Exception) {
