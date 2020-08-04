@@ -13,21 +13,6 @@ import java.util.Arrays;
 public class IoUtils {
     private static final Log log = LogFactory.getLog(OsUtils.class.getCanonicalName());
 
-    /**
-     * 读取输入流
-     *
-     * @param stream 流
-     * @return 字符
-     */
-    public static String readStream(InputStream stream) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        byte[] offset = new byte[1024];
-        int size;
-        while ((size = stream.read(offset)) != -1) {
-            sb.append(Arrays.toString(Arrays.copyOfRange(offset, 0, size)));
-        }
-        return sb.toString();
-    }
 
     @NotNull
     public static byte[] streamToByteArray(InputStream stream) throws IOException {
@@ -48,17 +33,10 @@ public class IoUtils {
      * @param stream 流
      * @return 字符
      */
-    public static String readStream(InputStream stream, String charset) throws IOException {
+    public static String readToEnd(InputStream stream, String charset) throws IOException {
         if (charset == null || charset.equals("")) {
-            charset = "UTF8";
+            charset = "UTF-8";
         }
-        Reader read = new InputStreamReader(stream, charset);
-        StringBuilder sb = new StringBuilder();
-        char[] offset = new char[1024];
-        int size;
-        while ((size = read.read(offset)) != -1) {
-            sb.append(Arrays.copyOfRange(offset, 0, size));
-        }
-        return sb.toString();
+        return new String(streamToByteArray(stream),charset);
     }
 }

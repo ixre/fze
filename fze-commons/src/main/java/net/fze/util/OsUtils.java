@@ -8,9 +8,9 @@ import java.io.*;
 import java.util.Arrays;
 
 public class OsUtils {
-        private static final Log log = LogFactory.getLog(OsUtils.class.getCanonicalName());
+    private static final Log log = LogFactory.getLog(OsUtils.class.getCanonicalName());
 
-        /**
+    /**
      * 运行终端命令
      *
      * @param cmd 命令
@@ -29,9 +29,9 @@ public class OsUtils {
             String[] result = new String[2];
             result[0] = String.valueOf(ps.exitValue());
             if (ps.exitValue() == 0) {
-                result[1] = IoUtils.readStream(inputStream);
+                result[1] = readStream(inputStream);
             } else {
-                result[1] = IoUtils.readStream(errorStream);
+                result[1] = readStream(errorStream);
             }
             return result;
         } catch (Exception e) {
@@ -49,5 +49,21 @@ public class OsUtils {
                 ps.destroy();
             }
         }
+    }
+
+    /**
+     * 读取输入流
+     *
+     * @param stream 流
+     * @return 字符
+     */
+    private static String readStream(InputStream stream) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        byte[] offset = new byte[1024];
+        int size;
+        while ((size = stream.read(offset)) != -1) {
+            sb.append(Arrays.toString(Arrays.copyOfRange(offset, 0, size)));
+        }
+        return sb.toString();
     }
 }
