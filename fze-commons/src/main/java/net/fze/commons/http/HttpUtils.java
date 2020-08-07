@@ -114,9 +114,16 @@ public class HttpUtils {
     public static boolean IsHttpsProxyRequest(IHeaderFetch h)
     {
         // nginx反向代理
-        if (h.get("X-Forwarded-Proto").equals("https")) return true;
+        if (equalHeader(h,"X-Forwarded-Proto","https")) return true;
         // 兼容西部数码虚拟主机
-        if (h.get("SSL-FLAG").equals("SSL") || h.get("From-Https").equals("on")) return true;
+        if (equalHeader(h,"SSL-FLAG","SSL")
+                || equalHeader(h,"From-Https","on")) return true;
+        return false;
+    }
+
+    private static boolean equalHeader(IHeaderFetch h, String key, String value) {
+        String v = h.get(key);
+        if (v != null) return v.equals(value);
         return false;
     }
 }
