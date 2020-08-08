@@ -20,6 +20,12 @@ fun <T> Optional<T>.value():T?{
     return null
 }
 
+/** 往字典里插入数据,并返回实例 */
+fun <K,V> MutableMap<K,V>.append(k:K,v:V):MutableMap<K,V>{
+    this[k] = v
+    return this
+}
+
 
 /**
  * 捕获异常,返回T,输出错误信息

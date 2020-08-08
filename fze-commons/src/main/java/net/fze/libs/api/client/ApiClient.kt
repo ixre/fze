@@ -13,7 +13,7 @@ import java.lang.reflect.Type
  */
 class ApiClient {
     private var dataType: String = ""
-    private var headerKey: String = "Authorization"
+    private var authHeaderKey: String = "Authorization"
     private var expires: Int = 0
     private var lastTokenUnix: Int = 0
     private var accessToken: String = ""
@@ -43,8 +43,8 @@ class ApiClient {
     }
 
     /** 设置认证头部键,默认为：Authorization */
-    fun setAuthKey(key:String){
-        this.headerKey = key
+    fun setAuthHeaderKey(key:String){
+        this.authHeaderKey = key
     }
 
     /**
@@ -78,8 +78,7 @@ class ApiClient {
         }
         // 发送请求
         val b = HttpRequestBuilder().create(this.concat(apiPath), method)
-                .setHeader(this.headerKey,this.accessToken)
-                .setHeader("user-key",this.key)
+                .setHeader(this.authHeaderKey,this.accessToken)
                 .body(body).timeout(this._timeout)
         // 设置格式
         if(!contentType.isNullOrEmpty())b.contentType(contentType)
