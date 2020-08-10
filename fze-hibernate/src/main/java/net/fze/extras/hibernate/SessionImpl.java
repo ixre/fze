@@ -361,11 +361,11 @@ public class SessionImpl implements TinySession {
     @Override
     public Map<String, Object> get2Map(String sql, Map<String, Object> data) {
         Session s = this._session;
-        List list =
-                this.createNativeQuery(s, sql, data)
+        List list = this.createNativeQuery(s, sql, data)
                         .unwrap(Query.class)
                         .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
                         .getResultList();
+        s.close();
         if (list.size() > 0) {
             return (Map<String, Object>) list.get(0);
         }
@@ -375,8 +375,7 @@ public class SessionImpl implements TinySession {
     @Override
     public List<Map<String, Object>> select2Map(String sql, Map<String, Object> data) {
         Session s = this._session;
-        List list =
-                this.createNativeQuery(s, sql, data)
+        List list = this.createNativeQuery(s, sql, data)
                         .unwrap(Query.class)
                         .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
                         .getResultList();
