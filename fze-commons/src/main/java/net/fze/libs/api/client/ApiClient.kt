@@ -81,7 +81,8 @@ class ApiClient {
                 .setHeader(this.authHeaderKey,this.accessToken)
                 .body(body).timeout(this._timeout)
         // 设置格式
-        if(!contentType.isNullOrEmpty())b.contentType(contentType)
+        //application/json
+        if(!contentType.isNullOrEmpty())b.setHeader("Content-Type",contentType)
         // 请求
         return HttpClient.request(b.build())
     }

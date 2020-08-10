@@ -41,10 +41,10 @@ class HttpRequestBuilder{
         this.req.timeout = second
         return this
     }
-    fun contentType(s:String):HttpRequestBuilder{
-        this.req.contentType = s
-        return this
-    }
+//    fun contentType(s:String):HttpRequestBuilder{
+//        this.req.contentType = s
+//        return this
+//    }
     fun body(bytes:ByteArray?):HttpRequestBuilder{
         this.req.body = bytes
         return this
@@ -54,5 +54,4 @@ class HttpRequestBuilder{
         if(this.req.url.isNullOrEmpty())throw IllegalArgumentException("url")
         return this.req
     }
-
 }
