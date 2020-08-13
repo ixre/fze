@@ -1,8 +1,14 @@
 package net.fze.commons.std
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.fze.commons.CatchResult
 import net.fze.util.typedCatch
 import kotlin.concurrent.thread
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 fun String?.isNullEmpty(): Boolean {
     return this == null || this.isEmpty()
@@ -36,6 +42,13 @@ open class KotlinLangExtension {
         thread(start = true) {
             f.run()
         }
+    }
+
+    /** 使用协程运行 */
+    fun coroutines(context: CoroutineContext = EmptyCoroutineContext,
+                  start: CoroutineStart = CoroutineStart.DEFAULT,
+                  block: suspend CoroutineScope.() -> Unit) {
+        GlobalScope.launch(context, start, block)
     }
 
     // 返回随机字符串,[n]:长度

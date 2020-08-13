@@ -1,8 +1,12 @@
 package net.fze.domain
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.fze.util.catch
 
 /** 事件总线 */
-class EventBus {
+class EventBus(val name:String = "default") {
     companion object {
         private var instance: EventBus? = null
         fun instance(): EventBus {
@@ -10,6 +14,8 @@ class EventBus {
             return instance!!
         }
     }
+
+
     private var _exceptHandler: ((String,Any,Throwable) -> Unit)? = null
     private val _subMap = mutableMapOf<String, ArrayList<(Any) -> Unit>>()
     private val _locker = Any()
@@ -31,14 +37,26 @@ class EventBus {
     }
 
     /** 发布事件 */
-    fun publish(topic: String, data: Any): Error? {
+    fun publish(topic: String, data: Any,sync:Boolean = true): Error? {
         val list = this._subMap[topic]
         if (list == null) {
-            println(" [ eventbus]:no subscribes for topic $topic")
+            println(" [ EventBus][ ${this.name}]: no subscribes for topic $topic")
             return null
         }
         return catch {
-            list.forEach { it.invoke(data) }
+            if(sync) {
+                list.forEach { it.invoke(data) }
+                return@catch
+            }
+            runBlocking {
+                val arr = mutableListOf<Job>();
+                list.forEach {
+                    arr.add(GlobalScope.launch {
+                        it.invoke(data)
+                    })
+                }
+                arr.forEach { it.join() }
+            }
         }.except { this._exceptHandler?.invoke(topic,data,it) }.error()
     }
 }

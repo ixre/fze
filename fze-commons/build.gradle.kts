@@ -5,10 +5,11 @@ plugins {
 
 apply("../deploy.gradle")
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
     api("javax.servlet:javax.servlet-api:4.+")
     api("javax.xml.bind:jaxb-api:2.3.1")
-    api("com.google.inject:guice:4.2.2")
+    implementation("com.google.inject:guice:4.2.3")
     api("io.agroal:agroal-pool:1.8")
     implementation("io.agroal:agroal-api:1.8")
     implementation("commons-cli:commons-cli:1.4")
