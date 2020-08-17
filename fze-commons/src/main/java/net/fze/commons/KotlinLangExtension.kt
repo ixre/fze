@@ -1,11 +1,9 @@
 package net.fze.commons.std
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import net.fze.commons.CatchResult
 import net.fze.util.typedCatch
+import java.lang.Runnable
 import kotlin.concurrent.thread
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -45,10 +43,18 @@ open class KotlinLangExtension {
     }
 
     /** 使用协程运行 */
+    fun coroutinesRun(block: Runnable): Job {
+        return GlobalScope.launch(
+                EmptyCoroutineContext,
+                CoroutineStart.DEFAULT
+        ) { block.run()}
+    }
+
+    /** 使用协程运行 */
     fun coroutines(context: CoroutineContext = EmptyCoroutineContext,
                   start: CoroutineStart = CoroutineStart.DEFAULT,
-                  block: suspend CoroutineScope.() -> Unit) {
-        GlobalScope.launch(context, start, block)
+                  block: suspend CoroutineScope.() -> Unit):Job {
+        return GlobalScope.launch(context, start, block)
     }
 
     // 返回随机字符串,[n]:长度

@@ -1,9 +1,29 @@
 package net.fze.domain
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import net.fze.util.catch
+
+class EventDispatcher<T> {
+    private val _subMap = mutableMapOf<String, ArrayList<T>>()
+    private val _locker = Any()
+
+    /** 订阅 */
+    fun subscribe(key: String, h: T): Int {
+        synchronized(this._locker) {
+            if (this._subMap.contains(key)) {
+                this._subMap[key]!!.add(h)
+            } else {
+                this._subMap[key] = arrayListOf(h)
+            }
+            return this._subMap[key]?.size ?: 1 - 1;
+        }
+    }
+
+    fun gets(topic: String): ArrayList<T> {
+        return this._subMap[topic] ?: arrayListOf()
+    }
+}
+
 
 /** 事件总线 */
 class EventBus(val name:String = "default") {
@@ -15,20 +35,17 @@ class EventBus(val name:String = "default") {
         }
     }
 
-
+    internal class EventPack(val async: Boolean,val h:(Any) -> Unit)
+    private val dispatcher = EventDispatcher<EventPack>()
     private var _exceptHandler: ((String,Any,Throwable) -> Unit)? = null
-    private val _subMap = mutableMapOf<String, ArrayList<(Any) -> Unit>>()
-    private val _locker = Any()
 
     /** 订阅事件 */
     fun subscribe(topic: String, h: (Any) -> Unit) {
-        synchronized(this._locker) {
-            if (this._subMap.contains(topic)) {
-                this._subMap[topic]!!.add(h)
-            } else {
-                this._subMap[topic] = arrayListOf(h)
-            }
-        }
+        this.dispatcher.subscribe(topic,EventPack(false,h))
+    }
+    /** 订阅异步事件 */
+    fun subscribeAsync(topic: String, h: (Any) -> Unit){
+        this.dispatcher.subscribe(topic,EventPack(true,h))
     }
 
     /** 异常处理 */
@@ -37,26 +54,26 @@ class EventBus(val name:String = "default") {
     }
 
     /** 发布事件 */
-    fun publish(topic: String, data: Any,sync:Boolean = true): Error? {
-        val list = this._subMap[topic]
-        if (list == null) {
+    fun publish(topic: String, data: Any): Error? {
+        return this.postEvent(topic,data,false)
+    }
+
+
+    /** 发布事件 */
+    private fun postEvent(topic: String, data: Any,async:Boolean): Error? {
+        val list = this.dispatcher.gets(topic)
+        if (list.size == 0) {
             println(" [ EventBus][ ${this.name}]: no subscribes for topic $topic")
             return null
         }
         return catch {
-            if(sync) {
-                list.forEach { it.invoke(data) }
-                return@catch
-            }
-            runBlocking {
-                val arr = mutableListOf<Job>();
-                list.forEach {
-                    arr.add(GlobalScope.launch {
-                        it.invoke(data)
-                    })
+            list.forEach {
+                if (it.async) {
+                    GlobalScope.launch { it.h.invoke(data) }
+                } else {
+                    it.h.invoke(data)
                 }
-                arr.forEach { it.join() }
             }
-        }.except { this._exceptHandler?.invoke(topic,data,it) }.error()
+        }.except { this._exceptHandler?.invoke(topic, data, it) }.error()
     }
 }

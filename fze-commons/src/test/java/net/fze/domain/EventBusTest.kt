@@ -9,11 +9,11 @@ internal class EventBusTest{
             println("---${it}")
             Thread.sleep(1000)
         }
-        EventBus.instance().subscribe("1") {
+        EventBus.instance().subscribeAsync("1") {
             println("---sese ${it}")
             Thread.sleep(1000)
         }
-        EventBus.instance().publish("1","haha",false);
+        EventBus.instance().publish("1","haha");
 
         Thread.sleep(10000)
     }

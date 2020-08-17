@@ -6,7 +6,7 @@ plugins {
 apply("../deploy.gradle")
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
     api("javax.servlet:javax.servlet-api:4.+")
     api("javax.xml.bind:jaxb-api:2.3.1")
     implementation("com.google.inject:guice:4.2.3")
