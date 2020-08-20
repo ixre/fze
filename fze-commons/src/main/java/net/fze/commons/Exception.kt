@@ -18,7 +18,7 @@ class CatchResult<T> {
         return this
     }
 
-    // 获取错误
+    /** 获取错误 */
     fun error(): Error? {
         if (this.ex != null) return Error(this.ex!!.message, this.ex)
         if (this.t is Error) return this.t as Error
@@ -27,6 +27,13 @@ class CatchResult<T> {
             return Error(ta.message, ta)
         }
         return null
+    }
+
+    /** 应用错误回调, 如果无异常或错误则直接返回null */
+    fun applyError(f:(Error)->Unit):Error?{
+        val err = this.error()
+        if(err != null)f(err)
+        return err
     }
 
     // 执行操作

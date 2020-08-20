@@ -20,6 +20,12 @@ fun <T> Optional<T>.value():T?{
     return null
 }
 
+/** 可空类型应用回调 */
+fun <T> T?.apply(call: (T) -> Unit):T?{
+    if(this != null)call(this)
+    return this
+}
+
 /** 往字典里插入数据,并返回实例 */
 fun <K,V> MutableMap<K,V>.append(k:K,v:V):MutableMap<K,V>{
     this[k] = v
