@@ -30,11 +30,3 @@ dependencies {
     testCompileOnly("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
-
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
