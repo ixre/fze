@@ -7,12 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpUtils {
-    private static boolean _httpsProxied = false;
-
-    public static void httpsProxied(){
-        _httpsProxied = true;
-    }
-
     /**
      * 是否为HTTPS连接
      */
@@ -23,10 +17,9 @@ public class HttpUtils {
     /**
      * 拼接URL地址
      */
-    public static String urlJoin(String host, String path, String query, boolean tls) {
+    public static String join(String base, String path, String query) {
         StringBuilder b = new StringBuilder();
-        b.append(tls ? "https" : "http").append("://");
-        b.append(host);
+        b.append(base);
         if (!Types.emptyOrNull(path)) {
             if (!path.startsWith("/")) {
                 path = "/" + path;
@@ -34,16 +27,27 @@ public class HttpUtils {
             b.append(path);
         }
         if (!Types.emptyOrNull(query)) {
-            b.append("?").append(query);
+            if (!query.startsWith("?")) {
+                if (!Types.emptyOrNull(base) && base.contains("?")) {
+                    b.append("&");
+                } else if (!Types.emptyOrNull(path) && path.contains("?")) {
+                    b.append("&");
+                } else {
+                    b.append("?");
+                }
+            }
+            b.append(query);
         }
         return b.toString();
     }
 
     /* 获取当前请求的BaseURL */
-    public static String getBaseURL(HttpServletRequest req) {
+    public static String getServletBaseURL(HttpServletRequest req) {
         String path = req.getRequestURI();
         String s = req.getRequestURL().toString();
-        if (_httpsProxied) s = s.replace("http://", "https://");
+        if(IsHttpsProxyRequest(k-> req.getHeader(k))){
+            s = s.replace("http://", "https://");
+        }
         return s.substring(0, s.lastIndexOf(path));
     }
 
