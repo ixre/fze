@@ -130,4 +130,22 @@ public class HttpUtils {
         if (v != null) return v.equals(value);
         return false;
     }
+
+
+    /**
+     * 将查询转换为字典
+     */
+    public static Map<String, String> parseQuery(String query) {
+        return HttpUtilsKt.Companion.parseQuery(query);
+    }
+
+    /**
+     * 将Map转换为查询
+     *
+     * @param params 参数
+     * @return 查询
+     */
+    public static String toQuery(Map<String, String> params) {
+        return HttpUtilsKt.Companion.toQuery(params);
+    }
 }

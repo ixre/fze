@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.fze.commons.Types;
 import net.fze.commons.TypesConv;
+import net.fze.commons.http.HttpUtils;
 import net.fze.commons.std.api.ApiUtils;
 
 import java.lang.reflect.Type;
@@ -81,7 +82,7 @@ public class ApiClient {
         data.put("version", this._version);
         data.put("sign_type", this._signType);
         data.put("sign", ApiUtils.Sign(this._signType, data, this._secret));
-        String query = HttpClient.toQuery(data);
+        String query = HttpUtils.toQuery(data);
         return HttpClient.request(this._apiUrl, "POST", query.getBytes(), this._timeout);
     }
 
