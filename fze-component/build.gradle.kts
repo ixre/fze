@@ -1,12 +1,12 @@
 plugins {
     java
-    kotlin("jvm") version ("1.3.72")
+    kotlin("jvm") version ("1.4.0")
 }
 
 apply("../deploy.gradle")
 dependencies {
     implementation(project(":fze-commons"))
-    implementation(kotlin("stdlib"))
+    //implementation(kotlin("stdlib"))
     api("javax.xml.bind:jaxb-api:2.3.1")
     /** Hibernate 依赖项开始 */
     //implementation("javax.activation:activation:1.1.1")

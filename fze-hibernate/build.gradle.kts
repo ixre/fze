@@ -1,12 +1,12 @@
 plugins {
     java
-    kotlin("jvm") version ("1.3.72")
+    kotlin("jvm") version ("1.4.0")
 }
 
 apply("../deploy.gradle")
 dependencies {
     implementation(project(":fze-commons"))
-    implementation(kotlin("stdlib"))
+    //implementation(kotlin("stdlib"))
     //implementation("javax.xml.bind:jaxb-api:2.3.1")
     implementation("org.hibernate:hibernate-core:5.4.2.Final")
     implementation("org.hibernate:hibernate-c3p0:5.4.2.Final")
