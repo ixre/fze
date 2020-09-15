@@ -1,12 +1,11 @@
 plugins {
     java
-    kotlin("jvm") version ("1.4.0")
+    kotlin("jvm") version ("1.4.10")
 }
-
 apply("../deploy.gradle")
 dependencies {
     //implementation(kotlin("stdlib"))
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
     api("javax.servlet:javax.servlet-api:4.+")
     api("javax.xml.bind:jaxb-api:2.3.1")
     implementation("com.google.inject:guice:4.2.3")
@@ -26,7 +25,7 @@ dependencies {
     implementation("com.esotericsoftware:reflectasm:1.11.9")
 
     // quarkus
-    implementation("io.quarkus:quarkus-hibernate-orm-panache:1.4.2.Final")
+    implementation("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
     testCompileOnly("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
