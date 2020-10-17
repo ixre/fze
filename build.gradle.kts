@@ -1,7 +1,7 @@
 allprojects {
     apply(plugin = "java")
     group = "net.fze.arch"
-    version="0.2.2"
+    version="0.2.3"
 }
 
 subprojects {
@@ -11,7 +11,6 @@ subprojects {
     }
 
     dependencies {
-        //"implementation"(kotlin("stdlib"))
         "testImplementation"("org.junit.jupiter:junit-jupiter-api:5.5.1")
         "testImplementation"("org.junit.jupiter:junit-jupiter-engine:5.5.1")
     }

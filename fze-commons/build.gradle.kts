@@ -4,17 +4,17 @@ plugins {
 }
 apply("../deploy.gradle")
 dependencies {
-    //implementation(kotlin("stdlib"))
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
     api("javax.servlet:javax.servlet-api:4.+")
     api("javax.xml.bind:jaxb-api:2.3.1")
     implementation("com.google.inject:guice:4.2.3")
-    api("io.agroal:agroal-pool:1.8" )
-    implementation("io.agroal:agroal-api:1.8")
+    api("io.agroal:agroal-pool:1.9" )
+    implementation("io.agroal:agroal-api:1.9")
     implementation("commons-cli:commons-cli:1.4")
     api("com.google.code.gson:gson:2.8.6")
     implementation("com.mchange:c3p0:0.9.5.5") //C3P0连接池
-    api("org.apache.thrift:libthrift:0.13.0")
+    implementation("org.apache.thrift:libthrift:0.13.0")
+    implementation("io.etcd:jetcd-core:0.5.3")
     implementation("redis.clients:jedis:3.3.0")
     api("com.moandjiezana.toml:toml4j:0.7.2")
     //"org.apache.commons:commons-lang3:3.7"
@@ -28,4 +28,7 @@ dependencies {
     implementation("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
     testCompileOnly("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
