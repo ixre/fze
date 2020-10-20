@@ -44,6 +44,7 @@ class DataSourceBuilder {
          * @param port       端口
          * @param db         数据库
          */
+        @JvmStatic
         fun createDriverUrl(driverName: String, host: String?, port: Int, db: String?): String {
             var driverName = driverName
             var db = db
@@ -64,6 +65,7 @@ class DataSourceBuilder {
          * @param db         数据库
          * @param timezone   时区,可为空
          */
+        @JvmStatic
         private fun createMySqlDriverUrl(driverName: String, host: String, port: Int, db: String, timezone: String): String {
             val s = String.format(
                     "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=utf-8",

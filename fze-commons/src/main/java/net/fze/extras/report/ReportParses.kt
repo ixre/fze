@@ -5,6 +5,7 @@ import net.fze.commons.Types
 class ReportParses {
     companion object{
         /** parse time range like [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z] */
+        @JvmStatic
         fun parseTimeRange(s:String):Array<Int> {
             if (s.isEmpty()) return arrayOf()
             var src = s

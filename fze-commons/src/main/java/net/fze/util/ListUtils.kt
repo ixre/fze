@@ -10,6 +10,7 @@ class ListUtils {
         /**
          * 按顺序排列
          */
+        @JvmStatic
         fun <T> sort(list: List<T>, c: Comparator<in T>): List<T> {
             return list.sortedWith(c)
         }
@@ -17,6 +18,7 @@ class ListUtils {
         /**
          * 将列表顺序颠倒
          */
+        @JvmStatic
         fun <T> reverse(list: List<T>) {
             Collections.reverse(list)
         }
@@ -24,6 +26,7 @@ class ListUtils {
         /**
          * 按倒序排列
          */
+        @JvmStatic
         fun <T> sortByDescending(list: List<T>, c: Comparator<in T>): List<T> {
             val dst = sort(list, c)
             reverse(dst)

@@ -22,19 +22,19 @@ public class HttpClient {
     public static byte[] request(String url, String method, byte[] data, int timeout){
         HttpRequest req = new HttpRequestBuilder().create(url, method)
                 .body(data).timeout(timeout).build();
-        return HttpUtilsKt.Companion.doRequest(req);
+        return HttpUtilsKt.doRequest(req);
     }
 
     public static byte[] get(String url, int timeout) {
         HttpRequest req = new HttpRequestBuilder().create(url, "GET")
                 .timeout(timeout).build();
-        return HttpUtilsKt.Companion.doRequest(req);
+        return HttpUtilsKt.doRequest(req);
     }
 
     public static byte[] post(String url,  byte[] data, int timeout) {
         HttpRequest req = new HttpRequestBuilder().create(url, "POST")
                 .body(data).timeout(timeout).build();
-        return HttpUtilsKt.Companion.doRequest(req);
+        return HttpUtilsKt.doRequest(req);
     }
 
 
@@ -50,21 +50,21 @@ public class HttpClient {
     public static byte[] request(String url, String method, byte[] data, Map<String, String> headers, int timeout) {
         HttpRequestBuilder b = new HttpRequestBuilder().create(url, method)
                 .headers(headers).body(data).timeout(timeout);
-        return HttpUtilsKt.Companion.doRequest(b.build());
+        return HttpUtilsKt.doRequest(b.build());
     }
 
     /**
      * 发起HTTP/HTTPS请求
      */
     public static byte[] request(HttpRequest r) {
-        return HttpUtilsKt.Companion.doRequest(r);
+        return HttpUtilsKt.doRequest(r);
     }
 
     /**
      * 将参数转为二进制数组
      */
     public static byte[] parseBody(@Nullable Map<String, String> params, ContentTypes cType) {
-        return HttpUtilsKt.Companion.parseBody(params, cType);
+        return HttpUtilsKt.parseBody(params, cType);
     }
 
     @Nullable

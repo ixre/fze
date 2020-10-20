@@ -37,6 +37,7 @@ class ReportUtils {
         }
 
         /** 转换参数 */
+        @JvmStatic
         fun parseParams(paramMappings: String): Params {
             val params = Params(mutableMapOf())
             if (paramMappings != null && paramMappings.length > 1) {
@@ -66,6 +67,7 @@ class ReportUtils {
         }
 
         // 格式化sql语句
+        @JvmStatic
         fun sqlFormat(sql: String, ht: Map<String, String>): String {
             var formatted = sql
             for (e in ht) {
@@ -75,6 +77,7 @@ class ReportUtils {
         }
 
         /** 生成时间范围SQL */
+        @JvmStatic
         fun timeRangeSQL(range:String,field:String):String {
             if (range == "") return ""
             val arr = ReportParses.parseTimeRange(range)

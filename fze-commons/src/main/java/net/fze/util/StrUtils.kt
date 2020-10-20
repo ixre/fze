@@ -13,6 +13,7 @@ class StrUtils {
          * @param text 文本
          * @param args 参数
          */
+        @JvmStatic
         fun template(text: String, args: Map<String, String>): String {
             return ext.template(text, args)
         }
@@ -23,6 +24,7 @@ class StrUtils {
          * @param arr 数组
          * @return 以","分割的字符串
          */
+        @JvmStatic
         fun intArrayJoin(arr: Array<Int>, delimer: CharSequence): String {
             if (arr.isEmpty()) return ""
             var i = 0
@@ -39,6 +41,7 @@ class StrUtils {
          * @param arr 数组
          * @return 以","分割的字符串
          */
+        @JvmStatic
         fun integerArrayJoin(arr: IntArray, delimer: CharSequence): String {
             var i = 0
             val sa = arrayOfNulls<String>(arr.size)
@@ -49,6 +52,7 @@ class StrUtils {
         }
 
         /** 用指定字符号拼接字符串 */
+        @JvmStatic
         fun arrayJoin(arr: Array<String>, delimer: CharSequence): String {
             return arr.joinToString(delimer)
         }
@@ -59,6 +63,7 @@ class StrUtils {
          * @param str
          * @return 32位MD5
          */
+        @JvmStatic
         fun md5(str: String): String {
             var md5str = ""
             try {
@@ -77,6 +82,7 @@ class StrUtils {
         }
 
         /** 返回[str]的16位md5 */
+        @JvmStatic
         fun md5_16(str: String): String {
             return md5(str).substring(8, 24)
         }

@@ -29,6 +29,7 @@ class EventDispatcher<T> {
 class EventBus(val name:String = "default") {
     companion object {
         private var instance: EventBus? = null
+        @JvmStatic
         fun instance(): EventBus {
             if (instance == null) instance = EventBus()
             return instance!!

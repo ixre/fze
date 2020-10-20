@@ -25,21 +25,21 @@ public class Standard {
 
 
     public static boolean classInJar(Class<?> c) {
-        return StandardKt.Companion.classInJar(c);
+        return StandardKt.classInJar(c);
     }
 
     /**
      * 解析环境
      */
     public static boolean resolveEnvironment(Class<?> main) {
-        return StandardKt.Companion.resolveEnvironment(main);
+        return StandardKt.resolveEnvironment(main);
     }
 
     /**
      * 是否为开发环境
      */
     public static boolean dev() {
-        return StandardKt.Companion.dev();
+        return StandardKt.dev();
     }
 
 

@@ -13,6 +13,7 @@ import java.util.*
 class RSAKeyPair {
     companion object {
         /** 生成RSA密钥对 */
+        @JvmStatic
         fun generate(bits: Int = 2048): KeyPair {
             val keyGen = KeyPairGenerator.getInstance("RSA")
             keyGen.initialize(bits)
@@ -32,6 +33,7 @@ class RSAKeyPair {
          * @throws Exception on decode failure
          */
         @Throws(Exception::class)
+        @JvmStatic
         fun readFromStream(pemStream: InputStream): PrivateKey {
             val tmp = ByteArray(4096)
             val length = pemStream.read(tmp)
@@ -46,6 +48,7 @@ class RSAKeyPair {
          * @throws Exception on decode failure
          */
         @Throws(Exception::class)
+        @JvmStatic
         fun decodePrivateKey(privateKey: String): PrivateKey {
             val encodedBytes = toEncodedBytes(privateKey)
             val keySpec = PKCS8EncodedKeySpec(encodedBytes)

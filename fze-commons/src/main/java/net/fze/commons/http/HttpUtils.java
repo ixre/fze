@@ -136,7 +136,7 @@ public class HttpUtils {
      * 将查询转换为字典
      */
     public static Map<String, String> parseQuery(String query) {
-        return HttpUtilsKt.Companion.parseQuery(query);
+        return HttpUtilsKt.parseQuery(query);
     }
 
     /**
@@ -146,6 +146,6 @@ public class HttpUtils {
      * @return 查询
      */
     public static String toQuery(Map<String, String> params) {
-        return HttpUtilsKt.Companion.toQuery(params);
+        return HttpUtilsKt.toQuery(params);
     }
 }

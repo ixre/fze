@@ -19,6 +19,7 @@ class HttpUtilsKt {
          *
          * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
          */
+        @JvmStatic
         fun doRequest(req:HttpRequest):ByteArray {
             val prefix: String = req.url.substring(0, 5).toLowerCase()
             if (prefix == "https")return httpsRequest(req)
@@ -37,6 +38,7 @@ class HttpUtilsKt {
          * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
          */
         @Throws(Exception::class)
+        @JvmStatic
         private fun httpRequest(req: HttpRequest): ByteArray {
             // 从上述SSLContext对象中得到SSLSocketFactory对象
             val conn = URL(req.url).openConnection() as HttpURLConnection
@@ -56,6 +58,7 @@ class HttpUtilsKt {
          * @throws Exception
          */
         @Throws(Exception::class)
+        @JvmStatic
         private fun prepareConnection(conn: HttpURLConnection, headers: Map<String, String>?) {
             conn.doOutput = true
             conn.doInput = true
@@ -81,6 +84,7 @@ class HttpUtilsKt {
          * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
          */
         @Throws(Exception::class)
+        @JvmStatic
         private fun httpsRequest(req: HttpRequest): ByteArray {
             // 创建SSLContext对象，并使用我们指定的信任管理器初始化
             val tm = arrayOf<TrustManager>(TrustAnyTrustManager())
@@ -100,6 +104,7 @@ class HttpUtilsKt {
 
 
         @Throws(IOException::class)
+        @JvmStatic
         private fun getResponse(conn: HttpURLConnection, data: ByteArray?): ByteArray {
             return try {
                 // 写入数据
@@ -127,6 +132,7 @@ class HttpUtilsKt {
          * @param params 参数
          * @return 查询
          */
+        @JvmStatic
         fun toQuery(params: Map<String, String>): String {
             var i = 0
             var v: String
@@ -148,6 +154,7 @@ class HttpUtilsKt {
         /**
          * 将查询转换为字典
          */
+        @JvmStatic
         fun parseQuery(query: String?): Map<String, String> {
             if (query != null && query != "") {
                 try {
@@ -167,6 +174,7 @@ class HttpUtilsKt {
             return HashMap()
         }
 
+        @JvmStatic
         fun parseBody(params: Map<String, String>?, cType: ContentTypes): ByteArray? {
             if(params == null || params.isEmpty())return null
             return when(cType){

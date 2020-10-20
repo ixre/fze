@@ -4,6 +4,7 @@ package net.fze.commons
 private class StandardKt {
     companion object {
         private var devFlag: Int = -1
+        @JvmStatic
         fun classInJar(c: Class<*>): Boolean {
             //var className= Thread.currentThread().stackTrace[1].className;
             // val c = Class.forName(className)
@@ -14,6 +15,7 @@ private class StandardKt {
         }
 
         /** 解析环境,如果是生产环境返回true,反之返回false */
+        @JvmStatic
         fun resolveEnvironment(main: Class<*>):Boolean {
             devFlag = if (classInJar(main)) 1 else 0
             if (dev()) {
@@ -28,7 +30,7 @@ private class StandardKt {
             }
             return true
         }
-
+        @JvmStatic
         fun dev(): Boolean {
             if (devFlag == -1) throw Exception("should call method Standard.resolveEnvironment first")
             return devFlag == 1
