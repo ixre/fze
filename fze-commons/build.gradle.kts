@@ -5,27 +5,28 @@ plugins {
 apply("../deploy.gradle")
 dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
-    api("javax.servlet:javax.servlet-api:4.+")
-    api("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("com.google.inject:guice:4.2.3")
+    //api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+    //api("javax.xml.bind:jaxb-api:2.3.1")
+    compileOnly("javax.servlet:javax.servlet-api:4.+")
+    compileOnly("javax.xml.bind:jaxb-api:2.3.1")
+    compileOnly("com.google.inject:guice:4.2.3")
     api("io.agroal:agroal-pool:1.9" )
-    implementation("io.agroal:agroal-api:1.9")
-    implementation("commons-cli:commons-cli:1.4")
+    compileOnly("io.agroal:agroal-api:1.9")
+    compileOnly("commons-cli:commons-cli:1.4")
     api("com.google.code.gson:gson:2.8.6")
-    implementation("com.mchange:c3p0:0.9.5.5") //C3P0连接池
-    implementation("org.apache.thrift:libthrift:0.13.0")
-    implementation("io.etcd:jetcd-core:0.5.3")
-    implementation("redis.clients:jedis:3.3.0")
-    api("com.moandjiezana.toml:toml4j:0.7.2")
+    compileOnly("com.mchange:c3p0:0.9.5.5") //C3P0连接池
+    compileOnly("org.apache.thrift:libthrift:0.13.0")
+    compileOnly("io.etcd:jetcd-core:0.5.3")
+    compileOnly("redis.clients:jedis:3.3.0")
+    compileOnly("com.moandjiezana.toml:toml4j:0.7.2")
     //"org.apache.commons:commons-lang3:3.7"
-    implementation("mysql:mysql-connector-java:8.0.18")
-    implementation("com.github.dozermapper:dozer-core:6.5.0")
-    implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("com.belerweb:pinyin4j:2.5.0")
-    implementation("com.esotericsoftware:reflectasm:1.11.9")
-
+    compileOnly("mysql:mysql-connector-java:8.0.18")
+    compileOnly("com.github.dozermapper:dozer-core:6.5.0")
+    compileOnly("com.belerweb:pinyin4j:2.5.0")
+    compileOnly("com.esotericsoftware:reflectasm:1.11.9")
     // quarkus
-    implementation("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
+    compileOnly("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
+
     testCompileOnly("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
