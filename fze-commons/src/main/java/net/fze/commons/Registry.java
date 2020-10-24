@@ -1,5 +1,6 @@
 package net.fze.commons;
 
+
 import com.moandjiezana.toml.Toml;
 
 import java.io.File;
@@ -26,8 +27,7 @@ public class Registry {
             confPath = System.getenv("user.dir") + confPath;
         }
         this._confPath = confPath;
-        File file = new File(this._confPath);
-        this._toml = new Toml().read(file);
+        this._toml = new Toml().read(new File(this._confPath));
     }
 
     /**

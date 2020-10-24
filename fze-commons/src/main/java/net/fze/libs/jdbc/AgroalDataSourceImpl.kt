@@ -1,16 +1,20 @@
 package net.fze.libs.jdbc
 
-import com.mchange.v2.c3p0.ComboPooledDataSource
 import io.agroal.api.AgroalDataSource
+import io.agroal.api.configuration.AgroalDataSourceConfiguration
+import io.agroal.api.configuration.supplier.AgroalDataSourceConfigurationSupplier
+import io.agroal.api.security.NamePrincipal
+import io.agroal.api.security.SimplePassword
 import net.fze.commons.Types
 import java.net.URLEncoder
 import java.sql.Connection
 import java.sql.SQLException
+import java.util.function.Supplier
 import javax.sql.DataSource
 
 class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
-    private var ds: AgroalDataSource? = null
-    private val properties: Properties
+    private lateinit var ds: AgroalDataSource
+    private val properties: Properties? = null
     private val driverUrl: String
     private val usr: String
     private val pwd: String
@@ -21,22 +25,33 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
      * @param p   连接参数
      */
     init {
-        val configure =
-        this.ds = AgroalDataSource.from()
-        ds.driverClass = p.driverClass
-        ds.jdbcUrl = p.connectionUrl
-        ds.user = p.user
-        ds.password = p.pwd
-        ds.acquireIncrement = 3
+
+        val supplier = AgroalDataSourceConfigurationSupplier()
+
+                supplier.connectionPoolConfiguration()
+                .connectionFactoryConfiguration()
+                .connectionProviderClassName(p.driverClass)
+                .jdbcUrl(p.connectionUrl)
+                .principal(NamePrincipal(p.user))
+                .credential(SimplePassword(p.pwd))
+                //.recoveryPrincipal( NamePrincipal("testuser"))
+                //.recoveryCredential( SimplePassword("testpass"))
+        //.maxSize(10)
+
+
+     //   val configure =
+        this.ds = AgroalDataSource.from(supplier)
+        //ds.acquireIncrement = 3
         // 避免超过8小时连接断开
-        ds.isTestConnectionOnCheckout = false
-        ds.isTestConnectionOnCheckin = true
-        ds.idleConnectionTestPeriod = 3600
-        ds.preferredTestQuery = "SELECT 1;"
-        properties = Properties(ds)
+//        ds.isTestConnectionOnCheckout = false
+//        ds.isTestConnectionOnCheckin = true
+//        ds.idleConnectionTestPeriod = 3600
+//        ds.preferredTestQuery = "SELECT 1;"
+        //properties = Properties(ds)
         driverUrl = p.connectionUrl
         usr = p.user
         pwd = p.pwd
+        this.ds = AgroalDataSource.from(supplier);
     }
 
     /**
@@ -47,7 +62,9 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
     }
 
     override fun dataSource(): DataSource {
-        return ds
+        throw NotImplementedError("not implement")
+
+        //return ds
     }
 
     /**
@@ -75,7 +92,7 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
      */
     @Throws(SQLException::class)
     override fun open(): Connection {
-        return ds.connection
+        return this.ds!!.connection
     }
 
     /**
@@ -84,7 +101,8 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
      * @return
      */
     fun properties(): Properties {
-        return properties
+        throw NotImplementedError("not implement")
+       // return properties
     }
 
     /**
@@ -92,9 +110,9 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
      *
      * @return 返回连接，如果连接失败，则返回null
      */
-    fun acquire(): JdbcConnection {
+    override fun acquire(): JdbcConnection {
         try {
-            val conn = ds.connection
+            val conn = this.ds!!.connection
             return JdbcConnection(conn)
         } catch (ex: Throwable) {
             ex.printStackTrace()
@@ -106,7 +124,8 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
      * 设置最大连接数据
      */
     override fun setMaxOpenConn(n: Int) {
-        ds.maxPoolSize = n
+        throw NotImplementedError("not implement")
+       // ds.maxPoolSize = n
     }
 
     /**
@@ -115,7 +134,8 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
      * @param n 连接数
      */
     override fun setMaxIdleConn(n: Int) {
-        ds.maxIdleTimeExcessConnections = n
+        throw NotImplementedError("not implement")
+       // ds.maxIdleTimeExcessConnections = n
     }
 
     override fun setConnMaxLifetime(second: Int) {
@@ -127,15 +147,19 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
     }
 
     override fun setTestConnectionOnCheckout(b: Boolean) {
-        ds.isTestConnectionOnCheckout = b
+        throw NotImplementedError("not implement")
+
+       // ds.isTestConnectionOnCheckout = b
     }
 
     override fun setTestConnectionOnCheckin(b: Boolean) {
-        ds.isTestConnectionOnCheckin = b
+        throw NotImplementedError("not implement")
+        //ds.isTestConnectionOnCheckin = b
     }
 
     override fun setIdleConnectionTestPeriod(seconds: Int) {
-        ds.idleConnectionTestPeriod = seconds
+        throw NotImplementedError("not implement")
+        //ds.idleConnectionTestPeriod = seconds
     }
 
     companion object {

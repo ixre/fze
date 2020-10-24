@@ -20,3 +20,4 @@ node_modules
 *.hprof
 *.log
 gradlew
+target

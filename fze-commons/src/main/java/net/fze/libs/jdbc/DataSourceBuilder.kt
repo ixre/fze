@@ -30,8 +30,8 @@ class DataSourceBuilder {
     fun build(): IConnectionPool {
         return when (this.poolType) {
             Pools.C3p0 -> Cp30PoolWrapper(this.params)
-            else -> throw IllegalArgumentException("nonsupport connection pool")
-            //Pools.Agroal-> AgroalDataSourceImpl(this.params)
+            Pools.Agroal-> AgroalDataSourceImpl(this.params)
+            //else -> throw IllegalArgumentException("nonsupport connection pool")
         }
     }
 
