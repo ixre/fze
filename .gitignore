@@ -21,3 +21,4 @@ node_modules
 *.log
 gradlew
 target
+pom.xml*

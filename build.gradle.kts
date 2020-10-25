@@ -1,7 +1,7 @@
 allprojects {
     apply(plugin = "java")
     group = "net.fze"
-    version="0.2.11"
+    version="0.2.12"
 }
 
 subprojects {
