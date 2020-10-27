@@ -1,7 +1,6 @@
 package net.fze.commons.http;
 
-import net.fze.commons.Types;
-import org.jetbrains.annotations.NotNull;
+import net.fze.util.Types;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;

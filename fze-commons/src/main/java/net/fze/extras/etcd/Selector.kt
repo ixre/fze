@@ -14,7 +14,7 @@ import io.etcd.jetcd.Client
 import io.etcd.jetcd.options.GetOption
 import io.etcd.jetcd.options.WatchOption
 import io.etcd.jetcd.watch.WatchEvent
-import net.fze.commons.Types
+import net.fze.util.Types
 import java.util.*
 
 class Node {

@@ -1,6 +1,7 @@
 package net.fze.commons;
 
 import net.fze.util.ClassResolver;
+import net.fze.util.Types;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

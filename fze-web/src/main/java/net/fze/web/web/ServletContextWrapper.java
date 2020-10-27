@@ -1,7 +1,7 @@
 package net.fze.web.web;
 
 import net.fze.commons.Result;
-import net.fze.commons.Types;
+import net.fze.util.Types;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

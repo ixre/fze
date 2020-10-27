@@ -1,8 +1,8 @@
 package net.fze.libs.storage;
 
 import com.google.gson.Gson;
-import net.fze.commons.Types;
-import net.fze.commons.TypesConv;
+import net.fze.util.Types;
+import net.fze.util.TypesConv;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 

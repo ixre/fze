@@ -1,6 +1,6 @@
 package net.fze.commons.std.api;
 
-import net.fze.commons.Types;
+import net.fze.util.Types;
 
 import java.util.ArrayList;
 import java.util.HashMap;

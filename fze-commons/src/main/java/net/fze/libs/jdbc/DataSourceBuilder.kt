@@ -1,6 +1,6 @@
 package net.fze.libs.jdbc
 
-import net.fze.commons.Types
+import net.fze.util.Types
 import java.net.URLEncoder
 
 class DataSourceBuilder {

@@ -1,6 +1,6 @@
 package net.fze.commons.std.extend;
 
-import net.fze.commons.Types;
+import net.fze.util.Types;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;

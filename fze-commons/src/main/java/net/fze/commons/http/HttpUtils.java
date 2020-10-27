@@ -1,6 +1,6 @@
 package net.fze.commons.http;
 
-import net.fze.commons.Types;
+import net.fze.util.Types;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;

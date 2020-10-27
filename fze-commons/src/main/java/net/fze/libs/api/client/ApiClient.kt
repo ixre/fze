@@ -2,7 +2,7 @@ package net.fze.libs.api.client
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import net.fze.commons.Types
+import net.fze.util.Types
 import net.fze.commons.http.ContentTypes
 import net.fze.commons.http.HttpClient
 import net.fze.commons.http.HttpRequestBuilder

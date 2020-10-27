@@ -24,16 +24,18 @@ private class StandardKt {
             //var className= Thread.currentThread().stackTrace[1].className;
             // val c = Class.forName(className)
             //var c = Typed::class.java
-            var pkg = if(isJava9OrLater())c.packageName else c.`package`.name
+            var pkg = if (isJava9OrLater()) c.packageName else c.`package`.name
             val resName = pkg.replace(".", "/")
             val pkgPath = c.classLoader.getResource(resName)
-            return (pkgPath?.path ?: "").indexOf(".jar!") == -1
+            val path = (pkgPath?.path ?: "")
+            return path.indexOf(".jar!") != -1
+                    || path.indexOf(".war!") != -1
         }
 
         /** 解析环境,如果是生产环境返回true,反之返回false */
         @JvmStatic
         fun resolveEnvironment(main: Class<*>):Boolean {
-            devFlag = if (classInJar(main)) 1 else 0
+            devFlag = if (classInJar(main)) 0 else 1
             if (dev()) {
                 // 在IDEA下开发时设置项目真实的工作空间
                 var workspace = System.getProperty("user.dir")

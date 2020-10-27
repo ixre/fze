@@ -1,6 +1,6 @@
 package net.fze.commons.http
 
-import net.fze.commons.Types
+import net.fze.util.Types
 import net.fze.util.IoUtils
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -178,7 +178,7 @@ class HttpUtilsKt {
         fun parseBody(params: Map<String, String>?, cType: ContentTypes): ByteArray? {
             if(params == null || params.isEmpty())return null
             return when(cType){
-                ContentTypes.JSON->Types.toJson(params).toByteArray()
+                ContentTypes.JSON-> Types.toJson(params).toByteArray()
                 else-> toQuery(params).toByteArray()
             }
         }

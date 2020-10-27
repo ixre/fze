@@ -1,15 +1,13 @@
 package net.fze.libs.jdbc
 
 import io.agroal.api.AgroalDataSource
-import io.agroal.api.configuration.AgroalDataSourceConfiguration
 import io.agroal.api.configuration.supplier.AgroalDataSourceConfigurationSupplier
 import io.agroal.api.security.NamePrincipal
 import io.agroal.api.security.SimplePassword
-import net.fze.commons.Types
+import net.fze.util.Types
 import java.net.URLEncoder
 import java.sql.Connection
 import java.sql.SQLException
-import java.util.function.Supplier
 import javax.sql.DataSource
 
 class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {

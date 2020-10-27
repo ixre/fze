@@ -7,7 +7,7 @@ import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 
 internal class RequestLimitTest {
-    internal fun getStorage(): Storage {
+    private fun getStorage(): Storage {
         val host = "dbs.dev1.super4bit.co"
         val port = 6379
         var pwd: String? = ""

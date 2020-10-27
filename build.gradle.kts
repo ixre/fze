@@ -1,12 +1,12 @@
 allprojects {
     apply(plugin = "java")
     group = "net.fze"
-    version="0.2.12"
+    version="0.2.14"
 }
 
 subprojects {
     repositories {
-        maven("http://maven.aliyun.com/nexus/content/4/public/")       // manven
+        maven("http://maven.aliyun.com/nexus/content/groups/public/")       // manven
         mavenCentral()
     }
 

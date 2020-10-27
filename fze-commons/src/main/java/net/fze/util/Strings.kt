@@ -2,9 +2,10 @@ package net.fze.util
 
 import net.fze.commons.std.KotlinLangExtension
 import java.security.MessageDigest
+import java.util.*
 
 /** 字符工具 */
-class StrUtils {
+class Strings {
     companion object {
         private val ext: KotlinLangExtension = KotlinLangExtension()
 
@@ -83,7 +84,7 @@ class StrUtils {
 
         /** 返回[str]的16位md5 */
         @JvmStatic
-        fun md5_16(str: String): String {
+        fun shortMd5(str: String): String {
             return md5(str).substring(8, 24)
         }
 
@@ -93,7 +94,8 @@ class StrUtils {
          * @param bytes
          * @return
          */
-        private fun bytesToHex(bytes: ByteArray): String {
+        @JvmStatic
+         fun bytesToHex(bytes: ByteArray): String {
             val md5str = StringBuffer()
             // 把数组每一字节换成16进制连成md5字符串
             var digital: Int
@@ -109,6 +111,22 @@ class StrUtils {
                 md5str.append(Integer.toHexString(digital))
             }
             return md5str.toString().toUpperCase()
+        }
+        @JvmStatic
+        fun encodeBase64(bytes:ByteArray):ByteArray{
+            return Base64.getEncoder().encode(bytes)
+        }
+        @JvmStatic
+        fun decodeBase64(bytes:ByteArray):ByteArray{
+            return Base64.getDecoder().decode(bytes)
+        }
+        @JvmStatic
+        fun encodeBase64String(bytes:ByteArray):String{
+            return Base64.getEncoder().encodeToString(bytes)
+        }
+        @JvmStatic
+        fun decodeBase64String(s:String):ByteArray{
+            return Base64.getDecoder().decode(s)
         }
     }
 }

@@ -1,6 +1,6 @@
 package net.fze.commons.libs.mq;
 
-import net.fze.commons.TypesConv;
+import net.fze.util.TypesConv;
 import org.junit.jupiter.api.Test;
 
 

@@ -1,4 +1,4 @@
-package net.fze.commons;
+package net.fze.util;
 
 import java.util.*;
 

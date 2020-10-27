@@ -1,5 +1,7 @@
 package net.fze.commons;
 
+import net.fze.util.Types;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,7 +13,7 @@ public class TimeExtensions {
     // 格式化如：2020-05-06T16:00:00.000Z的时间
     private static SimpleDateFormat ISO_RFC_3339_24H_FULL_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
-    TimeExtensions() {
+    public TimeExtensions() {
     }
 
     /**

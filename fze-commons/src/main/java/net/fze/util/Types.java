@@ -1,9 +1,10 @@
-package net.fze.commons;
+package net.fze.util;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import net.fze.commons.TimeExtensions;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;

@@ -1,6 +1,5 @@
 package net.fze.util
 
-import net.fze.commons.Types
 import java.io.File
 import java.io.IOException
 import java.net.JarURLConnection

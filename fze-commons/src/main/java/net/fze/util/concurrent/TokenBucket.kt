@@ -1,6 +1,6 @@
 package net.fze.util.concurrent
 
-import net.fze.commons.Types
+import net.fze.util.Types
 
 // 令牌桶算法, 参见: https://github.com/ixre/gof/blob/master/util/concurrent/token_bucket.go
 class TokenBucket {
