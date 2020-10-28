@@ -1,19 +1,15 @@
 package net.fze.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
-import java.util.Arrays;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * IO工具类
  */
 public class IoUtils {
-    private static final Log log = LogFactory.getLog(OsUtils.class.getCanonicalName());
-
-
     @NotNull
     public static byte[] streamToByteArray(InputStream stream) throws IOException {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();

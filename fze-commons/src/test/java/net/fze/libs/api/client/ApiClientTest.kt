@@ -1,6 +1,6 @@
 package net.fze.libs.api.client
 
-import net.fze.commons.http.HttpClient
+import net.fze.common.http.HttpClient
 import org.junit.jupiter.api.Test
 import java.net.URLEncoder
 

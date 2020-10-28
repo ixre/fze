@@ -4,7 +4,7 @@ import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import net.fze.commons.TimeExtensions;
+import net.fze.common.TimeExtensions;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
@@ -203,5 +203,14 @@ public class Types {
         }
     }*/
 
+    /**
+     * 判断ra,rb是否在la,lb区间内
+     */
+    public static Boolean inRange(int la, int lb, int ra, int rb) {
+        return (la >= ra && la < rb) ||
+                (la > ra && la <= rb) ||
+                (la <= ra && lb > rb) ||
+                (la < ra && lb >= ra);
+    }
 
 }

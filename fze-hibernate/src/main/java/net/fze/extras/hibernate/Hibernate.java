@@ -1,6 +1,6 @@
 package net.fze.extras.hibernate;
 
-import net.fze.commons.Registry;
+import net.fze.common.Registry;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

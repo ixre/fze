@@ -3,7 +3,7 @@ package net.fze.mock.example;
 import net.fze.mock.MockContextImpl;
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import net.fze.commons.Context;
+import net.fze.common.Context;
 
 /**
  * 服务初始化

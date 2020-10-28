@@ -1,6 +1,6 @@
 package net.fze.extras;
 
-import net.fze.commons.Context;
+import net.fze.common.Context;
 import net.fze.extras.hibernate.TinySession;
 
 /**

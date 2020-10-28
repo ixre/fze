@@ -1,15 +1,12 @@
 package net.fze.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.Arrays;
 
 public class OsUtils {
-    private static final Log log = LogFactory.getLog(OsUtils.class.getCanonicalName());
-
     /**
      * 运行终端命令
      *
@@ -22,7 +19,6 @@ public class OsUtils {
         Process ps = null;
         try {
             ps = Runtime.getRuntime().exec(cmd);
-            log.debug("开始执行本地线程");
             errorStream = ps.getErrorStream(); // 正确结果的流
             inputStream = ps.getInputStream(); // 错误结果的流
             ps.waitFor();
@@ -35,7 +31,6 @@ public class OsUtils {
             }
             return result;
         } catch (Exception e) {
-            log.error("execute linux command error...", e);
             throw new IOException("execute linux command error...");
         } finally {
             if (errorStream != null) {
@@ -65,5 +60,35 @@ public class OsUtils {
             sb.append(Arrays.toString(Arrays.copyOfRange(offset, 0, size)));
         }
         return sb.toString();
+    }
+
+
+    /**
+     * 对服务器进行ping操作
+     * @param server
+     * @return
+     */
+    public static Boolean ping(String server) {
+        try {
+            return InetAddress.getByName(server).isReachable(10);
+        } catch (Exception ignored) {
+        }
+        return false;
+    }
+
+    /**
+     * 检测端口是否开放
+     *
+     * @param host 主机
+     * @param port 端口
+     * @return 是否开放
+     */
+    public static Boolean detectPort(String host, int port) {
+        try {
+            new Socket(host, port);
+            return true;
+        } catch (Exception ignored) {
+        }
+        return false;
     }
 }

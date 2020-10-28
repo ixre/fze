@@ -6,7 +6,7 @@ package net.fze.libs.observer;
  description:
 */
 
-import net.fze.commons.LangExtension;
+import net.fze.common.LangExtension;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 

@@ -1,7 +1,7 @@
 package net.fze.mock;
 
 import com.google.inject.Injector;
-import net.fze.commons.Registry;
+import net.fze.common.Registry;
 import net.fze.libs.jdbc.ConnectorManager;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

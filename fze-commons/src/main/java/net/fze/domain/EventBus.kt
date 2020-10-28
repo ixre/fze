@@ -1,7 +1,7 @@
 package net.fze.domain
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import net.fze.util.catch
+import net.fze.common.catch
 
 class EventDispatcher<T> {
     private val _subMap = mutableMapOf<String, ArrayList<T>>()

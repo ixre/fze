@@ -1,7 +1,7 @@
 package net.fze.mock.example;
 
 import com.google.inject.Inject;
-import net.fze.commons.Context;
+import net.fze.common.Context;
 
 class MockStatusServiceImpl implements StatusService {
     @Inject

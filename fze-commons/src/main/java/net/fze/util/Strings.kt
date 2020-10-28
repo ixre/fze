@@ -1,6 +1,6 @@
 package net.fze.util
 
-import net.fze.commons.std.KotlinLangExtension
+import net.fze.common.std.KotlinLangExtension
 import java.security.MessageDigest
 import java.util.*
 

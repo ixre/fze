@@ -1,7 +1,7 @@
-package net.fze.commons.libs.mq;
+package net.fze.common.libs.mq;
 
-import net.fze.commons.std.LangExtension;
-import net.fze.commons.std.TypesConv;
+import net.fze.common.std.LangExtension;
+import net.fze.common.std.TypesConv;
 //import net.fze.arch.component.nsq.MqProducer;
 import org.junit.jupiter.api.Test;
 
