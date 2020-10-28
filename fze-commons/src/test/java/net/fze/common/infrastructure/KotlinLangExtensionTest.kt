@@ -1,6 +1,6 @@
 package net.fze.common.infrastructure
 
-import net.fze.common.std.KotlinLangExtension
+import net.fze.common.KotlinLangExtension
 import org.junit.jupiter.api.Test
 import java.util.*
 

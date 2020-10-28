@@ -1,21 +1,19 @@
-package net.fze.common.std
+package net.fze.common
 
 import kotlinx.coroutines.*
-import net.fze.common.CatchResult
-import net.fze.common.typedCatch
 import java.lang.Runnable
 import kotlin.concurrent.thread
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 fun String?.isNullEmpty(): Boolean {
-    return this == null || this.isEmpty()
+    return this == null || this.isEmpty
 }
 
 
 // kotlin语言支持
 open class KotlinLangExtension {
-    val letterStr = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    private val letterStr = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     fun template(text: String?, args: Map<String, String>): String {
         if (text == null) return ""
         val re = Regex("\\{([^{]+?)}")

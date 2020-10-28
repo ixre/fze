@@ -1,6 +1,6 @@
 package net.fze.util
 
-import net.fze.common.std.KotlinLangExtension
+import net.fze.common.KotlinLangExtension
 import java.security.MessageDigest
 import java.util.*
 
@@ -8,7 +8,6 @@ import java.util.*
 class Strings {
     companion object {
         private val ext: KotlinLangExtension = KotlinLangExtension()
-
         /**
          * 字符模板
          * @param text 文本

@@ -2,7 +2,6 @@ package net.fze.common;
 
 import com.esotericsoftware.reflectasm.FieldAccess;
 import com.esotericsoftware.reflectasm.MethodAccess;
-import net.fze.common.std.KotlinLangExtension;
 
 import java.util.HashMap;
 import java.util.Map;
