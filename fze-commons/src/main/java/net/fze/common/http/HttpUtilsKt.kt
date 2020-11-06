@@ -1,7 +1,7 @@
 package net.fze.common.http
 
-import net.fze.util.Types
 import net.fze.util.IoUtils
+import net.fze.util.Types
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -20,8 +20,8 @@ class HttpUtilsKt {
          * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
          */
         @JvmStatic
-        fun doRequest(req:HttpRequest):ByteArray {
-            val prefix: String = req.url.substring(0, 5).toLowerCase()
+        fun doRequest(req: HttpRequest):ByteArray {
+            val prefix: String = req.url.toLowerCase().substring(0, 5).toLowerCase()
             if (prefix == "https")return httpsRequest(req)
             return httpRequest(req)
         }
@@ -43,11 +43,17 @@ class HttpUtilsKt {
             // 从上述SSLContext对象中得到SSLSocketFactory对象
             val conn = URL(req.url).openConnection() as HttpURLConnection
             prepareConnection(conn, req.headers)
+            setContentType(conn,req.contentType)
             // 设置请求方式（GET/POST）
-            if(req.contentType!= "")req.contentType = req.contentType
             conn.requestMethod = req.method
             if (req.timeout > 0)conn.connectTimeout = req.timeout
             return getResponse(conn, req.body)
+        }
+        // 设置请求内容格式
+        private fun setContentType(conn: HttpURLConnection, contentType: String) {
+            if(!contentType.isNullOrEmpty()){
+                conn.setRequestProperty("Content-Type",contentType)
+            }
         }
 
         /**
@@ -95,8 +101,8 @@ class HttpUtilsKt {
             val conn = URL(req.url).openConnection() as HttpsURLConnection
             prepareConnection(conn, req.headers)
             conn.sslSocketFactory = ssf
+            setContentType(conn,req.contentType)
             // 设置请求方式（GET/POST）
-            if(req.contentType!= "")req.contentType = req.contentType
             conn.requestMethod = req.method
             if (req.timeout > 0) conn.connectTimeout = req.timeout
             return getResponse(conn, req.body)
@@ -175,12 +181,10 @@ class HttpUtilsKt {
         }
 
         @JvmStatic
-        fun parseBody(params: Map<String, String>?, cType: ContentTypes): ByteArray? {
+        fun parseBody(params: Map<String, String>?,json:Boolean): ByteArray? {
             if(params == null || params.isEmpty())return null
-            return when(cType){
-                ContentTypes.JSON-> Types.toJson(params).toByteArray()
-                else-> toQuery(params).toByteArray()
-            }
+            if(json)return Types.toJson(params).toByteArray();
+            return toQuery(params).toByteArray()
         }
     }
 }

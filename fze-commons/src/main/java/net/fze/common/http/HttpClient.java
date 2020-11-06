@@ -1,6 +1,7 @@
 package net.fze.common.http;
 
 import net.fze.util.Types;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -62,12 +63,16 @@ public class HttpClient {
     /**
      * 将参数转为二进制数组
      */
-    public static byte[] parseBody(@Nullable Map<String, String> params, ContentTypes cType) {
-        return HttpUtilsKt.parseBody(params, cType);
+    public static byte[] parseBody(@Nullable Map<String, String> params) {
+        return HttpUtilsKt.parseBody(params, false);
     }
 
-    @Nullable
-    public static byte[] parseJsonBody(@Nullable Object params) {
+    /**
+     * 将参数转为JSON二进制数组
+     * @param params
+     * @return
+     */
+    public static byte[] parseJsonBody(@NotNull Object params) {
         if(params== null)return null;
         return Types.toJson(params).getBytes();
     }

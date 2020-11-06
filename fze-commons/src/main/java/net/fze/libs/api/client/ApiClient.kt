@@ -93,22 +93,22 @@ class ApiClient {
     }
 
     fun post(apiPath:String,params: Map<String, String>?): ByteArray{
-        val bytes =HttpClient.parseBody(params,ContentTypes.FORM)
-        return this.request(apiPath,"POST",bytes,null)
+        val bytes =HttpClient.parseBody(params)
+        return this.request(apiPath,"POST",bytes,ContentTypes.FORM.value)
     }
 
     fun patch(apiPath:String,params: Map<String, String>?):ByteArray{
-        val bytes =HttpClient.parseBody(params,ContentTypes.FORM)
-        return this.request(apiPath,"PATCH",bytes,null)
+        val bytes =HttpClient.parseBody(params)
+        return this.request(apiPath,"PATCH",bytes,ContentTypes.FORM.value)
     }
 
     fun put(apiPath:String,params: Map<String, String>?):ByteArray{
-        val bytes =HttpClient.parseBody(params,ContentTypes.FORM)
-        return this.request(apiPath,"PUT",bytes,null)
+        val bytes =HttpClient.parseBody(params)
+        return this.request(apiPath,"PUT",bytes,ContentTypes.FORM.value)
     }
 
     fun delete(apiPath:String,params: Map<String, String>?):ByteArray{
-        val bytes =HttpClient.parseBody(params,ContentTypes.FORM)
+        val bytes =HttpClient.parseBody(params)
         return this.request(apiPath,"DELETE",bytes,null)
     }
 
@@ -163,7 +163,7 @@ class ApiClient {
     @Throws(Exception::class)
     fun <T> deserize(bytes:ByteArray, gt: Type?): T? {
         val ret = String(bytes)
-        if (ret.isEmpty()) return null
+        if (ret.isNullOrEmpty()) return null
         this.except(ret)
         return Gson().fromJson(ret, gt)
     }
