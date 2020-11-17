@@ -1,5 +1,6 @@
 package net.fze.common.http;
 
+import net.fze.jdk.Maps;
 import net.fze.util.Types;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +11,7 @@ import java.util.Map;
  * HttpClient 客户端
  */
 public class HttpClient {
+    private static final String USER_AGENT = "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0";
     /**
      * 发起HTTP/HTTPS请求
      *
@@ -20,19 +22,25 @@ public class HttpClient {
      * @return 响应结果
      */
     public static byte[] request(String url, String method, byte[] data, int timeout){
-        HttpRequest req = new HttpRequestBuilder().create(url, method)
+        HttpRequest req = newRequest(url, method)
                 .body(data).timeout(timeout).build();
         return HttpUtilsKt.doRequest(req);
     }
 
+    @NotNull
+    private static HttpRequestBuilder newRequest(String url, String method) {
+        Map<String, String> header = Maps.of("User-Agent", USER_AGENT);
+        return new HttpRequestBuilder().create(url, method).headers(header);
+    }
+
     public static byte[] get(String url, int timeout) {
-        HttpRequest req = new HttpRequestBuilder().create(url, "GET")
+        HttpRequest req = newRequest(url, "GET")
                 .timeout(timeout).build();
         return HttpUtilsKt.doRequest(req);
     }
 
     public static byte[] post(String url,  byte[] data, int timeout) {
-        HttpRequest req = new HttpRequestBuilder().create(url, "POST")
+        HttpRequest req = newRequest(url, "POST")
                 .body(data).timeout(timeout).build();
         return HttpUtilsKt.doRequest(req);
     }
@@ -48,7 +56,7 @@ public class HttpClient {
      * @return 响应结果
      */
     public static byte[] request(String url, String method, byte[] data, Map<String, String> headers, int timeout) {
-        HttpRequestBuilder b = new HttpRequestBuilder().create(url, method)
+        HttpRequestBuilder b = newRequest(url, method)
                 .headers(headers).body(data).timeout(timeout);
         return HttpUtilsKt.doRequest(b.build());
     }

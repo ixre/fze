@@ -56,9 +56,16 @@ open class KotlinLangExtension {
     }
 
     // 返回随机字符串,[n]:长度
-    fun randomLetters(n: Int, letters: String = letterStr): String {
+    fun randomLetters(n: Int): String{
+        return this.randomLetters(n,letterStr)
+    }
+
+    /**
+     * 返回随机字符串,[n]:长度,letters字段
+     */
+    fun randomLetters(n: Int, letters: String): String {
         val l = letters.length
-        var arr = arrayOfNulls<Char?>(n)
+        var arr = arrayOfNulls<Char>(n)
         var rd = java.util.Random()
         for (i in 0 until n) {
             arr[i] = letters[rd.nextInt(l) % l]
