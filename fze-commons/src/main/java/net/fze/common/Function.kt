@@ -13,11 +13,6 @@ fun <T> catch(p: () -> T?): CatchResult<T> {
     return typedCatch(p)
 }
 
-/** 扩展Optional安全的获取值 */
-fun <T> Optional<T>.value():T?{
-    if(this.isPresent)return this.get()
-    return null
-}
 
 /** 可空类型应用回调 */
 fun <T> T?.apply(call: (T) -> Unit):T?{
