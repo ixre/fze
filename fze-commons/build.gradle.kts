@@ -1,14 +1,13 @@
 plugins {
     java
-    kotlin("jvm") version ("1.4.10")
+    kotlin("jvm") version ("1.4.20")
 }
 apply("../deploy.gradle")
 
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
     //implementation()
-    //api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
     //api("javax.xml.bind:jaxb-api:2.3.1")
     compileOnly("javax.servlet:javax.servlet-api:4.+")
     compileOnly("javax.xml.bind:jaxb-api:2.3.1")

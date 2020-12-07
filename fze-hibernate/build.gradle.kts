@@ -1,6 +1,6 @@
 plugins {
     java
-    kotlin("jvm") version ("1.4.10")
+    kotlin("jvm") version ("1.4.20")
 }
 
 apply("../deploy.gradle")
