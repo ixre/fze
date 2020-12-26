@@ -77,7 +77,7 @@ class ApiClient {
             this.lastTokenUnix = now
         }
         // 发送请求
-        val b = HttpRequestBuilder().create(this.concat(apiPath), method)
+        val b = HttpRequestBuilder.create(this.concat(apiPath), method)
                 .setHeader(this.authHeaderKey,this.accessToken)
                 .body(body).timeout(this._timeout)
         // 设置格式

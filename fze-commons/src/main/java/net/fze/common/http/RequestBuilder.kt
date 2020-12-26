@@ -17,14 +17,19 @@ class HttpRequest {
     internal var url: String = ""
 }
 
-class HttpRequestBuilder {
-    private lateinit var req: HttpRequest
+class HttpRequestBuilder private constructor(url: String, method: String) {
+    private var req: HttpRequest = HttpRequest()
 
-    fun create(url: String, method: String): HttpRequestBuilder {
-        this.req = HttpRequest()
+    init {
         this.req.url = url
         this.req.method = method
-        return this
+    }
+
+    companion object {
+        @JvmStatic
+        fun create(url: String, method: String): HttpRequestBuilder {
+            return HttpRequestBuilder(url, method);
+        }
     }
 
     fun headers(headers: Map<String, String>?): HttpRequestBuilder {
@@ -56,7 +61,7 @@ class HttpRequestBuilder {
     }
 
     fun build(): HttpRequest {
-        if (this.req.url.isNullOrEmpty()) throw IllegalArgumentException("url")
+        if (this.req.url.isEmpty()) throw IllegalArgumentException("url")
         return this.req
     }
 }

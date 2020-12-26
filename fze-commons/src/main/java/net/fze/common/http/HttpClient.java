@@ -30,7 +30,7 @@ public class HttpClient {
     @NotNull
     private static HttpRequestBuilder newRequest(String url, String method) {
         Map<String, String> header = Maps.of("User-Agent", USER_AGENT);
-        return new HttpRequestBuilder().create(url, method).headers(header);
+        return HttpRequestBuilder.create(url, method).headers(header);
     }
 
     public static byte[] get(String url, int timeout) {
@@ -44,7 +44,6 @@ public class HttpClient {
                 .body(data).timeout(timeout).build();
         return HttpUtilsKt.doRequest(req);
     }
-
 
     /**
      * 发起HTTP/HTTPS请求
