@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class Times {
-    private static final SimpleDateFormat defaultDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat DefaultDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     // 格式化如：2020-05-06T16:00:00.000Z的时间
     private static final SimpleDateFormat ISO_RFC_3339_24H_FULL_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     public static final TimeZone ZoneAsiaShangHai = TimeZone.getTimeZone("GMT+08:00");
@@ -55,7 +55,7 @@ public class Times {
      */
     private Date parseTime(String s, String format) {
         try {
-            return (Types.emptyOrNull(format) ? defaultDateFormat : new SimpleDateFormat(format)).parse(s);
+            return (Types.emptyOrNull(format) ? DefaultDateFormat : new SimpleDateFormat(format)).parse(s);
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class Times {
      */
     public String format(Date d, String format) {
         SimpleDateFormat fmt = Types.emptyOrNull(format) ?
-                defaultDateFormat :
+                DefaultDateFormat :
                 new SimpleDateFormat(format);
         return fmt.format(d);
     }

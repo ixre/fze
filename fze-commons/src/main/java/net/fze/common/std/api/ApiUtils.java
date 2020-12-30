@@ -1,7 +1,7 @@
 package net.fze.common.std.api;
 
 import net.fze.common.Result;
-import net.fze.util.TypesConv;
+import net.fze.util.TypeConv;
 import net.fze.util.DigestEncode;
 import com.google.gson.Gson;
 
@@ -70,7 +70,7 @@ public class ApiUtils {
             Map<String, Object> rspData = new HashMap<>();
             rspData = new Gson().fromJson(rspText, rspData.getClass());
             if (rspData.containsKey("ErrCode")) {
-                int errCode = TypesConv.toInt(rspData.get("ErrCode"));
+                int errCode = TypeConv.toInt(rspData.get("ErrCode"));
                 Object errMsg = rspData.get("ErrMsg");
                 Result msg = Result.create(errCode, "");
                 if (errMsg != null) {
@@ -98,7 +98,7 @@ public class ApiUtils {
     }
 
     public static int intVersion(String s) {
-        List<String> list = TypesConv.arrAsList(s.split("\\."));
+        List<String> list = TypeConv.arrAsList(s.split("\\."));
         if (list.size() == 2) {
             list.add("0");
         }
@@ -115,6 +115,6 @@ public class ApiUtils {
                 arr[i] = sb.toString();
             }
         }
-        return TypesConv.toInt(String.join("", arr));
+        return TypeConv.toInt(String.join("", arr));
     }
 }

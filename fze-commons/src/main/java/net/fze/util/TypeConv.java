@@ -1,11 +1,12 @@
 package net.fze.util;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
  * 数据类型转换工具类
  */
-public class TypesConv {
+public class TypeConv {
     /**
      * <将obj转换为string，如果obj为null则返回defaultVal>
      *
@@ -169,6 +170,34 @@ public class TypesConv {
     public static double toDouble(Object obj) {
         return toDouble(obj, 0d);
     }
+
+    /**
+     * 将object转换为Date类型，如果出错则返回当前时间
+     *
+     * @param obj 需要转换的对象
+     * @return 转换后的结果
+     */
+    public static Date toDateTime(Object obj) {
+        if(obj instanceof Date) return(Date)obj;
+        if(obj instanceof Long)return Times.Instance.unixTime((Long)obj,0);
+        if(obj instanceof Integer)return Times.Instance.unixTime((Integer)obj,0);
+        return Times.Instance.time(obj.toString(),Times.DefaultDateFormat.toPattern());
+    }
+
+    /**
+     * 将object转换为Date类型，如果出错则返回当前时间
+     *
+     * @param obj 需要转换的对象
+     * @return 转换后的结果
+     */
+    public static BigDecimal toBigDecimal(Object obj) {
+        if(obj instanceof BigDecimal) return(BigDecimal)obj;
+        if(obj instanceof Double)return BigDecimal.valueOf((Double) obj);
+        if(obj instanceof Integer)return BigDecimal.valueOf((Integer)obj);
+        return BigDecimal.valueOf(toDouble(obj));
+    }
+
+
 
     /**
      * 将List<Object>转换为List<Map<String, Object>>>

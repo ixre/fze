@@ -1,6 +1,6 @@
 package net.fze.common.libs.mq;
 
-import net.fze.util.TypesConv;
+import net.fze.util.TypeConv;
 import org.junit.jupiter.api.Test;
 
 
@@ -16,7 +16,7 @@ public class MqProducerTest {
 
     @Test
     public void testStringToInt() {
-        int i = TypesConv.toInt(1.0D);
+        int i = TypeConv.toInt(1.0D);
         System.out.println(i);
     }
 }

@@ -1,7 +1,7 @@
 package net.fze.common.std.api;
 
 import net.fze.util.Types;
-import net.fze.util.TypesConv;
+import net.fze.util.TypeConv;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class FormData {
         Object o = this.get(key);
         if (o != null) {
             if (o.equals("")) o = "0";
-            return TypesConv.toInt(o);
+            return TypeConv.toInt(o);
         }
         return 0;
     }
@@ -47,7 +47,7 @@ public class FormData {
     public String getString(String key) {
         Object o = this.get(key);
         if (o != null) {
-            return TypesConv.toString(o);
+            return TypeConv.toString(o);
         }
         return "";
     }
@@ -57,7 +57,7 @@ public class FormData {
         Object o = this.get(key);
         if (o != null) {
             if (o.equals("")) o = "0";
-            return TypesConv.toFloat(o);
+            return TypeConv.toFloat(o);
         }
         return 0F;
     }

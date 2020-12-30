@@ -4,7 +4,7 @@ import net.fze.common.http.HttpClient;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.fze.util.Types;
-import net.fze.util.TypesConv;
+import net.fze.util.TypeConv;
 import net.fze.common.http.HttpUtils;
 import net.fze.common.std.api.ApiUtils;
 
@@ -62,7 +62,7 @@ public class ApiClient {
     private Exception except(String ret) {
         ret = ret.substring(1);
         int i = ret.indexOf('#');
-        int code = TypesConv.toInt(ret.substring(0, i));
+        int code = TypeConv.toInt(ret.substring(0, i));
         String message = ret.substring(i + 1);
         return new Exception(String.format("#%d:%s", code, message));
     }
