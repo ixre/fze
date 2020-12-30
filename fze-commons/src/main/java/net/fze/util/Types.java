@@ -4,7 +4,6 @@ import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import net.fze.common.TimeExtensions;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
@@ -19,9 +18,10 @@ import java.util.Map;
  */
 public class Types {
     /**
-     * 时间扩展,使用TypedStd.time代替
+     * 时间扩展,使用Times.Instance代替
      */
-    public static final TimeExtensions time = new TimeExtensions();
+    @Deprecated()
+    public static final Times time =  Times.Instance;
 
     /**
      * 是否为空字符串或空

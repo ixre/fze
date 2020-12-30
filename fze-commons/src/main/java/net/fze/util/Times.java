@@ -1,6 +1,4 @@
-package net.fze.common;
-
-import net.fze.util.Types;
+package net.fze.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,12 +6,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class TimeExtensions {
-    private static SimpleDateFormat defaultDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+public class Times {
+    private static final SimpleDateFormat defaultDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     // 格式化如：2020-05-06T16:00:00.000Z的时间
-    private static SimpleDateFormat ISO_RFC_3339_24H_FULL_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    private static final SimpleDateFormat ISO_RFC_3339_24H_FULL_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    public static final TimeZone ZoneAsiaShangHai = TimeZone.getTimeZone("GMT+08:00");
 
-    public TimeExtensions() {
+    public static final Times Instance = new Times();
+
+    Times() {
     }
 
     /**
@@ -22,6 +23,7 @@ public class TimeExtensions {
      * @param zone 时区,GMT+08:00 / GMT+8上海时间
      */
     public void setTimeZone(TimeZone zone) {
+        if(zone == null)zone = ZoneAsiaShangHai;
         System.setProperty("user.timezone", zone.getDisplayName());
         TimeZone.setDefault(zone);
     }

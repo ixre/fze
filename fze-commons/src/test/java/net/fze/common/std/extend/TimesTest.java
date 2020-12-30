@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-class TimeExtensionsTest {
+class TimesTest {
 
     /**
      * 测试获取月份的开始时间

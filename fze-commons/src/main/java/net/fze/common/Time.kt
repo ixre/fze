@@ -1,4 +1,4 @@
-package net.fze.common.std
+package net.fze.common
 
 /** 时间单位 */
 enum class TimeUnit(var value: Int) {
