@@ -1,5 +1,6 @@
 package net.fze.extras.report
 
+import net.fze.util.TypeConv
 import net.fze.util.Types
 import java.io.File
 import javax.xml.bind.JAXBContext
@@ -38,7 +39,7 @@ class ReportUtils {
 
         /** 转换参数 */
         @JvmStatic
-        fun parseParams(paramMappings: String): Params {
+        fun parseParams(paramMappings: String?): Params {
             val params = Params(mutableMapOf())
             if (paramMappings != null && paramMappings.length > 1) {
                 if(paramMappings[0] =='{') {
@@ -68,10 +69,11 @@ class ReportUtils {
 
         // 格式化sql语句
         @JvmStatic
-        fun sqlFormat(sql: String, ht: Map<String, String>): String {
+        fun sqlFormat(sql: String, ht: Map<String, Any>): String {
             var formatted = sql
             for (e in ht) {
-                formatted = formatted.replace("{" + e.key + "}", e.value)
+                formatted = formatted.replace("{" + e.key + "}",
+                    TypeConv.toString(e.value))
             }
             return formatted.trim()
         }

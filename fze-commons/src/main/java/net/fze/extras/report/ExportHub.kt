@@ -17,10 +17,10 @@ class ExportHub(ip: IDbProvider, rootPath: String, cacheFiles: Boolean) {
     }
 
     init {
-        var rootPath = rootPath
-        if (rootPath == "") {
-            rootPath = "/query/"
+        var path = rootPath
+        if (path == "") {
+            path = "/query/"
         }
-        _manager = ItemManager(ip, rootPath, cacheFiles)
+        _manager = ItemManager(ip, path, cacheFiles)
     }
 }
