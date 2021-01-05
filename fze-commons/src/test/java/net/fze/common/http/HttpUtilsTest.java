@@ -30,7 +30,7 @@ class HttpUtilsTest {
         data.put("goods_name","瓷砖-爱琴海灰");
         data.put("goods_num",1);
         byte[] body = HttpClient.parseJsonBody(data);
-        HttpRequest req = new HttpRequestBuilder()
+        HttpRequest req =  HttpRequestBuilder
                 .create("http://localhost:8086/platform-api/zhPay/kjPay", "POST")
                 .contentType(ContentTypes.JSON.getValue())
                 .body(body)

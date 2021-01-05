@@ -4,22 +4,8 @@ import net.fze.util.DigestEncode;
 import org.jetbrains.annotations.NotNull;
 
 public class EncoderExtensions {
-    private String offset = ""; //"@#$#@";
 
     EncoderExtensions() {
-    }
-
-    public void setDigestOffset(String offset) {
-        this.offset = offset;
-    }
-
-    /**
-     * 获取SHA1算法偏移量
-     *
-     * @return 偏移量
-     */
-    public String getSHA1Offset() {
-        return this.offset;
     }
 
     /**
@@ -28,19 +14,8 @@ public class EncoderExtensions {
      * @param s 原密码
      * @return 加密后的密码
      */
-    public String sha1Pwd(String s) {
-        return DigestEncode.encode("sha1", s + offset);
-    }
-
-    /**
-     * 加密密码
-     *
-     * @param s      原密码
-     * @param offset 字符
-     * @return 加密后的密码
-     */
-    public String sha1Pwd(String s, String offset) {
-        return DigestEncode.encode("sha1", s + offset);
+    public String sha1Pwd(String s,String salt) {
+        return DigestEncode.encode("sha1", s + salt);
     }
 
     public String md5(byte[] bytes) {
