@@ -13,6 +13,10 @@ import javax.xml.bind.annotation.XmlRootElement
 
 /** 参数 */
 class Params(internal var value: MutableMap<String, Any>) {
+    /** 获取值 */
+    fun getValue(): Map<String, Any> {
+        return this.value
+    }
     /** 从Map中拷贝数据 */
     fun copy(src: Map<String, String>) {
         src.forEach { s ->
@@ -149,7 +153,7 @@ internal class InternalFormatter : IExportFormatter {
 
 // 导出项目
 class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
-    var mapping: Array<ColumnMapping>? = null
+    private var mapping: Array<ColumnMapping>? = null
     private var sqlConfig: ItemConfig = cfg
     private var dbProvider: IDbProvider = db
 

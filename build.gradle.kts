@@ -11,8 +11,8 @@ subprojects {
     }
 
     dependencies {
-        "testImplementation"("org.junit.jupiter:junit-jupiter-api:5.5.1")
-        "testImplementation"("org.junit.jupiter:junit-jupiter-engine:5.5.1")
+        "testImplementation"("org.junit.jupiter:junit-jupiter-api")
+        "testImplementation"("org.junit.jupiter:junit-jupiter-engine")
     }
     configure<JavaPluginConvention> {
         sourceCompatibility = JavaVersion.VERSION_1_8
