@@ -30,11 +30,6 @@ class HttpUtilsKt {
         /**
          * 发送https请求
          *
-         * @param url 请求地址
-         * @param method     请求方式（GET、POST）
-         * @param data       提交的数据
-         * @param headers    头部
-         * @param timeout    超时时间
          * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
          */
         @Throws(Exception::class)
@@ -50,7 +45,7 @@ class HttpUtilsKt {
             return getResponse(conn, req.body)
         }
         // 设置请求内容格式
-        private fun setContentType(conn: HttpURLConnection, contentType: String) {
+        private fun setContentType(conn: HttpURLConnection, contentType: String?) {
             if(!contentType.isNullOrEmpty()){
                 conn.setRequestProperty("Content-Type",contentType)
             }

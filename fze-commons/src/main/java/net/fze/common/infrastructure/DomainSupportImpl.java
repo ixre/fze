@@ -33,7 +33,7 @@ public class DomainSupportImpl implements DomainSupport {
      */
     public Validator validator() {
         if (this._validator == null) {
-            this._validator = new Validator(Standard.std);
+            this._validator = Validator.getInstance();
         }
         return this._validator;
     }

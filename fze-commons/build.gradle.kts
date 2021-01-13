@@ -1,6 +1,6 @@
 plugins {
     java
-    kotlin("jvm") version ("1.4.21")
+    kotlin("jvm") version ("1.4.20")
 }
 apply("../deploy.gradle")
 
@@ -29,8 +29,6 @@ dependencies {
     compileOnly("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
     testCompileOnly("io.etcd:jetcd-core:0.5.3")
     testImplementation( "redis.clients:jedis:3.3.0")
-    testCompileOnly("org.junit.jupiter:junit-jupiter-api")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"

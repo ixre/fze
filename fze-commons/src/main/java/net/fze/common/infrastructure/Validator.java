@@ -14,15 +14,19 @@ import org.jetbrains.annotations.NotNull;
  * 验证器
  */
 public class Validator {
-    private LangExtension _lang;
-    private Regex userRegexp;
-    private Regex emailRegexp;
-    private Regex phoneRegexp;
-    private Regex specCharRegexp;
+    private final Regex userRegexp;
+    private final Regex emailRegexp;
+    private final Regex phoneRegexp;
+    private final Regex specCharRegexp;
 
+    public static final Validator _instance = new Validator();
 
-    public Validator(LangExtension lang) {
-        this._lang = lang;
+    public static Validator getInstance(){
+        return _instance;
+    }
+
+    private Validator() {
+        LangExtension lang = new LangExtension();
         this.userRegexp = lang.regexp("^[a-zA-Z0-9_]{6,}$");
         this.emailRegexp = lang.regexp("^[A-Za-z0-9_\\-]+@[a-zA-Z0-9\\-]+(\\.[a-zA-Z0-9]+)+$");
         this.phoneRegexp = lang.regexp("^(13[0-9]|14[5|6|7]|15[0-9]|16[5|6|7|8]|18[0-9]|17[0|1|2|3|4|5|6|7|8]|19[1|8|9])(\\d{8})$");
