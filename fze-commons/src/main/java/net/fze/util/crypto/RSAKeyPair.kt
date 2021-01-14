@@ -18,7 +18,7 @@ class RSAKeyPair {
             val keyGen = KeyPairGenerator.getInstance("RSA")
             keyGen.initialize(bits)
             val pair = keyGen.generateKeyPair()
-            var p = KeyPair()
+            val p = KeyPair()
             p.bits = bits
             p.publicKey = Base64.getMimeEncoder().encodeToString(pair.private.encoded)
             p.privateKey = Base64.getMimeEncoder().encodeToString(pair.public.encoded)
@@ -56,13 +56,16 @@ class RSAKeyPair {
             return kf.generatePrivate(keySpec)
         }
 
-        private fun removeBeginEnd(pem: String): String {
-            var pem = pem
-            pem = pem.replace("-----BEGIN\\s*(.*)-----".toRegex(), "")
-            pem = pem.replace("-----END\\s*(.*)----".toRegex(), "")
-            pem = pem.replace("\r\n".toRegex(), "")
-            pem = pem.replace("\n".toRegex(), "")
-            return pem.trim { it <= ' ' }
+        /**
+         * 移出开头和结尾的内容
+         */
+        @JvmStatic
+        fun removeBeginEnd(pem: String): String {
+            var n = pem.replace("-----BEGIN\\s*(.*)-----".toRegex(), "")
+            n = n.replace("-----END\\s*(.*)----".toRegex(), "")
+            n = n.replace("\r\n".toRegex(), "")
+            n = n.replace("\n".toRegex(), "")
+            return n.trim { it <= ' ' }
         }
         private fun toEncodedBytes(pemEncoded: String): ByteArray {
             val normalizedPem = removeBeginEnd(pemEncoded)
