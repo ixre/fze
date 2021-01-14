@@ -1,5 +1,6 @@
 package net.fze.libs.jdbc;
 
+import net.fze.util.Strings;
 import net.fze.util.Types;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class ConnectorManager {
      * 获取默认的JDBC连接
      */
     public IConnectionPool getDefault() {
-        if (Types.emptyOrNull(this.defaultKey)) {
+        if (Strings.isNullOrEmpty(this.defaultKey)) {
             return this.first();
         }
         if (!this.keys.contains(this.defaultKey)) {

@@ -24,16 +24,6 @@ public class Types {
     public static final Times time =  Times.Instance;
 
     /**
-     * 是否为空字符串或空
-     *
-     * @param s 字符串
-     * @return
-     */
-    public static boolean emptyOrNull(String s) {
-        return s == null || s.trim().equals("");
-    }
-
-    /**
      * 获取值，如果v为空，返回默认值d
      *
      * @param v 值

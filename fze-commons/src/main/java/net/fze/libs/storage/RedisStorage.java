@@ -1,6 +1,7 @@
 package net.fze.libs.storage;
 
 import com.google.gson.Gson;
+import net.fze.util.Strings;
 import net.fze.util.Types;
 import net.fze.util.TypeConv;
 import redis.clients.jedis.Jedis;
@@ -76,7 +77,7 @@ public class RedisStorage implements Storage {
     @Override
     public Boolean getBool(String key) {
         String s = this.getString(key);
-        if (!Types.emptyOrNull(s)) {
+        if (!Strings.isNullOrEmpty(s)) {
             return s.equals("true") || s.equals("1");
         }
         return false;
@@ -85,7 +86,7 @@ public class RedisStorage implements Storage {
     @Override
     public int getInt(String key) {
         String s = this.getString(key);
-        if (!Types.emptyOrNull(s)) {
+        if (!Strings.isNullOrEmpty(s)) {
             return TypeConv.toInt(s);
         }
         return -1;
@@ -94,7 +95,7 @@ public class RedisStorage implements Storage {
     @Override
     public long getInt64(String key) {
         String s = this.getString(key);
-        if (!Types.emptyOrNull(s)) {
+        if (!Strings.isNullOrEmpty(s)) {
             return TypeConv.toLong(s);
         }
         return -1;
@@ -111,7 +112,7 @@ public class RedisStorage implements Storage {
     @Override
     public float getFloat(String key) {
         String s = this.getString(key);
-        if (!Types.emptyOrNull(s)) {
+        if (!Strings.isNullOrEmpty(s)) {
             return TypeConv.toFloat(s);
         }
         return -1;

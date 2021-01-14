@@ -1,5 +1,6 @@
 package net.fze.common.std.api;
 
+import net.fze.util.Strings;
 import net.fze.util.Types;
 
 import java.util.ArrayList;
@@ -142,7 +143,7 @@ public class ServerMux implements Server {
             return new Response[]{r.rsp};
         }
         String api = req.getParameter("api");
-        if (Types.emptyOrNull(api)) {
+        if (Strings.isNullOrEmpty(api)) {
             return new Response[]{Response.RUndefinedApi};
         }
         String[] name = api.split(",");

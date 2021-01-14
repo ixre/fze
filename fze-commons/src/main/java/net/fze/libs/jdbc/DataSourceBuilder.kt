@@ -1,5 +1,6 @@
 package net.fze.libs.jdbc
 
+import net.fze.util.Strings
 import net.fze.util.Types
 import java.net.URLEncoder
 
@@ -70,7 +71,7 @@ class DataSourceBuilder {
             val s = String.format(
                     "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=utf-8",
                     driverName, host, port, db).trim { it <= ' ' }
-            if (!Types.emptyOrNull(timezone)) {
+            if (!Strings.isNullOrEmpty(timezone)) {
                 try {
                     return s + "&serverTimezone=" + URLEncoder.encode(timezone, "utf-8")
                 } catch (ex: Throwable) {

@@ -8,6 +8,19 @@ import java.util.*
 class Strings {
     companion object {
         private val ext: KotlinLangExtension = KotlinLangExtension()
+
+
+        /**
+         * 是否为空字符串或空
+         *
+         * @param s 字符串
+         * @return
+         */
+        @JvmStatic
+        fun isNullOrEmpty(s: String?): Boolean {
+            return s == null || s.trim().isEmpty()
+        }
+
         /**
          * 字符模板
          * @param text 文本

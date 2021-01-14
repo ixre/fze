@@ -1,5 +1,6 @@
 package net.fze.common.http;
 
+import net.fze.util.Strings;
 import net.fze.util.Types;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,17 +21,17 @@ public class HttpUtils {
     public static String join(String base, String path, String query) {
         StringBuilder b = new StringBuilder();
         b.append(base);
-        if (!Types.emptyOrNull(path)) {
+        if (!Strings.isNullOrEmpty(path)) {
             if (!path.startsWith("/")) {
                 path = "/" + path;
             }
             b.append(path);
         }
-        if (!Types.emptyOrNull(query)) {
+        if (!Strings.isNullOrEmpty(query)) {
             if (!query.startsWith("?")) {
-                if (!Types.emptyOrNull(base) && base.contains("?")) {
+                if (!Strings.isNullOrEmpty(base) && base.contains("?")) {
                     b.append("&");
-                } else if (!Types.emptyOrNull(path) && path.contains("?")) {
+                } else if (!Strings.isNullOrEmpty(path) && path.contains("?")) {
                     b.append("&");
                 } else {
                     b.append("?");

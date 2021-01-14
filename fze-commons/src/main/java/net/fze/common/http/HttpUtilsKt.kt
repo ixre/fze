@@ -1,6 +1,7 @@
 package net.fze.common.http
 
 import net.fze.util.IoUtils
+import net.fze.util.Strings
 import net.fze.util.Types
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -66,7 +67,7 @@ class HttpUtilsKt {
             conn.useCaches = false
             if (headers == null) return
             for ((key, value) in headers) {
-                if (Types.emptyOrNull(key) || Types.emptyOrNull(value)) {
+                if (Strings.isNullOrEmpty(key) || Strings.isNullOrEmpty(value)) {
                     throw Exception("Headers contain null key or null value")
                 }
                 conn.setRequestProperty(key, value)

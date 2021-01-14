@@ -1,5 +1,6 @@
 package net.fze.web.http;
 
+import net.fze.util.Strings;
 import net.fze.util.Types;
 
 public class HttpUtils {
@@ -17,13 +18,13 @@ public class HttpUtils {
         StringBuffer b = new StringBuffer();
         b.append(tls ? "https" : "http").append("://");
         b.append(host);
-        if (!Types.emptyOrNull(path)) {
+        if (!Strings.isNullOrEmpty(path)) {
             if (!path.startsWith("/")) {
                 path = "/" + path;
             }
             b.append(path);
         }
-        if (!Types.emptyOrNull(query)) {
+        if (!Strings.isNullOrEmpty(query)) {
             b.append("?").append(query);
         }
         return b.toString();

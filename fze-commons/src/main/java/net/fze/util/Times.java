@@ -55,7 +55,7 @@ public class Times {
      */
     private Date parseTime(String s, String format) {
         try {
-            return (Types.emptyOrNull(format) ? DefaultDateFormat : new SimpleDateFormat(format)).parse(s);
+            return (Strings.isNullOrEmpty(format) ? DefaultDateFormat : new SimpleDateFormat(format)).parse(s);
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
@@ -82,7 +82,7 @@ public class Times {
      * @return 字符串
      */
     public String format(Date d, String format) {
-        SimpleDateFormat fmt = Types.emptyOrNull(format) ?
+        SimpleDateFormat fmt = Strings.isNullOrEmpty(format) ?
                 DefaultDateFormat :
                 new SimpleDateFormat(format);
         return fmt.format(d);

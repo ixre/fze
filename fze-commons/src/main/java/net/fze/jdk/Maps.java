@@ -16,7 +16,6 @@ public interface Maps {
      * @return an empty {@code Map}
      *
      */
-    @SuppressWarnings("unchecked")
     static <K, V> Map<K, V> of() {
         return new HashMap<K,V>();
     }
