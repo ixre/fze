@@ -22,7 +22,7 @@ private class StandardKt {
             //var className= Thread.currentThread().stackTrace[1].className;
             // val c = Class.forName(className)
             //var c = Typed::class.java
-            var pkg = if (isJava9OrLater()) c.packageName else c.`package`.name
+            val pkg = if (isJava9OrLater()) c.packageName else c.`package`.name
             val resName = pkg.replace(".", "/")
             val pkgPath = c.classLoader.getResource(resName)
             val path = (pkgPath?.path ?: "")
@@ -36,9 +36,9 @@ private class StandardKt {
             devFlag = if (classInJar(main)) 0 else 1
             if (dev()) {
                 // 在IDEA下开发时设置项目真实的工作空间
-                var workspace = System.getProperty("user.dir")
+                val workspace = System.getProperty("user.dir")
                 // Windows下以"\"分隔
-                var i = workspace.indexOfAny(arrayListOf("/build", "/target","\\build", "\\target"))
+                val i = workspace.indexOfAny(arrayListOf("/build", "/target","\\build", "\\target"))
                 if (i != -1) {
                     System.setProperty("user.dir", workspace.substring(0, i))
                 }
@@ -50,6 +50,19 @@ private class StandardKt {
         fun dev(): Boolean {
             if (devFlag == -1) throw Exception("should call method Standard.resolveEnvironment first")
             return devFlag == 1
+        }
+
+        @JvmStatic
+        fun setDefaultExceptionHandler(handler: Thread.UncaughtExceptionHandler){
+            Thread.setDefaultUncaughtExceptionHandler(handler);
+//            Thread.setDefaultUncaughtExceptionHandler { thread: Thread, throwable: Throwable ->
+//                if (throwable is NullPointerException) {
+//                    println("[ app][ exception]: thread ${thread.id},${throwable.message}");
+//                    throwable.printStackTrace()
+//                }else{
+//                    throw throwable
+//                }
+//            }
         }
     }
 }

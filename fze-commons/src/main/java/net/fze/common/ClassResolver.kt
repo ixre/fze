@@ -10,10 +10,9 @@ import java.util.*
 import java.util.jar.JarFile
 
 
-class ClassResolver {
-    private val PATH_REGEXP = Regex("\\\\|/")
+class ClassResolver internal constructor() {
+    private val pathRegexp = Regex("[\\\\/]")
 
-    internal constructor(){}
     /**
      * 获取包下所有的类型,[pkg]包名,[filter]筛选符合条件的类型，可以为空
      */
@@ -21,11 +20,11 @@ class ClassResolver {
         try {
             var scope = pkg
             val loader = Thread.currentThread().contextClassLoader
-            if (scope.isNullOrEmpty()) {
+            if (scope.isEmpty()) {
                 val definedPackages = loader.definedPackages
                 scope = definedPackages[definedPackages.size - 1].name
             }
-            return walkPkg(loader, scope!!, filter).toTypedArray()
+            return walkPkg(loader, scope, filter).toTypedArray()
         } catch (ex: Throwable) {
             throw ex
         }
@@ -57,7 +56,7 @@ class ClassResolver {
         return arr
     }
 
-    fun getFilePathInJar(url: URL, filter: Types.TCond<Class<*>>?): ArrayList<Class<*>> {
+    private fun getFilePathInJar(url: URL, filter: Types.TCond<Class<*>>?): ArrayList<Class<*>> {
         val classArray = ArrayList<Class<*>>()
         // 定义一个JarFile
         val jar: JarFile
@@ -70,10 +69,10 @@ class ClassResolver {
             while (entries.hasMoreElements()) {
                 // 获取jar里的一个实体 可以是目录 和一些jar包里的其他文件 如META-INF等文件
                 val entry = entries.nextElement()
-                var name = entry.name
+                val name = entry.name
                 // 如果是一个.class文件 而且不是目录
                 if (!entry.isDirectory && name.endsWith(".class")) {
-                    var classPath = name.replace('/', '.').substring(0, name.length - 6)
+                    val classPath = name.replace('/', '.').substring(0, name.length - 6)
                     // 添加到classes
                     try {
                         val classes = Class.forName(classPath)
@@ -101,15 +100,15 @@ class ClassResolver {
             fn: Types.TCond<Class<*>>?): ArrayList<Class<*>> {
         val classArray = ArrayList<Class<*>>()
         val files = File(filePath).listFiles()
-        for (fi in files) {
+        files?.forEach { fi ->
             if (fi.isDirectory) {
                 classArray.addAll(getFilePathClasses(loader, basePkg, fi.path, pkgPathLen, fn))
             } else {
                 var path = fi.path
                 if (path.endsWith(".class")) {
-                    path = path.replace(PATH_REGEXP, ".")
-                    var part = path.substring(pkgPathLen, path.length - 6);
-                    if (part[0] != '.') part = ".$part"; // windows下少"."
+                    path = path.replace(pathRegexp, ".")
+                    var part = path.substring(pkgPathLen, path.length - 6)
+                    if (part[0] != '.') part = ".$part" // windows下少"."
                     val classPath = basePkg + part
                     val classes = loader.loadClass(classPath)
                     if (fn == null || fn.test(classes)) {
