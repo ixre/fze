@@ -20,20 +20,26 @@ public class Result {
     /**
      * 数据字典
      */
+    @SerializedName("Dict")
+    public Map<String, String> dict;
+
+    /**
+     * 数据字典
+     */
     @SerializedName("Data")
-    public Map<String, String> data;
+    public Object data;
 
     Result(int code, String msg) {
         this.errCode = code;
         this.errMsg = msg;
-        this.data = new HashMap<>();
+        this.dict = new HashMap<>();
     }
 
     public static Result create(int errCode, String errMsg) {
         return new Result(errCode, errMsg);
     }
 
-    public static Result success(Map<String, String> data) {
+    public static Result success(Object data) {
         return create(0, null).setData(data);
     }
 
@@ -55,7 +61,11 @@ public class Result {
         return this;
     }
 
-    public Result setData(Map<String, String> data) {
+    public Result setDict(Map<String, String> dict) {
+        this.dict = dict;
+        return this;
+    }
+    public Result setData(Object data){
         this.data = data;
         return this;
     }
@@ -64,10 +74,10 @@ public class Result {
      * 存放数据
      */
     public Result put(String key, String value) {
-        if (this.data == null) {
-            this.data = new HashMap<>();
+        if (this.dict == null) {
+            this.dict = new HashMap<>();
         }
-        this.data.put(key, value);
+        this.dict.put(key, value);
         return this;
     }
 
@@ -75,8 +85,8 @@ public class Result {
      * 获取值
      */
     public String get(String key) {
-        if (this.data.containsKey(key)) {
-            return this.data.get(key);
+        if (this.dict.containsKey(key)) {
+            return this.dict.get(key);
         }
         return null;
     }
