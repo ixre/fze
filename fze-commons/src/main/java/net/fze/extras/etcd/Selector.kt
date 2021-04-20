@@ -15,6 +15,7 @@ import io.etcd.jetcd.options.GetOption
 import io.etcd.jetcd.options.WatchOption
 import io.etcd.jetcd.watch.WatchEvent
 import net.fze.util.Types
+import java.lang.Thread.sleep
 import java.util.*
 
 class Node {
@@ -98,7 +99,13 @@ class ServerSelector(var name: String, client: Client) : ISelector {
 
 
     override fun next(): Node {
-        val l = this.nodes.size
+        var l = this.nodes.size
+        var retryTimes = 0;
+        while(l == 0) {
+            sleep(1000)
+            l = this.nodes.size
+            if(retryTimes++ > 5)break;
+        }
         if (l == 0) throw Exception("no nodes found on " + this.name)
         if (this.alg == SelectorAlgorithm.RoundRobin) {
             this.last += 1

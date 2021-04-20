@@ -1,9 +1,9 @@
 plugins {
     java
-    kotlin("jvm") version ("1.4.30")
+    kotlin("jvm") version ("1.4.32")
 }
 
-apply("../deploy.gradle")
+//apply("../deploy.gradle")
 dependencies {
     implementation(project(":fze-commons"))
     //implementation(kotlin("stdlib"))

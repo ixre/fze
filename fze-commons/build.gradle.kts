@@ -1,6 +1,6 @@
 plugins {
     java
-    kotlin("jvm") version ("1.4.30")
+    kotlin("jvm") version ("1.4.32")
 }
 apply("../deploy.gradle")
 
@@ -19,7 +19,7 @@ dependencies {
     api("com.google.code.gson:gson:2.8.6")
     compileOnly("com.mchange:c3p0:0.9.5.5") //C3P0连接池
     compileOnly("org.apache.thrift:libthrift:0.13.0")
-    compileOnly("io.etcd:jetcd-core:0.5.3")
+    compileOnly("io.etcd:jetcd-core:0.5.4")
     compileOnly("redis.clients:jedis:3.3.0")
     compileOnly("mysql:mysql-connector-java:8.0.18")
     compileOnly("com.github.dozermapper:dozer-core:6.5.0")
@@ -27,7 +27,7 @@ dependencies {
     compileOnly("com.esotericsoftware:reflectasm:1.11.9")
     // quarkus
     compileOnly("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
-    testCompileOnly("io.etcd:jetcd-core:0.5.3")
+    testImplementation("io.etcd:jetcd-core:0.5.4")
     testImplementation( "redis.clients:jedis:3.3.0")
 }
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

@@ -1,10 +1,20 @@
 plugins{
     "maven-publish"
 }
-
-//publishing{
-//
-//}
+publishing {
+    publications {
+        create<MavenPublication>("library") {
+            from(components.getByName("java"))
+        }
+    }
+    repositories {
+        maven {
+            url = "http://git.tech.meizhuli.net:8082/repository/maven-releases"
+            credentials(PasswordCredentials::class)
+              //  .isAllowInsecureProtocol = true// manven
+        }
+    }
+}
 
 //publishing {
 //    publications {

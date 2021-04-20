@@ -6,7 +6,7 @@ allprojects {
 
 subprojects {
     repositories {
-        maven("http://maven.aliyun.com/nexus/content/groups/public/")       // manven
+        maven("https://maven.aliyun.com/nexus/content/groups/public/")       // manven
         mavenCentral()
     }
 

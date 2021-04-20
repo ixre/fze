@@ -1,4 +1,4 @@
-apply plugin: "maven"
+//apply plugin: "maven"
 apply plugin: "maven-publish"
 
 publishing {
@@ -14,7 +14,8 @@ publishing {
                 username 'line'
                 password "line888"
             }
-        }
+           // isAllowInsecureProtocol = true
+        }.setAllowInsecureProtocol(true)
 //        maven {
 //            name = "clojars"
 //            url = "https://clojars.org/repo"

@@ -3,6 +3,7 @@ package net.fze.extras.etcd
 import io.etcd.jetcd.ByteSequence
 import io.etcd.jetcd.Client
 import org.junit.jupiter.api.Test
+import net.fze.extras.etcd.ServerSelector;
 
 internal class ServerSelectorTest {
 
@@ -22,7 +23,7 @@ internal class ServerSelectorTest {
                 this.client
         )
         s.alg = SelectorAlgorithm.RoundRobin
-        for (i in 0 until 30) {
+        for (i in 0 .. 30) {
             println(s.next().addr)
             Thread.sleep(5000)
         }

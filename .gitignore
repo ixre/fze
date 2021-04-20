@@ -22,3 +22,5 @@ node_modules
 gradlew
 target
 pom.xml*
+gradle
+gradlew.bat
