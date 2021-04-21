@@ -8,5 +8,5 @@ import java.lang.annotation.Inherited
 @Target(AnnotationTarget.CLASS,AnnotationTarget.FUNCTION)
 @MustBeDocumented
 @Inherited
-annotation class RequireToken();
+annotation class RequireToken(val required:Boolean=true);
 
