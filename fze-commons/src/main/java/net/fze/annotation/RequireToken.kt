@@ -2,11 +2,11 @@ package net.fze.annotation
 
 import java.lang.annotation.Inherited
 
-
 /**
- * 资源
+ * 需要请求令牌,例如JWT
  */
 @Target(AnnotationTarget.CLASS,AnnotationTarget.FUNCTION)
-@Repeatable
 @MustBeDocumented
-annotation class Resource(val key:String,val name:String = "");
+@Inherited
+annotation class RequireToken();
+
