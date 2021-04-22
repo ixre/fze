@@ -22,7 +22,7 @@ dependencies {
     compileOnly("io.etcd:jetcd-core:0.5.4")
     compileOnly("redis.clients:jedis:3.3.0")
     compileOnly("mysql:mysql-connector-java:8.0.18")
-    compileOnly("com.github.dozermapper:dozer-core:6.5.0")
+    compileOnly("com.github.dozermapper:dozer-core:6.5.2")
     compileOnly("com.belerweb:pinyin4j:2.5.0")
     compileOnly("com.esotericsoftware:reflectasm:1.11.9")
     // quarkus
