@@ -172,6 +172,16 @@ public class TypeConv {
     }
 
     /**
+     * 将object转换为bool类型
+     *
+     * @param obj        需要转换的对象
+     * @return 转换后的结果
+     */
+    public static Boolean toBoolean(Object obj) {
+        return Boolean.parseBoolean(obj.toString());
+    }
+
+    /**
      * 将object转换为Date类型，如果出错则返回当前时间
      *
      * @param obj 需要转换的对象
