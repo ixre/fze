@@ -39,7 +39,7 @@ public class PagingData {
      * 额外信息
      */
 
-    private Map<String, String> extras;
+    private Map<String, Object> extras;
 
     public int getErrCode() {
         return errCode;
@@ -73,11 +73,11 @@ public class PagingData {
         this.data = data;
     }
 
-    public Map<String, String> getExtras() {
+    public Map<String, Object> getExtras() {
         return extras;
     }
 
-    public void setExtras(Map<String, String> extras) {
+    public void setExtras(Map<String, Object> extras) {
         this.extras = extras;
     }
 }
