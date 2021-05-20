@@ -1,9 +1,7 @@
 package net.fze.common
 
 import kotlinx.coroutines.*
-import java.lang.Runnable
 import kotlin.concurrent.thread
-import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 fun String?.isNullEmpty(): Boolean {
@@ -49,10 +47,18 @@ open class KotlinLangExtension {
     }
 
     /** 使用协程运行 */
-    fun coroutines(context: CoroutineContext = EmptyCoroutineContext,
-                  start: CoroutineStart = CoroutineStart.DEFAULT,
-                  block: suspend CoroutineScope.() -> Unit):Job {
-        return GlobalScope.launch(context, start, block)
+    suspend fun<T> coroutines(isBlock:Boolean = false,
+                  block: suspend CoroutineScope.() -> T) {
+        return coroutineScope {
+            if (isBlock) {
+                runBlocking {
+                    block()
+                }
+            }
+            launch {
+                block()
+            }
+        }
     }
 
     // 返回随机字符串,[n]:长度
