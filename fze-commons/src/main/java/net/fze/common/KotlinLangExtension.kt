@@ -7,7 +7,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 fun String?.isNullEmpty(): Boolean {
-    return this == null || this.equals("")
+    return this == null || this == ""
 }
 
 

@@ -6,14 +6,14 @@ apply("../deploy.gradle")
 
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     //implementation()
     //api("javax.xml.bind:jaxb-api:2.3.1")
     compileOnly("javax.servlet:javax.servlet-api:4.+")
     compileOnly("javax.xml.bind:jaxb-api:2.3.1")
     compileOnly("com.google.inject:guice:4.2.3")
     api("com.moandjiezana.toml:toml4j:0.7.2")
-    api("io.agroal:agroal-pool:1.9" )
+    api("io.agroal:agroal-pool:1.11" )
     compileOnly("io.agroal:agroal-api:1.9")
     compileOnly("commons-cli:commons-cli:1.4")
     api("com.google.code.gson:gson:2.8.6")
