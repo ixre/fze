@@ -178,7 +178,8 @@ public class TypeConv {
      * @return 转换后的结果
      */
     public static Boolean toBoolean(Object obj) {
-        return obj == Boolean.TRUE || Boolean.parseBoolean(obj.toString());
+        if(obj == null || obj == Boolean.FALSE)return false;
+        return  Boolean.parseBoolean(obj.toString());
     }
 
     /**
