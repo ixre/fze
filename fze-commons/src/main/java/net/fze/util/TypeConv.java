@@ -172,13 +172,13 @@ public class TypeConv {
     }
 
     /**
-     * 将object转换为bool类型
+     * 将object转换为Boolean类型
      *
      * @param obj        需要转换的对象
      * @return 转换后的结果
      */
     public static Boolean toBoolean(Object obj) {
-        return Boolean.parseBoolean(obj.toString());
+        return obj == Boolean.TRUE || Boolean.parseBoolean(obj.toString());
     }
 
     /**
