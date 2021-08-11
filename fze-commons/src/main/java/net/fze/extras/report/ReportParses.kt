@@ -1,5 +1,6 @@
 package net.fze.extras.report
 
+import net.fze.util.Times
 import net.fze.util.Types
 
 class ReportParses {
@@ -17,7 +18,7 @@ class ReportParses {
                 src = src.substring(0, len - 1)
             }
             return src.split(",")
-                    .map { Types.time.unix(Types.time.parseISOTime(it.trim())) }
+                    .map { Times.unix(Times.parseISOTime(it.trim())) }
                     .toTypedArray()
         }
     }

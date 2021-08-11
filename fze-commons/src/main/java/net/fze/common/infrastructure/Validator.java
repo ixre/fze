@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * 验证器
  */
+@Deprecated
 public class Validator {
     private final Regex userRegexp;
     private final Regex emailRegexp;

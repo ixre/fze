@@ -190,9 +190,9 @@ public class TypeConv {
      */
     public static Date toDateTime(Object obj) {
         if(obj instanceof Date) return(Date)obj;
-        if(obj instanceof Long)return Times.Instance.unixTime((Long)obj,0);
-        if(obj instanceof Integer)return Times.Instance.unixTime((Integer)obj,0);
-        return Times.Instance.time(obj.toString(),Times.DefaultDateFormat.toPattern());
+        if(obj instanceof Long)return Times.unixTime((Long)obj,0);
+        if(obj instanceof Integer)return Times.unixTime((Integer)obj,0);
+        return Times.time(obj.toString(),Times.DefaultDateFormat.toPattern());
     }
 
     /**

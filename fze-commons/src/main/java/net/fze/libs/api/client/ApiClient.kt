@@ -6,6 +6,7 @@ import net.fze.util.Types
 import net.fze.common.http.ContentTypes
 import net.fze.common.http.HttpClient
 import net.fze.common.http.HttpRequestBuilder
+import net.fze.util.Times
 import java.lang.reflect.Type
 
 /**
@@ -71,7 +72,7 @@ class ApiClient {
         //Types.copyMap(extraParams, data)
         //data["\$key"] = key
         // 更新令牌
-        var now = Types.time.unix()
+        var now = Times.unix()
         if (now - this.lastTokenUnix > this.expires) {
             this.accessToken = this.accessFunc?.get(this.key, this.secret) ?: ""
             this.lastTokenUnix = now

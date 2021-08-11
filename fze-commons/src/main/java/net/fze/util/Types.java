@@ -18,12 +18,6 @@ import java.util.Map;
  */
 public class Types {
     /**
-     * 时间扩展,使用Times.Instance代替
-     */
-    @Deprecated()
-    public static final Times time =  Times.Instance;
-
-    /**
      * 获取值，如果v为空，返回默认值d
      *
      * @param v 值

@@ -12,17 +12,12 @@ public class Times {
     private static final SimpleDateFormat ISO_RFC_3339_24H_FULL_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     public static final TimeZone ZoneAsiaShangHai = TimeZone.getTimeZone("GMT+08:00");
 
-    public static final Times Instance = new Times();
-
-    Times() {
-    }
-
     /**
      * 设置时区
      *
      * @param zone 时区,GMT+08:00 / GMT+8上海时间
      */
-    public void setTimeZone(TimeZone zone) {
+    public static void setTimeZone(TimeZone zone) {
         if(zone == null)zone = ZoneAsiaShangHai;
         System.setProperty("user.timezone", zone.getDisplayName());
         TimeZone.setDefault(zone);
@@ -34,8 +29,8 @@ public class Times {
      * @param s 字符串
      * @return 时间，如果格式不对，则返回null
      */
-    private Date time(String s) {
-        return this.parseTime(s, null);
+    private static Date time(String s) {
+        return parseTime(s, null);
     }
 
 
@@ -46,14 +41,14 @@ public class Times {
      * @param format 格式,如:yyyy-MM-dd HH:mm:ss
      * @return 时间，如果格式不对，则返回null
      */
-    public Date time(String s, String format) {
-        return this.parseTime(s, format);
+    public static Date time(String s, String format) {
+        return parseTime(s, format);
     }
 
     /**
      * 转换时间
      */
-    private Date parseTime(String s, String format) {
+    private static Date parseTime(String s, String format) {
         try {
             return (Strings.isNullOrEmpty(format) ? DefaultDateFormat : new SimpleDateFormat(format)).parse(s);
         } catch (ParseException ex) {
@@ -65,7 +60,7 @@ public class Times {
     /**
      * 转换时间
      */
-    public Date parseISOTime(String s) {
+    public static Date parseISOTime(String s) {
         try {
             return ISO_RFC_3339_24H_FULL_FORMAT.parse(s);
         } catch (ParseException ex) {
@@ -81,7 +76,7 @@ public class Times {
      * @param format 格式
      * @return 字符串
      */
-    public String format(Date d, String format) {
+    public static String format(Date d, String format) {
         SimpleDateFormat fmt = Strings.isNullOrEmpty(format) ?
                 DefaultDateFormat :
                 new SimpleDateFormat(format);
@@ -95,14 +90,14 @@ public class Times {
      * @param format 格式
      * @return 字符串
      */
-    public String formatUnix(int unix, String format) {
+    public static String formatUnix(int unix, String format) {
         return format(unixTime(unix, 0), format);
     }
 
     /*
      * 将时间转换为时间戳
      */
-    public int unix(Date d) {
+    public static int unix(Date d) {
         return (int) (d.getTime() / 1000);
     }
 
@@ -112,44 +107,44 @@ public class Times {
      * @param unix 时间戳
      * @return 日期
      */
-    public Date unixTime(long unix, int millisecond) {
+    public static Date unixTime(long unix, int millisecond) {
         return new Date(unix * 1000 + millisecond);
     }
 
     /**
      * 将字符串转为时间戳
      */
-    public int unix(String time) {
-        Date d = this.parseTime(time, null);
-        return d == null ? 0 : this.unix(d);
+    public static int unix(String time) {
+        Date d = parseTime(time, null);
+        return d == null ? 0 : unix(d);
     }
 
     /**
      * 获取一个时间的开始时间戳
      */
-    public int unixOfDate(Date d) {
+    public static int unixOfDate(Date d) {
         Calendar c = new Calendar.Builder().setInstant(d).build();
-        this.truncateTime(c);
-        return this.intUnix(c.getTimeInMillis());
+        truncateTime(c);
+        return intUnix(c.getTimeInMillis());
     }
 
     /**
      * 获取一个时间的结束时间戳
      */
-    public int unixOfDateOver(Date d) {
-        return this.unixOfDate(d) + 3600 * 24 - 1;
+    public static int unixOfDateOver(Date d) {
+        return unixOfDate(d) + 3600 * 24 - 1;
     }
 
     /**
      * 将毫秒的unix时间转换为int
      */
-    private int intUnix(long time) {
+    private static int intUnix(long time) {
         return (int) (time / 1000);
     }
 
 
     // 清除时间
-    private void truncateTime(Calendar c) {
+    private static void truncateTime(Calendar c) {
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
@@ -159,20 +154,20 @@ public class Times {
     /**
      * 计算一个月的开始日期时间戳
      */
-    public int unixOfMonth(Date d) {
-        Calendar c = this.getCalendar(d);
-        this.truncateTime(c);
+    public static int unixOfMonth(Date d) {
+        Calendar c = getCalendar(d);
+        truncateTime(c);
         // 计算一个月第一天的开始时间
         c.set(Calendar.DAY_OF_MONTH, 1);
-        return this.intUnix(c.getTimeInMillis());
+        return intUnix(c.getTimeInMillis());
     }
 
     /**
      * 计算一个月的结束时间戳
      */
-    public int unixOfMonthOver(Date d) {
-        Calendar c = this.getCalendar(d);
-        this.truncateTime(c);
+    public static int unixOfMonthOver(Date d) {
+        Calendar c = getCalendar(d);
+        truncateTime(c);
         // 计算一个月第一天的开始时间
         c.set(Calendar.DAY_OF_MONTH, 1);
         int month = c.get(Calendar.MONTH);
@@ -183,14 +178,14 @@ public class Times {
             c.set(Calendar.YEAR, year + 1);
             c.set(Calendar.MONTH, month + 1 - 12);
         }
-        return this.intUnix(c.getTimeInMillis()) - 1;
+        return intUnix(c.getTimeInMillis()) - 1;
     }
 
     /**
      * 添加时间
      */
-    public Date addTime(Date d, int unit, int value) {
-        Calendar c = this.getCalendar(d);
+    public static Date addTime(Date d, int unit, int value) {
+        Calendar c = getCalendar(d);
         switch (unit) {
             case Calendar.YEAR:
                 c.set(Calendar.YEAR, c.get(Calendar.YEAR) + value);
@@ -219,9 +214,8 @@ public class Times {
         return c.getTime();
     }
 
-    public Calendar getCalendar(Date d) {
-        Calendar c = new Calendar.Builder().setInstant(d).build();
-        return c;
+    public static Calendar getCalendar(Date d) {
+        return new Calendar.Builder().setInstant(d).build();
     }
 
     /**
@@ -230,12 +224,12 @@ public class Times {
      * @param d 时间
      * @return 时间戳
      */
-    public int getMonthDayUnix(Date d) {
+    public static int getMonthDayUnix(Date d) {
         Calendar c = new Calendar.Builder().setInstant(d).build();
-        this.truncateTime(c);
+        truncateTime(c);
         int year = c.get(Calendar.YEAR);
         c.add(Calendar.YEAR, 1970 - year);
-        return this.intUnix(c.getTimeInMillis());
+        return intUnix(c.getTimeInMillis());
     }
 
     /**
@@ -243,7 +237,7 @@ public class Times {
      *
      * @return 时间戳
      */
-    public int unix() {
+    public static int unix() {
         return (int) (System.currentTimeMillis() / 1000);
     }
 
@@ -253,23 +247,23 @@ public class Times {
      * @param second 秒
      * @return 时间戳
      */
-    public int unixAdd(int second) {
+    public static int unixAdd(int second) {
         return unix() + second;
     }
 
     // 计算多久以前
-    public String evalAgoTime(int unix) {
-        int duration = this.unix() - unix;
-        if (duration < 60) return this.agoTimeText(duration, "秒");
-        if (duration < 3600) return this.agoTimeText(duration / 60, "分钟");
-        if (duration < 86400) return this.agoTimeText(duration / 3600, "小时");
-        if (duration < 86400 * 7) return this.agoTimeText(duration / 86400, "天");
-        if (duration < 86400 * 30) return this.agoTimeText(duration / (86400 * 7), "周");
-        if (duration < 86400 * 30 * 365) return this.agoTimeText(duration / (86400 * 30), "月");
-        return this.agoTimeText(duration / (86400 * 365), "年");
+    public static String evalAgoTime(int unix) {
+        int duration = unix() - unix;
+        if (duration < 60) return agoTimeText(duration, "秒");
+        if (duration < 3600) return agoTimeText(duration / 60, "分钟");
+        if (duration < 86400) return agoTimeText(duration / 3600, "小时");
+        if (duration < 86400 * 7) return agoTimeText(duration / 86400, "天");
+        if (duration < 86400 * 30) return agoTimeText(duration / (86400 * 7), "周");
+        if (duration < 86400 * 30 * 365) return agoTimeText(duration / (86400 * 30), "月");
+        return agoTimeText(duration / (86400 * 365), "年");
     }
 
-    private String agoTimeText(int d, String unit) {
+    private static String agoTimeText(int d, String unit) {
         return String.format("%d%s以前", d, unit);
     }
 }

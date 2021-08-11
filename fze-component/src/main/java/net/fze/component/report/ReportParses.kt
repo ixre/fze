@@ -16,7 +16,7 @@ class ReportParses {
                 src = src.substring(0, len - 1)
             }
             return src.split(",")
-                    .map { Types.time.unix(Types.time.parseISOTime(it.trim())) }
+                    .map { Times.unix(Types.time.parseISOTime(it.trim())) }
                     .toTypedArray()
         }
     }
