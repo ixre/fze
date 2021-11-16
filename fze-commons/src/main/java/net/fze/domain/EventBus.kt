@@ -1,7 +1,6 @@
 package net.fze.domain
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import net.fze.common.catch
 
 class EventDispatcher<T> {
     private val _subMap = mutableMapOf<String, ArrayList<T>>()
@@ -67,7 +66,7 @@ class EventBus(val name:String = "default") {
             println(" [ EventBus][ ${this.name}]: no subscribes for topic $topic")
             return null
         }
-        return catch {
+//         try {
             list.forEach {
                 if (it.async) {
                     GlobalScope.launch { it.h.invoke(data) }
@@ -75,6 +74,10 @@ class EventBus(val name:String = "default") {
                     it.h.invoke(data)
                 }
             }
-        }.except { this._exceptHandler?.invoke(topic, data, it) }.error()
+//        }catch (e: Throwable) {
+//            this._exceptHandler?.invoke(topic, data, it)
+//             return e;
+//        }
+        return null;
     }
 }
