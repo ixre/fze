@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import net.fze.util.Types
 import net.fze.common.http.ContentTypes
-import net.fze.common.http.HttpClient
 import net.fze.common.http.HttpRequestBuilder
 import net.fze.util.Times
 import java.lang.reflect.Type
