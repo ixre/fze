@@ -140,5 +140,12 @@ class Strings {
         fun decodeBase64String(s:String):ByteArray{
             return Base64.getDecoder().decode(s)
         }
+        /** 如果s为空,则返回e, 反之返回s */
+        @JvmStatic
+        fun emptyElse(s: String?, e: String): String {
+            if (s == null) return e;
+            if (s.isEmpty()) return e
+            return s
+        }
     }
 }
