@@ -1,15 +1,11 @@
 package net.fze.util
 
-import net.fze.common.KotlinLangExtension
 import java.security.MessageDigest
 import java.util.*
 
 /** 字符工具 */
 class Strings {
     companion object {
-        private val ext: KotlinLangExtension = KotlinLangExtension()
-
-
         /**
          * 是否为空字符串或空
          *
@@ -28,7 +24,11 @@ class Strings {
          */
         @JvmStatic
         fun template(text: String, args: Map<String, String>): String {
-            return ext.template(text, args)
+            if (text == null) return ""
+            val re = Regex("\\{([^{]+?)}")
+            return re.replace(text) {
+                args[it.groups[1]!!.value] ?: it.value
+            }
         }
 
         /**
@@ -107,7 +107,7 @@ class Strings {
          * @return
          */
         @JvmStatic
-         fun bytesToHex(bytes: ByteArray): String {
+        fun bytesToHex(bytes: ByteArray): String {
             val md5str = StringBuffer()
             // 把数组每一字节换成16进制连成md5字符串
             var digital: Int
@@ -124,22 +124,27 @@ class Strings {
             }
             return md5str.toString().toUpperCase()
         }
+
         @JvmStatic
-        fun encodeBase64(bytes:ByteArray):ByteArray{
+        fun encodeBase64(bytes: ByteArray): ByteArray {
             return Base64.getEncoder().encode(bytes)
         }
+
         @JvmStatic
-        fun decodeBase64(bytes:ByteArray):ByteArray{
+        fun decodeBase64(bytes: ByteArray): ByteArray {
             return Base64.getDecoder().decode(bytes)
         }
+
         @JvmStatic
-        fun encodeBase64String(bytes:ByteArray):String{
+        fun encodeBase64String(bytes: ByteArray): String {
             return Base64.getEncoder().encodeToString(bytes)
         }
+
         @JvmStatic
-        fun decodeBase64String(s:String):ByteArray{
+        fun decodeBase64String(s: String): ByteArray {
             return Base64.getDecoder().decode(s)
         }
+
         /** 如果s为空,则返回e, 反之返回s */
         @JvmStatic
         fun emptyElse(s: String?, e: String): String {
@@ -147,5 +152,59 @@ class Strings {
             if (s.isEmpty()) return e
             return s
         }
+
+        private const val letterStr = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+        // 返回随机字符串,[n]:长度
+        @JvmStatic
+        fun randomLetters(n: Int): String {
+            return this.randomLetters(n, letterStr)
+        }
+
+        /**
+         * 返回随机字符串,[n]:长度,letters字段
+         */
+        @JvmStatic
+        fun randomLetters(n: Int, letters: String): String {
+            val l = letters.length
+            var arr = arrayOfNulls<Char>(n)
+            var rd = java.util.Random()
+            for (i in 0 until n) {
+                arr[i] = letters[rd.nextInt(l) % l]
+            }
+            return arr.joinToString("")
+        }
+
+        // 获取字符串位置
+        @JvmStatic
+        fun endPosition(s: String, b: Int, n: Int): Int {
+            if (n == -1) {
+                return s.length
+            }
+            return b + n
+        }
+
+        // 替换顺序b后的n个字符, 如果n为-1, 默认替换到结尾
+        @JvmStatic
+        fun replaceRange(s: String, b: Int, n: Int, replace: String): String {
+            val end = this.endPosition(s, b, n)
+            return s.replaceRange(b, end, replace)
+        }
+
+        // 替换顺序b后的n个字符, 如果n为-1, 默认替换到结尾
+        @JvmStatic
+        fun replaceN(s: String, b: Int, n: Int, replace: String): String {
+            val end = this.endPosition(s, b, n)
+            return s.replaceRange(b, end, this.repeat(replace, end - b))
+        }
+
+        // 重复字符串
+        @JvmStatic
+        fun repeat(s: String, n: Int): String {
+            var arr = arrayOfNulls<String>(n)
+            arr.forEachIndexed { i, _ -> arr[i] = s }
+            return arr.joinToString("")
+        }
+
     }
 }
