@@ -1,19 +1,22 @@
 package net.fze.libs.jdbc
 
 import net.fze.util.Strings
-import net.fze.util.Types
 import java.net.URLEncoder
 
 class DataSourceBuilder {
     private val params = ConnectionParams()
     private var poolType = Pools.Agroal
-    fun create(driverClass: String, connectionUrl: String): DataSourceBuilder {
+    fun create(driverClass: String): DataSourceBuilder {
         Class.forName(driverClass) // search class
-        if (!this.params.driverClass.isNullOrEmpty() || !this.params.connectionUrl.isNullOrEmpty()) {
-            throw Exception("please not setting repeat!")
-        }
         this.params.driverClass = driverClass
-        this.params.connectionUrl = connectionUrl
+        return this
+    }
+
+    fun setJdbcUrl(connUrl: String): DataSourceBuilder {
+        if (this.params.driverClass.isNullOrEmpty()) {
+            throw Exception("please setting driver class first !")
+        }
+        this.params.connectionUrl = connUrl
         return this
     }
 
@@ -31,7 +34,7 @@ class DataSourceBuilder {
     fun build(): IConnectionPool {
         return when (this.poolType) {
             Pools.C3p0 -> Cp30PoolWrapper(this.params)
-            Pools.Agroal-> AgroalDataSourceImpl(this.params)
+            Pools.Agroal -> AgroalDataSourceImpl(this.params)
             //else -> throw IllegalArgumentException("nonsupport connection pool")
         }
     }
@@ -67,10 +70,17 @@ class DataSourceBuilder {
          * @param timezone   时区,可为空
          */
         @JvmStatic
-        private fun createMySqlDriverUrl(driverName: String, host: String, port: Int, db: String, timezone: String): String {
+        private fun createMySqlDriverUrl(
+            driverName: String,
+            host: String,
+            port: Int,
+            db: String,
+            timezone: String
+        ): String {
             val s = String.format(
-                    "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=utf-8",
-                    driverName, host, port, db).trim { it <= ' ' }
+                "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=utf-8",
+                driverName, host, port, db
+            ).trim { it <= ' ' }
             if (!Strings.isNullOrEmpty(timezone)) {
                 try {
                     return s + "&serverTimezone=" + URLEncoder.encode(timezone, "utf-8")

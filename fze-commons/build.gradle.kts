@@ -12,7 +12,8 @@ dependencies {
     compileOnly("javax.xml.bind:jaxb-api:2.3.1")
     compileOnly("com.google.inject:guice:4.2.3")
     api("com.moandjiezana.toml:toml4j:0.7.2")
-    api("io.agroal:agroal-pool:1.11" )
+    api("io.agroal:agroal-pool:1.11")
+    api("javax.inject:javax.inject:1")
     compileOnly("io.agroal:agroal-api:1.9")
     compileOnly("commons-cli:commons-cli:1.4")
     api("com.google.code.gson:gson:2.8.6")
@@ -27,7 +28,7 @@ dependencies {
     // quarkus
     compileOnly("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
     testImplementation("io.etcd:jetcd-core:0.5.4")
-    testImplementation( "redis.clients:jedis:3.3.0")
+    testImplementation("redis.clients:jedis:3.3.0")
 }
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
