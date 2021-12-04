@@ -1,6 +1,7 @@
 package net.fze.common.infrastructure
 
 import net.fze.common.KotlinLangExtension
+import net.fze.util.Strings
 import org.junit.jupiter.api.Test
 import java.util.*
 
@@ -23,6 +24,6 @@ class KotlinLangExtensionTest {
         data["package"] = "prepay_id="
         data["signType"] = "MD5"
         data["paySign"] = "FFER"
-        println(KotlinLangExtension().template(b.toString(), data))
+        println(Strings.template(b.toString(), data))
     }
 }

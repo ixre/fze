@@ -1,4 +1,4 @@
-package net.fze.libs.jdbc;
+package net.fze.lib.jdbc;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,8 @@ public class JdbConnectorTest {
         String driverClass = "com.mysql.jdbc.Driver";
         String connectionUrl = DataSourceBuilder.Companion.createDriverUrl("mysql", "localhost", 3306, "test");
         // 创建连接器,连接器应是全局的
-        IConnectionPool jdb = new DataSourceBuilder().create(driverClass,connectionUrl)
+        IConnectionPool jdb = new DataSourceBuilder().create(driverClass)
+                .setJdbcUrl(connectionUrl)
                 .credential("root","123456").build();
         // 获取连接，通过连接器获得
         JdbcConnection conn = jdb.acquire();

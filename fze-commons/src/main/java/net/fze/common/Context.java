@@ -1,8 +1,8 @@
 package net.fze.common;
 
-import net.fze.libs.injector.Injector;
-import net.fze.libs.jdbc.ConnectorManager;
-import net.fze.libs.storage.Storage;
+import net.fze.lib.injector.Injector;
+import net.fze.lib.jdbc.ConnectorManager;
+import net.fze.lib.storage.Storage;
 import redis.clients.jedis.JedisPool;
 
 public interface Context {

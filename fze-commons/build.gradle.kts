@@ -6,18 +6,19 @@ apply("../deploy.gradle")
 
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     //api("javax.xml.bind:jaxb-api:2.3.1")
+    api("javax.inject:javax.inject:1")
+    api("com.google.code.gson:gson:2.8.9")
+    api("com.zaxxer:HikariCP:5.0.0")
     compileOnly("javax.servlet:javax.servlet-api:4.+")
     compileOnly("javax.xml.bind:jaxb-api:2.3.1")
     compileOnly("com.google.inject:guice:4.2.3")
-    api("com.moandjiezana.toml:toml4j:0.7.2")
-    api("io.agroal:agroal-pool:1.11")
-    api("javax.inject:javax.inject:1")
+    compileOnly("com.moandjiezana.toml:toml4j:0.7.2")
     compileOnly("io.agroal:agroal-api:1.9")
     compileOnly("commons-cli:commons-cli:1.4")
-    api("com.google.code.gson:gson:2.8.6")
-    compileOnly("com.mchange:c3p0:0.9.5.5") //C3P0连接池
+    compileOnly("com.mchange:c3p0:0.9.5.5") //C3P0-Pool
+    compileOnly("io.agroal:agroal-pool:1.13") // Agroal-Pool
     compileOnly("org.apache.thrift:libthrift:0.13.0")
     compileOnly("io.etcd:jetcd-core:0.5.4")
     compileOnly("redis.clients:jedis:3.3.0")
