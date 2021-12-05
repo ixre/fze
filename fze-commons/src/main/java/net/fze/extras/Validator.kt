@@ -16,10 +16,11 @@ import org.jetbrains.annotations.NotNull
  *　验证器工具类
  */
 class Validator {
-    companion object{
+    companion object {
         private var userRegexp: Regex = Regex("^[a-zA-Z0-9_]{6,}$")
         private var emailRegexp: Regex = Regex("^[A-Za-z0-9_\\-]+@[a-zA-Z0-9\\-]+(\\.[a-zA-Z0-9]+)+$")
-        private var phoneRegexp: Regex = Regex("^(13[0-9]|14[5|6|7]|15[0-9]|16[5|6|7|8]|18[0-9]|17[0|1|2|3|4|5|6|7|8]|19[1|8|9])(\\d{8})$")
+        private var phoneRegexp: Regex =
+            Regex("^(13[0-9]|14[5|6|7]|15[0-9]|16[5|6|7|8]|18[0-9]|17[0|1|2|3|4|5|6|7|8]|19[1|8|9])(\\d{8})$")
         private var specCharRegexp: Regex = Regex("(.+)(\\|\\$|\\^|%|#|!|\\\\/)+(.+)")
 
 

@@ -1,16 +1,18 @@
 package net.fze.util.concurrent
 
 import net.fze.util.Times
-import net.fze.util.Types
 
 // 令牌桶算法, 参见: https://github.com/ixre/gof/blob/master/util/concurrent/token_bucket.go
 class TokenBucket {
     // 时间
     private var timestamp: Int = 0
+
     // 桶的容量
     var capacity: Long = 0
+
     // 令牌放入速度
     private var rate: Float = 0F
+
     // 当前令牌数量
     var tokens: Long = 0
 

@@ -1,4 +1,5 @@
 package net.fze.domain
+
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.fze.common.catch
@@ -26,9 +27,10 @@ class EventDispatcher<T> {
 
 
 /** 事件总线 */
-class EventBus(val name:String = "default") {
+class EventBus(val name: String = "default") {
     companion object {
         private var instance: EventBus? = null
+
         @JvmStatic
         fun instance(): EventBus {
             if (instance == null) instance = EventBus()
@@ -36,32 +38,34 @@ class EventBus(val name:String = "default") {
         }
     }
 
-    internal class EventPack(val async: Boolean,val h:(Any) -> Unit)
+    internal class EventPack(val async: Boolean, val h: (Any) -> Unit)
+
     private val dispatcher = EventDispatcher<EventPack>()
-    private var _exceptHandler: ((String,Any,Throwable) -> Unit)? = null
+    private var _exceptHandler: ((String, Any, Throwable) -> Unit)? = null
 
     /** 订阅事件 */
     fun subscribe(topic: String, h: (Any) -> Unit) {
-        this.dispatcher.subscribe(topic,EventPack(false,h))
+        this.dispatcher.subscribe(topic, EventPack(false, h))
     }
+
     /** 订阅异步事件 */
-    fun subscribeAsync(topic: String, h: (Any) -> Unit){
-        this.dispatcher.subscribe(topic,EventPack(true,h))
+    fun subscribeAsync(topic: String, h: (Any) -> Unit) {
+        this.dispatcher.subscribe(topic, EventPack(true, h))
     }
 
     /** 异常处理 */
-    fun except(e: (String,Any,Throwable) -> Unit) {
+    fun except(e: (String, Any, Throwable) -> Unit) {
         this._exceptHandler = e
     }
 
     /** 发布事件 */
     fun publish(topic: String, data: Any): Error? {
-        return this.postEvent(topic,data,false)
+        return this.postEvent(topic, data, false)
     }
 
 
     /** 发布事件 */
-    private fun postEvent(topic: String, data: Any,async:Boolean): Error? {
+    private fun postEvent(topic: String, data: Any, async: Boolean): Error? {
         val list = this.dispatcher.gets(topic)
         if (list.size == 0) {
             println(" [ EventBus][ ${this.name}]: no subscribes for topic $topic")

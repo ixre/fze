@@ -132,7 +132,7 @@ public class RedisStorage implements Storage {
             rds.del(pattern);
         } else {
             Set<String> keys = rds.keys(pattern);
-            if(keys.size() > 0) {
+            if (keys.size() > 0) {
                 String[] keyArray = new String[keys.size()];
                 rds.del(keys.toArray(keyArray));
             }

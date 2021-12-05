@@ -10,7 +10,7 @@ import java.sql.Connection
 import java.sql.SQLException
 import javax.sql.DataSource
 
-class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
+class AgroalDataSourceImpl(p: ConnectionParams) : IConnectionPool {
     private var ds: AgroalDataSource
     private val properties: Properties? = null
     private val driverUrl: String
@@ -26,18 +26,18 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
 
         val supplier = AgroalDataSourceConfigurationSupplier()
 
-                supplier.connectionPoolConfiguration()
-                .connectionFactoryConfiguration()
-                .connectionProviderClassName(p.driverClass)
-                .jdbcUrl(p.connectionUrl)
-                .principal(NamePrincipal(p.user))
-                .credential(SimplePassword(p.pwd))
-                //.recoveryPrincipal( NamePrincipal("testuser"))
-                //.recoveryCredential( SimplePassword("testpass"))
+        supplier.connectionPoolConfiguration()
+            .connectionFactoryConfiguration()
+            .connectionProviderClassName(p.driverClass)
+            .jdbcUrl(p.connectionUrl)
+            .principal(NamePrincipal(p.user))
+            .credential(SimplePassword(p.pwd))
+        //.recoveryPrincipal( NamePrincipal("testuser"))
+        //.recoveryCredential( SimplePassword("testpass"))
         //.maxSize(10)
 
 
-     //   val configure =
+        //   val configure =
         this.ds = AgroalDataSource.from(supplier)
         //ds.acquireIncrement = 3
         // 避免超过8小时连接断开
@@ -100,7 +100,7 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
      */
     fun properties(): Properties {
         throw NotImplementedError("not implement")
-       // return properties
+        // return properties
     }
 
     /**
@@ -123,7 +123,7 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
      */
     override fun setMaxOpenConn(n: Int) {
         throw NotImplementedError("not implement")
-       // ds.maxPoolSize = n
+        // ds.maxPoolSize = n
     }
 
     /**
@@ -133,7 +133,7 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
      */
     override fun setMaxIdleConn(n: Int) {
         throw NotImplementedError("not implement")
-       // ds.maxIdleTimeExcessConnections = n
+        // ds.maxIdleTimeExcessConnections = n
     }
 
     override fun setConnMaxLifetime(second: Int) {
@@ -147,7 +147,7 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
     override fun setTestConnectionOnCheckout(b: Boolean) {
         throw NotImplementedError("not implement")
 
-       // ds.isTestConnectionOnCheckout = b
+        // ds.isTestConnectionOnCheckout = b
     }
 
     override fun setTestConnectionOnCheckin(b: Boolean) {
@@ -193,10 +193,17 @@ class AgroalDataSourceImpl(p: ConnectionParams) :IConnectionPool {
          * @param db         数据库
          * @param timezone   时区,可为空
          */
-        private fun createMySqlDriverUrl(driverName: String, host: String, port: Int, db: String, timezone: String): String {
+        private fun createMySqlDriverUrl(
+            driverName: String,
+            host: String,
+            port: Int,
+            db: String,
+            timezone: String
+        ): String {
             val s = String.format(
-                    "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=utf-8",
-                    driverName, host, port, db).trim { it <= ' ' }
+                "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=utf-8",
+                driverName, host, port, db
+            ).trim { it <= ' ' }
             if (!Strings.isNullOrEmpty(timezone)) {
                 try {
                     return s + "&serverTimezone=" + URLEncoder.encode(timezone, "utf-8")

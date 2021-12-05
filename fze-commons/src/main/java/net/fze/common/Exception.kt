@@ -30,9 +30,9 @@ class CatchResult<T> {
     }
 
     /** 应用错误回调, 如果无异常或错误则直接返回null */
-    fun applyError(f:(Error)->Unit):Error?{
+    fun applyError(f: (Error) -> Unit): Error? {
         val err = this.error()
-        if(err != null)f(err)
+        if (err != null) f(err)
         return err
     }
 

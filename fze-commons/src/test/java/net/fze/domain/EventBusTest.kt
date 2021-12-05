@@ -2,9 +2,9 @@ package net.fze.domain
 
 import org.junit.jupiter.api.Test
 
-internal class EventBusTest{
+internal class EventBusTest {
     @Test
-    fun testEventBus(){
+    fun testEventBus() {
         EventBus.instance().subscribe("1") {
             println("---${it}")
             Thread.sleep(1000)
@@ -13,7 +13,7 @@ internal class EventBusTest{
             println("---sese ${it}")
             Thread.sleep(1000)
         }
-        EventBus.instance().publish("1","haha");
+        EventBus.instance().publish("1", "haha");
 
         Thread.sleep(10000)
     }

@@ -2,11 +2,11 @@ package net.fze.lib.api.client
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import net.fze.util.Types
 import net.fze.common.http.ContentTypes
 import net.fze.common.http.HttpClient
 import net.fze.common.http.HttpRequestBuilder
 import net.fze.util.Times
+import net.fze.util.Types
 import java.lang.reflect.Type
 
 /**
@@ -25,26 +25,26 @@ class ApiClient {
     private var _timeout = 0
     private val extraParams: MutableMap<String, String> = HashMap()
 
-    constructor(apiUrl: String, key: String, secret: String,timeout: Int){
+    constructor(apiUrl: String, key: String, secret: String, timeout: Int) {
         this.apiUrl = apiUrl
         this.key = key
         this.secret = secret
         this._timeout = timeout
     }
 
-    fun jsonData():ApiClient{
+    fun jsonData(): ApiClient {
         this.dataType = "json"
         return this
     }
 
     /** 使用生成令牌 */
-    fun useToken(tokenFunc:IAccessToken,tokenExpires:Int){
+    fun useToken(tokenFunc: IAccessToken, tokenExpires: Int) {
         this.accessFunc = tokenFunc
         this.expires = tokenExpires
     }
 
     /** 设置认证头部键,默认为：Authorization */
-    fun setAuthHeaderKey(key:String){
+    fun setAuthHeaderKey(key: String) {
         this.authHeaderKey = key
     }
 
@@ -67,7 +67,7 @@ class ApiClient {
      * @return 响应字节
      */
     @Throws(Exception::class)
-    fun request(apiPath: String, method:String, body:ByteArray?,contentType:String?): ByteArray {
+    fun request(apiPath: String, method: String, body: ByteArray?, contentType: String?): ByteArray {
         //val data = Types.cloneMap(params)
         //Types.copyMap(extraParams, data)
         //data["\$key"] = key
@@ -79,63 +79,63 @@ class ApiClient {
         }
         // 发送请求
         val b = HttpRequestBuilder.create(this.concat(apiPath), method)
-                .setHeader(this.authHeaderKey,this.accessToken)
-                .body(body).timeout(this._timeout)
+            .setHeader(this.authHeaderKey, this.accessToken)
+            .body(body).timeout(this._timeout)
         // 设置格式
         //application/json
-        if(!contentType.isNullOrEmpty())b.setHeader("Content-Type",contentType)
+        if (!contentType.isNullOrEmpty()) b.setHeader("Content-Type", contentType)
         // 请求
         return HttpClient.request(b.build())
     }
 
 
-    fun get(apiPath:String):ByteArray{
-        return this.request(apiPath,"GET",null,null)
+    fun get(apiPath: String): ByteArray {
+        return this.request(apiPath, "GET", null, null)
     }
 
-    fun post(apiPath:String,params: Map<String, String>?): ByteArray{
-        val bytes =HttpClient.parseBody(params)
-        return this.request(apiPath,"POST",bytes,ContentTypes.FORM.value)
+    fun post(apiPath: String, params: Map<String, String>?): ByteArray {
+        val bytes = HttpClient.parseBody(params)
+        return this.request(apiPath, "POST", bytes, ContentTypes.FORM.value)
     }
 
-    fun patch(apiPath:String,params: Map<String, String>?):ByteArray{
-        val bytes =HttpClient.parseBody(params)
-        return this.request(apiPath,"PATCH",bytes,ContentTypes.FORM.value)
+    fun patch(apiPath: String, params: Map<String, String>?): ByteArray {
+        val bytes = HttpClient.parseBody(params)
+        return this.request(apiPath, "PATCH", bytes, ContentTypes.FORM.value)
     }
 
-    fun put(apiPath:String,params: Map<String, String>?):ByteArray{
-        val bytes =HttpClient.parseBody(params)
-        return this.request(apiPath,"PUT",bytes,ContentTypes.FORM.value)
+    fun put(apiPath: String, params: Map<String, String>?): ByteArray {
+        val bytes = HttpClient.parseBody(params)
+        return this.request(apiPath, "PUT", bytes, ContentTypes.FORM.value)
     }
 
-    fun delete(apiPath:String,params: Map<String, String>?):ByteArray{
-        val bytes =HttpClient.parseBody(params)
-        return this.request(apiPath,"DELETE",bytes,null)
+    fun delete(apiPath: String, params: Map<String, String>?): ByteArray {
+        val bytes = HttpClient.parseBody(params)
+        return this.request(apiPath, "DELETE", bytes, null)
     }
 
-    fun postJSON(apiPath:String,params: Any): ByteArray{
-        val bytes =HttpClient.parseJsonBody(params)
-        return this.request(apiPath,"POST",bytes,ContentTypes.JSON.value)
+    fun postJSON(apiPath: String, params: Any): ByteArray {
+        val bytes = HttpClient.parseJsonBody(params)
+        return this.request(apiPath, "POST", bytes, ContentTypes.JSON.value)
     }
 
-    fun patchJSON(apiPath:String,params: Any):ByteArray{
-        val bytes =HttpClient.parseJsonBody(params)
-        return this.request(apiPath,"PATCH",bytes,ContentTypes.JSON.value)
+    fun patchJSON(apiPath: String, params: Any): ByteArray {
+        val bytes = HttpClient.parseJsonBody(params)
+        return this.request(apiPath, "PATCH", bytes, ContentTypes.JSON.value)
     }
 
-    fun putJSON(apiPath:String,params: Any):ByteArray{
-        val bytes =HttpClient.parseJsonBody(params)
-        return this.request(apiPath,"PUT",bytes,ContentTypes.JSON.value)
+    fun putJSON(apiPath: String, params: Any): ByteArray {
+        val bytes = HttpClient.parseJsonBody(params)
+        return this.request(apiPath, "PUT", bytes, ContentTypes.JSON.value)
     }
 
-    fun deleteJSON(apiPath:String,params: Any):ByteArray{
-        val bytes =HttpClient.parseJsonBody(params)
-        return this.request(apiPath,"DELETE",bytes,ContentTypes.JSON.value)
+    fun deleteJSON(apiPath: String, params: Any): ByteArray {
+        val bytes = HttpClient.parseJsonBody(params)
+        return this.request(apiPath, "DELETE", bytes, ContentTypes.JSON.value)
     }
 
     private fun concat(apiName: String): String {
         var path = apiName
-        if(path.isNotEmpty() && path[0]  !='/'){
+        if (path.isNotEmpty() && path[0] != '/') {
             path = "/$path"
         }
         return this.apiUrl + path
@@ -146,7 +146,7 @@ class ApiClient {
      * 反序列化结果
      */
     @Throws(Exception::class)
-    fun <T> deserizeTypes(bytes:ByteArray, classOfT: Class<*>?, vararg classOfArgs: Class<*>?): T? {
+    fun <T> deserizeTypes(bytes: ByteArray, classOfT: Class<*>?, vararg classOfArgs: Class<*>?): T? {
         val ret = String(bytes)
         if (ret.isEmpty()) return null
         this.except(ret)
@@ -162,7 +162,7 @@ class ApiClient {
      * 反序列化结果
      */
     @Throws(Exception::class)
-    fun <T> deserize(bytes:ByteArray, gt: Type?): T? {
+    fun <T> deserize(bytes: ByteArray, gt: Type?): T? {
         val ret = String(bytes)
         if (ret.isNullOrEmpty()) return null
         this.except(ret)
@@ -171,8 +171,8 @@ class ApiClient {
 
     /** 处理异常 */
     private fun except(ret: String) {
-        val mp = Types.fromJson(ret,Map::class.java)
+        val mp = Types.fromJson(ret, Map::class.java)
         val err = mp["err_msg"]
-        if(err != null && err != "")throw Exception(err.toString())
+        if (err != null && err != "") throw Exception(err.toString())
     }
 }

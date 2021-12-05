@@ -5,16 +5,16 @@ import java.util.*
 /**
  * 列表工具类
  */
- class Lists {
+class Lists {
     companion object {
 
         @JvmStatic
         fun <E> create(): MutableList<E> {
-           return mutableListOf()
+            return mutableListOf()
         }
 
         @JvmStatic
-        fun <E> of(vararg args:E): MutableList<E> {
+        fun <E> of(vararg args: E): MutableList<E> {
             val list = mutableListOf<E>()
             list.addAll(args)
             return list

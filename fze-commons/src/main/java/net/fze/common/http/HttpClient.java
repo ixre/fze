@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public class HttpClient {
     private static final String USER_AGENT = "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0";
+
     /**
      * 发起HTTP/HTTPS请求
      *
@@ -21,7 +22,7 @@ public class HttpClient {
      * @param timeout 超时时间，如果为0，则不限超时时间
      * @return 响应结果
      */
-    public static byte[] request(String url, String method, byte[] data, int timeout){
+    public static byte[] request(String url, String method, byte[] data, int timeout) {
         HttpRequest req = newRequest(url, method)
                 .body(data).timeout(timeout).build();
         return HttpUtilsKt.doRequest(req);
@@ -39,7 +40,7 @@ public class HttpClient {
         return HttpUtilsKt.doRequest(req);
     }
 
-    public static byte[] post(String url,  byte[] data, int timeout) {
+    public static byte[] post(String url, byte[] data, int timeout) {
         HttpRequest req = newRequest(url, "POST")
                 .body(data).timeout(timeout).build();
         return HttpUtilsKt.doRequest(req);
@@ -76,11 +77,12 @@ public class HttpClient {
 
     /**
      * 将参数转为JSON二进制数组
+     *
      * @param params
      * @return
      */
     public static byte[] parseJsonBody(@NotNull Object params) {
-        if(params== null)return null;
+        if (params == null) return null;
         return Types.toJson(params).getBytes();
     }
 }

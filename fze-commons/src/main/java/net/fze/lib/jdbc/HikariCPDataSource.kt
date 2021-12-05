@@ -36,7 +36,7 @@ class HikariCPWrapper(p: ConnectionParams) : IConnectionPool {
 //        ds.isTestConnectionOnCheckin = true
 //        ds.idleConnectionTestPeriod = 3600
 //        ds.preferredTestQuery = "SELECT 1;"
-      // properties = Properties(ds)
+        // properties = Properties(ds)
         driverUrl = p.connectionUrl
         usr = p.user
         pwd = p.pwd

@@ -1,6 +1,5 @@
 package net.fze.common.std
 
-import net.fze.common.Standard
 import net.fze.util.Strings
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test

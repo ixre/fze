@@ -18,7 +18,7 @@ public class JdbConnectorTest {
         // 创建连接器,连接器应是全局的
         IConnectionPool jdb = new DataSourceBuilder().create(driverClass)
                 .setJdbcUrl(connectionUrl)
-                .credential("root","123456").build();
+                .credential("root", "123456").build();
         // 获取连接，通过连接器获得
         JdbcConnection conn = jdb.acquire();
         // 开启事务

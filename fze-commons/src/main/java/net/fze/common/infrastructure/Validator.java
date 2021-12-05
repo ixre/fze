@@ -6,8 +6,8 @@ package net.fze.common.infrastructure;
   description: 
  */
 
-import net.fze.common.LangExtension;
 import kotlin.text.Regex;
+import net.fze.common.LangExtension;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -22,7 +22,7 @@ public class Validator {
 
     public static final Validator _instance = new Validator();
 
-    public static Validator getInstance(){
+    public static Validator getInstance() {
         return _instance;
     }
 

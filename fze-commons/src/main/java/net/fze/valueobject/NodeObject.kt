@@ -7,7 +7,7 @@ class NodeObject {
     var children: List<NodeObject> = listOf()
 }
 
-interface INodeObject{
-    fun getParent():String = ""
-    fun get():NodeObject?
+interface INodeObject {
+    fun getParent(): String = ""
+    fun get(): NodeObject?
 }

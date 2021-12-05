@@ -65,7 +65,8 @@ public class Result {
         this.dict = dict;
         return this;
     }
-    public Result setData(Object data){
+
+    public Result setData(Object data) {
         this.data = data;
         return this;
     }

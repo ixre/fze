@@ -1,9 +1,9 @@
 package net.fze.common.std.api;
 
-import net.fze.common.Result;
-import net.fze.util.TypeConv;
-import net.fze.util.DigestEncode;
 import com.google.gson.Gson;
+import net.fze.common.Result;
+import net.fze.util.DigestEncode;
+import net.fze.util.TypeConv;
 
 import java.net.URLDecoder;
 import java.util.Arrays;

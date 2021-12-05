@@ -50,10 +50,10 @@ class ServerSelector(var name: String, client: Client) : ISelector {
     init {
         this.prefix = ByteSequence.from(name.toByteArray())
         this.option = GetOption.newBuilder()
-                .withSerializable(true)
-                .withSortField(GetOption.SortTarget.KEY)
-                .withPrefix(this.prefix)
-                .build()
+            .withSerializable(true)
+            .withSortField(GetOption.SortTarget.KEY)
+            .withPrefix(this.prefix)
+            .build()
         this.loadNodes()
         this.watch()
     }
@@ -61,17 +61,17 @@ class ServerSelector(var name: String, client: Client) : ISelector {
     //　监听变化,并动态处理节点
     private fun watch() {
         val opt = WatchOption.newBuilder()
-                .withPrefix(this.prefix)
-                .build()
+            .withPrefix(this.prefix)
+            .build()
         this.cli!!.watchClient.watch(this.prefix, opt) {
             for (e in it.events) {
                 try {
                     this.processWatchEvent(e)
                 } catch (ex: Throwable) {
                     println(
-                            "[ Etcd][ Error]: watch event "
-                                    + e.eventType.toString()
-                                    + " error:" + ex.message
+                        "[ Etcd][ Error]: watch event "
+                                + e.eventType.toString()
+                                + " error:" + ex.message
                     )
                 }
             }
@@ -101,10 +101,10 @@ class ServerSelector(var name: String, client: Client) : ISelector {
     override fun next(): Node {
         var l = this.nodes.size
         var retryTimes = 0;
-        while(l == 0) {
+        while (l == 0) {
             sleep(1000)
             l = this.nodes.size
-            if(retryTimes++ > 5)break;
+            if (retryTimes++ > 5) break;
         }
         if (l == 0) throw Exception("no nodes found on " + this.name)
         if (this.alg == SelectorAlgorithm.RoundRobin) {

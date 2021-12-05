@@ -23,16 +23,16 @@ internal class ApiClientTest {
     }
 
     @Test
-    fun testPostJson(){
+    fun testPostJson() {
         val appId = "wxa207b7cf6db2f5db"
         val openId = "oPA5C1KzEkX-7qEbXjGZnf-Vq-6Y"
-        val path = "/message/send-wx/${appId}/${openId}/"+ URLEncoder.encode("会员卡帐户变动提醒","UTF-8")
-        val mp = mutableMapOf<String,String>()
+        val path = "/message/send-wx/${appId}/${openId}/" + URLEncoder.encode("会员卡帐户变动提醒", "UTF-8")
+        val mp = mutableMapOf<String, String>()
         mp["first"] = "您已经在本店进行消费"
         mp["keyword1"] = "消费"
         mp["keyword2"] = "2020-10-21 14:00"
-        mp["remark"] ="消费金额:$10"
-        var bytes = this.client().postJSON(path,mp)
+        mp["remark"] = "消费金额:$10"
+        var bytes = this.client().postJSON(path, mp)
         println(String(bytes))
     }
 
