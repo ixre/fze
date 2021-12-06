@@ -23,7 +23,7 @@ public class SessionImpl implements TinySession {
         this._session = Hibernate.getSession();
     }
 
-    public SessionImpl(Session s,boolean cacheable) {
+    public SessionImpl(Session s, boolean cacheable) {
         this._session = s;
         this._cacheable = cacheable;
     }
@@ -147,7 +147,7 @@ public class SessionImpl implements TinySession {
     }
 
     private Query cacheQuery(Query query) {
-        return this._cacheable?query.setCacheable(true):query;
+        return this._cacheable ? query.setCacheable(true) : query;
     }
 
     /**
@@ -362,9 +362,9 @@ public class SessionImpl implements TinySession {
     public Map<String, Object> get2Map(String sql, Map<String, Object> data) {
         Session s = this._session;
         List list = this.createNativeQuery(s, sql, data)
-                        .unwrap(Query.class)
-                        .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
-                        .getResultList();
+                .unwrap(Query.class)
+                .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
+                .getResultList();
         s.close();
         if (list.size() > 0) {
             return (Map<String, Object>) list.get(0);
@@ -376,9 +376,9 @@ public class SessionImpl implements TinySession {
     public List<Map<String, Object>> select2Map(String sql, Map<String, Object> data) {
         Session s = this._session;
         List list = this.createNativeQuery(s, sql, data)
-                        .unwrap(Query.class)
-                        .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
-                        .getResultList();
+                .unwrap(Query.class)
+                .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
+                .getResultList();
         this.close();
         return (List<Map<String, Object>>) list;
     }

@@ -172,7 +172,7 @@ class AgroalDataSourceImpl(p: ConnectionParams) : IConnectionPool {
         fun createDriverUrl(driverName: String, host: String?, port: Int, db: String?): String {
             var driverName = driverName
             var db = db
-            driverName = driverName.toLowerCase()
+            driverName = driverName.lowercase()
             when (driverName) {
                 "mysql", "mariadb" -> db += "?autoReconnect=true&useUnicode=true&characterEncoding=utf-8"
             }

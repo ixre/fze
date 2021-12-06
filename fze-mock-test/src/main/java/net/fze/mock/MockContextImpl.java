@@ -2,8 +2,8 @@ package net.fze.mock;
 
 import com.google.inject.Singleton;
 import net.fze.common.Context;
-import net.fze.lib.injector.Injector;
 import net.fze.common.Registry;
+import net.fze.lib.injector.Injector;
 import net.fze.lib.jdbc.ConnectorManager;
 import net.fze.lib.storage.RedisStorage;
 import net.fze.lib.storage.Storage;

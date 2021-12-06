@@ -36,4 +36,21 @@ internal class ServerSelectorTest {
         println(now)
         // Types.fromJson(value.toString(), Node::class.java)
     }
+
+    @Test
+    fun testGetNode() {
+        var etcdServer = System.getenv("GO2O_ETCD_ADDR")
+        if (etcdServer.isNullOrEmpty()) etcdServer = "localhost:2379"
+        //var arr = rpcServer.split(":")
+        // Go2oGrpcFactory.configure(, arr[1].toInt(), true)
+        println("[ App][ Info]: etcd server :$etcdServer")
+        val client = Client.builder()
+            .endpoints("http://${etcdServer}")
+            //.user(ByteSequence.EMPTY)
+            //.password(ByteSequence.EMPTY)
+            .build()
+        val s = ServerSelector("/registry/server/Go2oService", client)
+        s.alg = SelectorAlgorithm.RoundRobin
+        println(s.next().addr)
+    }
 }

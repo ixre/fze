@@ -57,12 +57,12 @@ public abstract class MockCase {
         this._data.put(key, o);
     }
 
-    public String toJson(Object o)  {
+    public String toJson(Object o) {
         return Types.toJson(o);
     }
 
     public <T> T fromJson(String data, Class<T> c) {
-        return Types.fromJson(data,c);
+        return Types.fromJson(data, c);
     }
 
     public LangExtension lang() {

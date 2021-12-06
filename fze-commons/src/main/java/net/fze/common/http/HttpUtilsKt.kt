@@ -22,7 +22,7 @@ class HttpUtilsKt {
          */
         @JvmStatic
         fun doRequest(req: HttpRequest): ByteArray {
-            val prefix: String = req.url.toLowerCase().substring(0, 5).toLowerCase()
+            val prefix: String = req.url.lowercase().substring(0, 5).lowercase()
             if (prefix == "https") return httpsRequest(req)
             return httpRequest(req)
         }

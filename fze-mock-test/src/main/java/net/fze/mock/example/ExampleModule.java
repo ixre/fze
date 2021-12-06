@@ -1,9 +1,9 @@
 package net.fze.mock.example;
 
-import net.fze.mock.MockContextImpl;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import net.fze.common.Context;
+import net.fze.mock.MockContextImpl;
 
 /**
  * 服务初始化
