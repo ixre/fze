@@ -55,7 +55,7 @@ class DataSourceBuilder {
             var db = db
             driverName = driverName.lowercase()
             when (driverName) {
-                "mysql", "mariadb" -> db += "?autoReconnect=true&useUnicode=true&characterEncoding=utf-8"
+                "mysql", "mariadb" -> db += "?allowMultiQueries=true&autoReconnect=true&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf-8"
             }
             return String.format("jdbc:%s://%s:%d/%s", driverName, host, port, db)
         }
@@ -79,7 +79,7 @@ class DataSourceBuilder {
             timezone: String
         ): String {
             val s = String.format(
-                "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=utf-8",
+                "jdbc:%s://%s:%d/%s?allowMultiQueries=true&autoReconnect=true&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf-8",
                 driverName, host, port, db
             ).trim { it <= ' ' }
             if (!Strings.isNullOrEmpty(timezone)) {
