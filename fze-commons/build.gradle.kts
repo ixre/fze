@@ -5,6 +5,7 @@ apply("../deploy.gradle")
 
 
 dependencies {
+    implementation("org.junit.jupiter:junit-jupiter:5.7.0")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     //api("javax.xml.bind:jaxb-api:2.3.1")
     api("javax.inject:javax.inject:1")
@@ -19,7 +20,7 @@ dependencies {
     compileOnly("io.agroal:agroal-api:1.13")
     compileOnly("io.agroal:agroal-pool:1.13") // Agroal-Pool
     compileOnly("org.apache.thrift:libthrift:0.13.0")
-    compileOnly("io.etcd:jetcd-core:0.6.0")
+    compileOnly("io.etcd:jetcd-core:0.5.11") //only jdk8
     compileOnly("redis.clients:jedis:3.6.0")
     compileOnly("mysql:mysql-connector-java:8.0.27")
     compileOnly("com.github.dozermapper:dozer-core:6.5.2")

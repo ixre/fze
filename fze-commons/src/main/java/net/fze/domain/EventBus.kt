@@ -27,18 +27,18 @@ class EventDispatcher<T> {
 
 
 /** 事件总线 */
-class EventBus(val name: String = "default") {
+class EventBus(val name: String = "") {
     companion object {
-        private var instance: EventBus? = null
+        private var defaultInstance: EventBus? = null
 
         @JvmStatic
-        fun instance(): EventBus {
-            if (instance == null) instance = EventBus()
-            return instance!!
+        fun getDefault(): EventBus {
+            if (defaultInstance == null) defaultInstance = EventBus("default")
+            return defaultInstance!!
         }
     }
 
-    internal class EventPack(val async: Boolean, val h: (Any) -> Unit)
+    private class EventPack(val async: Boolean, val h: (Any) -> Unit)
 
     private val dispatcher = EventDispatcher<EventPack>()
     private var _exceptHandler: ((String, Any, Throwable) -> Unit)? = null
