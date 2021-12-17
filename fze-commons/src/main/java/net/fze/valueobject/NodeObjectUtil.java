@@ -11,6 +11,7 @@ public class NodeObjectUtil {
     public static <T extends INodeObject> NodeObject getRootWrappedNode(List<T> list) {
         NodeObject root = new NodeObject();
         root.setLabel("root");
+        root.setLeaf(false);
         List<NodeObject> rootNodes = new ArrayList<>();
         root.setChildren(rootNodes);
         // 加入根节点

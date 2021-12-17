@@ -10,11 +10,15 @@ internal class EventBusTest {
             Thread.sleep(1000)
         }
         EventBus.getDefault().subscribeAsync("1") {
-            println("---sese ${it}")
+            println("---sese $it")
             Thread.sleep(1000)
         }
+        EventBus.getDefault().subscribeAsync("1", this::onUserLogin)
         EventBus.getDefault().publish("1", "haha");
 
         Thread.sleep(10000)
+    }
+
+    private fun onUserLogin(data:Any) {
     }
 }

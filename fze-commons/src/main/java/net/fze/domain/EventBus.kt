@@ -38,19 +38,19 @@ class EventBus(val name: String = "") {
         }
     }
 
-    private class EventPack(val async: Boolean, val h: (Any) -> Unit)
+    private class EventWrapper(val async: Boolean, val handler: (Any) -> Unit)
 
-    private val dispatcher = EventDispatcher<EventPack>()
+    private val dispatcher = EventDispatcher<EventWrapper>()
     private var _exceptHandler: ((String, Any, Throwable) -> Unit)? = null
 
     /** 订阅事件 */
     fun subscribe(topic: String, h: (Any) -> Unit) {
-        this.dispatcher.subscribe(topic, EventPack(false, h))
+        this.dispatcher.subscribe(topic, EventWrapper(false, h))
     }
 
     /** 订阅异步事件 */
     fun subscribeAsync(topic: String, h: (Any) -> Unit) {
-        this.dispatcher.subscribe(topic, EventPack(true, h))
+        this.dispatcher.subscribe(topic, EventWrapper(true, h))
     }
 
     /** 异常处理 */
@@ -74,9 +74,9 @@ class EventBus(val name: String = "") {
         return catch {
             list.forEach {
                 if (it.async) {
-                    GlobalScope.launch { it.h.invoke(data) }
+                    GlobalScope.launch { it.handler.invoke(data) }
                 } else {
-                    it.h.invoke(data)
+                    it.handler.invoke(data)
                 }
             }
         }.except { this._exceptHandler?.invoke(topic, data, it) }.error()
