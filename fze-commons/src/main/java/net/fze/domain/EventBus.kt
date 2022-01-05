@@ -25,6 +25,21 @@ class EventDispatcher<T> {
     }
 }
 
+/**
+val data1 = Test1Event("message from event1")
+val data2 = Test2Event("message from event2")
+
+EventBus.getDefault().subscribe(Test1Event::class.java){
+    println("--- ${it.name}")
+}
+EventBus.getDefault().subscribeAsync(Test2Event::class.java) {
+    println("--- ${it.name}")
+}
+EventBus.getDefault().publish(data1);
+EventBus.getDefault().publish(data2);
+
+Thread.sleep(10000)
+ */
 
 /** 事件总线 */
 class EventBus(val name: String = "") {
@@ -38,19 +53,23 @@ class EventBus(val name: String = "") {
         }
     }
 
-    private class EventWrapper(val async: Boolean, val handler: (Any) -> Unit)
+    private class EventWrapper<T>(val async: Boolean, val handler: (T) -> Unit)
 
-    private val dispatcher = EventDispatcher<EventWrapper>()
+    private val dispatcher = EventDispatcher<EventWrapper<Any>>()
     private var _exceptHandler: ((String, Any, Throwable) -> Unit)? = null
 
     /** 订阅事件 */
-    fun subscribe(topic: String, h: (Any) -> Unit) {
-        this.dispatcher.subscribe(topic, EventWrapper(false, h))
+    fun <T> subscribe(event: Class<T>, h: (T) -> Unit) {
+        this.dispatcher.subscribe(event.name, EventWrapper(false) {
+            h(it as T)
+        })
     }
 
     /** 订阅异步事件 */
-    fun subscribeAsync(topic: String, h: (Any) -> Unit) {
-        this.dispatcher.subscribe(topic, EventWrapper(true, h))
+    fun <T> subscribeAsync(event: Class<T>, h: (T) -> Unit) {
+        this.dispatcher.subscribe(event.name, EventWrapper(true){
+            h(it as T)
+        })
     }
 
     /** 异常处理 */
@@ -59,26 +78,21 @@ class EventBus(val name: String = "") {
     }
 
     /** 发布事件 */
-    fun publish(topic: String, data: Any): Error? {
-        return this.postEvent(topic, data, false)
-    }
-
-
-    /** 发布事件 */
-    private fun postEvent(topic: String, data: Any, async: Boolean): Error? {
-        val list = this.dispatcher.gets(topic)
+    fun <T> publish(data: T): Error? {
+        val eventName = EventBusTypes.getName(data)
+        val list = this.dispatcher.gets(eventName)
         if (list.size == 0) {
-            println(" [ EventBus][ ${this.name}]: no subscribes for topic $topic")
+            println(" [ EventBus][ ${this.name}]: no subscribes for topic $eventName")
             return null
         }
         return catch {
             list.forEach {
                 if (it.async) {
-                    GlobalScope.launch { it.handler.invoke(data) }
+                    GlobalScope.launch { it.handler.invoke(data as Any) }
                 } else {
-                    it.handler.invoke(data)
+                    it.handler.invoke(data as Any)
                 }
             }
-        }.except { this._exceptHandler?.invoke(topic, data, it) }.error()
+        }.except { this._exceptHandler?.invoke(eventName, data as Any, it) }.error()
     }
 }
