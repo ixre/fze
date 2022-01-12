@@ -17,6 +17,8 @@ import io.etcd.jetcd.watch.WatchEvent
 import net.fze.util.Types
 import java.lang.Thread.sleep
 import java.util.*
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 class Node {
     var id = 0L
@@ -52,6 +54,7 @@ class ServerSelector(var name: String, client: Client) : ISelector {
         this.option = GetOption.newBuilder()
             .withSerializable(true)
             .withSortField(GetOption.SortTarget.KEY)
+            .isPrefix(true)
             .withPrefix(this.prefix)
             .build()
         this.loadNodes()
@@ -61,6 +64,7 @@ class ServerSelector(var name: String, client: Client) : ISelector {
     //　监听变化,并动态处理节点
     private fun watch() {
         val opt = WatchOption.newBuilder()
+            .isPrefix(true)
             .withPrefix(this.prefix)
             .build()
         this.cli!!.watchClient.watch(this.prefix, opt) {
@@ -142,12 +146,17 @@ class ServerSelector(var name: String, client: Client) : ISelector {
 
     private fun loadNodes() = try {
         val rsp = this.cli!!.kvClient.get(this.prefix, this.option)
-        rsp.get().kvs.forEach {
+        rsp.get(10000,TimeUnit.MILLISECONDS).kvs.forEach{
             val node = this.parseNode(it.value)
             this.nodes.add(node)
         }
     } catch (ex: Throwable) {
+        if (ex is TimeoutException) {
+            println("[ Etcd][ Error]: load nodes timeout in 10s")
+            throw TimeoutException("load nodes timeout in 10s")
+        }
         println("[ Etcd][ Error]: load nodes failed! error : " + ex.message)
+        throw ex
     }
 
     private fun parseNode(value: ByteSequence): Node {
