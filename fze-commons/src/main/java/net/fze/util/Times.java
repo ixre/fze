@@ -182,7 +182,7 @@ public class Times {
     }
 
     /**
-     * 添加时间
+     * 添加时间,unit如： Calendar.YEAR
      */
     public static Date addTime(Date d, int unit, int value) {
         Calendar c = getCalendar(d);

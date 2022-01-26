@@ -82,7 +82,7 @@ class EventBus(val name: String = "") {
         val eventName = EventBusTypes.getName(data)
         val list = this.dispatcher.gets(eventName)
         if (list.size == 0) {
-            println(" [ EventBus][ ${this.name}]: no subscribes for topic $eventName")
+            println(" [ EventBus][ ${this.name}]: no subscribes for class $eventName, please check class is match?")
             return null
         }
         return catch {
