@@ -10,12 +10,12 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface WithLock {
+public @interface Lock {
     /**
      * 锁键
      * @return
      */
-    String key();
+    String value();
 
     /**
      * 过期时间(秒)
