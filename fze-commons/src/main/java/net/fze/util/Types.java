@@ -31,6 +31,10 @@ public class Types {
 
     @NotNull
     public static String toJson(@NotNull Object obj) {
+        if (obj instanceof Integer || obj instanceof Long || obj instanceof Float ||
+                obj instanceof Double || obj instanceof Boolean || obj instanceof String) {
+            return String.valueOf(obj);
+        }
         return new Gson().toJson(obj);
     }
 
