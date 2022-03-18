@@ -3,6 +3,7 @@ package net.fze.util;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +29,15 @@ public class Types {
         return v == null ? d : v;
     }
 
+    private static Gson gson = new GsonBuilder()
+            .serializeNulls()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .create();
+
+    private static Gson getGson(){
+       // return new Gson();
+        return gson;
+    }
 
     @NotNull
     public static String toJson(@NotNull Object obj) {
@@ -35,7 +45,7 @@ public class Types {
                 obj instanceof Double || obj instanceof Boolean || obj instanceof String) {
             return String.valueOf(obj);
         }
-        return new Gson().toJson(obj);
+        return getGson().toJson(obj);
     }
 
 
@@ -45,7 +55,7 @@ public class Types {
      * @return Object
      */
     public static <T> T fromJson(String json, Class<T> c) {
-        return new Gson().fromJson(json, c);
+        return getGson().fromJson(json, c);
     }
 
 
@@ -59,7 +69,7 @@ public class Types {
         } else {
             gt = TypeToken.getParameterized(typeOfT, typeArgs).getType();
         }
-        return new Gson().fromJson(json, gt);
+        return getGson().fromJson(json, gt);
     }
 
     /**
