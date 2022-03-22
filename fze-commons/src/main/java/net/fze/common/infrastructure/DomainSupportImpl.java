@@ -8,7 +8,6 @@ public class DomainSupportImpl implements DomainSupport {
 
     private Pinyin4J _pinyin;
     private Formatter _formatter;
-    private Validator _validator;
     private Generator _generator;
 
 
@@ -24,18 +23,6 @@ public class DomainSupportImpl implements DomainSupport {
             this._formatter = new Formatter();
         }
         return this._formatter;
-    }
-
-    /**
-     * 验证器
-     *
-     * @return 验证器
-     */
-    public Validator validator() {
-        if (this._validator == null) {
-            this._validator = Validator.getInstance();
-        }
-        return this._validator;
     }
 
     /**
