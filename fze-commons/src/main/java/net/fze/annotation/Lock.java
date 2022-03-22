@@ -28,4 +28,7 @@ public @interface Lock {
      * @return
      */
     String id() default "";
+
+    /** 延迟解锁, 以避免时间不同步时快速解锁导致的问题 */
+    int delayUnlock() default 0;
 }
