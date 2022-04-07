@@ -50,7 +50,7 @@ public interface Maps {
      * @throws NullPointerException     if any key or value is {@code null}
      */
     static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2) {
-        Map<K, V> m = of(k1,v1);
+        Map<K, V> m = of(k1, v1);
         m.put(k2, v2);
         return m;
     }
@@ -72,7 +72,7 @@ public interface Maps {
      * @throws NullPointerException     if any key or value is {@code null}
      */
     static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
-        Map<K, V> m = of(k1,v1,k2,v2);
+        Map<K, V> m = of(k1, v1, k2, v2);
         m.put(k3, v3);
         return m;
     }
@@ -96,7 +96,7 @@ public interface Maps {
      * @throws NullPointerException     if any key or value is {@code null}
      */
     static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
-        Map<K, V> m = of(k1,v1,k2,v2,k3,v3);
+        Map<K, V> m = of(k1, v1, k2, v2, k3, v3);
         m.put(k4, v4);
         return m;
     }
@@ -122,7 +122,7 @@ public interface Maps {
      * @throws NullPointerException     if any key or value is {@code null}
      */
     static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-        Map<K, V> m = of(k1,v1,k2,v2,k3,v3,k4,v4);
+        Map<K, V> m = of(k1, v1, k2, v2, k3, v3, k4, v4);
         m.put(k5, v5);
         return m;
     }
@@ -150,24 +150,30 @@ public interface Maps {
      * @throws NullPointerException     if any key or value is {@code null}
      */
     static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
-        Map<K, V> m = of(k1,v1,k2,v2,k3,v3,k4,v4,k5,v5);
+        Map<K, V> m = of(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5);
         m.put(k6, v6);
         return m;
     }
 
-    /** exclude keys */
-    static <K,V> Map<K,V> excludes(Map<K,V> s,K... keys){
-        for(K k : keys){
-            if(s.containsKey(k))s.remove(k);
+    /**
+     * exclude keys
+     */
+    static <K, V> Map<K, V> excludes(Map<K, V> s, K... keys) {
+        for (K k : keys) {
+            if (s.containsKey(k)) s.remove(k);
         }
         return s;
     }
 
-    /** pick keys */
-    static <K,V> Map<K,V> picks(Map<K,V> s, K... keys){
+    /**
+     * pick keys
+     */
+    static <K, V> Map<K, V> picks(Map<K, V> s, K... keys) {
         List<K> ks = net.fze.util.Lists.of(keys);
-        for(K k : s.keySet()){
-            if(!ks.contains(k))s.remove(k);
+        Iterator<K> iterator = s.keySet().iterator();
+        while (iterator.hasNext()) {
+            K k = iterator.next();
+            if (!ks.contains(k)) iterator.remove();
         }
         return s;
     }
