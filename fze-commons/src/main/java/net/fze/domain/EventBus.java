@@ -92,7 +92,7 @@ public class EventBus {
      * 发布事件
      */
     public <T> Error publish(T event) {
-        String eventName = EventBusTypes.getName(event);
+        String eventName = event.getClass().getName();
         List<Tuple2<Boolean, Handler>> list = this.dispatcher.gets(eventName);
         try {
             if (list.size() == 0) {
