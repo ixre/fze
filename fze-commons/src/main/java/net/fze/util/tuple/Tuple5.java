@@ -8,7 +8,7 @@ public class Tuple5<T1, T2, T3,T4,T5> extends Tuple4<T1, T2,T3,T4> {
         this.t5 = t5;
     }
 
-    public T5 get5() {
+    public T5 getItem5() {
         return this.t5;
     }
 }

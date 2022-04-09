@@ -13,6 +13,6 @@ class TupleTest {
         Tuple2<Integer, String> t2 =  Tuple.of(1, "2");
         Tuple3<Integer, String,Boolean> t3 =  Tuple.of(1, "2", true);
         Tuple4<Integer, String, Double, Long> integerStringDoubleLongTuple4 = Tuple.of(1, "2", 3.5, 1L);
-        System.out.println(t3.get1());
+        System.out.println(t3.getItem1());
     }
 }

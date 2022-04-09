@@ -9,11 +9,11 @@ public class Tuple2<T1, T2> {
         this.t2 = t2;
     }
 
-    public T1 get1() {
+    public T1 getItem1() {
         return this.t1;
     }
 
-    public T2 get2() {
+    public T2 getItem2() {
         return this.t2;
     }
 }

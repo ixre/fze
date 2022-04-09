@@ -99,12 +99,12 @@ public class EventBus {
                 throw new Exception("No subscribes for class " + eventName + ", please check class is match?");
             }
             list.forEach((it) -> {
-                if (it.get1()) {
+                if (it.getItem1()) {
                     Standard.std.coroutinesRun(() -> {
-                        it.get2().Run(event);
+                        it.getItem2().Run(event);
                     });
                 } else {
-                    it.get2().Run(event);
+                    it.getItem2().Run(event);
                 }
             });
         } catch (Throwable ex) {
