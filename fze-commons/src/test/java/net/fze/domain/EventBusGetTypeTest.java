@@ -15,7 +15,6 @@ class EventBusGetTypeTest<T> {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return null;
         });
         System.out.println(t.getClass());
     }
