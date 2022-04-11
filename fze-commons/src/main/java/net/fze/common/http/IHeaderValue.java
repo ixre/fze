@@ -1,5 +1,5 @@
 package net.fze.common.http;
 
-public interface IHeaderFetch {
+public interface IHeaderValue {
     String get(String key);
 }

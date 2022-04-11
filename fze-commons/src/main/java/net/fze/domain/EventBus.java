@@ -28,11 +28,11 @@ import java.util.Map;
  */
 
 public class EventBus {
-    interface Handler<T> {
+    public interface Handler<T> {
         void Run(T t);
     }
 
-    interface ExceptionHandler {
+    public interface ExceptionHandler {
         void process(String eventName,Object event,Throwable ex);
     }
 

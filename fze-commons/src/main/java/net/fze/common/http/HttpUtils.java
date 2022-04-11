@@ -92,7 +92,7 @@ public class HttpUtils {
      *
      * @return
      */
-    public static String getRealIP(IHeaderFetch headers) {
+    public static String getRealIP(IHeaderValue headers) {
         String[] keys = new String[]{
                 "X-REAL-IP",  // nginx自定义配置
                 "X-FORWARDER-FOR",
@@ -116,7 +116,7 @@ public class HttpUtils {
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    public static boolean IsHttpsProxyRequest(IHeaderFetch h) {
+    public static boolean IsHttpsProxyRequest(IHeaderValue h) {
         // nginx反向代理
         if (equalHeader(h, "X-Forwarded-Proto", "https")) return true;
         // 兼容西部数码虚拟主机
@@ -125,7 +125,7 @@ public class HttpUtils {
         return false;
     }
 
-    private static boolean equalHeader(IHeaderFetch h, String key, String value) {
+    private static boolean equalHeader(IHeaderValue h, String key, String value) {
         String v = h.get(key);
         if (v != null) return v.equals(value);
         return false;

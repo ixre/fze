@@ -47,7 +47,7 @@ public class RedisStorage implements Storage {
     }
 
     @Override
-    public Error setExpire(String key, Object v, int seconds) {
+    public Error setExpire(String key, Object v, long seconds) {
         Jedis rds = this.pool.getResource();
         rds.setex(key, seconds, this.getObjectValue(v));
         rds.close();

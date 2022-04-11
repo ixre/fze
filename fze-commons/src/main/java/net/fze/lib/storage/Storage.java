@@ -16,7 +16,7 @@ public interface Storage {
     Error set(String key, Object v);
 
     // Auto Delete Set
-    Error setExpire(String key, Object v, int seconds);
+    Error setExpire(String key, Object v, long seconds);
 
     // Get Value
     <T> T get(String key, Class<T> c);
@@ -27,7 +27,6 @@ public interface Storage {
     Boolean getBool(String key);
 
     int getInt(String key);
-
     long getInt64(String key);
 
     String getString(String key);
