@@ -8,7 +8,7 @@ import redis.clients.jedis.JedisPoolConfig
 
 internal class RequestLimitTest {
     private fun getStorage(): Storage {
-        val host = "dbs.dev1.super4bit.co"
+        val host = "127.0.0.1"
         val port = 6379
         var pwd: String? = ""
         val database = 1
@@ -26,17 +26,19 @@ internal class RequestLimitTest {
     @Test
     fun acquire() {
         val storage = this.getStorage();
-        val rl = RequestLimit(storage, 30, 10F, 10)
+        val rl = RequestLimit(storage, 30, 5F, 10)
         val ip = "172.17.0.1"
         while (true) {
             for (i in 0..100) {
-                if (rl.isLock(ip)) {
-                    println("ip locked,please try later")
-                    Thread.sleep(1000)
-                    continue
-                }
-                val b = rl.acquire(ip, 1)
-                println("--- Req:${i} => ${b}")
+               if(!rl.acquire(ip, 1)){
+                   println("ip locked,please try later")
+                   Thread.sleep(1000)
+                   continue
+               }
+               if( i % 10 == 0){
+                   //Thread.sleep(1000);
+               }
+               println("--- Req:${i} => true")
             }
             Thread.sleep(3000)
         }

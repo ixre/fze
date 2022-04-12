@@ -35,7 +35,7 @@ class TokenBucket {
         // 如果令牌超出令牌桶的容量
         if (this.tokens > this.capacity)this.tokens = this.capacity
         // 获取令牌,并减去令牌数
-        if (this.tokens > n) {
+        if (this.tokens >= n) {
             this.tokens -= n
             return true
         }
