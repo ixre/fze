@@ -40,9 +40,13 @@ class RequestLimit {
     }
 
     /** 调整容量和令牌每秒放入速率 */
-    fun adjust(capacity: Long, rate: Float){
+    fun setCapacity(capacity: Long){
         this.capacity = capacity
-        this.rate = rate
+    }
+
+    /** 获取容量 */
+    fun getCapacity():Long{
+        return this.capacity;
     }
 
     /** 是否锁定 */
