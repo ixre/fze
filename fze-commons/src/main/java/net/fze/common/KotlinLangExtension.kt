@@ -39,18 +39,17 @@ open class KotlinLangExtension {
     }
 
     /** 使用协程运行 */
-    suspend fun <T> coroutines(
-        isBlock: Boolean = false,
-        block: suspend CoroutineScope.() -> T
-    ) {
+     fun coroutines2(block:Runnable) {
+         GlobalScope.async {
+            block.run()
+        }
+    }
+
+    /** 使用协程运行 */
+    suspend fun <T> coroutines(block:Runnable) {
         return coroutineScope {
-            if (isBlock) {
-                runBlocking {
-                    block()
-                }
-            }
-            launch {
-                block()
+            async {
+                block.run()
             }
         }
     }

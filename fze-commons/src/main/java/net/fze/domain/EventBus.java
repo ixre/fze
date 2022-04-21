@@ -100,7 +100,7 @@ public class EventBus {
             }
             list.forEach((it) -> {
                 if (it.getItem1()) {
-                    Standard.std.coroutinesRun(() -> {
+                    Standard.std.coroutines2(() -> {
                         it.getItem2().Run(event);
                     });
                 } else {
