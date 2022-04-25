@@ -15,8 +15,8 @@ import java.lang.reflect.Type
 class ApiClient {
     private var dataType: String = ""
     private var authHeaderKey: String = "Authorization"
-    private var expires: Int = 0
-    private var lastTokenUnix: Int = 0
+    private var expires: Long = 0
+    private var lastTokenUnix: Long = 0
     private var accessToken: String = ""
     private var accessFunc: IAccessToken? = null
     private var apiUrl = ""
@@ -38,7 +38,7 @@ class ApiClient {
     }
 
     /** 使用生成令牌 */
-    fun useToken(tokenFunc: IAccessToken, tokenExpires: Int) {
+    fun useToken(tokenFunc: IAccessToken, tokenExpires: Long) {
         this.accessFunc = tokenFunc
         this.expires = tokenExpires
     }

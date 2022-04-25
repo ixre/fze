@@ -89,7 +89,7 @@ class ReportUtils {
             if (range == "") return ""
             val arr = ReportParses.parseTimeRange(range)
             if (arr.size == 1) return String.format("%s >= %d", field, arr[0])
-            if (arr[1] % 3600 == 0) arr[1] += 3600 * 24 - 1 // 添加结束时间
+            if (arr[1] % 3600L == 0L) arr[1] += 3600L * 24 - 1 // 添加结束时间
             return String.format("%s BETWEEN %d AND %d", field, arr[0], arr[1])
         }
     }

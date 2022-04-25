@@ -97,8 +97,8 @@ public class Times {
     /*
      * 将时间转换为时间戳
      */
-    public static int unix(Date d) {
-        return (int) (d.getTime() / 1000);
+    public static long unix(Date d) {
+        return d.getTime() / 1000;
     }
 
     /**
@@ -114,7 +114,7 @@ public class Times {
     /**
      * 将字符串转为时间戳
      */
-    public static int unix(String time) {
+    public static long unix(String time) {
         Date d = parseTime(time, null);
         return d == null ? 0 : unix(d);
     }
@@ -122,7 +122,7 @@ public class Times {
     /**
      * 获取一个时间的开始时间戳
      */
-    public static int unixOfDate(Date d) {
+    public static long unixOfDate(Date d) {
         Calendar c = new Calendar.Builder().setInstant(d).build();
         truncateTime(c);
         return intUnix(c.getTimeInMillis());
@@ -131,15 +131,15 @@ public class Times {
     /**
      * 获取一个时间的结束时间戳
      */
-    public static int unixOfDateOver(Date d) {
+    public static long unixOfDateOver(Date d) {
         return unixOfDate(d) + 3600 * 24 - 1;
     }
 
     /**
      * 将毫秒的unix时间转换为int
      */
-    private static int intUnix(long time) {
-        return (int) (time / 1000);
+    private static long intUnix(long time) {
+        return time / 1000;
     }
 
 
@@ -154,7 +154,7 @@ public class Times {
     /**
      * 计算一个月的开始日期时间戳
      */
-    public static int unixOfMonth(Date d) {
+    public static long unixOfMonth(Date d) {
         Calendar c = getCalendar(d);
         truncateTime(c);
         // 计算一个月第一天的开始时间
@@ -165,7 +165,7 @@ public class Times {
     /**
      * 计算一个月的结束时间戳
      */
-    public static int unixOfMonthOver(Date d) {
+    public static long unixOfMonthOver(Date d) {
         Calendar c = getCalendar(d);
         truncateTime(c);
         // 计算一个月第一天的开始时间
@@ -224,7 +224,7 @@ public class Times {
      * @param d 时间
      * @return 时间戳
      */
-    public static int getMonthDayUnix(Date d) {
+    public static long getMonthDayUnix(Date d) {
         Calendar c = new Calendar.Builder().setInstant(d).build();
         truncateTime(c);
         int year = c.get(Calendar.YEAR);
@@ -237,8 +237,8 @@ public class Times {
      *
      * @return 时间戳
      */
-    public static int unix() {
-        return (int) (System.currentTimeMillis() / 1000);
+    public static long unix() {
+        return System.currentTimeMillis() / 1000;
     }
 
     /**
@@ -247,13 +247,13 @@ public class Times {
      * @param second 秒
      * @return 时间戳
      */
-    public static int unixAdd(int second) {
+    public static long unixAdd(int second) {
         return unix() + second;
     }
 
     // 计算多久以前
     public static String evalAgoTime(int unix) {
-        int duration = unix() - unix;
+        long duration = unix() - unix;
         if (duration < 60) return agoTimeText(duration, "秒");
         if (duration < 3600) return agoTimeText(duration / 60, "分钟");
         if (duration < 86400) return agoTimeText(duration / 3600, "小时");
@@ -263,7 +263,7 @@ public class Times {
         return agoTimeText(duration / (86400 * 365), "年");
     }
 
-    private static String agoTimeText(int d, String unit) {
+    private static String agoTimeText(long d, String unit) {
         return String.format("%d%s以前", d, unit);
     }
 }
