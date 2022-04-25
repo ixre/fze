@@ -34,6 +34,9 @@ public class Result {
     public static Result success() {
         return error(0, "");
     }
+    public static Result success(Object data) {
+        return error(0, "").setData(data);
+    }
 
     public int getErrCode() {
         return this.errCode;
