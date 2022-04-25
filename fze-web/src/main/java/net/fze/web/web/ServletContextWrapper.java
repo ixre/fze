@@ -88,7 +88,7 @@ public class ServletContextWrapper {
      * 错误消息
      */
     public Result errMessage(String message) {
-        return Result.create(1, message);
+        return Result.error(1, message);
     }
 
     /**
@@ -97,14 +97,14 @@ public class ServletContextWrapper {
      * @return MessageNet
      */
     public Result errMessage(String message, Map<String, String> data) {
-        return Result.create(1, message).setDict(data);
+        return Result.error(1, message).setData(data);
     }
 
     /**
      * 成功消息
      */
     public Result successMessage(String message) {
-        return Result.create(0, message);
+        return Result.error(0, message);
     }
 
     /**
@@ -113,7 +113,7 @@ public class ServletContextWrapper {
      * @return MessageNet
      */
     public Result successMessage(String message, Map<String, String> data) {
-        return Result.create(0, message).setDict(data);
+        return Result.error(0, message).setData(data);
     }
 
     public String parentScript(String s) {
