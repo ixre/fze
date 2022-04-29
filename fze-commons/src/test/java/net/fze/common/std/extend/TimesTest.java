@@ -13,8 +13,8 @@ class TimesTest {
     @Test
     void unixOfMonth() {
         Date d = Times.unixTime(1543679999, 0);
-        int begin = Times.unixOfMonth(d);
-        int over = Times.unixOfMonthOver(d);
+        long begin = Times.unixOfMonth(d);
+        long over = Times.unixOfMonthOver(d);
         System.out.println(begin + "/" + over);
     }
 }
