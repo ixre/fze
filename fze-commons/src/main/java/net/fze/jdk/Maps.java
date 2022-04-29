@@ -169,7 +169,7 @@ public interface Maps {
      * pick keys
      */
     static <K, V> Map<K, V> picks(Map<K, V> s, K... keys) {
-        List<K> ks = net.fze.util.Lists.of(keys);
+        List<K> ks =Lists.of(keys);
         Iterator<K> iterator = s.keySet().iterator();
         while (iterator.hasNext()) {
             K k = iterator.next();

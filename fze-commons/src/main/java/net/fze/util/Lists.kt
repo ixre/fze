@@ -8,18 +8,6 @@ import java.util.*
 class Lists {
     companion object {
 
-        @JvmStatic
-        fun <E> create(): MutableList<E> {
-            return mutableListOf()
-        }
-
-        @JvmStatic
-        fun <E> of(vararg args: E): MutableList<E> {
-            val list = mutableListOf<E>()
-            list.addAll(args)
-            return list
-        }
-
         /**
          * 按顺序排列
          */
