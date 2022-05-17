@@ -123,16 +123,16 @@ public class Times {
      * 获取一个时间的开始时间戳
      */
     public static long unixOfDate(Date d) {
-        Calendar c = new Calendar.Builder().setInstant(d).build();
-        truncateTime(c);
-        return intUnix(c.getTimeInMillis());
+        long unix = d.getTime();
+        int offset = TimeZone.getDefault().getRawOffset(); // 去掉小时需要考虑时区
+        return (unix - (unix + offset) % 86400000)/1000;
     }
 
     /**
      * 获取一个时间的结束时间戳
      */
     public static long unixOfDateOver(Date d) {
-        return unixOfDate(d) + 3600 * 24 - 1;
+        return unixOfDate(d) + 86400 - 1;
     }
 
     /**

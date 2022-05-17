@@ -37,7 +37,7 @@ public class TypeConv {
      * @param defaultVal 默认值
      * @return obj转换成的int值
      */
-    public static Integer toInt(Object obj, Integer defaultVal) {
+    public static Integer toInteger(Object obj, Integer defaultVal) {
         if (obj == null) {
             return defaultVal;
         }
@@ -62,8 +62,8 @@ public class TypeConv {
      * @param obj 需要转换为int的对象
      * @return obj转换成的int值
      */
-    public static Integer toInt(Object obj) {
-        return toInt(obj, 0);
+    public static int toInt(Object obj) {
+        return toInteger(obj, 0);
     }
 
     /**
@@ -73,7 +73,7 @@ public class TypeConv {
      * @return obj转换成的int值
      */
     public static Integer toInteger(Object obj) {
-        return toInt(obj, 0);
+        return toInteger(obj, 0);
     }
 
     /**
