@@ -32,7 +32,8 @@ class DataSourceBuilder {
         return when (this.poolType) {
             Pools.C3p0 -> Cp30PoolWrapper(this.params)
             Pools.Agroal-> AgroalDataSourceImpl(this.params)
-            //else -> throw IllegalArgumentException("nonsupport connection pool")
+            //Pools.HikariCP -> HikariDataSourceImpl(this.params);
+            else -> throw IllegalArgumentException("nonsupport connection pool")
         }
     }
 

@@ -1,6 +1,7 @@
 package net.fze.libs.jdbc
 
 enum class Pools(val value: Int) {
-    Agroal(0),
-    C3p0(1)
+    HikariCP(0),
+    Agroal(1),
+    C3p0(2),
 }
