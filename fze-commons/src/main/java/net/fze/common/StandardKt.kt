@@ -22,7 +22,10 @@ private class StandardKt {
             //var className= Thread.currentThread().stackTrace[1].className;
             // val c = Class.forName(className)
             //var c = Typed::class.java
-            val pkg = if (isJava9OrLater()) c.packageName else c.`package`.name
+
+            // note: 将JDK定为1.8
+            // val pkg = if (isJava9OrLater()) c.packageName else c.`package`.name
+            val pkg = c.`package`.name
             val resName = pkg.replace(".", "/")
             val pkgPath = c.classLoader.getResource(resName)
             val path = (pkgPath?.path ?: "")

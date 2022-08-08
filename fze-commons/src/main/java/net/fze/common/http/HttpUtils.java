@@ -68,7 +68,8 @@ public class HttpUtils {
         for (String k : src.keySet()) {
             data.put(k, src.get(k)[0]);
         }
-        return Types.mapObject(data, classes);
+        return Types.fromJson(Types.toJson(data),classes);
+        //return Types.mapObject(data, classes);
     }
 
 

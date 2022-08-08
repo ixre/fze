@@ -21,7 +21,9 @@ class ClassResolver internal constructor() {
             var scope = pkg
             val loader = Thread.currentThread().contextClassLoader
             if (scope.isEmpty()) {
-                val definedPackages = loader.definedPackages
+                // note: 将JDK定为1.8
+                // val definedPackages = loader.definedPackages // JDK9 OR Later
+                val definedPackages = Package.getPackages();  //JDK1.8
                 scope = definedPackages[definedPackages.size - 1].name
             }
             return walkPkg(loader, scope, filter).toTypedArray()

@@ -1,7 +1,6 @@
 package net.fze.util;
 
-import com.github.dozermapper.core.DozerBeanMapperBuilder;
-import com.github.dozermapper.core.Mapper;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
@@ -80,10 +79,10 @@ public class Types {
      * @param src     数据对象
      * @param classes 目标对象的类型
      */
-    public static <T> T mapObject(Object src, Class<T> classes) {
-        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
-        return mapper.map(src, classes);
-    }
+//    public static <T> T mapObject(Object src, Class<T> classes) {
+//        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+//        return mapper.map(src, classes);
+//    }
 
     /**
      * 作为数组返回
