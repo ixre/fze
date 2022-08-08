@@ -5,21 +5,28 @@ import java.util.*
 class HttpCookie {
     /** 名称 */
     var name: String = ""
+
     /** 值 */
     var value: String = ""
+
     /** 路径 */
     var path: String = ""    // optional
+
     /** 域 */
     var domain: String = ""   // optional
+
     /** 有效时间 */
     var expires: Date = Date() // optional
+
     // MaxAge=0 means no 'Max-Age' attribute specified.
     // MaxAge<0 means delete cookie now, equivalently 'Max-Age: 0'
     // MaxAge>0 means Max-Age attribute present and given in seconds
     /* 过期时间 */
     var maxAge: Int = 0
+
     /** 是否安全 */
     var secure: Boolean = false
+
     /** 是否只在会话中保持 */
     var httpOnly: Boolean = true
 

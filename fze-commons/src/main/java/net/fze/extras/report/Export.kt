@@ -17,6 +17,7 @@ class Params(internal var value: MutableMap<String, Any>) {
     fun getValue(): Map<String, Any> {
         return this.value
     }
+
     /** 从Map中拷贝数据 */
     fun copy(src: Map<String, String>) {
         src.forEach { s ->
@@ -26,22 +27,24 @@ class Params(internal var value: MutableMap<String, Any>) {
             this.value[s.key] = s.value.trim()
         }
     }
+
     /** 添加参数 */
-    fun set(key: String,value:String){
+    fun set(key: String, value: String) {
         this.value[key] = value
     }
+
     /** 获取参数 */
-    fun get(key:String):Any?{
+    fun get(key: String): Any? {
         return this.value[key]
     }
 
     /** 是否包含参数 */
-    fun contains(key:String):Boolean{
+    fun contains(key: String): Boolean {
         return this.value.contains(key)
     }
 
     /** 删除参数 */
-    fun remove(key:String){
+    fun remove(key: String) {
         this.value.remove(key)
     }
 }
@@ -50,6 +53,7 @@ class Params(internal var value: MutableMap<String, Any>) {
 class ColumnMapping {
     //列的字段
     var field: String = ""
+
     //列的名称
     var name: String = ""
 }
@@ -61,15 +65,19 @@ class ItemConfig {
     /** 字段映射 */
     @XmlElement(name = "ColumnMapping")
     var columnMapping: String = ""
+
     /** 查询 */
     @XmlElement(name = "Query")
     var query: String = ""
+
     /** 查询总条数 */
     @XmlElement(name = "Total")
     var total: String = ""
+
     /** 子查询 */
     @XmlElement(name = "SubQuery")
     var subQuery: String = ""
+
     @XmlElement(name = "Import")
     var import: String = ""
 }
@@ -78,6 +86,7 @@ class ItemConfig {
 class ExportParams {
     /** 参数 */
     var params: Params = Params(mutableMapOf())
+
     /** 要到导出的列的名称集合 */
     var exportFields: Array<String> = arrayOf()
 }
@@ -122,19 +131,23 @@ interface IDataExportPortal {
 /** 导出 */
 interface IExportProvider {
     /** 导出 */
-    fun export(rows: List<Map<String, Any>>,
-               fields: Array<String>,
-               names: Array<String>,
-               formatter: List<IExportFormatter>): Array<Byte>
+    fun export(
+        rows: List<Map<String, Any>>,
+        fields: Array<String>,
+        names: Array<String>,
+        formatter: List<IExportFormatter>
+    ): Array<Byte>
 }
 
 /** 数据格式化器 */
 interface IExportFormatter {
     /** 格式化字段 */
-    fun format(field: String,
-               name: String,
-               rowNum: Int,
-               data: Any?): Any
+    fun format(
+        field: String,
+        name: String,
+        rowNum: Int,
+        data: Any?
+    ): Any
 }
 
 /** 内置的格式化器 */
@@ -175,10 +188,10 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
         r.rows = mutableListOf()
         //初始化添加参数
         if (!p.contains("page_size")) {
-            p.set("page_size","10000000000")
+            p.set("page_size", "10000000000")
         }
         if (!p.contains("page_index")) {
-            p.set("page_index","1")
+            p.set("page_index", "1")
         }
         // 获取页码和每页加载数量
         val pageIndex = TypeConv.toInt(p.get("page_index")!!)
@@ -186,11 +199,11 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
         // 设置SQL分页信息
         if (pageIndex > 0) {
             val offset = ((pageIndex - 1) * pageSize).toString()
-            p.set("page_offset",offset)
-            p.set("page_start",offset)  //todo: remove
+            p.set("page_offset", offset)
+            p.set("page_start", offset)  //todo: remove
         } else {
-            p.set("page_offset","0")
-            p.set("page_start","0") //todo: remove
+            p.set("page_offset", "0")
+            p.set("page_start", "0") //todo: remove
         }
         p.set("page_over", (pageIndex * pageSize).toString()) //todo: remove
         p.set("page_end", (pageIndex * pageSize).toString())
@@ -271,7 +284,7 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
     }
 
     /** 判断注入 */
-    private fun check(sql: String):String{
+    private fun check(sql: String): String {
         if (!ReportUtils.checkInject(sql)) throw SQLException("sql is dangers")
         return sql
     }
@@ -315,12 +328,16 @@ class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
 class ItemManager {
     // 配置存放路径
     private var rootPath: String
+
     // 配置扩展名
     private var cfgFileExt: String
+
     // 数据库连接
     private var dbGetter: IDbProvider
+
     // 导出项集合
     private var exportItems: MutableMap<String, ExportItem> = mutableMapOf()
+
     // 缓存配置文件
     private var cacheFiles: Boolean = false
 
@@ -361,8 +378,9 @@ class ItemManager {
             throw Error("[ Export][ Error]: export item config is a directory; path: $filePath")
         }
         val cfg = ReportUtils.readItemConfigFromXml(filePath)
-                ?: throw Error(
-                "[ Export][ Error]: can't load export item; path: $filePath")
+            ?: throw Error(
+                "[ Export][ Error]: can't load export item; path: $filePath"
+            )
         return ExportItem(this.dbGetter, cfg)
     }
 }

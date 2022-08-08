@@ -2,6 +2,7 @@ package net.fze.util;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,12 +18,6 @@ import java.util.Map;
  */
 public class Types {
     /**
-     * 时间扩展,使用Times.Instance代替
-     */
-    @Deprecated()
-    public static final Times time =  Times.Instance;
-
-    /**
      * 获取值，如果v为空，返回默认值d
      *
      * @param v 值
@@ -33,10 +28,23 @@ public class Types {
         return v == null ? d : v;
     }
 
+    private static Gson gson = new GsonBuilder()
+            .serializeNulls()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .create();
+
+    private static Gson getGson(){
+       // return new Gson();
+        return gson;
+    }
 
     @NotNull
     public static String toJson(@NotNull Object obj) {
-        return new Gson().toJson(obj);
+        if (obj instanceof Integer || obj instanceof Long || obj instanceof Float ||
+                obj instanceof Double || obj instanceof Boolean || obj instanceof String) {
+            return String.valueOf(obj);
+        }
+        return getGson().toJson(obj);
     }
 
 
@@ -46,7 +54,7 @@ public class Types {
      * @return Object
      */
     public static <T> T fromJson(String json, Class<T> c) {
-        return new Gson().fromJson(json, c);
+        return getGson().fromJson(json, c);
     }
 
 
@@ -60,7 +68,7 @@ public class Types {
         } else {
             gt = TypeToken.getParameterized(typeOfT, typeArgs).getType();
         }
-        return new Gson().fromJson(json, gt);
+        return getGson().fromJson(json, gt);
     }
 
     /**

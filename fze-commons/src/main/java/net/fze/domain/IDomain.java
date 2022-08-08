@@ -1,6 +1,8 @@
 package net.fze.domain;
 
-/** 领域对象 */
+/**
+ * 领域对象
+ */
 public interface IDomain<T> {
     /**
      * 获取领域对象编号

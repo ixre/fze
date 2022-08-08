@@ -6,7 +6,6 @@ import java.io.IOException
 import java.net.JarURLConnection
 import java.net.URL
 import java.net.URLDecoder
-import java.util.*
 import java.util.jar.JarFile
 
 
@@ -97,9 +96,10 @@ class ClassResolver internal constructor() {
      * 从指定的包下面找到文件名
      */
     private fun getFilePathClasses(
-            loader: ClassLoader, basePkg: String,
-            filePath: String, pkgPathLen: Int,
-            fn: Types.TCond<Class<*>>?): ArrayList<Class<*>> {
+        loader: ClassLoader, basePkg: String,
+        filePath: String, pkgPathLen: Int,
+        fn: Types.TCond<Class<*>>?
+    ): ArrayList<Class<*>> {
         val classArray = ArrayList<Class<*>>()
         val files = File(filePath).listFiles()
         files?.forEach { fi ->

@@ -46,7 +46,7 @@ public class HttpUtils {
     public static String getServletBaseURL(HttpServletRequest req) {
         String path = req.getRequestURI();
         String s = req.getRequestURL().toString();
-        if(IsHttpsProxyRequest(k-> req.getHeader(k))){
+        if (IsHttpsProxyRequest(k -> req.getHeader(k))) {
             s = s.replace("http://", "https://");
         }
         return s.substring(0, s.lastIndexOf(path));
@@ -79,7 +79,7 @@ public class HttpUtils {
      * @return
      */
     public static String remoteAddr(HttpServletRequest request) {
-        String ip = getRealIP(it-> request.getHeader(it));
+        String ip = getRealIP(it -> request.getHeader(it));
         if (ip == null) ip = request.getRemoteAddr();
         // 如果是多级代理，那么取第一个ip为客户端ip
         if (ip != null && ip.contains(",")) {
@@ -93,7 +93,7 @@ public class HttpUtils {
      *
      * @return
      */
-    public static String getRealIP(IHeaderFetch headers) {
+    public static String getRealIP(IHeaderValue headers) {
         String[] keys = new String[]{
                 "X-REAL-IP",  // nginx自定义配置
                 "X-FORWARDER-FOR",
@@ -117,17 +117,16 @@ public class HttpUtils {
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    public static boolean IsHttpsProxyRequest(IHeaderFetch h)
-    {
+    public static boolean IsHttpsProxyRequest(IHeaderValue h) {
         // nginx反向代理
-        if (equalHeader(h,"X-Forwarded-Proto","https")) return true;
+        if (equalHeader(h, "X-Forwarded-Proto", "https")) return true;
         // 兼容西部数码虚拟主机
-        if (equalHeader(h,"SSL-FLAG","SSL")
-                || equalHeader(h,"From-Https","on")) return true;
+        if (equalHeader(h, "SSL-FLAG", "SSL")
+                || equalHeader(h, "From-Https", "on")) return true;
         return false;
     }
 
-    private static boolean equalHeader(IHeaderFetch h, String key, String value) {
+    private static boolean equalHeader(IHeaderValue h, String key, String value) {
         String v = h.get(key);
         if (v != null) return v.equals(value);
         return false;

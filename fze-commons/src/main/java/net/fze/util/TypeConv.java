@@ -15,9 +15,9 @@ public class TypeConv {
      * @return obj转换为string
      */
     public static String toString(Object obj, String defaultVal) {
-        if(obj == null)return defaultVal;
-        if(obj == "" && defaultVal == "0")return "0";
-        return  obj.toString();
+        if (obj == null) return defaultVal;
+        if (obj == "" && defaultVal == "0") return "0";
+        return obj.toString();
     }
 
     /**
@@ -37,7 +37,7 @@ public class TypeConv {
      * @param defaultVal 默认值
      * @return obj转换成的int值
      */
-    public static Integer toInt(Object obj, Integer defaultVal) {
+    public static Integer toInteger(Object obj, Integer defaultVal) {
         if (obj == null) {
             return defaultVal;
         }
@@ -62,8 +62,8 @@ public class TypeConv {
      * @param obj 需要转换为int的对象
      * @return obj转换成的int值
      */
-    public static Integer toInt(Object obj) {
-        return toInt(obj, 0);
+    public static int toInt(Object obj) {
+        return toInteger(obj, 0);
     }
 
     /**
@@ -73,7 +73,7 @@ public class TypeConv {
      * @return obj转换成的int值
      */
     public static Integer toInteger(Object obj) {
-        return toInt(obj, 0);
+        return toInteger(obj, 0);
     }
 
     /**
@@ -174,12 +174,12 @@ public class TypeConv {
     /**
      * 将object转换为Boolean类型
      *
-     * @param obj        需要转换的对象
+     * @param obj 需要转换的对象
      * @return 转换后的结果
      */
     public static Boolean toBoolean(Object obj) {
-        if(obj == null || obj == Boolean.FALSE)return false;
-        return  Boolean.parseBoolean(obj.toString());
+        if (obj == null || obj == Boolean.FALSE) return false;
+        return Boolean.parseBoolean(obj.toString());
     }
 
     /**
@@ -189,10 +189,10 @@ public class TypeConv {
      * @return 转换后的结果
      */
     public static Date toDateTime(Object obj) {
-        if(obj instanceof Date) return(Date)obj;
-        if(obj instanceof Long)return Times.Instance.unixTime((Long)obj,0);
-        if(obj instanceof Integer)return Times.Instance.unixTime((Integer)obj,0);
-        return Times.Instance.time(obj.toString(),Times.DefaultDateFormat.toPattern());
+        if (obj instanceof Date) return (Date) obj;
+        if (obj instanceof Long) return Times.unixTime((Long) obj, 0);
+        if (obj instanceof Integer) return Times.unixTime((Integer) obj, 0);
+        return Times.time(obj.toString(), Times.DefaultDateFormat.toPattern());
     }
 
     /**
@@ -202,12 +202,11 @@ public class TypeConv {
      * @return 转换后的结果
      */
     public static BigDecimal toBigDecimal(Object obj) {
-        if(obj instanceof BigDecimal) return(BigDecimal)obj;
-        if(obj instanceof Double)return BigDecimal.valueOf((Double) obj);
-        if(obj instanceof Integer)return BigDecimal.valueOf((Integer)obj);
+        if (obj instanceof BigDecimal) return (BigDecimal) obj;
+        if (obj instanceof Double) return BigDecimal.valueOf((Double) obj);
+        if (obj instanceof Integer) return BigDecimal.valueOf((Integer) obj);
         return BigDecimal.valueOf(toDouble(obj));
     }
-
 
 
     /**

@@ -14,7 +14,7 @@ public class EncoderExtensions {
      * @param s 原密码
      * @return 加密后的密码
      */
-    public String sha1Pwd(String s,String salt) {
+    public String sha1Pwd(String s, String salt) {
         return DigestEncode.encode("sha1", s + salt);
     }
 

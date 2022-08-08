@@ -1,7 +1,7 @@
 package net.fze.common.std.api;
 
-import net.fze.util.Types;
 import net.fze.util.TypeConv;
+import net.fze.util.Types;
 
 import java.util.HashMap;
 import java.util.Map;

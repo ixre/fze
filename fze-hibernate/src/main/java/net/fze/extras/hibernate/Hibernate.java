@@ -29,12 +29,13 @@ public class Hibernate {
     /**
      * 启用hibernate缓存
      */
-    public static void enableCache(){
+    public static void enableCache() {
         _cache = true;
     }
 //    static boolean getCacheable() {
 //        return false;
 //    }
+
     /**
      * 配置Hibernate
      *
@@ -44,11 +45,11 @@ public class Hibernate {
         _path = path;
         _driverClass = r.getString("database.driver_class");
         _driverUrl = String.format(
-                        "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8",
-                        r.getString("database.driver_name"),
-                        r.getString("database.host"),
-                        r.getLong("database.port"),
-                        r.getString("database.db"));
+                "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8",
+                r.getString("database.driver_name"),
+                r.getString("database.host"),
+                r.getLong("database.port"),
+                r.getString("database.db"));
         _dbUser = r.getString("database.user");
         _dbPwd = r.getString("database.pwd");
         String timeZone = r.getString("database.time_zone");

@@ -14,13 +14,6 @@ public interface DomainSupport {
     Pinyin4J pinyin();
 
     /**
-     * 验证器
-     *
-     * @return 验证器
-     */
-    Validator validator();
-
-    /**
      * 格式化工具
      *
      * @return 实例

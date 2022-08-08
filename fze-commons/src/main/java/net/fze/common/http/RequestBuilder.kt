@@ -50,7 +50,7 @@ class HttpRequestBuilder private constructor(url: String, method: String) {
         return this
     }
 
-    fun contentType(s:String): HttpRequestBuilder {
+    fun contentType(s: String): HttpRequestBuilder {
         this.req.contentType = s
         return this
     }

@@ -1,7 +1,6 @@
 package net.fze.web.http;
 
 import net.fze.util.Strings;
-import net.fze.util.Types;
 
 public class HttpUtils {
     /**

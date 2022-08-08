@@ -33,6 +33,6 @@ public class IoUtils {
         if (charset == null || charset.equals("")) {
             charset = "UTF-8";
         }
-        return new String(streamToByteArray(stream),charset);
+        return new String(streamToByteArray(stream), charset);
     }
 }

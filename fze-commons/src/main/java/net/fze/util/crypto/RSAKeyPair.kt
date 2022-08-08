@@ -67,6 +67,7 @@ class RSAKeyPair {
             n = n.replace("\n".toRegex(), "")
             return n.trim { it <= ' ' }
         }
+
         private fun toEncodedBytes(pemEncoded: String): ByteArray {
             val normalizedPem = removeBeginEnd(pemEncoded)
             return Base64.getMimeDecoder().decode(normalizedPem)

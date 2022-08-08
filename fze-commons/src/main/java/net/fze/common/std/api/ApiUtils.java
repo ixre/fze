@@ -1,9 +1,9 @@
 package net.fze.common.std.api;
 
-import net.fze.common.Result;
-import net.fze.util.TypeConv;
-import net.fze.util.DigestEncode;
 import com.google.gson.Gson;
+import net.fze.common.Result;
+import net.fze.util.DigestEncode;
+import net.fze.util.TypeConv;
 
 import java.net.URLDecoder;
 import java.util.Arrays;
@@ -72,14 +72,10 @@ public class ApiUtils {
             if (rspData.containsKey("ErrCode")) {
                 int errCode = TypeConv.toInt(rspData.get("ErrCode"));
                 Object errMsg = rspData.get("ErrMsg");
-                Result msg = Result.create(errCode, "");
-                if (errMsg != null) {
-                    msg.setErrMsg(String.valueOf(errMsg));
-                }
-                return msg;
+                return Result.error(errCode, TypeConv.toString(errMsg));
             }
         }
-        return Result.create(1, "error response format");
+        return Result.error(1, "error response format");
     }
 
     /**

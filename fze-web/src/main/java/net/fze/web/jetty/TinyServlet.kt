@@ -2,8 +2,8 @@ package net.fze.web.jetty
 
 import freemarker.template.Configuration
 import freemarker.template.Template
-import net.fze.common.std.Creator
 import net.fze.common.Standard
+import net.fze.common.std.Creator
 import org.eclipse.jetty.server.Request
 import org.eclipse.jetty.server.handler.AbstractHandler
 import java.io.File
@@ -59,7 +59,8 @@ class RouteResolver {
 
     private fun load(pkg: String, creator: Creator<*>?) {
         val array = Standard.getPkgClasses(pkg) {
-            !it.name.endsWith("Test") && (!it.isAnnotation && it.getAnnotationsByType(Controller::class.java).isNotEmpty())
+            !it.name.endsWith("Test") && (!it.isAnnotation && it.getAnnotationsByType(Controller::class.java)
+                .isNotEmpty())
         }
         for (c in array) {
             val constructor = c.getDeclaredConstructor()
@@ -154,7 +155,12 @@ class TinyServletHandler() : AbstractHandler() {
         return this
     }
 
-    override fun handle(target: String, baseRequest: Request, request: HttpServletRequest, response: HttpServletResponse) {
+    override fun handle(
+        target: String,
+        baseRequest: Request,
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ) {
         this.proxyRequest(request, response)
         val contentType = response.getHeader("Content-Type");
         if (contentType.isNullOrEmpty()) {
@@ -186,7 +192,7 @@ class TinyServletHandler() : AbstractHandler() {
     }
 
     private fun notfound(rsp: HttpServletResponse): Error? {
-        return Standard.std.tryCatch  {
+        return Standard.std.tryCatch {
             rsp.status = 404
             rsp.setHeader("Content-Type", "text/plain; charset=utf-8")
             rsp.resetBuffer()

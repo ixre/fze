@@ -1,56 +1,83 @@
 package net.fze.util
 
-import net.fze.libs.storage.Storage
+import net.fze.lib.storage.Storage
 import net.fze.util.concurrent.TokenBucket
+
+
+/**
+val rl = RequestLimit(this.storage!!, 100, 10F, 600)
+val addr = ctx.form().getString("\$user_addr")
+if (addr.isNotEmpty() && !rl.acquire(addr, 1)) {
+    err = Error("network request anomaly, access denied!")
+}
+ */
 
 // 请求限制
 class RequestLimit {
-   private var buckets : MutableMap<String, TokenBucket> = mutableMapOf()
+    private var buckets: MutableMap<String, TokenBucket> = mutableMapOf()
+
     // 桶的容量
-   private var capacity: Long = 0
+    private var capacity: Long = 0
+
     // 令牌放入速度
     private var rate: Float = 0F
+
     // 锁定时间
-    private var lockSecond:Int = 0
+    private var lockSecond: Long = 0
+
     // 锁
-    private val locker:Any = Any()
+    private val locker: Any = Any()
+
     // 数据存储
     private var store: Storage
 
-    // 创建请求限制, store存储数据,lockSecond锁定时间,单位:秒,capacity: 最大容量,rate: 令牌放入速度
-    constructor(store: Storage, capacity: Long, rate: Float, lockSecond:Int){
+    // 创建请求限制, store存储数据,lockSecond锁定时间,单位:秒,capacity: 最大容量,rate: 令牌放入速度(每秒放多少个)
+    constructor(store: Storage, capacity: Long, rate: Float, lockSecond: Int) {
         this.store = store
         this.capacity = capacity
         this.rate = rate
-        this.lockSecond = lockSecond
+        this.lockSecond = lockSecond.toLong()
     }
-    // 是否锁定
-    fun isLock(addr:String):Boolean{
-        val k = String.format("sys:req-limit:%s", addr)
+
+    /** 获取容量 */
+    fun getCapacity():Long{
+        return this.capacity;
+    }
+
+    /** 是否锁定 */
+    private fun isLock(addr: String): Boolean {
+        val k = String.format("_:request-limit:%s", addr)
         val v = this.store.getInt(k)
-        return  v > 0
+        return v > 0
     }
-    // 锁定地址
-    private fun lockAddr(addr:String) {
-        val k = String.format("sys:req-limit:%s", addr)
+
+    /** 锁定地址 */
+    private fun lockAddr(addr: String) {
+        val k = String.format("_:request-limit:%s", addr)
         this.store.setExpire(k, 1, this.lockSecond)
     }
 
-    // 获取令牌
-    fun acquire(addr:String, n:Int):Boolean {
-        var v : TokenBucket
-        if(this.buckets.containsKey(addr)){
+    /** 获取令牌, 如获取不到则被加锁 */
+    fun acquire(addr: String, n: Int): Boolean {
+        if(isLock(addr))return false;
+        var v: TokenBucket
+        if (this.buckets.containsKey(addr)) {
             v = this.buckets[addr]!!
-        }else{
-            synchronized(this.locker){
+        } else {
+            synchronized(this.locker) {
                 v = TokenBucket(this.capacity, this.rate)
-                this.buckets.put(addr,v)
+                this.buckets.put(addr, v)
             }
         }
         val b = v.acquire(n)
-        if(!b){
+        if (!b) {
             this.lockAddr(addr)
         }
         return b
+    }
+    /** 解锁 */
+    fun unlock(addr: String){
+        val k = String.format("_:request-limit:%s", addr)
+        this.store.setExpire(k, 1, 1)
     }
 }

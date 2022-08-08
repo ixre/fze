@@ -1,4 +1,4 @@
-plugins{
+plugins {
     "maven-publish"
 }
 publishing {
@@ -11,7 +11,7 @@ publishing {
         maven {
             url = "http://git.tech.meizhuli.net:8082/repository/maven-releases"
             credentials(PasswordCredentials::class)
-              //  .isAllowInsecureProtocol = true// manven
+            //  .isAllowInsecureProtocol = true// manven
         }
     }
 }

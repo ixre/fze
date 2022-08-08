@@ -1,6 +1,6 @@
 package net.fze.common.std
 
-import net.fze.common.Standard
+import net.fze.util.Strings
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
 
@@ -11,7 +11,7 @@ internal class KotlinLangExtensionTest {
         var map = mutableMapOf<String, String>()
         var str = ""
         for (i in 0 until 10000) {
-            str = Standard.std.randomLetters(6)
+            str = Strings.randomLetters(6)
             println("$i|$str")
             if (map.containsKey(str)) {
                 fail<String>("重复")
@@ -23,7 +23,7 @@ internal class KotlinLangExtensionTest {
 
     @Test
     fun replaceN() {
-        val s = Standard.std.replaceN("13162222872", 3, 4, "*")
+        val s = Strings.replaceN("13162222872", 3, 4, "*")
         println(" content = $s")
     }
 }

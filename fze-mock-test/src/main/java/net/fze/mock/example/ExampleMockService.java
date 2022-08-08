@@ -1,9 +1,9 @@
 package net.fze.mock.example;
 
 
-import net.fze.mock.MockCase;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import net.fze.mock.MockCase;
 
 public class ExampleMockService extends MockCase {
     private static ExampleMockService example;

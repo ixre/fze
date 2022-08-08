@@ -1,6 +1,6 @@
 package net.fze.common.std.extend;
 
-import net.fze.util.Types;
+import net.fze.util.Times;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -12,9 +12,9 @@ class TimesTest {
      */
     @Test
     void unixOfMonth() {
-        Date d = Types.time.unixTime(1543679999, 0);
-        int begin = Types.time.unixOfMonth(d);
-        int over = Types.time.unixOfMonthOver(d);
+        Date d = Times.unixTime(1543679999, 0);
+        long begin = Times.unixOfMonth(d);
+        long over = Times.unixOfMonthOver(d);
         System.out.println(begin + "/" + over);
     }
 }

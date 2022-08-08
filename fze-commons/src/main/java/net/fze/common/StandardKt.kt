@@ -15,7 +15,7 @@ private class StandardKt {
         }
 
         @JvmStatic
-        fun isJava9OrLater():Boolean = java9OrLater
+        fun isJava9OrLater(): Boolean = java9OrLater
 
         @JvmStatic
         fun classInJar(c: Class<*>): Boolean {
@@ -35,13 +35,13 @@ private class StandardKt {
 
         /** 解析环境,如果是生产环境返回true,反之返回false */
         @JvmStatic
-        fun resolveEnvironment(main: Class<*>):Boolean {
+        fun resolveEnvironment(main: Class<*>): Boolean {
             devFlag = if (classInJar(main)) 0 else 1
             if (dev()) {
                 // 在IDEA下开发时设置项目真实的工作空间
                 val workspace = System.getProperty("user.dir")
                 // Windows下以"\"分隔
-                val i = workspace.indexOfAny(arrayListOf("/build", "/target","\\build", "\\target"))
+                val i = workspace.indexOfAny(arrayListOf("/build", "/target", "\\build", "\\target"))
                 if (i != -1) {
                     System.setProperty("user.dir", workspace.substring(0, i))
                 }
@@ -49,6 +49,7 @@ private class StandardKt {
             }
             return true
         }
+
         @JvmStatic
         fun dev(): Boolean {
             if (devFlag == -1) throw Exception("should call method Standard.resolveEnvironment first")
@@ -56,7 +57,7 @@ private class StandardKt {
         }
 
         @JvmStatic
-        fun setDefaultExceptionHandler(handler: Thread.UncaughtExceptionHandler){
+        fun setDefaultExceptionHandler(handler: Thread.UncaughtExceptionHandler) {
             Thread.setDefaultUncaughtExceptionHandler(handler);
 //            Thread.setDefaultUncaughtExceptionHandler { thread: Thread, throwable: Throwable ->
 //                if (throwable is NullPointerException) {
