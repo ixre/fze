@@ -38,6 +38,23 @@ class Strings {
          * @return 以","分割的字符串
          */
         @JvmStatic
+        fun <T> arrayJoin(arr: Array<T>, delimer: CharSequence): String {
+            if (arr.isEmpty()) return ""
+            var i = 0
+            val sa = arrayOfNulls<String>(arr.size)
+            for (a in arr) {
+                sa[i++] = a.toString()
+            }
+            return sa.joinToString(delimer)
+        }
+
+        /**
+         * 将INT数组拼接为字符串
+         *
+         * @param arr 数组
+         * @return 以","分割的字符串
+         */
+        @JvmStatic
         fun intArrayJoin(arr: Array<Int>, delimer: CharSequence): String {
             if (arr.isEmpty()) return ""
             var i = 0
