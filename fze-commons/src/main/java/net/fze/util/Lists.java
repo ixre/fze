@@ -1,4 +1,4 @@
-package net.fze.jdk;
+package net.fze.util;
 
 import java.util.*;
 
@@ -38,5 +38,30 @@ public interface Lists {
         LinkedHashSet<E> set = new LinkedHashSet<E>();
         list.forEach((it)->set.add(it));
         return set;
+    }
+
+
+    /**
+     * 按顺序排列
+     */
+    static <T> List<T> sort(List<T> list,Comparator<T> c) {
+         list.sort(c);
+         return list;
+    }
+
+    /**
+     * 将列表顺序颠倒
+     */
+    static <T> List<T>  reverse(List<T> list) {
+        Collections.reverse(list);
+        return list;
+    }
+
+    /**
+     * 按倒序排列
+     */
+    static <T>  List<T> sortByDescending(List<T> list, Comparator<T> c){
+        List<T> dst = sort(list, c);
+        return reverse(dst);
     }
 }

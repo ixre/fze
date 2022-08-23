@@ -24,7 +24,6 @@ class Strings {
          */
         @JvmStatic
         fun template(text: String, args: Map<String, String>): String {
-            if (text == null) return ""
             val re = Regex("\\{([^{]+?)}")
             return re.replace(text) {
                 args[it.groups[1]!!.value] ?: it.value
@@ -32,59 +31,19 @@ class Strings {
         }
 
         /**
-         * 将INT数组拼接为字符串
+         * 将数组拼接为字符串
          *
          * @param arr 数组
          * @return 以","分割的字符串
          */
         @JvmStatic
-        fun <T> arrayJoin(arr: Array<T>, delimer: CharSequence): String {
-            if (arr.isEmpty()) return ""
+        fun <T> join(arr: Iterable<T>, delimiter: CharSequence): String {
             var i = 0
-            val sa = arrayOfNulls<String>(arr.size)
-            for (a in arr) {
+            val sa = arrayOfNulls<String>(arr.count())
+            arr.forEach{a->
                 sa[i++] = a.toString()
             }
-            return sa.joinToString(delimer)
-        }
-
-        /**
-         * 将INT数组拼接为字符串
-         *
-         * @param arr 数组
-         * @return 以","分割的字符串
-         */
-        @JvmStatic
-        fun intArrayJoin(arr: Array<Int>, delimer: CharSequence): String {
-            if (arr.isEmpty()) return ""
-            var i = 0
-            val sa = arrayOfNulls<String>(arr.size)
-            for (a in arr) {
-                sa[i++] = a.toString()
-            }
-            return sa.joinToString(delimer)
-        }
-
-        /**
-         * 将integer数组拼接为字符串
-         *
-         * @param arr 数组
-         * @return 以","分割的字符串
-         */
-        @JvmStatic
-        fun integerArrayJoin(arr: IntArray, delimer: CharSequence): String {
-            var i = 0
-            val sa = arrayOfNulls<String>(arr.size)
-            for (a in arr) {
-                sa[i++] = a.toString()
-            }
-            return sa.joinToString(delimer)
-        }
-
-        /** 用指定字符号拼接字符串 */
-        @JvmStatic
-        fun arrayJoin(arr: Array<String>, delimer: CharSequence): String {
-            return arr.joinToString(delimer)
+            return sa.joinToString(delimiter)
         }
 
         /**

@@ -1,6 +1,6 @@
 package net.fze.common.http;
 
-import net.fze.jdk.Maps;
+import net.fze.util.Maps;
 import net.fze.util.Types;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

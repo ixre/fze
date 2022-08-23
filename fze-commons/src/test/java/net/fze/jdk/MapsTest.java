@@ -1,5 +1,6 @@
 package net.fze.jdk;
 
+import net.fze.util.Maps;
 import net.fze.util.Types;
 import org.junit.jupiter.api.Test;
 
