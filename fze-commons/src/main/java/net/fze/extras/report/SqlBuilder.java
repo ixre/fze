@@ -1,6 +1,7 @@
 package net.fze.extras.report;
 
 import kotlin.text.Regex;
+import net.fze.util.TypeConv;
 import org.intellij.lang.annotations.JdkConstants;
 
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class SqlBuilder {
             if (finalData.containsKey(p))
             {
                 Object v = finalData.get(p);
-                if (!(v == null || v.equals(false) || v.equals(0) || v.equals("")))
+                if (!(v == null || v.equals(false) ||  v.equals("") || TypeConv.toInt(v) == 0))
                 {
                     return i == -1 ? body : body.substring(0, i);
                 }

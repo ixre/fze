@@ -21,5 +21,6 @@ class SqlBuilderTest {
        System.out.println(sql1);
         String sql2 =  SqlBuilder.resolve(origin, Maps.of("status",""));
         System.out.println(sql2);
+        System.out.println(0 == 0.0F);
     }
 }
