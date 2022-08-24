@@ -73,7 +73,7 @@ class ReportUtils {
         // 格式化sql语句
         @JvmStatic
         fun sqlFormat(sql: String, ht: Map<String, Any>): String {
-            var formatted = sql
+            var formatted = SqlBuilder.resolve(sql,ht)
             for (e in ht) {
                 formatted = formatted.replace(
                     "{" + e.key + "}",

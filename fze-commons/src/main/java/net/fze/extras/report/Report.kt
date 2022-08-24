@@ -165,7 +165,7 @@ internal class InternalFormatter : IExportFormatter {
 
 
 // 导出项目
-class ExportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
+class ReportItem(db: IDbProvider, cfg: ItemConfig) : IDataExportPortal {
     private var mapping: Array<ColumnMapping>? = null
     private var sqlConfig: ItemConfig = cfg
     private var dbProvider: IDbProvider = db
@@ -336,7 +336,7 @@ class ItemManager {
     private var dbGetter: IDbProvider
 
     // 导出项集合
-    private var exportItems: MutableMap<String, ExportItem> = mutableMapOf()
+    private var exportItems: MutableMap<String, ReportItem> = mutableMapOf()
 
     // 缓存配置文件
     private var cacheFiles: Boolean = false
@@ -358,7 +358,7 @@ class ItemManager {
     fun getItem(path: String): IDataExportPortal {
         var item = this.exportItems[path]
         if (item == null) {
-            item = this.loadExportItem(path)
+            item = this.loadReportItem(path)
             if (this.cacheFiles) {
                 this.exportItems[path] = item!!
             }
@@ -367,7 +367,7 @@ class ItemManager {
     }
 
     /**创建导出项 */
-    private fun loadExportItem(portalKey: String): ExportItem? {
+    private fun loadReportItem(portalKey: String): ReportItem? {
         val pwd = System.getProperty("user.dir")
         val filePath = arrayOf(pwd, this.rootPath, portalKey, this.cfgFileExt).joinToString("")
         val f = File(filePath)
@@ -375,13 +375,13 @@ class ItemManager {
             throw Error("[ Export][ Error]: no such file; path: $filePath")
         }
         if (f.isDirectory) {
-            throw Error("[ Export][ Error]: export item config is a directory; path: $filePath")
+            throw Error("[ Export][ Error]: report item config is a directory; path: $filePath")
         }
         val cfg = ReportUtils.readItemConfigFromXml(filePath)
             ?: throw Error(
-                "[ Export][ Error]: can't load export item; path: $filePath"
+                "[ Export][ Error]: can't load report item; path: $filePath"
             )
-        return ExportItem(this.dbGetter, cfg)
+        return ReportItem(this.dbGetter, cfg)
     }
 }
 

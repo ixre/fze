@@ -3,6 +3,7 @@ package net.fze.domain;
 
 import kotlinx.coroutines.GlobalScope;
 import net.fze.common.Standard;
+import net.fze.util.tuple.Tuple;
 import net.fze.util.tuple.Tuple2;
 
 import java.util.ArrayList;
@@ -78,14 +79,14 @@ public class EventBus {
      * 订阅事件
      */
     public <T> void subscribe(Class<T> event, Handler<T> h) {
-        this.dispatcher.subscribe(event.getName(), new Tuple2<>(false, h));
+        this.dispatcher.subscribe(event.getName(), Tuple.of(false, h));
     }
 
     /**
      * 订阅异步事件
      */
     public <T> void subscribeAsync(Class<T> event, Handler<T> h) {
-        this.dispatcher.subscribe(event.getName(), new Tuple2<>(true, h));
+        this.dispatcher.subscribe(event.getName(), Tuple.of(true, h));
     }
 
     /**

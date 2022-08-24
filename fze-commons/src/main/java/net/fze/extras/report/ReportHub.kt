@@ -3,7 +3,7 @@ package net.fze.extras.report
 /**
  * 导出仓库
  */
-class ExportHub(ip: IDbProvider, rootPath: String, cacheFiles: Boolean) {
+class ReportHub(ip: IDbProvider, rootPath: String, cacheFiles: Boolean) {
     private val _manager: ItemManager
     fun fetchData(portal: String, p: Params, page: String, rows: String): DataResult {
         val item = _manager.getItem(portal)

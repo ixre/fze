@@ -364,11 +364,11 @@ class ItemManager {
             throw Error("[ Export][ Error]: no such file; path: $filePath")
         }
         if (f.isDirectory) {
-            throw Error("[ Export][ Error]: export item config is a directory; path: $filePath")
+            throw Error("[ Export][ Error]: report item config is a directory; path: $filePath")
         }
         val cfg = ReportUtils.readItemConfigFromXml(filePath)
             ?: throw Error(
-                "[ Export][ Error]: can't load export item; path: $filePath"
+                "[ Export][ Error]: can't load report item; path: $filePath"
             )
         return ExportItem(this.dbGetter, portalKey, cfg)
     }
