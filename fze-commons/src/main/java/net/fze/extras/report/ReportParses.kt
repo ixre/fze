@@ -6,8 +6,8 @@ class ReportParses {
     companion object {
         /** parse time range like [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z] */
         @JvmStatic
-        fun parseTimeRange(s: String): Array<Long> {
-            if (s.isEmpty()) return arrayOf()
+        fun parseTimeRange(s: String): MutableList<Long> {
+            if (s.isEmpty()) return mutableListOf()
             var src = s
             if (src[0] == '[') {
                 src = src.substring(1)
@@ -18,7 +18,7 @@ class ReportParses {
             }
             return src.split(",")
                 .map { Times.unix(Times.parseISOTime(it.trim())) }
-                .toTypedArray()
+                .toMutableList()
         }
     }
 }

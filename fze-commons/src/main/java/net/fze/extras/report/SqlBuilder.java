@@ -14,7 +14,7 @@ public class SqlBuilder {
 
     public static String resolve(String origin, Map<String, Object> data)
     {
-        Pattern regex = Pattern.compile( "#if\\s+\\{([^\\}]+)\\}\\s*([\\S\\s]+?)\\s*#endif",
+        Pattern regex = Pattern.compile( "#if\\s+\\{([^\\}]+)\\}\\s*([\\S\\s]+?)\\s*#end",
                 Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
         Matcher matcher = regex.matcher(origin);
         Map<String, Object> finalData = data;
@@ -25,7 +25,8 @@ public class SqlBuilder {
             if (finalData.containsKey(p))
             {
                 Object v = finalData.get(p);
-                if (!(v == null || v.equals(false) ||  v.equals("") || TypeConv.toInt(v) == 0))
+                // 不为空,为true或者字符长度超过0均为true
+                if (checkTrue(v))
                 {
                     return i == -1 ? body : body.substring(0, i);
                 }
@@ -44,5 +45,22 @@ public class SqlBuilder {
             origin = origin.replace(matcher.group(),replace.apply(matcher));
         }
         return origin;
+    }
+
+    private static boolean checkTrue(Object v) {
+        if(v == null)return false;
+        if(v.equals(""))return false;
+        if(TypeConv.toBoolean(v))return true;
+        if (v.equals("True")) return true;
+        if (v.equals("1")) return true;
+        try {
+            return TypeConv.toInt(v) != 0;
+        } catch (Throwable ex) {
+        }
+        String s = v.toString();
+        return !(s.equals("false") || s.equals("False") || s.equals("0"));
+//        v == null || v.equals("") ||
+//                !(TypeConv.toBoolean(v)||
+//                        TypeConv.toString(v).length() > 0)
     }
 }

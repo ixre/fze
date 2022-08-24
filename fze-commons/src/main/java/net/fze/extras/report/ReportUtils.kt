@@ -1,8 +1,11 @@
 package net.fze.extras.report
 
+import net.fze.util.Times
 import net.fze.util.TypeConv
 import net.fze.util.Types
 import java.io.File
+import java.net.URLDecoder
+import java.nio.charset.Charset
 import javax.xml.bind.JAXBContext
 
 /**
@@ -45,13 +48,14 @@ class ReportUtils {
         fun parseParams(paramMappings: String?): Params {
             val params = Params(mutableMapOf())
             if (paramMappings != null && paramMappings.length > 1) {
-                if (paramMappings[0] == '{') {
-                    val mp = Types.fromJson(paramMappings, Map::class.java);
+                val query = URLDecoder.decode(paramMappings, Charset.forName("UTF-8"))
+                if (query[0] == '{') {
+                    val mp = Types.fromJson(query, Map::class.java);
                     mp.forEach {
-                        params.value[it.key.toString()] = it.value.toString()
+                        params.value[it.key.toString()] = it.value
                     }
                 } else {
-                    val mapping = paramMappings.replace("%3d", "=")
+                    val mapping = query.replace("%3d", "=")
                     val paramsArr = mapping.split(";")
                     var splitArr: List<String>
                     //添加传入的参数
@@ -72,7 +76,7 @@ class ReportUtils {
 
         // 格式化sql语句
         @JvmStatic
-        fun sqlFormat(sql: String, ht: Map<String, Any>): String {
+        fun sqlFormat(sql: String, ht: Map<String, Any?>): String {
             var formatted = SqlBuilder.resolve(sql,ht)
             for (e in ht) {
                 formatted = formatted.replace(
@@ -83,14 +87,37 @@ class ReportUtils {
             return formatted.trim()
         }
 
-        /** 生成时间范围SQL */
+        /**
+         *  生成时间范围SQL
+         *  @range :  [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+         */
         @JvmStatic
         fun timeRangeSQL(range: String, field: String): String {
             if (range == "") return ""
             val arr = ReportParses.parseTimeRange(range)
-            if (arr.size == 1) return String.format("%s >= %d", field, arr[0])
-            if (arr[1] % 3600L == 0L) arr[1] += 3600L * 24 - 1 // 添加结束时间
-            return String.format("%s BETWEEN %d AND %d", field, arr[0], arr[1])
+            return timeRangeSQL(arr,field)
+        }
+        @JvmStatic
+        fun timeRangeSQL(range: MutableList<Long>, field: String): String {
+            if(range.isEmpty()) return "";
+            if (range.size == 1) return String.format("%s >= %d", field, range[0])
+            if (range[1] % 3600L == 0L) range[1] += 3600L * 24 - 1 // 添加结束时间
+            return String.format("%s BETWEEN %d AND %d", field, range[0], range[1])
+        }
+        /**
+         *  生成时间范围SQL
+         *  @range :  [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+         */
+        @JvmStatic
+        fun timeRangeSQLByJSONTime(range: Object, field: String): String {
+            var r1 =  range as MutableList<String>;
+            if(r1 != null) {
+                var arr = range.map { Times.unix(Times.parseISOTime(it.trim())) }.toMutableList()
+                return timeRangeSQL(arr, field)
+            }
+            var r2 = range as MutableList<Long>
+            if(r2 != null)return timeRangeSQL(r2,field)
+            throw IllegalArgumentException("range only support List<Long> or List<String>")
         }
     }
 }

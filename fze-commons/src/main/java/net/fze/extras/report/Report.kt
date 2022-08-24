@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlElement
 import javax.xml.bind.annotation.XmlRootElement
 
 /** 参数 */
-class Params(internal var value: MutableMap<String, Any>) {
+class Params(internal var value: MutableMap<String, Any?>) {
     /** 获取值 */
-    fun getValue(): Map<String, Any> {
+    fun getValue(): Map<String, Any?> {
         return this.value
     }
 
