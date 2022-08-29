@@ -17,7 +17,7 @@ class SqlBuilderTest {
                 "        ORDER BY {order_by}\n" +
                 "        LIMIT {page_offset},{page_size}";
 
-       String sql1 =  SqlBuilder.resolve(origin, Maps.of("status",1));
+       String sql1 =  SqlBuilder.resolve(origin, Maps.of("status","0.0"));
        System.out.println(sql1);
         String sql2 =  SqlBuilder.resolve(origin, Maps.of("status","False1"));
         System.out.println(sql2);

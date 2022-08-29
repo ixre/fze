@@ -53,6 +53,7 @@ public class SqlBuilder {
         if(TypeConv.toBoolean(v))return true;
         if (v.equals("True")) return true;
         if (v.equals("1")) return true;
+        if(v.equals("0.0"))return false;
         try {
             return TypeConv.toInt(v) != 0;
         } catch (Throwable ex) {

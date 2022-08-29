@@ -101,7 +101,7 @@ public class ReportUtils {
         if (src.charAt(len - 1) == ']') {
             src = src.substring(0, len - 1);
         }
-        if (s.isEmpty()) return new ArrayList<>();
+        if (src.isEmpty()) return new ArrayList<>();
         return Arrays.stream(src.split(","))
                 .map(it -> Times.unix(Times.parseISOTime(it.trim())))
                 .collect(Collectors.toList());
