@@ -10,7 +10,6 @@ import java.util.jar.JarFile
 
 
 class ClassResolver internal constructor() {
-    private val pathRegexp = Regex("[\\\\/]")
 
     /**
      * 获取包下所有的类型,[pkg]包名,[filter]筛选符合条件的类型，可以为空
@@ -102,6 +101,7 @@ class ClassResolver internal constructor() {
     ): ArrayList<Class<*>> {
         val classArray = ArrayList<Class<*>>()
         val files = File(filePath).listFiles()
+         val pathRegexp = Regex("[\\\\/]")
         files?.forEach { fi ->
             if (fi.isDirectory) {
                 classArray.addAll(getFilePathClasses(loader, basePkg, fi.path, pkgPathLen, fn))

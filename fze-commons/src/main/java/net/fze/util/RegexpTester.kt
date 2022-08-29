@@ -1,13 +1,14 @@
 package net.fze.util
 
+import java.util.regex.Pattern
+
 class RegexpTester {
     companion object {
-        private val numberRegex: Regex = Regex("^(\\d)+\\.*(\\d)*$")
-        private val userRegexp: Regex = Regex("^[a-zA-Z0-9_]{6,}$")
-        private val emailRegexp: Regex = Regex("^[A-Za-z0-9_\\-]+@[a-zA-Z0-9\\-]+(\\.[a-zA-Z0-9]+)+$")
-        private val phoneRegexp: Regex =
-            Regex("^(13[0-9]|14[5|6|7]|15[0-9]|16[5|6|7|8]|18[0-9]|17[0|1|2|3|4|5|6|7|8]|19[0|1|2|3|4|6|7|8|9])(\\d{8})$")
-        private val specCharRegexp: Regex = Regex("(.+)(\\|\\$|\\^|%|#|!|\\\\/)+(.+)")
+        private val numberRegex: Pattern = Pattern.compile("^(\\d)+\\.*(\\d)*$")
+        private val userRegexp: Pattern = Pattern.compile("^[a-zA-Z0-9_]{6,}$")
+        private val emailRegexp: Pattern = Pattern.compile("^[A-Za-z0-9_\\-]+@[a-zA-Z0-9\\-]+(\\.[a-zA-Z0-9]+)+$")
+        private val phoneRegexp: Pattern = Pattern.compile("^(13[0-9]|14[5|6|7]|15[0-9]|16[5|6|7|8]|18[0-9]|17[0|1|2|3|4|5|6|7|8]|19[0|1|2|3|4|6|7|8|9])(\\d{8})$")
+        private val specCharRegexp: Pattern = Pattern.compile("(.+)(\\|\\$|\\^|%|#|!|\\\\/)+(.+)")
 
         @JvmStatic
         fun regexp(pattern: String): Regex = Regex(pattern)
@@ -23,7 +24,7 @@ class RegexpTester {
          */
         @JvmStatic
         fun testPhone(phone: String): Boolean {
-            return phoneRegexp.matches(phone)
+            return phoneRegexp.matcher(phone).find()
         }
 
         /**
@@ -35,7 +36,7 @@ class RegexpTester {
 
         @JvmStatic
         fun containSpecChar(str: String): Boolean {
-            return this.specCharRegexp.matches(str)
+            return this.specCharRegexp.matcher(str).find()
         }
 
         /**
@@ -47,7 +48,7 @@ class RegexpTester {
 
         @JvmStatic
         fun testUser(user: String): Boolean {
-            return this.userRegexp.matches(user)
+            return this.userRegexp.matcher(user).find()
         }
 
         /**
@@ -59,7 +60,7 @@ class RegexpTester {
 
         @JvmStatic
         fun testEmail(email: String): Boolean {
-            return this.emailRegexp.matches(email)
+            return this.emailRegexp.matcher(email).find()
         }
 
         /**
@@ -68,7 +69,7 @@ class RegexpTester {
         @JvmStatic
         fun isNumber(value: Any?): Boolean {
             if (value == null) return false
-            return numberRegex.matches(value.toString())
+            return numberRegex.matcher(value.toString()).find()
         }
     }
 }

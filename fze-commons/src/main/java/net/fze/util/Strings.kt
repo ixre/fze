@@ -2,9 +2,10 @@ package net.fze.util
 
 import java.security.MessageDigest
 import java.util.*
+import java.util.regex.Pattern
 
 /** 字符工具 */
-class Strings {
+class StringsKT {
     companion object {
         /**
          * 是否为空字符串或空

@@ -56,6 +56,7 @@ open class KotlinLangExtension {
 
 
     // 捕获异常,执行操作
+    @Deprecated("use Standard.tryCatch方法")
     fun <T> tryCatch(p: () -> T?): CatchResult<T> {
         return typedCatch(p)
     }

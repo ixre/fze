@@ -200,7 +200,10 @@ class TinyServletHandler() : AbstractHandler() {
             stream.write("HTTP 404: Not found".toByteArray())
             stream.flush()
             null
-        }.except { it.printStackTrace() }.error()
+        }.except {
+            it.printStackTrace()
+            return@except null;
+        }.error()
     }
 
     private fun internalError(err: Throwable, rsp: HttpServletResponse): Error? {

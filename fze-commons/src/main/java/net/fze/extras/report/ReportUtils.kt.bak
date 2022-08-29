@@ -1,0 +1,18 @@
+package net.fze.extras.report
+
+import net.fze.util.Times
+import net.fze.util.TypeConv
+import net.fze.util.Types
+import java.io.File
+import java.net.URLDecoder
+import java.nio.charset.Charset
+import java.util.regex.Pattern
+import javax.xml.bind.JAXBContext
+
+/**
+ * 导出工具类
+ */
+class ReportUtils {
+    companion object {
+
+}
