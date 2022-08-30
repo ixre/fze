@@ -1,6 +1,9 @@
 package net.fze.util;
 
+import net.fze.jdk.IndexSupplier;
+
 import java.util.*;
+import java.util.function.IntSupplier;
 
 public interface Lists {
     /**
@@ -63,5 +66,21 @@ public interface Lists {
     static <T>  List<T> sortByDescending(List<T> list, Comparator<T> c){
         List<T> dst = sort(list, c);
         return reverse(dst);
+    }
+
+    /**
+     * for each with index
+     * @param list
+     * @param supplier
+     * @param <T>
+     * @return
+     */
+    static <T> Iterable<T> forEachWithIndex(Iterable<T> list, IndexSupplier<T> supplier) {
+        Iterator<T> iterator = list.iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            supplier.apply(iterator.next(), i++);
+        }
+        return list;
     }
 }
