@@ -19,8 +19,10 @@
     ON c.agent_id=g.id
     LEFT JOIN ag_user u
     ON u.agent_id=g.id
-    LEFT JOIN (SELECT COUNT(1) AS 'count',agent_id FROM shop_list where status=1 GROUP BY agent_id)s ON s.agent_id=c.agent_id
-    WHERE c.agent_level=2 AND c.parent_id={agentId} and g.agent_name like '%{agent_name}%'
+    LEFT JOIN (SELECT COUNT(1) AS 'count',agent_id FROM shop_list where status=1 GROUP BY agent_id)s
+     ON s.agent_id=c.agent_id
+    WHERE c.agent_level=2 AND c.parent_id={agentId}
+    #if {agent_name} and g.agent_name like '%{agent_name}%' #end
         ]]>
     </Total>
     <SubQuery>

@@ -90,7 +90,7 @@ public class Times {
      * @param format 格式
      * @return 字符串
      */
-    public static String formatUnix(int unix, String format) {
+    public static String formatUnix(long unix, String format) {
         return format(unixTime(unix, 0), format);
     }
 

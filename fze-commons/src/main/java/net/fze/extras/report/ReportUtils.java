@@ -107,28 +107,44 @@ public class ReportUtils {
                 .collect(Collectors.toList());
     }
 
-    /**
-     *  生成时间范围SQL
-     *  @range :  [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
-     */
-    public static String timeRangeSQL(String range,  String field) {
-        List<Long> arr = parseTimeRange(range);
-        return timeRangeSQL(arr,field);
-    }
-    public static String timeRangeSQL(List<Long> range,  String field) {
+    public static String getTimeRangeSQL(List<Long> range, String field,boolean timestamp) {
         if(range.isEmpty()) return "";
-        if (range.size() == 1) return String.format("%s >= %d", field, range.get(0));
+        if (range.size() == 1) {
+            return timestamp?
+                    String.format("%s >= %d", field, range.get(0)):
+                    String.format("%s >= '%s'",Times.formatUnix(range.get(0),"yyyy-MM-dd HH:mm:ss"));
+        }
         if (range.get(1) % 3600L == 0L) range.set(1, range.get(1) + 3600L * 24 - 1); // 添加结束时间
+        if(!timestamp){
+            return String.format("%s BETWEEN '%s' AND '%s'", field,
+                    Times.formatUnix(range.get(0),"yyyy-MM-dd HH:mm:ss"),
+                    Times.formatUnix(range.get(1),"yyyy-MM-dd HH:mm:ss"));
+        }
         return String.format("%s BETWEEN %d AND %d", field, range.get(0), range.get(1));
     }
     /**
+     *  生成时间范围SQL,使用时间字符串
+     *  @range :  [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     */
+    public static String timeSQLByJSONTime(Object range, String field){
+        return timeSQLByJSONTime(range,field,false);
+    }
+    /**
+     *  生成时间范围SQL,使用时间戳
+     *  @range :  [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     */
+    public static String timestampSQLByJSONTime(Object range, String field){
+        return timeSQLByJSONTime(range,field,true);
+    }
+
+    /**
      *  生成时间范围SQL
      *  @range :  [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
      */
-    public static String timeRangeSQLByJSONTime( Object range,  String field) {
+    private static String timeSQLByJSONTime(Object range, String field, boolean timestamp) {
         if(range instanceof String){
             List<Long> arr = parseTimeRange((String)range);
-            return timeRangeSQL(arr,field);
+            return getTimeRangeSQL(arr,field,timestamp);
         }
         if(range instanceof List){
             List<Object> r = (List)range;
@@ -136,12 +152,12 @@ public class ReportUtils {
             if(r.get(0) instanceof String){
                 List<Long> arr = r.stream().map(a-> Times.unix(Times.parseISOTime(((String)a).trim())))
                         .collect(Collectors.toList());
-                return timeRangeSQL(arr, field);
+                return getTimeRangeSQL(arr, field,timestamp);
             }
             if(r.get(0) instanceof Number){
                 List<Long> arr = r.stream().map(a->TypeConv.toLong(a))
                         .collect(Collectors.toList());
-                return timeRangeSQL(arr, field);
+                return getTimeRangeSQL(arr, field,timestamp);
             }
         }
         throw new Error("range only support List<Long> or List<String>");
