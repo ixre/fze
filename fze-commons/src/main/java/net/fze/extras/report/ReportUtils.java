@@ -113,7 +113,13 @@ public class ReportUtils {
         }
         if (src.isEmpty()) return new ArrayList<>();
         return Arrays.stream(src.split(","))
-                .map(it -> Times.unix(Times.parseISOTime(it.trim())))
+                .map(it -> {
+                    if (Pattern.matches("^\\d+$", it)) {
+                        Long l = TypeConv.toLong(it);
+                        return l > 1E12 ? l / 1000 : l;
+                    }
+                    return Times.unix(Times.parseISOTime(it.trim()));
+                })
                 .collect(Collectors.toList());
     }
 
@@ -172,7 +178,7 @@ public class ReportUtils {
             if (r.get(0) instanceof Number) {
                 List<Long> arr = r.stream().map(a -> {
                             Long l = TypeConv.toLong(a);
-                            return l > 1E13 ? l / 1000 : l;
+                            return l > 1E12 ? l / 1000 : l;  // 1E12 为13位数字
                         }).collect(Collectors.toList());
                 return getTimeRangeSQL(arr, field, timestamp);
             }

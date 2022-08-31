@@ -11,6 +11,10 @@ class ReportUtilsTest {
         System.out.println(create_time);
         String create_time2 = ReportUtils.timeSQLByJSONTime("[2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]", "create_time");
         System.out.println(create_time2);
+        String create_time3 = ReportUtils.timestampSQLByJSONTime("[1661335074674,1661939874674]", "create_time");
+        System.out.println(create_time3);
+
+
 
     }
 
