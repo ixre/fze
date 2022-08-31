@@ -68,7 +68,6 @@ class DataResult {
     var err: String = ""
 }
 
-
 //数据导出入口
 interface IReportPortal {
     //导出的列名(比如：数据表是因为列，这里我需要列出中文列)
