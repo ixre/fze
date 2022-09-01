@@ -3,11 +3,11 @@ package net.fze.extras.report;
 import net.fze.util.Strings;
 
 public class ReportHub {
-    private IDbProvider provider;
+    private IConnProvider provider;
     private String rootPath;
     private boolean cacheFiles;
 
-    public ReportHub(IDbProvider provider, String rootPath, boolean cacheFiles) {
+    public ReportHub(IConnProvider provider, String rootPath, boolean cacheFiles) {
         this.provider = provider;
         this.rootPath = rootPath;
         this.cacheFiles = cacheFiles;

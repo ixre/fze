@@ -110,12 +110,6 @@ public  class Strings {
         return Base64.getDecoder().decode(s);
     }
 
-    /** 如果s为空,则返回e, 反之返回s */
-    public static String emptyElse( String s,  String e)  {
-        if (s == null || s.isEmpty()) return e;
-        return s;
-    }
-
     private static final String letterStr = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     // 返回随机字符串,[n]:长度

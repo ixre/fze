@@ -1,7 +1,6 @@
-package net.fze.util
+package net.fze.util.concurrent
 
 import net.fze.lib.storage.Storage
-import net.fze.util.concurrent.TokenBucket
 
 
 /**

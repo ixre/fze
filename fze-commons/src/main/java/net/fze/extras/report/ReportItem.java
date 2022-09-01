@@ -10,18 +10,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 
 // 导出项目
 public class ReportItem implements IReportPortal {
-    private IDbProvider dbProvider;
+    private IConnProvider dbProvider;
     private ItemConfig sqlConfig;
 
     private ColumnMapping[] mapping  = null;
-    public ReportItem(IDbProvider db,ItemConfig cfg){
+    public ReportItem(IConnProvider db, ItemConfig cfg){
     this.dbProvider = db;
     this.sqlConfig = cfg;
     }
@@ -77,7 +75,7 @@ public class ReportItem implements IReportPortal {
         }
         p.set("page_end", String.valueOf(pageIndex * pageSize));
         // 创建连接
-        Connection conn = this.dbProvider.getDB();
+        Connection conn = this.dbProvider.getConn();
         //统计总行数
         if (this.sqlConfig.getTotal() != "") {
             String sql = ReportUtils.sqlFormat(this.sqlConfig.getTotal(), p.getValue());

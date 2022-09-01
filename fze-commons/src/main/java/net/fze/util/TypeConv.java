@@ -16,7 +16,7 @@ public class TypeConv {
      */
     public static String toString(Object obj, String defaultVal) {
         if (obj == null) return defaultVal;
-        if (obj == "" && defaultVal == "0") return "0";
+        if (obj.equals("") && defaultVal.equals( "0")) return "0";
         return obj.toString();
     }
 

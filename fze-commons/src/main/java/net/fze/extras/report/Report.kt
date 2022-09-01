@@ -55,9 +55,9 @@ class ExportParams {
 }
 
 /** 数据库提供者 */
-interface IDbProvider {
+interface IConnProvider {
     /** 获取数据库连接 */
-    fun getDB(): Connection
+    fun getConn(): Connection
 }
 
 //数据导出入口

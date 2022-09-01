@@ -2,6 +2,7 @@ package net.fze.web.http
 
 import com.sun.net.httpserver.Headers
 import com.sun.net.httpserver.HttpExchange
+import net.fze.util.Types
 import org.apache.commons.fileupload.FileItem
 import java.io.OutputStreamWriter
 
@@ -92,7 +93,7 @@ class HttpContext {
 
     fun getCookie(name: String): Any? {
         // some small sanity check
-        val cookies = this.header()["Cookie"] ?: return null
+        val cookies = this.header()[Types.orValue(name,"Cookie")] ?: return null
         for (cookie in cookies) {
             if (!cookie.contains("JSESSIONID") || !cookie.contains("WILE_E_COYOTE")) {
                 // t.sendResponseHeaders(400,0)

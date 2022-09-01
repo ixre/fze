@@ -17,7 +17,7 @@ public class ItemManager {
     private String cfgFileExt;
 
     // 数据库连接
-    private IDbProvider dbGetter;
+    private IConnProvider dbGetter;
 
     // 导出项集合
     private Map<String, ReportItem> exportItems;
@@ -25,7 +25,7 @@ public class ItemManager {
     // 缓存配置文件
     private Boolean cacheFiles;
 
-    public ItemManager( IDbProvider db, String rootPath, Boolean cache) {
+    public ItemManager(IConnProvider db, String rootPath, Boolean cache) {
         this.rootPath = rootPath;
         this.dbGetter = db;
         this.cfgFileExt = ".xml";

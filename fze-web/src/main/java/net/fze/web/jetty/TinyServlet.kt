@@ -192,7 +192,7 @@ class TinyServletHandler() : AbstractHandler() {
     }
 
     private fun notfound(rsp: HttpServletResponse): Error? {
-        return Standard.std.tryCatch {
+        return Standard.tryCatch {
             rsp.status = 404
             rsp.setHeader("Content-Type", "text/plain; charset=utf-8")
             rsp.resetBuffer()

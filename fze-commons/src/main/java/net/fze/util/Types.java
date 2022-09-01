@@ -6,9 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +22,18 @@ public class Types {
      * @param d 默认值
      * @return 不为空的值
      */
+    public static <T> T orValue(T v, T d) {
+        return v == null || v.equals("") ? d : v;
+    }
+
+    /**
+     * 获取值，如果v为空，返回默认值d,使用orValue代替
+     *
+     * @param v 值
+     * @param d 默认值
+     * @return 不为空的值
+     */
+    @Deprecated()
     public static <T> T valueOrDefault(T v, T d) {
         return v == null ? d : v;
     }
@@ -84,75 +94,11 @@ public class Types {
     /**
      * 使用Dozer将对象隐式转换
      *
-     * @param src     数据对象
-     * @param classes 目标对象的类型
      */
 //    public static <T> T mapObject(Object src, Class<T> classes) {
 //        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
 //        return mapper.map(src, classes);
 //    }
-
-    /**
-     * 作为数组返回
-     *
-     * @param list 列表
-     * @param p    表达式
-     * @return 数组
-     */
-    public static <T, K> K[] asArray(List<T> list, TProp<T, K> p) {
-        if (list == null || list.size() == 0) return null;
-        int i = 0;
-        K tmp;
-        K[] arr = null;
-        for (T e : list) {
-            tmp = p.get(e);
-            if (arr == null) {
-                Class<?> c = tmp.getClass();
-                Class<?> cc = c.getComponentType();
-                if (cc != null) c = cc;
-                arr = (K[]) Array.newInstance(c, list.size());
-            }
-            arr[i++] = p.get(e);
-        }
-        return arr;
-    }
-
-    /**
-     * 将集合转成数组
-     */
-    public static <T> T[] toArray(Collection<T> list) {
-        if (list == null || list.size() == 0) return null;
-        int i = 0;
-        T[] arr = null;
-        for (T e : list) {
-            if (arr == null) {
-                Class<?> c = e.getClass();
-                Class<?> cc = c.getComponentType();
-                if (cc != null) c = cc;
-                arr = (T[]) Array.newInstance(c, list.size());
-            }
-            arr[i++] = e;
-        }
-        return arr;
-    }
-
-    public static <T> void each(Iterable<T> e, TCond<T> c) {
-        for (T t : e) if (!c.test(t)) break;
-    }
-
-    public static <T> void each(Iterable<T> e, TFunc<T> f) {
-        for (T t : e) f.call(t);
-    }
-
-    public static <T> void eachArray(T[] e, TCond<T> c) {
-        for (T t : e) if (!c.test(t)) break;
-    }
-
-    public static <T> void eachArray(T[] e, TFunc<T> f) {
-        for (T t : e) {
-            f.call(t);
-        }
-    }
 
     /**
      * 克隆一个字典

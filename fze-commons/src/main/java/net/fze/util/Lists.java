@@ -2,8 +2,8 @@ package net.fze.util;
 
 import net.fze.jdk.IndexSupplier;
 
+import java.lang.reflect.Array;
 import java.util.*;
-import java.util.function.IntSupplier;
 
 public interface Lists {
     /**
@@ -83,4 +83,66 @@ public interface Lists {
         }
         return list;
     }
+
+
+    /**
+     * 作为数组返回
+     *
+     * @param list 列表
+     * @param p    表达式
+     * @return 数组
+     */
+    static <T, K> K[] asArray(List<T> list, Types.TProp<T, K> p) {
+        if (list == null || list.size() == 0) return null;
+        int i = 0;
+        K tmp;
+        K[] arr = null;
+        for (T e : list) {
+            tmp = p.get(e);
+            if (arr == null) {
+                Class<?> c = tmp.getClass();
+                Class<?> cc = c.getComponentType();
+                if (cc != null) c = cc;
+                arr = (K[]) Array.newInstance(c, list.size());
+            }
+            arr[i++] = p.get(e);
+        }
+        return arr;
+    }
+
+    /**
+     * 将集合转成数组
+     */
+    static <T> T[] toArray(Collection<T> list) {
+        if (list == null || list.size() == 0) return null;
+        int i = 0;
+        T[] arr = null;
+        for (T e : list) {
+            if (arr == null) {
+                Class<?> c = e.getClass();
+                Class<?> cc = c.getComponentType();
+                if (cc != null) c = cc;
+                arr = (T[]) Array.newInstance(c, list.size());
+            }
+            arr[i++] = e;
+        }
+        return arr;
+    }
+
+    static <T> void each(Iterable<T> e, Types.TCond<T> c) {
+        for (T t : e) if (!c.test(t)) break;
+    }
+
+    static <T> void each(Iterable<T> e, Types.TFunc<T> f) {
+        for (T t : e) f.call(t);
+    }
+
+    static <T> void eachArray(T[] e, Types.TCond<T> c) {
+        for (T t : e) if (!c.test(t)) break;
+    }
+
+    static <T> void eachArray(T[] e, Types.TFunc<T> f) {
+        for (T t : e)  f.call(t);
+    }
+
 }
