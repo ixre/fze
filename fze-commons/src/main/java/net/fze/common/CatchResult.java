@@ -14,9 +14,9 @@ public class CatchResult<T> {
     }
 
     // 处理错误
-    public CatchResult<T> except(Function<Throwable,Void> p)  {
+    public CatchResult<T> except(Function<Throwable,T> p)  {
         this.excepted = true;
-        if (this.ex != null) p.apply(this.ex);
+        if (this.ex != null) this.t = p.apply(this.ex);
         return this;
     }
 

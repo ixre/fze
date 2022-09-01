@@ -103,13 +103,17 @@ public class Standard {
         return pt.getActualTypeArguments()[index];
     }
 
-    // 捕获异常,执行操作
+    /** 捕获异常,执行操作 */
     public static <T> CatchResult<T> tryCatch(Supplier<T> p) {
         try {
             return new CatchResult(null, p.get());
         } catch (Throwable ex) {
             return new CatchResult(ex, null);
         }
+    }
+    /** 捕获错误 */
+    public static <T> Error catchError(Supplier<T> p) {
+        return tryCatch(p).error();
     }
 
     public static void setDefaultExceptionHandler( Thread.UncaughtExceptionHandler handler) {
