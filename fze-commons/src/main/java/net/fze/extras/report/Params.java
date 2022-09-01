@@ -15,17 +15,17 @@ public class Params {
     }
 
     /** 从Map中拷贝数据 */
-    public void copy(Map<String, String> src) {
+    public void copy(Map<String, Object> src) {
         src.forEach((k,v) ->{
             if (k.equals("total") || k.equals("rows") || k.equals("params")) {
                 return;
             }
-            this.value.put(k, v.trim());
+            this.value.put(k, v);
         });
     }
 
     /** 添加参数 */
-    public void set(String key, String value) {
+    public void set(String key, Object value) {
         this.value.put(key, value);
     }
 

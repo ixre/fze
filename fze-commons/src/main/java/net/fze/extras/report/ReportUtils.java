@@ -62,7 +62,7 @@ public class ReportUtils {
             if (query.charAt(0) == '{') {
                 Map<String, Object> mp = Types.fromJson(query, Map.class);
                 mp.forEach((k, v) -> {
-                    params.set(k, v.toString());
+                    params.set(k, v);
                 });
             } else {
                 String mapping = query.replace("%3d", "=");

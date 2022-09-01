@@ -3,6 +3,9 @@ package net.fze.extras.report;
 import net.fze.util.Types;
 import org.junit.jupiter.api.Test;
 
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
+
 class ReportUtilsTest {
 
     @Test
@@ -31,5 +34,17 @@ class ReportUtilsTest {
         String query= "%7B%22keyword%22%3A%22%22%2C%22where%22%3A%220%3D0%22%2C%22declare_org%22%3A%22%22%2C%22order_no%22%3A%22%22%2C%22status%22%3A0%2C%22time_range%22%3A%5B%5D%2C%22order_by%22%3A%22id%20DESC%22%7D";
         Params params = ReportUtils.parseParams(query);
         System.out.println(Types.toJson(params.getValue()));
+    }
+
+    @Test
+    void testParseTimeParses(){
+        String query = "%7B%22keyword%22%3A%22%22%2C%22where%22%3A%220%3D0%22%2C%22cus_code%22%3A%22%22%2C%22sales_code%22%3A%22%22%2C%22time_range%22%3A%5B1661388569294%2C1661993369294%5D%2C%22state%22%3A-1%2C%22order_by%22%3A%22id%20DESC%22%7D";
+        Params params = ReportUtils.parseParams(query);
+        System.out.println(Types.toJson(params.getValue()));
+        
+        String decode = URLDecoder.decode(query);
+        System.out.println("query="+decode);
+        String create_time2 = ReportUtils.timeSQLByJSONTime(params.get("time_range"), "create_time");
+        System.out.println(create_time2);
     }
 }
