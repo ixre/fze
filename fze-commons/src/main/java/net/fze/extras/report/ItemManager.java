@@ -57,15 +57,15 @@ public class ItemManager {
         String filePath = Strings.join(Lists.of(pwd, this.rootPath, portalKey, this.cfgFileExt),"");
         File f =  new File(filePath);
         if (!f.exists()) {
-            throw new Error("[ Export][ Error]: no such file; path: $filePath");
+            throw new Error("[ Export][ Error]: no such file; path: "+filePath);
         }
         if (f.isDirectory()) {
-            throw new Error("[ Export][ Error]: report item config is a directory; path: $filePath");
+            throw new Error("[ Export][ Error]: report item config is a directory; path: "+filePath);
         }
         ItemConfig cfg = ReportUtils.readItemConfigFromXml(filePath);
         if(cfg == null){
                 throw new Error(
-                "[ Export][ Error]: can't load report item; path: $filePath");
+                "[ Export][ Error]: can't load report item; path: "+filePath);
         }
         return new ReportItem(this.dbGetter, cfg);
     }
