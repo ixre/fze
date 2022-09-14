@@ -12,7 +12,9 @@ import java.util.Map;
 
 /**
  * 分页结果
+ * @deprecated  use PagingResult instead of
  */
+@Deprecated()
 public class PagingData {
     /**
      * 代码
