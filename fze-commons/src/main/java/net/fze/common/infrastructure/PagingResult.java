@@ -10,23 +10,23 @@ public class PagingResult<T> {
      * 总数
      */
 
-    private int count;
+    private long count;
     /**
      * 数据
      */
     private List<T> list;
 
 
-    public PagingResult(List<T> list,int count){
+    public PagingResult(List<T> list,long count){
         this.list = list;
         this.count = count;
     }
 
-    public int getCount() {
+    public long getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(long count) {
         this.count = count;
     }
 
