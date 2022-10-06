@@ -34,13 +34,16 @@ public class PagingParams {
      * @param opt 分页参数
      */
     public static PagingParams fix(PagingParams opt) {
-        if (opt == null) opt = new PagingParams();
-        if (opt.getOrderField() == null) opt.setOrderField("");
+        if (opt == null)
+            opt = new PagingParams();
+        if (opt.getOrderField() == null)
+            opt.setOrderField("");
         if (opt.getOpt() == null) {
             opt.setOpt(new HashMap<>());
         } else {
             for (Map.Entry<String, String> e : opt.getOpt().entrySet()) {
-                if (e.getValue() == null) opt.getOpt().remove(e.getKey());
+                if (e.getValue() == null)
+                    opt.getOpt().remove(e.getKey());
             }
         }
         return opt;

@@ -10,7 +10,6 @@ import java.util.Set;
 
 public class Formatter {
 
-
     /**
      * 将键集合转为SQL
      *
@@ -43,8 +42,9 @@ public class Formatter {
             sw.append(" ORDER BY ").append(orderField).append(orderDesc ? " DESC" : " ASC");
         }
         if (over > begin) {
-            if (begin < 0) begin = 0;
-            //todo mysql limit 按分页数分页
+            if (begin < 0)
+                begin = 0;
+            // todo mysql limit 按分页数分页
             int connt = over - begin;
             sw.append(" LIMIT ").append(String.valueOf(begin))
                     .append(",").append(String.valueOf(connt));
@@ -65,7 +65,6 @@ public class Formatter {
         }
         return String.join(",", sa);
     }
-
 
     /**
      * 获取订单类型键

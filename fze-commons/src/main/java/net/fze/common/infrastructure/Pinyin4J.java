@@ -59,7 +59,7 @@ public class Pinyin4J {
                 } else if (str.matches("[a-zA-Z]+")) {// 如果字符是字母,取字母
                     hanyupinyin += cl_chars[i];
                 } else {// 否则不转换
-                    hanyupinyin += cl_chars[i];//如果是标点符号的话，带着
+                    hanyupinyin += cl_chars[i];// 如果是标点符号的话，带着
                 }
             }
         } catch (BadHanyuPinyinOutputFormatCombination e) {

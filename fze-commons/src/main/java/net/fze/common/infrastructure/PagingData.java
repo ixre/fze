@@ -6,13 +6,13 @@ package net.fze.common.infrastructure;
   description: 
  */
 
-
 import java.util.List;
 import java.util.Map;
 
 /**
  * 分页结果
- * @deprecated  use PagingResult instead of
+ * 
+ * @deprecated use PagingResult instead of
  */
 @Deprecated()
 public class PagingData {

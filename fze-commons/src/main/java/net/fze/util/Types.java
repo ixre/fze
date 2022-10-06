@@ -1,10 +1,8 @@
 package net.fze.util;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -43,20 +41,18 @@ public class Types {
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
             .create();
 
-    private static Gson getGson(){
-       // return new Gson();
+    private static Gson getGson() {
+        // return new Gson();
         return gson;
     }
 
-    @NotNull
-    public static String toJson(@NotNull Object obj) {
+    public static String toJson(Object obj) {
         if (obj instanceof Integer || obj instanceof Long || obj instanceof Float ||
                 obj instanceof Double || obj instanceof Boolean || obj instanceof String) {
             return String.valueOf(obj);
         }
         return getGson().toJson(obj);
     }
-
 
     /**
      * 反序列化
@@ -66,7 +62,6 @@ public class Types {
     public static <T> T fromJson(String json, Class<T> c) {
         return getGson().fromJson(json, c);
     }
-
 
     /**
      * 反序列化(泛型)
@@ -95,10 +90,10 @@ public class Types {
      * 使用Dozer将对象隐式转换
      *
      */
-//    public static <T> T mapObject(Object src, Class<T> classes) {
-//        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
-//        return mapper.map(src, classes);
-//    }
+    // public static <T> T mapObject(Object src, Class<T> classes) {
+    // Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+    // return mapper.map(src, classes);
+    // }
 
     /**
      * 克隆一个字典
@@ -124,7 +119,7 @@ public class Types {
      * 将json数组反序列化为列表
      */
     public <T> List<T> fromArrayJson(String json, Class<T> typeOfT) {
-        Type gt = TypeToken.getParameterized(List.class, new Type[]{typeOfT}).getType();
+        Type gt = TypeToken.getParameterized(List.class, new Type[] { typeOfT }).getType();
         return new Gson().fromJson(json, gt);
     }
 
@@ -140,11 +135,12 @@ public class Types {
         void call(T t);
     }
     /*
-    public static <T> void eachArray(Iterator<T> e, TFunc<T> f) {
-        while (e.hasNext()) {
-            f.call(e.next());
-        }
-    }*/
+     * public static <T> void eachArray(Iterator<T> e, TFunc<T> f) {
+     * while (e.hasNext()) {
+     * f.call(e.next());
+     * }
+     * }
+     */
 
     /**
      * 判断ra,rb是否在la,lb区间内

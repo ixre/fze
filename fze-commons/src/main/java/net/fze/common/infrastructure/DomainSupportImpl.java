@@ -10,7 +10,6 @@ public class DomainSupportImpl implements DomainSupport {
     private Formatter _formatter;
     private Generator _generator;
 
-
     public Pinyin4J pinyin() {
         if (this._pinyin == null) {
             this._pinyin = new Pinyin4J();

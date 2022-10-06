@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ReportUtils {
-    private static final Pattern injectRegexp =
-            Pattern.compile("\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|DELETE.+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)");
+    private static final Pattern injectRegexp = Pattern.compile(
+            "\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|DELETE.+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)");
 
     /**
      * 获取列映射数组
@@ -35,21 +35,21 @@ public class ReportUtils {
      */
     public static ColumnMapping[] parseColumnMapping(String str) {
         throw new Error("not implement");
-            /*
-            re, err := regexp.Compile("([^:]+):([^;]*);*\\s*")
-            if err != nil {
-                return nil
-            }
-            var matches = re.FindAllStringSubmatch(str, -1)
-            if matches == nil {
-                return nil
-            }
-            columnsMapping := make([]ColumnMapping, len(matches))
-            for i, v := range matches {
-                columnsMapping[i] = ColumnMapping{Field: v[1], Name: v[2]}
-            }
-            return columnsMapping
-            */
+        /*
+         * re, err := regexp.Compile("([^:]+):([^;]*);*\\s*")
+         * if err != nil {
+         * return nil
+         * }
+         * var matches = re.FindAllStringSubmatch(str, -1)
+         * if matches == nil {
+         * return nil
+         * }
+         * columnsMapping := make([]ColumnMapping, len(matches))
+         * for i, v := range matches {
+         * columnsMapping[i] = ColumnMapping{Field: v[1], Name: v[2]}
+         * }
+         * return columnsMapping
+         */
     }
 
     /**
@@ -68,7 +68,7 @@ public class ReportUtils {
                 String mapping = query.replace("%3d", "=");
                 String[] paramsArr = mapping.split(";");
                 String[] splitArr;
-                //添加传入的参数
+                // 添加传入的参数
                 for (int i = 0; i < paramsArr.length; i++) {
                     splitArr = paramsArr[i].split(":");
                     int l = splitArr[0].length() + 1;
@@ -92,8 +92,7 @@ public class ReportUtils {
         for (Map.Entry<String, Object> e : ht.entrySet()) {
             formatted = formatted.replace(
                     "{" + e.getKey() + "}",
-                    TypeConv.toString(e.getValue())
-            );
+                    TypeConv.toString(e.getValue()));
         }
         return formatted.trim();
     }
@@ -102,7 +101,8 @@ public class ReportUtils {
      * parse time range like [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
      */
     public static List<Long> parseTimeRange(String s) {
-        if (Strings.isNullOrEmpty(s)) return new ArrayList<>();
+        if (Strings.isNullOrEmpty(s))
+            return new ArrayList<>();
         String src = s;
         if (src.charAt(0) == '[') {
             src = src.substring(1);
@@ -111,7 +111,8 @@ public class ReportUtils {
         if (src.charAt(len - 1) == ']') {
             src = src.substring(0, len - 1);
         }
-        if (src.isEmpty()) return new ArrayList<>();
+        if (src.isEmpty())
+            return new ArrayList<>();
         return Arrays.stream(src.split(","))
                 .map(it -> {
                     if (Pattern.matches("^\\d+$", it)) {
@@ -124,13 +125,14 @@ public class ReportUtils {
     }
 
     public static String getTimeRangeSQL(List<Long> range, String field, boolean timestamp) {
-        if (range.isEmpty()) return "";
+        if (range.isEmpty())
+            return "";
         if (range.size() == 1) {
-            return timestamp ?
-                    String.format("%s >= %d", field, range.get(0)) :
-                    String.format("%s >= '%s'", Times.formatUnix(range.get(0), "yyyy-MM-dd HH:mm:ss"));
+            return timestamp ? String.format("%s >= %d", field, range.get(0))
+                    : String.format("%s >= '%s'", Times.formatUnix(range.get(0), "yyyy-MM-dd HH:mm:ss"));
         }
-        if (range.get(1) % 3600L == 0L) range.set(1, range.get(1) + 3600L * 24 - 1); // 添加结束时间
+        if (range.get(1) % 3600L == 0L)
+            range.set(1, range.get(1) + 3600L * 24 - 1); // 添加结束时间
         if (!timestamp) {
             return String.format("%s BETWEEN '%s' AND '%s'", field,
                     Times.formatUnix(range.get(0), "yyyy-MM-dd HH:mm:ss"),
@@ -142,7 +144,7 @@ public class ReportUtils {
     /**
      * 生成时间范围SQL,使用时间字符串
      *
-     * @range :  [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     * @range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
      */
     public static String timeSQLByJSONTime(Object range, String field) {
         return timeSQLByJSONTime(range, field, false);
@@ -151,7 +153,7 @@ public class ReportUtils {
     /**
      * 生成时间范围SQL,使用时间戳
      *
-     * @range :  [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     * @range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
      */
     public static String timestampSQLByJSONTime(Object range, String field) {
         return timeSQLByJSONTime(range, field, true);
@@ -160,7 +162,7 @@ public class ReportUtils {
     /**
      * 生成时间范围SQL
      *
-     * @range :  [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     * @range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
      */
     private static String timeSQLByJSONTime(Object range, String field, boolean timestamp) {
         if (range instanceof String) {
@@ -169,7 +171,8 @@ public class ReportUtils {
         }
         if (range instanceof List) {
             List<Object> r = (List) range;
-            if (r.size() == 0) return "";
+            if (r.size() == 0)
+                return "";
             if (r.get(0) instanceof String) {
                 List<Long> arr = r.stream().map(a -> Times.unix(Times.parseISOTime(((String) a).trim())))
                         .collect(Collectors.toList());
@@ -177,9 +180,9 @@ public class ReportUtils {
             }
             if (r.get(0) instanceof Number) {
                 List<Long> arr = r.stream().map(a -> {
-                            Long l = TypeConv.toLong(a);
-                            return l > 1E12 ? l / 1000 : l;  // 1E12 为13位数字
-                        }).collect(Collectors.toList());
+                    Long l = TypeConv.toLong(a);
+                    return l > 1E12 ? l / 1000 : l; // 1E12 为13位数字
+                }).collect(Collectors.toList());
                 return getTimeRangeSQL(arr, field, timestamp);
             }
         }

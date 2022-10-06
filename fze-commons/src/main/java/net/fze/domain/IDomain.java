@@ -11,4 +11,3 @@ public interface IDomain<T> {
      */
     T getDomainId();
 }
-

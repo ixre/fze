@@ -5,7 +5,6 @@ package net.fze.common.infrastructure;
  */
 public interface DomainSupport {
 
-
     /**
      * 拼音
      *

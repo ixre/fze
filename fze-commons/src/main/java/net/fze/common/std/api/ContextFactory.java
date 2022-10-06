@@ -3,7 +3,6 @@ package net.fze.common.std.api;
 import java.util.HashMap;
 import java.util.Map;
 
-
 // 上下文工厂
 public interface ContextFactory {
     static ContextFactory build(Map<String, Object> registry) {

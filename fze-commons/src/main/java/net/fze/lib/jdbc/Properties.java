@@ -17,9 +17,9 @@ public class Properties {
      *
      * @return 返回连接池
      */
-    //public ComboPooledDataSource pool() {
-    //    return this.ds;
-    //}
+    // public ComboPooledDataSource pool() {
+    // return this.ds;
+    // }
 
     /**
      * 设置间隔尝试连接

@@ -7,7 +7,6 @@ package net.fze.common.infrastructure;
  */
 
 import net.fze.common.LangExtension;
-import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +18,6 @@ public class Generator {
         this._lang = lang;
     }
 
-    @NotNull
     public String createOrderNo(String prefix) {
         SimpleDateFormat fmt = new SimpleDateFormat("yyMMdd");
         String datePrefix = fmt.format(new Date());

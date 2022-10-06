@@ -1,6 +1,5 @@
 package net.fze.valueobject;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,8 @@ public class NodeObjectUtil {
     public static <T extends INodeObject> void walkNode(NodeObject root, List<T> list) {
         list.stream().filter(it -> it.getParent().equals(root.getId())).forEach(it -> {
             NodeObject child = it.get();
-            if (child.getChildren() == null) child.setChildren(new ArrayList<>());
+            if (child.getChildren() == null)
+                child.setChildren(new ArrayList<>());
             root.getChildren().add(child);
             walkNode(child, list);
         });

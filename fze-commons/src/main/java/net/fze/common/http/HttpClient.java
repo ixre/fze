@@ -2,8 +2,6 @@ package net.fze.common.http;
 
 import net.fze.util.Maps;
 import net.fze.util.Types;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -28,7 +26,6 @@ public class HttpClient {
         return HttpUtilsKt.doRequest(req);
     }
 
-    @NotNull
     private static HttpRequestBuilder newRequest(String url, String method) {
         Map<String, String> header = Maps.of("User-Agent", USER_AGENT);
         return HttpRequestBuilder.create(url, method).headers(header);
@@ -71,7 +68,7 @@ public class HttpClient {
     /**
      * 将参数转为二进制数组
      */
-    public static byte[] parseBody(@Nullable Map<String, String> params) {
+    public static byte[] parseBody(Map<String, String> params) {
         return HttpUtilsKt.parseBody(params, false);
     }
 
@@ -81,8 +78,9 @@ public class HttpClient {
      * @param params
      * @return
      */
-    public static byte[] parseJsonBody(@NotNull Object params) {
-        if (params == null) return null;
+    public static byte[] parseJsonBody(Object params) {
+        if (params == null)
+            return null;
         return Types.toJson(params).getBytes();
     }
 }

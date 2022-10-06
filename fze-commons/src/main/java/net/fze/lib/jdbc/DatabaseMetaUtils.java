@@ -1,6 +1,5 @@
 package net.fze.lib.jdbc;
 
-
 import net.fze.util.TypeConv;
 
 import java.sql.Connection;
@@ -24,10 +23,10 @@ public class DatabaseMetaUtils {
             col.setComment(rs.getString(ResultSetColumnLabel.REMARKS.name()));
             col.setDefaultValue(rs.getString(ResultSetColumnLabel.COLUMN_DEF.name()));
             int flag = 0;
-            //ResultSet keys = dbmeta.getPrimaryKeys(catalog, schema, tableName);
-//            if (rs.getBoolean("IS_PRIMARY")) {
-//                flag = flag | ColumnFlag.PK.getValue();
-//            }
+            // ResultSet keys = dbmeta.getPrimaryKeys(catalog, schema, tableName);
+            // if (rs.getBoolean("IS_PRIMARY")) {
+            // flag = flag | ColumnFlag.PK.getValue();
+            // }
             if (rs.getBoolean("IS_NULLABLE")) {
                 flag = flag | ColumnFlag.NULLABLE.getValue();
             }

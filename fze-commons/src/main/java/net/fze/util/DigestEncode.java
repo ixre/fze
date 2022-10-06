@@ -10,9 +10,11 @@ public class DigestEncode {
     /**
      * encode string
      *
-     * <p>return DigestEncode.encode("sha1", data); }
+     * <p>
+     * return DigestEncode.encode("sha1", data); }
      *
-     * <p>return DigestEncode.encode("md5",data);
+     * <p>
+     * return DigestEncode.encode("md5",data);
      *
      * @param algorithm 算法
      * @param bytes     字节

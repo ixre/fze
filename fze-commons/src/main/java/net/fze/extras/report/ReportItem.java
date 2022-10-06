@@ -1,12 +1,9 @@
 package net.fze.extras.report;
 
-
 import net.fze.util.Lists;
 import net.fze.util.Maps;
 import net.fze.util.Strings;
 import net.fze.util.TypeConv;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,23 +15,20 @@ public class ReportItem implements IReportPortal {
     private IConnProvider dbProvider;
     private ItemConfig sqlConfig;
 
-    private ColumnMapping[] mapping  = null;
-    public ReportItem(IConnProvider db, ItemConfig cfg){
-    this.dbProvider = db;
-    this.sqlConfig = cfg;
+    private ColumnMapping[] mapping = null;
+
+    public ReportItem(IConnProvider db, ItemConfig cfg) {
+        this.dbProvider = db;
+        this.sqlConfig = cfg;
     }
-
-
-
-
 
     /** 判断注入 */
     private String check(String sql) throws SQLException {
-        if (!ReportUtils.checkInject(sql)) throw new SQLException("sql is dangers");
+        if (!ReportUtils.checkInject(sql))
+            throw new SQLException("sql is dangers");
         return sql;
     }
 
-    @NotNull
     @Override
     public ColumnMapping[] getColumnMapping() {
         if (this.mapping == null) {
@@ -44,19 +38,16 @@ public class ReportItem implements IReportPortal {
         return this.mapping;
     }
 
-
-
     /** 去掉空格和换行 */
     private String formatMappingString(String columnMapping) {
-        return Strings.replace(columnMapping,"\\s|\\n",a->"");
+        return Strings.replace(columnMapping, "\\s|\\n", a -> "");
     }
 
-    @NotNull
     @Override
-    public DataResult getSchemaAndData(@NotNull Params p) {
+    public DataResult getSchemaAndData(Params p) {
         DataResult r = new DataResult();
         r.setRows(Lists.of());
-        //初始化添加参数
+        // 初始化添加参数
         if (!p.contains("page_size")) {
             p.set("page_size", "10000000000");
         }
@@ -68,7 +59,7 @@ public class ReportItem implements IReportPortal {
         int pageSize = TypeConv.toInt(p.get("page_size"));
         // 设置SQL分页信息
         if (pageIndex > 0) {
-            String offset =String.valueOf ((pageIndex - 1) * pageSize);
+            String offset = String.valueOf((pageIndex - 1) * pageSize);
             p.set("page_offset", offset);
         } else {
             p.set("page_offset", "0");
@@ -76,7 +67,7 @@ public class ReportItem implements IReportPortal {
         p.set("page_end", String.valueOf(pageIndex * pageSize));
         // 创建连接
         Connection conn = this.dbProvider.getConn();
-        //统计总行数
+        // 统计总行数
         if (this.sqlConfig.getTotal() != "") {
             String sql = ReportUtils.sqlFormat(this.sqlConfig.getTotal(), p.getValue());
             try {
@@ -87,49 +78,46 @@ public class ReportItem implements IReportPortal {
                 }
                 stmt.close();
                 rs.close();
-            } catch (Throwable ex ) {
+            } catch (Throwable ex) {
                 ex.printStackTrace();
-                r.setErr( "[ Export][ Error] -" + ex.getMessage() + "\n" + sql);
+                r.setErr("[ Export][ Error] -" + ex.getMessage() + "\n" + sql);
             }
         }
         try {
             if (this.sqlConfig.getQuery() != "") {
-                r.setRows( this.execQuery(conn, this.sqlConfig.getQuery(), p));
+                r.setRows(this.execQuery(conn, this.sqlConfig.getQuery(), p));
             } else {
-                r.setErr( "not contain any query");
+                r.setErr("not contain any query");
             }
             if (this.sqlConfig.getSubQuery() != "") {
-                r.setSub( this.execQuery(conn, this.sqlConfig.getQuery(), p));
+                r.setSub(this.execQuery(conn, this.sqlConfig.getQuery(), p));
             }
             conn.close();
-        } catch ( Throwable ex) {
+        } catch (Throwable ex) {
             ex.printStackTrace();
-            r.setErr( "[ Export][ Error] -" + ex.getMessage() + "\n" + this.sqlConfig.getQuery());
+            r.setErr("[ Export][ Error] -" + ex.getMessage() + "\n" + this.sqlConfig.getQuery());
         }
         return r;
     }
 
-    @NotNull
     @Override
-    public String getJsonData(@NotNull Params p) {
+    public String getJsonData(Params p) {
         return null;
     }
 
-    @NotNull
     @Override
-    public Map<String, Object> getTotalView(@NotNull Params p) {
+    public Map<String, Object> getTotalView(Params p) {
         return null;
     }
 
-    @NotNull
     @Override
-    public String[] getExportColumnNames(@NotNull String[] exportColumnNames) {
+    public String[] getExportColumnNames(String[] exportColumnNames) {
         List<String> names = Lists.of();
         ColumnMapping[] mapping = this.getColumnMapping();
-        for(int i=0;i<exportColumnNames.length;i++){
+        for (int i = 0; i < exportColumnNames.length; i++) {
             String colName = exportColumnNames[i];
-            for(int j = 0;j < mapping.length;j++){
-                if (mapping[j].getField() .equals(colName)) {
+            for (int j = 0; j < mapping.length; j++) {
+                if (mapping[j].getField().equals(colName)) {
                     names.add(mapping[j].getName());
                     break;
                 }
@@ -138,9 +126,8 @@ public class ReportItem implements IReportPortal {
         return names.toArray(new String[names.size()]);
     }
 
-    @NotNull
     @Override
-    public Byte[] export(@NotNull ExportParams ep, @NotNull IExportProvider p, @Nullable IExportFormatter f) {
+    public Byte[] export(ExportParams ep, IExportProvider p, IExportFormatter f) {
         DataResult r = this.getSchemaAndData(ep.getParams());
         String[] names = this.getExportColumnNames(ep.getExportFields());
         List<IExportFormatter> fmtArray = Lists.of();
@@ -151,10 +138,11 @@ public class ReportItem implements IReportPortal {
         return p.export(r.getRows(), ep.getExportFields(), names, fmtArray);
     }
 
-    private List<Map<String, Object>> execQuery(Connection conn, String query, Params p){
+    private List<Map<String, Object>> execQuery(Connection conn, String query, Params p) {
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         String sql = ReportUtils.sqlFormat(query, p.getValue());
-        if (Strings.isNullOrEmpty(sql)) return Lists.of();
+        if (Strings.isNullOrEmpty(sql))
+            return Lists.of();
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try {
@@ -163,7 +151,7 @@ public class ReportItem implements IReportPortal {
             int t = sqlLines.length;
             if (t > 1) {
                 int i = 0;
-                for(String line :sqlLines){
+                for (String line : sqlLines) {
                     if (i != t - 1) {
                         PreparedStatement smt = conn.prepareStatement(line);
                         smt.execute();
@@ -178,10 +166,10 @@ public class ReportItem implements IReportPortal {
             ResultSetMetaData meta = rs.getMetaData();
             int colCount = meta.getColumnCount();
             while (rs.next()) {
-                Map<String,Object> mp = Maps.of();
-                for(int i=0;i<colCount;i++){
+                Map<String, Object> mp = Maps.of();
+                for (int i = 0; i < colCount; i++) {
                     Object v = rs.getObject(i + 1);
-                    mp.put(meta.getColumnLabel(i + 1), v!=null?v:"");
+                    mp.put(meta.getColumnLabel(i + 1), v != null ? v : "");
                 }
                 list.add(mp);
             }
@@ -193,7 +181,7 @@ public class ReportItem implements IReportPortal {
             try {
                 rs.close();
                 stmt.close();
-            }catch(Throwable ex){
+            } catch (Throwable ex) {
 
             }
         }

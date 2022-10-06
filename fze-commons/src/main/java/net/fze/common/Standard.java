@@ -46,29 +46,29 @@ public class Standard {
     }
 
     public static boolean classInJar(Class<?> c) {
-        //var className= Thread.currentThread().stackTrace[1].className;
+        // var className= Thread.currentThread().stackTrace[1].className;
         // val c = Class.forName(className)
-        //var c = Typed::class.java
+        // var c = Typed::class.java
 
         // note: 将JDK定为1.8
         // val pkg = if (isJava9OrLater()) c.packageName else c.`package`.name
         String pkg = c.getPackage().getName();
         String resName = pkg.replace(".", "/");
         URL pkgPath = c.getClassLoader().getResource(resName);
-        String path = pkgPath != null? pkgPath.getPath() : "";
+        String path = pkgPath != null ? pkgPath.getPath() : "";
         return path.indexOf(".jar!") != -1
                 || path.indexOf(".war!") != -1;
     }
 
-     /** 解析环境,如果是生产环境返回true,反之返回false */
+    /** 解析环境,如果是生产环境返回true,反之返回false */
     public static boolean resolveEnvironment(Class<?> main) {
 
-        devFlag = classInJar(main) ?0:1;
+        devFlag = classInJar(main) ? 0 : 1;
         if (dev()) {
             // 在IDEA下开发时设置项目真实的工作空间
             String workspace = System.getProperty("user.dir");
             // Windows下以"\"分隔
-            int i = Strings.indexOfAny(workspace,Lists.of("/build", "/target", "\\build", "\\target"));
+            int i = Strings.indexOfAny(workspace, Lists.of("/build", "/target", "\\build", "\\target"));
             if (i != -1) {
                 System.setProperty("user.dir", workspace.substring(0, i));
             }
@@ -77,15 +77,14 @@ public class Standard {
         return true;
     }
 
-
     /**
      * 是否为开发环境
      */
     public static boolean dev() {
-        if (devFlag == -1) throw new Error("should call method Standard.resolveEnvironment first");
+        if (devFlag == -1)
+            throw new Error("should call method Standard.resolveEnvironment first");
         return devFlag == 1;
     }
-
 
     /**
      * 获取包下所有的类型
@@ -111,20 +110,22 @@ public class Standard {
             return new CatchResult(ex, null);
         }
     }
+
     /** 捕获错误 */
     public static <T> Error catchError(Supplier<T> p) {
         return tryCatch(p).error();
     }
 
-    public static void setDefaultExceptionHandler( Thread.UncaughtExceptionHandler handler) {
+    public static void setDefaultExceptionHandler(Thread.UncaughtExceptionHandler handler) {
         Thread.setDefaultUncaughtExceptionHandler(handler);
-//            Thread.setDefaultUncaughtExceptionHandler { thread: Thread, throwable: Throwable ->
-//                if (throwable is NullPointerException) {
-//                    println("[ app][ exception]: thread ${thread.id},${throwable.message}");
-//                    throwable.printStackTrace()
-//                }else{
-//                    throw throwable
-//                }
-//            }
+        // Thread.setDefaultUncaughtExceptionHandler { thread: Thread, throwable:
+        // Throwable ->
+        // if (throwable is NullPointerException) {
+        // println("[ app][ exception]: thread ${thread.id},${throwable.message}");
+        // throwable.printStackTrace()
+        // }else{
+        // throw throwable
+        // }
+        // }
     }
 }

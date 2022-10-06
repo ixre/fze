@@ -20,12 +20,11 @@ public class RequestLimiter {
     // 锁定时间
     private long lockSecond;
 
-
     // 数据存储
     private Storage store;
 
-        // 创建请求限制, store存储数据,lockSecond锁定时间,单位:秒,capacity: 最大容量,rate: 令牌放入速度(每秒放多少个)
-    public RequestLimiter(Storage store, long capacity,float rate,long lockSecond) {
+    // 创建请求限制, store存储数据,lockSecond锁定时间,单位:秒,capacity: 最大容量,rate: 令牌放入速度(每秒放多少个)
+    public RequestLimiter(Storage store, long capacity, float rate, long lockSecond) {
         this.store = store;
         this.capacity = capacity;
         this.rate = rate;
@@ -33,7 +32,7 @@ public class RequestLimiter {
     }
 
     /** 获取容量 */
-    public long getCapacity(){
+    public long getCapacity() {
         return this.capacity;
     }
 
@@ -50,16 +49,17 @@ public class RequestLimiter {
     }
 
     /** 获取令牌, 如获取不到则被加锁 */
-    public boolean acquire( String addr,int n) {
-        if(isLock(addr))return false;
+    public boolean acquire(String addr, int n) {
+        if (isLock(addr))
+            return false;
         TokenBucket v;
         if (this.buckets.containsKey(addr)) {
             v = this.buckets.get(addr);
         } else {
-           // synchronized(this.locker) {
-                v = new TokenBucket(this.capacity, this.rate);
-                this.buckets.put(addr, v);
-           // }
+            // synchronized(this.locker) {
+            v = new TokenBucket(this.capacity, this.rate);
+            this.buckets.put(addr, v);
+            // }
         }
         if (!v.acquire(n)) {
             this.lockAddr(addr);
@@ -67,8 +67,9 @@ public class RequestLimiter {
         }
         return true;
     }
+
     /** 解锁 */
-    public void unlock(String addr){
+    public void unlock(String addr) {
         String k = String.format("_:request-limit:%s", addr);
         this.store.setExpire(k, 1, 1);
     }

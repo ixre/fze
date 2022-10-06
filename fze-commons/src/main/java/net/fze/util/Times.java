@@ -9,7 +9,8 @@ import java.util.TimeZone;
 public class Times {
     public static final SimpleDateFormat DefaultDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     // 格式化如：2020-05-06T16:00:00.000Z的时间
-    private static final SimpleDateFormat ISO_RFC_3339_24H_FULL_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    private static final SimpleDateFormat ISO_RFC_3339_24H_FULL_FORMAT = new SimpleDateFormat(
+            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     public static final TimeZone ZoneAsiaShangHai = TimeZone.getTimeZone("GMT+08:00");
 
     /**
@@ -18,7 +19,8 @@ public class Times {
      * @param zone 时区,GMT+08:00 / GMT+8上海时间
      */
     public static void setTimeZone(TimeZone zone) {
-        if (zone == null) zone = ZoneAsiaShangHai;
+        if (zone == null)
+            zone = ZoneAsiaShangHai;
         System.setProperty("user.timezone", zone.getDisplayName());
         TimeZone.setDefault(zone);
     }
@@ -32,7 +34,6 @@ public class Times {
     private static Date time(String s) {
         return parseTime(s, null);
     }
-
 
     /**
      * 字符串转换为时间
@@ -77,9 +78,7 @@ public class Times {
      * @return 字符串
      */
     public static String format(Date d, String format) {
-        SimpleDateFormat fmt = Strings.isNullOrEmpty(format) ?
-                DefaultDateFormat :
-                new SimpleDateFormat(format);
+        SimpleDateFormat fmt = Strings.isNullOrEmpty(format) ? DefaultDateFormat : new SimpleDateFormat(format);
         return fmt.format(d);
     }
 
@@ -125,7 +124,7 @@ public class Times {
     public static long unixOfDate(Date d) {
         long unix = d.getTime();
         int offset = TimeZone.getDefault().getRawOffset(); // 去掉小时需要考虑时区
-        return (unix - (unix + offset) % 86400000)/1000;
+        return (unix - (unix + offset) % 86400000) / 1000;
     }
 
     /**
@@ -141,7 +140,6 @@ public class Times {
     private static long intUnix(long time) {
         return time / 1000;
     }
-
 
     // 清除时间
     private static void truncateTime(Calendar c) {
@@ -254,12 +252,18 @@ public class Times {
     // 计算多久以前
     public static String evalAgoTime(int unix) {
         long duration = unix() - unix;
-        if (duration < 60) return agoTimeText(duration, "秒");
-        if (duration < 3600) return agoTimeText(duration / 60, "分钟");
-        if (duration < 86400) return agoTimeText(duration / 3600, "小时");
-        if (duration < 86400 * 7) return agoTimeText(duration / 86400, "天");
-        if (duration < 86400 * 30) return agoTimeText(duration / (86400 * 7), "周");
-        if (duration < 86400 * 30 * 365) return agoTimeText(duration / (86400 * 30), "月");
+        if (duration < 60)
+            return agoTimeText(duration, "秒");
+        if (duration < 3600)
+            return agoTimeText(duration / 60, "分钟");
+        if (duration < 86400)
+            return agoTimeText(duration / 3600, "小时");
+        if (duration < 86400 * 7)
+            return agoTimeText(duration / 86400, "天");
+        if (duration < 86400 * 30)
+            return agoTimeText(duration / (86400 * 7), "周");
+        if (duration < 86400 * 30 * 365)
+            return agoTimeText(duration / (86400 * 30), "月");
         return agoTimeText(duration / (86400 * 365), "年");
     }
 

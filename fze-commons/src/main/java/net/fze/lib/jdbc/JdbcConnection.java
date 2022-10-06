@@ -134,7 +134,8 @@ public class JdbcConnection {
             this.addParams(smt, params);
             rs = new ResultSetWrapper(smt.executeQuery(), this.ignoreErr);
             while (rs.next()) {
-                if (rs.isStopped()) break;
+                if (rs.isStopped())
+                    break;
                 scan.scan(rs);
             }
         } catch (SQLException ex) {
@@ -155,9 +156,12 @@ public class JdbcConnection {
      */
     private void closeAll(Connection conn, PreparedStatement smt, ResultSet rs) {
         try {
-            if (conn != null && !conn.isClosed()) conn.close();
-            if (rs != null && !rs.isClosed()) rs.close();
-            if (smt != null && !smt.isClosed()) smt.close();
+            if (conn != null && !conn.isClosed())
+                conn.close();
+            if (rs != null && !rs.isClosed())
+                rs.close();
+            if (smt != null && !smt.isClosed())
+                smt.close();
         } catch (Throwable ex) {
             throw new Error("[ JDBC][ Exception]: 关闭资源失败:" + ex.getMessage());
         }

@@ -68,10 +68,9 @@ public class HttpUtils {
         for (String k : src.keySet()) {
             data.put(k, src.get(k)[0]);
         }
-        return Types.fromJson(Types.toJson(data),classes);
-        //return Types.mapObject(data, classes);
+        return Types.fromJson(Types.toJson(data), classes);
+        // return Types.mapObject(data, classes);
     }
-
 
     /**
      * 获取客户端IP地址
@@ -80,7 +79,8 @@ public class HttpUtils {
      */
     public static String remoteAddr(HttpServletRequest request) {
         String ip = getRealIP(it -> request.getHeader(it));
-        if (ip == null) ip = request.getRemoteAddr();
+        if (ip == null)
+            ip = request.getRemoteAddr();
         // 如果是多级代理，那么取第一个ip为客户端ip
         if (ip != null && ip.contains(",")) {
             return ip.substring(0, ip.indexOf(",")).trim();
@@ -94,8 +94,8 @@ public class HttpUtils {
      * @return
      */
     public static String getRealIP(IHeaderValue headers) {
-        String[] keys = new String[]{
-                "X-REAL-IP",  // nginx自定义配置
+        String[] keys = new String[] {
+                "X-REAL-IP", // nginx自定义配置
                 "X-FORWARDER-FOR",
                 "Proxy-Client-IP",
                 "WL-Proxy-CLIENT-IP",
@@ -119,19 +119,21 @@ public class HttpUtils {
     /// <returns></returns>
     public static boolean IsHttpsProxyRequest(IHeaderValue h) {
         // nginx反向代理
-        if (equalHeader(h, "X-Forwarded-Proto", "https")) return true;
+        if (equalHeader(h, "X-Forwarded-Proto", "https"))
+            return true;
         // 兼容西部数码虚拟主机
         if (equalHeader(h, "SSL-FLAG", "SSL")
-                || equalHeader(h, "From-Https", "on")) return true;
+                || equalHeader(h, "From-Https", "on"))
+            return true;
         return false;
     }
 
     private static boolean equalHeader(IHeaderValue h, String key, String value) {
         String v = h.get(key);
-        if (v != null) return v.equals(value);
+        if (v != null)
+            return v.equals(value);
         return false;
     }
-
 
     /**
      * 将查询转换为字典

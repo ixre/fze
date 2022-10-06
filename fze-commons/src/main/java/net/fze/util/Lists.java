@@ -30,32 +30,31 @@ public interface Lists {
      */
     static <E> List<E> of(E... args) {
         List<E> l = of();
-        for(E e : args){
+        for (E e : args) {
             l.add(e);
         }
         return l;
     }
 
     /** 去重 */
-    static <E> Collection<E> removeRepeatElement(Iterable<E> list){
+    static <E> Collection<E> removeRepeatElement(Iterable<E> list) {
         LinkedHashSet<E> set = new LinkedHashSet<E>();
-        list.forEach((it)->set.add(it));
+        list.forEach((it) -> set.add(it));
         return set;
     }
-
 
     /**
      * 按顺序排列
      */
-    static <T> List<T> sort(List<T> list,Comparator<T> c) {
-         list.sort(c);
-         return list;
+    static <T> List<T> sort(List<T> list, Comparator<T> c) {
+        list.sort(c);
+        return list;
     }
 
     /**
      * 将列表顺序颠倒
      */
-    static <T> List<T>  reverse(List<T> list) {
+    static <T> List<T> reverse(List<T> list) {
         Collections.reverse(list);
         return list;
     }
@@ -63,13 +62,14 @@ public interface Lists {
     /**
      * 按倒序排列
      */
-    static <T>  List<T> sortByDescending(List<T> list, Comparator<T> c){
+    static <T> List<T> sortByDescending(List<T> list, Comparator<T> c) {
         List<T> dst = sort(list, c);
         return reverse(dst);
     }
 
     /**
      * for each with index
+     * 
      * @param list
      * @param supplier
      * @param <T>
@@ -84,7 +84,6 @@ public interface Lists {
         return list;
     }
 
-
     /**
      * 作为数组返回
      *
@@ -93,7 +92,8 @@ public interface Lists {
      * @return 数组
      */
     static <T, K> K[] asArray(List<T> list, Types.TProp<T, K> p) {
-        if (list == null || list.size() == 0) return null;
+        if (list == null || list.size() == 0)
+            return null;
         int i = 0;
         K tmp;
         K[] arr = null;
@@ -102,7 +102,8 @@ public interface Lists {
             if (arr == null) {
                 Class<?> c = tmp.getClass();
                 Class<?> cc = c.getComponentType();
-                if (cc != null) c = cc;
+                if (cc != null)
+                    c = cc;
                 arr = (K[]) Array.newInstance(c, list.size());
             }
             arr[i++] = p.get(e);
@@ -114,14 +115,16 @@ public interface Lists {
      * 将集合转成数组
      */
     static <T> T[] toArray(Collection<T> list) {
-        if (list == null || list.size() == 0) return null;
+        if (list == null || list.size() == 0)
+            return null;
         int i = 0;
         T[] arr = null;
         for (T e : list) {
             if (arr == null) {
                 Class<?> c = e.getClass();
                 Class<?> cc = c.getComponentType();
-                if (cc != null) c = cc;
+                if (cc != null)
+                    c = cc;
                 arr = (T[]) Array.newInstance(c, list.size());
             }
             arr[i++] = e;
@@ -130,19 +133,25 @@ public interface Lists {
     }
 
     static <T> void each(Iterable<T> e, Types.TCond<T> c) {
-        for (T t : e) if (!c.test(t)) break;
+        for (T t : e)
+            if (!c.test(t))
+                break;
     }
 
     static <T> void each(Iterable<T> e, Types.TFunc<T> f) {
-        for (T t : e) f.call(t);
+        for (T t : e)
+            f.call(t);
     }
 
     static <T> void eachArray(T[] e, Types.TCond<T> c) {
-        for (T t : e) if (!c.test(t)) break;
+        for (T t : e)
+            if (!c.test(t))
+                break;
     }
 
     static <T> void eachArray(T[] e, Types.TFunc<T> f) {
-        for (T t : e)  f.call(t);
+        for (T t : e)
+            f.call(t);
     }
 
 }

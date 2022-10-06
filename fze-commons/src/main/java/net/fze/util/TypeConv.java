@@ -15,8 +15,10 @@ public class TypeConv {
      * @return obj转换为string
      */
     public static String toString(Object obj, String defaultVal) {
-        if (obj == null) return defaultVal;
-        if (obj.equals("") && defaultVal.equals( "0")) return "0";
+        if (obj == null)
+            return defaultVal;
+        if (obj.equals("") && defaultVal.equals("0"))
+            return "0";
         return obj.toString();
     }
 
@@ -178,8 +180,10 @@ public class TypeConv {
      * @return 转换后的结果
      */
     public static Boolean toBoolean(Object obj) {
-        if (obj == null) return false;
-        if (obj instanceof Boolean) return (Boolean) obj;
+        if (obj == null)
+            return false;
+        if (obj instanceof Boolean)
+            return (Boolean) obj;
         return Boolean.parseBoolean(obj.toString());
     }
 
@@ -190,9 +194,12 @@ public class TypeConv {
      * @return 转换后的结果
      */
     public static Date toDateTime(Object obj) {
-        if (obj instanceof Date) return (Date) obj;
-        if (obj instanceof Long) return Times.unixTime((Long) obj, 0);
-        if (obj instanceof Integer) return Times.unixTime((Integer) obj, 0);
+        if (obj instanceof Date)
+            return (Date) obj;
+        if (obj instanceof Long)
+            return Times.unixTime((Long) obj, 0);
+        if (obj instanceof Integer)
+            return Times.unixTime((Integer) obj, 0);
         return Times.time(obj.toString(), Times.DefaultDateFormat.toPattern());
     }
 
@@ -203,12 +210,14 @@ public class TypeConv {
      * @return 转换后的结果
      */
     public static BigDecimal toBigDecimal(Object obj) {
-        if (obj instanceof BigDecimal) return (BigDecimal) obj;
-        if (obj instanceof Double) return BigDecimal.valueOf((Double) obj);
-        if (obj instanceof Integer) return BigDecimal.valueOf((Integer) obj);
+        if (obj instanceof BigDecimal)
+            return (BigDecimal) obj;
+        if (obj instanceof Double)
+            return BigDecimal.valueOf((Double) obj);
+        if (obj instanceof Integer)
+            return BigDecimal.valueOf((Integer) obj);
         return BigDecimal.valueOf(toDouble(obj));
     }
-
 
     /**
      * 将List<Object>转换为List<Map<String, Object>>>

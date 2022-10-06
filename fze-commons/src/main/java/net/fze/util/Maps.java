@@ -162,7 +162,8 @@ public interface Maps {
      */
     static <K, V> Map<K, V> excludes(Map<K, V> s, K... keys) {
         for (K k : keys) {
-            if (s.containsKey(k)) s.remove(k);
+            if (s.containsKey(k))
+                s.remove(k);
         }
         return s;
     }
@@ -175,7 +176,8 @@ public interface Maps {
         Iterator<K> iterator = s.keySet().iterator();
         while (iterator.hasNext()) {
             K k = iterator.next();
-            if (!ks.contains(k)) iterator.remove();
+            if (!ks.contains(k))
+                iterator.remove();
         }
         return s;
     }

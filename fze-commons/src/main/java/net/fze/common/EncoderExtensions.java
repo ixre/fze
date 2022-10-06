@@ -1,7 +1,6 @@
 package net.fze.common;
 
 import net.fze.util.DigestEncode;
-import org.jetbrains.annotations.NotNull;
 
 public class EncoderExtensions {
 
@@ -58,7 +57,7 @@ public class EncoderExtensions {
      * @param str 字符串
      * @return hash
      */
-    public int djbHash(@NotNull String str) {
+    public int djbHash(String str) {
         int hash = 5381;
         for (Byte b : str.getBytes()) {
             hash = ((hash << 5) + hash) + b;

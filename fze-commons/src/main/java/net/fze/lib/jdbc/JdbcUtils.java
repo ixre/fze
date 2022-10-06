@@ -63,8 +63,10 @@ public class JdbcUtils {
         if (null != rs) {
             ResultSetMetaData resultSetMetaData = rs.unwrap().getMetaData();
             if (null != resultSetMetaData) {
-        /* //获取Person类的所有方法信息
-        Method[] method=clazz.getDeclaredMethods();*/
+                /*
+                 * //获取Person类的所有方法信息
+                 * Method[] method=clazz.getDeclaredMethods();
+                 */
                 // 获取类的所有成员属性信息
                 Field[] fields = clazz.getDeclaredFields();
                 int columnSize = resultSetMetaData.getColumnCount();
@@ -111,7 +113,8 @@ public class JdbcUtils {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    if (isBreak) rs.stopScan();
+                    if (isBreak)
+                        rs.stopScan();
                 },
                 params);
         return list;
@@ -137,7 +140,8 @@ public class JdbcUtils {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    if (isBreak) rs.stopScan();
+                    if (isBreak)
+                        rs.stopScan();
                 },
                 params);
         return row.get();
@@ -166,7 +170,8 @@ public class JdbcUtils {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    if (isBreak) rs.stopScan();
+                    if (isBreak)
+                        rs.stopScan();
                 },
                 params);
         return list;
@@ -194,7 +199,8 @@ public class JdbcUtils {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    if (isBreak) rs.stopScan();
+                    if (isBreak)
+                        rs.stopScan();
                 },
                 params);
         return row.get();

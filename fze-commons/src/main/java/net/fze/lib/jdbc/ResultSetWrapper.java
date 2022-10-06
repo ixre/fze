@@ -11,7 +11,6 @@ public class ResultSetWrapper {
     private final boolean ignoreErr;
     private boolean _stopped;
 
-
     ResultSetWrapper(ResultSet rs, boolean ignoreErr) {
         this.rs = rs;
         this.ignoreErr = ignoreErr;
@@ -201,7 +200,6 @@ public class ResultSetWrapper {
         return "";
     }
 
-
     /**
      * 获取字符串
      */
@@ -322,7 +320,6 @@ public class ResultSetWrapper {
         }
         return "";
     }
-
 
     /**
      * 查找列的索引

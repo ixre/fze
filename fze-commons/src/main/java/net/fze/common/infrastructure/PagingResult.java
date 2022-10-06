@@ -16,8 +16,7 @@ public class PagingResult<T> {
      */
     private List<T> list;
 
-
-    public PagingResult(List<T> list,long count){
+    public PagingResult(List<T> list, long count) {
         this.list = list;
         this.count = count;
     }

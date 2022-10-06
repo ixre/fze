@@ -21,12 +21,13 @@ public interface Storage {
     // Get Value
     <T> T get(String key, Class<T> c);
 
-    //Get raw value
+    // Get raw value
     Object getRaw(String key);
 
     Boolean getBool(String key);
 
     int getInt(String key);
+
     long getInt64(String key);
 
     String getString(String key);

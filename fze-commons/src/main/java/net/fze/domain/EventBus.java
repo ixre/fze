@@ -1,6 +1,5 @@
 package net.fze.domain;
 
-
 import kotlinx.coroutines.GlobalScope;
 import net.fze.common.Standard;
 import net.fze.util.tuple.Tuple;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * val data1 = Test1Event("message from event1")
@@ -34,7 +32,7 @@ public class EventBus {
     }
 
     public interface ExceptionHandler {
-        void process(String eventName,Object event,Throwable ex);
+        void process(String eventName, Object event, Throwable ex);
     }
 
     private class EventDispatcher<T> {
@@ -56,11 +54,11 @@ public class EventBus {
         }
 
         List<T> gets(String topic) {
-            if (this._subMap.containsKey(topic)) return this._subMap.get(topic);
+            if (this._subMap.containsKey(topic))
+                return this._subMap.get(topic);
             return new ArrayList<>();
         }
     }
-
 
     private String name;
     private final static EventBus defaultInstance = new EventBus("default");
@@ -72,6 +70,7 @@ public class EventBus {
     public static EventBus getDefault() {
         return defaultInstance;
     }
+
     private EventDispatcher<Tuple2<Boolean, Handler>> dispatcher = new EventDispatcher<>();
     private ExceptionHandler _exceptHandler;
 
@@ -109,7 +108,8 @@ public class EventBus {
                 }
             });
         } catch (Throwable ex) {
-            if (this._exceptHandler != null) this._exceptHandler.process(eventName, event, ex);
+            if (this._exceptHandler != null)
+                this._exceptHandler.process(eventName, event, ex);
             ex.printStackTrace();
             return new Error(ex.getMessage());
         }

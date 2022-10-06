@@ -19,8 +19,10 @@ public class ReportHub {
 
     public DataResult fetchData(String portal, Params p, String page, String rows) {
         IReportPortal item = _manager.getItem(portal);
-        if (!Strings.isNullOrEmpty(page)) p.set("page_index", page);
-        if (!Strings.isNullOrEmpty(rows)) p.set("page_size", rows);
+        if (!Strings.isNullOrEmpty(page))
+            p.set("page_index", page);
+        if (!Strings.isNullOrEmpty(rows))
+            p.set("page_size", rows);
         return item.getSchemaAndData(p);
     }
 }

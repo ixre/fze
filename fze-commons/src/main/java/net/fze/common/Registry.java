@@ -1,6 +1,5 @@
 package net.fze.common;
 
-
 import com.moandjiezana.toml.Toml;
 
 import java.io.File;

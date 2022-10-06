@@ -4,19 +4,20 @@ import java.util.Map;
 
 /** 参数 */
 public class Params {
-    private Map<String,Object> value;
+    private Map<String, Object> value;
 
-    Params(Map<String,Object> value){
+    Params(Map<String, Object> value) {
         this.value = value;
     }
+
     /** 获取值 */
-    public Map<String,Object> getValue() {
+    public Map<String, Object> getValue() {
         return this.value;
     }
 
     /** 从Map中拷贝数据 */
     public void copy(Map<String, Object> src) {
-        src.forEach((k,v) ->{
+        src.forEach((k, v) -> {
             if (k.equals("total") || k.equals("rows") || k.equals("params")) {
                 return;
             }
@@ -30,12 +31,12 @@ public class Params {
     }
 
     /** 获取参数 */
-    public Object get( String key) {
+    public Object get(String key) {
         return this.value.get(key);
     }
 
     /** 是否包含参数 */
-    public boolean contains( String key) {
+    public boolean contains(String key) {
         return this.value.containsKey(key);
     }
 

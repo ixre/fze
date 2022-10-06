@@ -31,12 +31,15 @@ public class Result {
     public static Result error(int errCode, String errMsg) {
         return new Result(errCode, errMsg);
     }
-    public static Result of(Error err){
-        return err != null?error(1,err.getMessage()):success();
+
+    public static Result of(Error err) {
+        return err != null ? error(1, err.getMessage()) : success();
     }
+
     public static Result success() {
         return error(0, "");
     }
+
     public static Result success(Object data) {
         return error(0, "").setData(data);
     }
