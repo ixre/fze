@@ -12,6 +12,7 @@ dependencies {
     api("javax.inject:javax.inject:1")
     api("com.google.code.gson:gson:2.9.1")
     api("com.zaxxer:HikariCP:5.0.0")
+    api("com.auth0:java-jwt:4.2.1")
     compileOnly("javax.servlet:javax.servlet-api:4.0.1")
     compileOnly("javax.xml.bind:jaxb-api:2.3.1")
     compileOnly("com.google.inject:guice:5.1.0")

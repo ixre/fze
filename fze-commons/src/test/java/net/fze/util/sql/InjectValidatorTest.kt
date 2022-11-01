@@ -30,12 +30,12 @@ internal class InjectValidatorTest {
             buffer.append(value)
         }
         s = buffer.toString()
-        val b = InjectValidator.test(s);
-        println(s)
-        if (b) {
-            println("----------------------false")
-        } else {
-            println("----------------------true")
-        }
+//        val b = InjectValidator.test(s);
+//        println(s)
+//        if (b) {
+//            println("----------------------false")
+//        } else {
+//            println("----------------------true")
+//        }
     }
 }
