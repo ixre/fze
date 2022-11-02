@@ -5,7 +5,9 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import net.fze.util.Maps;
 import net.fze.util.Strings;
 import net.fze.util.Times;
 import net.fze.util.Types;
@@ -25,9 +27,10 @@ public class Jwt {
      *
      * @param privateKey 私钥
      * @param claims     JWT数据
+     * @param expires    过期时间(单位：s)
      * @return
      */
-    public static String createWithClaims(String privateKey, Map<String, String> claims, Date expires) {
+    public static String create(String privateKey, Map<String, String> claims, long expires) {
         if (Strings.isNullOrEmpty(privateKey)) throw new IllegalArgumentException("privateKey");
         // 去掉头尾信息
         privateKey = RSAKeyPair.removeBeginEnd(privateKey);
@@ -35,8 +38,24 @@ public class Jwt {
         JWTCreator.Builder builder = JWT.create();
         claims.forEach(builder::withClaim);
         builder.withIssuedAt(new Date());
-        builder.withExpiresAt(expires);
+        builder.withExpiresAt(Times.unixTime(expires, 0));
         return builder.sign(algorithm);
+    }
+
+    /**
+     * 创建令牌
+     *
+     * @param privateKey 私钥
+     * @param claims     JWT数据
+     * @param expires    过期时间(单位：s)
+     * @return
+     */
+    public static String createWithClaims(String privateKey, Map<String, Claim> claims, long expires) {
+        Map<String, String> map = new HashMap<>();
+        map.put("iss", claims.get("iss").asString());
+        map.put("aud", claims.get("aud").asString());
+        map.put("sub", claims.get("sub").asString());
+        return create(privateKey, map, expires);
     }
 
     /**
@@ -54,7 +73,7 @@ public class Jwt {
         claims.put("iss", issuer);
         claims.put("aud", aud);
         claims.put("sub", Types.orValue(sub, ""));
-        return createWithClaims(privateKey, claims, Times.unixTime(exp, 0));
+        return create(privateKey, claims, exp);
     }
 
     /**
