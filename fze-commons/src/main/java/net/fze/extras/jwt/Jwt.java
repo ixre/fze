@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import net.fze.util.Maps;
@@ -90,7 +91,14 @@ public class Jwt {
         privateKey = RSAKeyPair.removeBeginEnd(privateKey);
         Algorithm algorithm = Algorithm.HMAC256(privateKey);
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();
-        DecodedJWT jwt = jwtVerifier.verify(token);
-        return new JwtDecoder(jwt);
+        try {
+            DecodedJWT jwt = jwtVerifier.verify(token);
+            return new JwtDecoder(jwt);
+        }catch(Throwable ex){
+            if(ex instanceof TokenExpiredException){
+                throw new JwtTokenExpiredException((TokenExpiredException)ex);
+            }
+            throw ex;
+        }
     }
 }

@@ -19,8 +19,7 @@ public class Times {
      * @param zone 时区,GMT+08:00 / GMT+8上海时间
      */
     public static void setTimeZone(TimeZone zone) {
-        if (zone == null)
-            zone = ZoneAsiaShangHai;
+        if (zone == null)zone = ZoneAsiaShangHai;
         System.setProperty("user.timezone", zone.getDisplayName());
         TimeZone.setDefault(zone);
     }
