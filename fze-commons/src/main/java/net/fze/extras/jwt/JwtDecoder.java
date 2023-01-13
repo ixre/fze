@@ -1,14 +1,8 @@
 package net.fze.extras.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import net.fze.util.Strings;
 import net.fze.util.Times;
-import net.fze.util.crypto.RSAKeyPair;
-import com.auth0.jwt.JWTVerifier;
-
 import java.util.Map;
 
 /**

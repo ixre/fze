@@ -36,11 +36,11 @@ class ServerSelector(var name: String, client: Client) : ISelector {
     init {
         this.prefix = ByteSequence.from(name.toByteArray())
         this.option = GetOption.newBuilder()
-            .withSerializable(true)
-            .withSortField(GetOption.SortTarget.KEY)
-            .isPrefix(true)
-            .withPrefix(this.prefix)
-            .build()
+                .withSerializable(true)
+                .withSortField(GetOption.SortTarget.KEY)
+                .isPrefix(true)
+                .withPrefix(this.prefix)
+                .build()
         this.loadNodes()
         this.watch()
     }
@@ -48,18 +48,18 @@ class ServerSelector(var name: String, client: Client) : ISelector {
     //　监听变化,并动态处理节点
     private fun watch() {
         val opt = WatchOption.newBuilder()
-            .isPrefix(true)
-            .withPrefix(this.prefix)
-            .build()
+                .isPrefix(true)
+                .withPrefix(this.prefix)
+                .build()
         this.cli!!.watchClient.watch(this.prefix, opt) {
             for (e in it.events) {
                 try {
                     this.processWatchEvent(e)
                 } catch (ex: Throwable) {
                     println(
-                        "[ Etcd][ Error]: watch event "
-                                + e.eventType.toString()
-                                + " error:" + ex.message
+                            "[ Etcd][ Error]: watch event "
+                                    + e.eventType.toString()
+                                    + " error:" + ex.message
                     )
                 }
             }
@@ -71,6 +71,7 @@ class ServerSelector(var name: String, client: Client) : ISelector {
             val node = this.parseNode(e.keyValue.value)
             this.addNode(node)
         }
+
         WatchEvent.EventType.DELETE -> {
             val key = String(e.keyValue.key.bytes)
             val keyArray = key.split("/")
@@ -81,6 +82,7 @@ class ServerSelector(var name: String, client: Client) : ISelector {
                 this.deleteNode(nodeId)
             }
         }
+
         else -> {
         }
     }
@@ -130,7 +132,7 @@ class ServerSelector(var name: String, client: Client) : ISelector {
 
     private fun loadNodes() = try {
         val rsp = this.cli!!.kvClient.get(this.prefix, this.option)
-        rsp.get(10000,TimeUnit.MILLISECONDS).kvs.forEach{
+        rsp.get(10000, TimeUnit.MILLISECONDS).kvs.forEach {
             val node = this.parseNode(it.value)
             this.nodes.add(node)
         }

@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * 时间工具类
+ */
 public class Times {
     public static final SimpleDateFormat DefaultDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     // 格式化如：2020-05-06T16:00:00.000Z的时间

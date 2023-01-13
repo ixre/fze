@@ -207,17 +207,7 @@ public class TypeConv {
      * 将object转换为Date类型，如果出错则返回当前时间
      *
      * @param obj 需要转换的对象
-     * @return 转换后的结果
-     */
-    public static BigDecimal toBigDecimal(Object obj) {
-        if (obj instanceof BigDecimal)
-            return (BigDecimal) obj;
-        if (obj instanceof Double)
-            return BigDecimal.valueOf((Double) obj);
-        if (obj instanceof Integer)
-            return BigDecimal.valueOf((Integer) obj);
-        return BigDecimal.valueOf(toDouble(obj));
-    }
+     * @return 转换后的结果addTime}
 
     /**
      * 将List<Object>转换为List<Map<String, Object>>>

@@ -2,7 +2,6 @@ package net.fze.util.concurrent;
 
 import net.fze.lib.storage.Storage;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,7 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RequestLimiter {
     private Map<String, TokenBucket> buckets = new ConcurrentHashMap<>();
     // 锁
-    private Object locker = new Object();
+    //private Object locker = new Object();
+    
     // 桶的容量
     private long capacity;
 
