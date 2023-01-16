@@ -204,24 +204,21 @@ public class TypeConv {
     }
 
     /**
-     * 将object转换为Date类型，如果出错则返回当前时间
+     * 将object转换为BigDecimal类型
      *
      * @param obj 需要转换的对象
-     * @return 转换后的结果addTime}
-
-    /**
-     * 将List<Object>转换为List<Map<String, Object>>>
-     *
-     * @param list 需要转换的list
-     * @return 转换的结果
+     * @return 转换后的结果
      */
-    public static List<Map<String, Object>> mapToList(List<Object> list) {
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (Object tempObj : list) {
-            result.add((HashMap<String, Object>) tempObj);
-        }
-        return result;
+    public static BigDecimal toBigDecimal(Object obj) {
+        if (obj instanceof BigDecimal)
+            return (BigDecimal) obj;
+        if (obj instanceof Double)
+            return BigDecimal.valueOf((Double) obj);
+        if (obj instanceof Integer)
+            return BigDecimal.valueOf((Integer) obj);
+        return BigDecimal.valueOf(toDouble(obj));
     }
+
 
     /**
      * 数组转为List
@@ -235,23 +232,4 @@ public class TypeConv {
         return Arrays.asList(arr);
     }
 
-    /**
-     * 将浮点数向下取整
-     *
-     * @param f 浮点数
-     * @return 整数
-     */
-    public static int floatCeil(Float f) {
-        return (int) Math.ceil((double) f);
-    }
-
-    /**
-     * 将浮点数向上取整
-     *
-     * @param f 浮点数
-     * @return 整数
-     */
-    public static int floatFloor(Float f) {
-        return (int) Math.floor((double) f);
-    }
 }
