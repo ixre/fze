@@ -1,12 +1,38 @@
 package net.fze.util;
 
+import net.fze.common.http.HttpClient;
+import org.intellij.lang.annotations.JdkConstants;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OsUtils {
+    /**
+     * 获取 IP 地址的服务列表
+     */
+    private static final String[] IPV4_SERVICES = {
+            "http://checkip.amazonaws.com/",
+            "https://myip.ipip.net",
+            "https://ipv4.icanhazip.com/",
+    };
+    /**
+     * IP 地址校验的正则表达式
+     */
+    private static final Pattern IPV4_PATTERN = Pattern.compile(
+            "((\\d+).(\\d+).(\\d+).(\\d+))");
+    private static String _cacheExternalIp = null;
+
     /**
      * 运行终端命令
      *
@@ -90,5 +116,37 @@ public class OsUtils {
         } catch (Exception ignored) {
         }
         return false;
+    }
+
+    public static String getExternalIp() {
+        if (!Strings.isNullOrEmpty(_cacheExternalIp)) {
+            return _cacheExternalIp;
+        }
+        List<Callable<String>> callables = new ArrayList<>();
+        for (String ipService : IPV4_SERVICES) {
+            callables.add(() -> get(ipService));
+        }
+        // 线程池的 ExecutorService.invokeAny(callables) 方法用于并发执行多个线程，
+        // 并拿到最快的执行成功的线程的返回值，只要有一个执行成功，其他失败的任务都会忽略
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        try {
+            // 返回第一个成功获取的 IP
+            _cacheExternalIp = executorService.invokeAny(callables);
+            return _cacheExternalIp;
+        } catch (Throwable e) {
+            e.printStackTrace();
+        } finally {
+            executorService.shutdown();
+        }
+        return null;
+    }
+
+    private static String get(String url) throws IOException {
+        String content = new String(HttpClient.get(url, 10000));
+        Matcher matcher = IPV4_PATTERN.matcher(content);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        throw new IOException("invalid IPv4 address: " + content);
     }
 }
