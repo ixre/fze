@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version ("1.6.0")
+    kotlin("jvm") version ("1.8.0")
 }
 apply("../deploy.gradle")
 
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     //api("javax.xml.bind:jaxb-api:2.3.1")
     api("javax.inject:javax.inject:1")
     api("com.google.code.gson:gson:2.9.1")
