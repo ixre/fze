@@ -4,6 +4,9 @@ import net.fze.util.Strings;
 import net.fze.util.Types;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,7 +97,7 @@ public class HttpUtils {
      * @return
      */
     public static String getRealIP(IHeaderValue headers) {
-        String[] keys = new String[] {
+        String[] keys = new String[]{
                 "X-REAL-IP", // nginx自定义配置
                 "X-FORWARDER-FOR",
                 "Proxy-Client-IP",
@@ -122,16 +125,15 @@ public class HttpUtils {
         if (equalHeader(h, "X-Forwarded-Proto", "https"))
             return true;
         // 兼容西部数码虚拟主机
-        if (equalHeader(h, "SSL-FLAG", "SSL")
-                || equalHeader(h, "From-Https", "on"))
-            return true;
-        return false;
+        return equalHeader(h, "SSL-FLAG", "SSL")
+                || equalHeader(h, "From-Https", "on");
     }
 
     private static boolean equalHeader(IHeaderValue h, String key, String value) {
         String v = h.get(key);
-        if (v != null)
+        if (v != null) {
             return v.equals(value);
+        }
         return false;
     }
 
@@ -150,5 +152,32 @@ public class HttpUtils {
      */
     public static String toQuery(Map<String, String> params) {
         return HttpUtilsKt.toQuery(params);
+    }
+
+    /**
+     * 解码url
+     *
+     * @param url 地址
+     * @return
+     */
+    public static String encodeUrl(String url) {
+        try {
+            return URLEncoder.encode(url, "utf-8");
+        } catch (UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+            return url;
+        }
+    }
+
+    /**
+     * 编码url 地址
+     */
+    public static String decodeUrl(String url) {
+        try {
+            return URLDecoder.decode(url, "utf-8");
+        } catch (UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+            return url;
+        }
     }
 }
