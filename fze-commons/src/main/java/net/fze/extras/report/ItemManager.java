@@ -1,6 +1,6 @@
 package net.fze.extras.report;
 
-import net.fze.util.Lists;
+import net.fze.jdk.jdk8.Lists;
 import net.fze.util.Strings;
 
 import java.io.File;

@@ -1,12 +1,11 @@
 package net.fze.extras.report;
 
-import net.fze.util.Lists;
-import net.fze.util.Maps;
 import net.fze.util.Strings;
 import net.fze.util.TypeConv;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +45,7 @@ public class ReportItem implements IReportPortal {
     @Override
     public DataResult getSchemaAndData(Params p) {
         DataResult r = new DataResult();
-        r.setRows(Lists.of());
+        r.setRows(new ArrayList<>());
         // 初始化添加参数
         if (!p.contains("page_size")) {
             p.set("page_size", "10000000000");
@@ -112,7 +111,7 @@ public class ReportItem implements IReportPortal {
 
     @Override
     public String[] getExportColumnNames(String[] exportColumnNames) {
-        List<String> names = Lists.of();
+        List<String> names = new ArrayList<>();
         ColumnMapping[] mapping = this.getColumnMapping();
         for (int i = 0; i < exportColumnNames.length; i++) {
             String colName = exportColumnNames[i];
@@ -130,7 +129,7 @@ public class ReportItem implements IReportPortal {
     public Byte[] export(ExportParams ep, IExportProvider p, IExportFormatter f) {
         DataResult r = this.getSchemaAndData(ep.getParams());
         String[] names = this.getExportColumnNames(ep.getExportFields());
-        List<IExportFormatter> fmtArray = Lists.of();
+        List<IExportFormatter> fmtArray = new ArrayList<>();
         fmtArray.add(new InternalFormatter());
         if (f != null) {
             fmtArray.add(f);
@@ -141,8 +140,9 @@ public class ReportItem implements IReportPortal {
     private List<Map<String, Object>> execQuery(Connection conn, String query, Params p) {
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         String sql = ReportUtils.sqlFormat(query, p.getValue());
-        if (Strings.isNullOrEmpty(sql))
-            return Lists.of();
+        if (Strings.isNullOrEmpty(sql)){
+            return new ArrayList<>();
+        }
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try {
@@ -166,7 +166,7 @@ public class ReportItem implements IReportPortal {
             ResultSetMetaData meta = rs.getMetaData();
             int colCount = meta.getColumnCount();
             while (rs.next()) {
-                Map<String, Object> mp = Maps.of();
+                Map<String, Object> mp = new HashMap<>();
                 for (int i = 0; i < colCount; i++) {
                     Object v = rs.getObject(i + 1);
                     mp.put(meta.getColumnLabel(i + 1), v != null ? v : "");

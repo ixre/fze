@@ -1,8 +1,8 @@
 package net.fze.common.http;
 
-import net.fze.util.Maps;
 import net.fze.util.Types;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -27,7 +27,8 @@ public class HttpClient {
     }
 
     private static HttpRequestBuilder newRequest(String url, String method) {
-        Map<String, String> header = Maps.of("User-Agent", USER_AGENT);
+        Map<String, String> header =  new HashMap<>();
+        header.put("User-Agent", USER_AGENT);
         return HttpRequestBuilder.create(url, method).headers(header);
     }
 

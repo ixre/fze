@@ -1,8 +1,7 @@
-package net.fze.util;
+package net.fze.jdk.jdk8;
 
-import net.fze.util.Lists;
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 主要为了解决JDK高版本不支持Map.of方法
@@ -155,30 +154,5 @@ public interface Maps {
         Map<K, V> m = of(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5);
         m.put(k6, v6);
         return m;
-    }
-
-    /**
-     * exclude keys
-     */
-    static <K, V> Map<K, V> excludes(Map<K, V> s, K... keys) {
-        for (K k : keys) {
-            if (s.containsKey(k))
-                s.remove(k);
-        }
-        return s;
-    }
-
-    /**
-     * pick keys
-     */
-    static <K, V> Map<K, V> picks(Map<K, V> s, K... keys) {
-        List<K> ks = Lists.of(keys);
-        Iterator<K> iterator = s.keySet().iterator();
-        while (iterator.hasNext()) {
-            K k = iterator.next();
-            if (!ks.contains(k))
-                iterator.remove();
-        }
-        return s;
     }
 }

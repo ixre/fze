@@ -1,39 +1,38 @@
 package net.fze.util;
 
 import net.fze.jdk.IndexSupplier;
+import net.fze.jdk.jdk8.Lists;
 
 import java.lang.reflect.Array;
 import java.util.*;
 
-public interface Lists {
+/**
+ * 主要为了解决JDK高版本不支持Map.of方法
+ */
+public interface Collections {
     /**
-     * Returns an unmodifiable list containing zero elements.
-     * <p>
-     * See <a href="#unmodifiable">Unmodifiable Lists</a> for details.
-     *
-     * @param <E> the {@code List}'s element type
-     * @return an empty {@code List}
+     * exclude keys
      */
-    @SuppressWarnings("unchecked")
-    static <E> List<E> of() {
-        return new ArrayList<>();
+    static <K, V> Map<K, V> excludes(Map<K, V> s, K... keys) {
+        for (K k : keys) {
+            if (s.containsKey(k))
+                s.remove(k);
+        }
+        return s;
     }
 
     /**
-     * Returns an unmodifiable list containing one element.
-     * <p>
-     * See <a href="#unmodifiable">Unmodifiable Lists</a> for details.
-     *
-     * @param <E> the {@code List}'s element type
-     * @return a {@code List} containing the specified element
-     * @throws NullPointerException if the element is {@code null}
+     * pick keys
      */
-    static <E> List<E> of(E... args) {
-        List<E> l = of();
-        for (E e : args) {
-            l.add(e);
+    static <K, V> Map<K, V> picks(Map<K, V> s, K... keys) {
+        List<K> ks = Lists.of(keys);
+        Iterator<K> iterator = s.keySet().iterator();
+        while (iterator.hasNext()) {
+            K k = iterator.next();
+            if (!ks.contains(k))
+                iterator.remove();
         }
-        return l;
+        return s;
     }
 
     /** 去重 */
@@ -44,32 +43,8 @@ public interface Lists {
     }
 
     /**
-     * 按顺序排列
-     */
-    static <T> List<T> sort(List<T> list, Comparator<T> c) {
-        list.sort(c);
-        return list;
-    }
-
-    /**
-     * 将列表顺序颠倒
-     */
-    static <T> List<T> reverse(List<T> list) {
-        Collections.reverse(list);
-        return list;
-    }
-
-    /**
-     * 按倒序排列
-     */
-    static <T> List<T> sortByDescending(List<T> list, Comparator<T> c) {
-        List<T> dst = sort(list, c);
-        return reverse(dst);
-    }
-
-    /**
      * for each with index
-     * 
+     *
      * @param list
      * @param supplier
      * @param <T>
@@ -131,27 +106,4 @@ public interface Lists {
         }
         return arr;
     }
-
-    static <T> void each(Iterable<T> e, Types.TCond<T> c) {
-        for (T t : e)
-            if (!c.test(t))
-                break;
-    }
-
-    static <T> void each(Iterable<T> e, Types.TFunc<T> f) {
-        for (T t : e)
-            f.call(t);
-    }
-
-    static <T> void eachArray(T[] e, Types.TCond<T> c) {
-        for (T t : e)
-            if (!c.test(t))
-                break;
-    }
-
-    static <T> void eachArray(T[] e, Types.TFunc<T> f) {
-        for (T t : e)
-            f.call(t);
-    }
-
 }

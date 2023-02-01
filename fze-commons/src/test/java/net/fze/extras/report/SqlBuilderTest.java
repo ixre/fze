@@ -1,6 +1,6 @@
 package net.fze.extras.report;
 
-import net.fze.util.Maps;
+import net.fze.jdk.jdk8.Maps;
 import org.junit.jupiter.api.Test;
 
 class SqlBuilderTest {

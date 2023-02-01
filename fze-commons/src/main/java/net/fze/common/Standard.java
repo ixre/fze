@@ -1,6 +1,5 @@
 package net.fze.common;
 
-import net.fze.util.Lists;
 import net.fze.util.Strings;
 import net.fze.util.TypeConv;
 import net.fze.util.Types;
@@ -8,6 +7,8 @@ import net.fze.util.Types;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
@@ -68,7 +69,12 @@ public class Standard {
             // 在IDEA下开发时设置项目真实的工作空间
             String workspace = System.getProperty("user.dir");
             // Windows下以"\"分隔
-            int i = Strings.indexOfAny(workspace, Lists.of("/build", "/target", "\\build", "\\target"));
+            List<String> sep = new ArrayList<>();
+            sep.add("/build");
+            sep.add("/target");
+            sep.add("\\build");
+            sep.add("\\target");
+            int i = Strings.indexOfAny(workspace, sep);
             if (i != -1) {
                 System.setProperty("user.dir", workspace.substring(0, i));
             }
