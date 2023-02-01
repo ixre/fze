@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * 主要为了解决JDK高版本不支持Map.of方法
  */
-public interface Collections {
+public interface CollectionUtils {
     /**
      * exclude keys
      */
