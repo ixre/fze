@@ -1,5 +1,6 @@
 package net.fze.util
 
+import net.fze.jdk.jdk8.Lists
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

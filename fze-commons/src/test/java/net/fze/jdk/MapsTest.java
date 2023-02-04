@@ -2,7 +2,6 @@ package net.fze.jdk;
 
 import net.fze.jdk.jdk8.Maps;
 import net.fze.util.CollectionUtils;
-import net.fze.util.Collections;
 import net.fze.util.Types;
 import org.junit.jupiter.api.Test;
 

@@ -9,6 +9,8 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HttpUtils {
     /**
@@ -46,6 +48,7 @@ public class HttpUtils {
     }
 
     /* 获取当前请求的BaseURL */
+    @Deprecated
     public static String getServletBaseURL(HttpServletRequest req) {
         String path = req.getRequestURI();
         String s = req.getRequestURL().toString();
@@ -53,6 +56,25 @@ public class HttpUtils {
             s = s.replace("http://", "https://");
         }
         return s.substring(0, s.lastIndexOf(path));
+    }
+
+    /**
+     * 获取当前请求的BaseURL,该方法自动检测https
+     * @param url URL
+     * @param h h
+     * @return  返回域名前缀
+     * */
+    public static String getBaseURL(String url,IHeaderValue h){
+        Pattern pattern = Pattern.compile("^([^/]+//[^/]+)/*");
+        Matcher matcher = pattern.matcher(url);
+        if(!matcher.find()){
+            return "";
+        }
+        String prefix = matcher.group(1);
+        if (h != null && IsHttpsProxyRequest(k -> h.get(k))) {
+           return prefix.replace("http://", "https://");
+        }
+        return prefix;
     }
 
     /**

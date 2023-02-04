@@ -41,5 +41,13 @@ class HttpUtilsTest {
         String s = new String(ret);
         System.out.print(s);
     }
+
+    @Test
+    void testGetBaseUrl(){
+        String url ="http://baidu.com/fsdfsf";
+        String ret = HttpUtils.getBaseURL(url,null);
+        System.out.println("值为:"+ret);
+
+    }
 }
 
