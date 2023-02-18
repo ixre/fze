@@ -6,7 +6,7 @@ import java.util.Map;
 public class Params {
     private Map<String, Object> value;
 
-    Params(Map<String, Object> value) {
+    public Params(Map<String, Object> value) {
         this.value = value;
     }
 
