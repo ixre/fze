@@ -17,12 +17,14 @@ public class ReportHub {
 
     private ItemManager _manager;
 
-    public DataResult fetchData(String portal, Params p, String page, String rows) {
+    public DataResult fetchData(String portal, Params p, int page, int size) {
         IReportPortal item = _manager.getItem(portal);
-        if (!Strings.isNullOrEmpty(page))
+        if (page > 0) {
             p.set("page_index", page);
-        if (!Strings.isNullOrEmpty(rows))
-            p.set("page_size", rows);
+        }
+        if (size > 0) {
+            p.set("page_size", size);
+        }
         return item.getSchemaAndData(p);
     }
 }
