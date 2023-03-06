@@ -53,12 +53,12 @@ public class SqlBuilder {
             return true;
         if (v.equals("0.0"))
             return false;
-        try {
-            return TypeConv.toInt(v) != 0;
-        } catch (Throwable ex) {
-        }
+//        try {
+//            return TypeConv.toInt(v) != 0;
+//        } catch (Throwable ex) {
+//        }
         String s = v.toString();
-        return !(s.equals("false") || s.equals("False") || s.equals("0"));
+        return !(s.equals("false") || s.equals("False"));
         // v == null || v.equals("") ||
         // !(TypeConv.toBoolean(v)||
         // TypeConv.toString(v).length() > 0)
