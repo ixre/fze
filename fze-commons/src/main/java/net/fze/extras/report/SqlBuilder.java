@@ -38,13 +38,13 @@ public class SqlBuilder {
         Pattern regex = Pattern.compile("([^\\s]+?)\\s*([><!=]*)\\s*([-\\d+])\\s*");
         Matcher matcher = regex.matcher(p);
         while (matcher.find()) {
-            String key = matcher.group(1);  // ²ÎÊıkey
+            String key = matcher.group(1);  // å‚æ•°key
             if (null == key) {
-                throw new IllegalArgumentException("²ÎÊı" + key + "²»´æÔÚÓÚ×ÖµäÖĞ");
+                throw new IllegalArgumentException("å‚æ•°" + key + "ä¸å­˜åœ¨äºå­—å…¸ä¸­");
             }
-            int params = Integer.parseInt(String.valueOf(map.get(key))); //»ñÈ¡Ç°¶Ë´«¹ıÀ´µÄÖµ
-            String e = matcher.group(2);    // ±í´ïÊ½
-            int value = Integer.parseInt(matcher.group(3)); //ĞèÒªÑéÖ¤µÄÖµ
+            int params = Integer.parseInt(String.valueOf(map.get(key))); //è·å–å‰ç«¯ä¼ è¿‡æ¥çš„å€¼
+            String e = matcher.group(2);    // è¡¨è¾¾å¼
+            int value = Integer.parseInt(matcher.group(3)); //éœ€è¦éªŒè¯çš„å€¼
             switch (e) {
                 case ">":
                     return params > value;
@@ -87,7 +87,7 @@ public class SqlBuilder {
             String s = v.toString();
             return !(s.equals("false") || s.equals("False") || s.equals("0"));
         } else {
-            throw new IllegalArgumentException("²ÎÊı" + p + "²»´æÔÚÓÚ×ÖµäÖĞ");
+            throw new IllegalArgumentException("å‚æ•°" + p + "ä¸å­˜åœ¨äºå­—å…¸ä¸­");
         }
     }
 }
