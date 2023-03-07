@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class SqlBuilder {
 
     public static String resolve(String origin, Map<String, Object> data) {
-        Pattern regex = Pattern.compile("#if\\s+\\{([^\\}]+)\\}\\s*([\\S\\s]+?)\\s*#end",
+        Pattern regex = Pattern.compile("#if\\s*[\\{|\\(](.+?)[\\}\\)]\\s*\\n*([\\s\\S]+?)#end",
                 Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
         Matcher matcher = regex.matcher(origin);
         Map<String, Object> finalData = data;
@@ -21,16 +21,10 @@ public class SqlBuilder {
             String p = match.group(1);
             String body = match.group(2);
             int i = body.indexOf("#else");
-            if (finalData.containsKey(p)) {
-                Object v = finalData.get(p);
-                // ä¸ä¸ºç©º,ä¸ºtrueæˆ–è€…å­—ç¬¦é•¿åº¦è¶…è¿‡0å‡ä¸ºtrue
-                if (checkTrue(v)) {
-                    return i == -1 ? body : body.substring(0, i);
-                } else if (i != -1) {
-                    return body.substring(i + 5);
-                }
-            } else {
-                throw new IllegalArgumentException("å‚æ•°" + p + "ä¸å­˜åœ¨äºå­—å…¸ä¸­");
+            if (checkIfCompare(data, p) || checkTrue(data,p)) {
+                return i == -1 ? body : body.substring(0, i);
+            } else if (i != -1) {
+                return body.substring(i + 5);
             }
             return "";
         };
@@ -40,27 +34,60 @@ public class SqlBuilder {
         return origin;
     }
 
-    private static boolean checkTrue(Object v) {
-        if (v == null)
+    private static boolean checkIfCompare(Map<String, Object> map, String p) {
+        Pattern regex = Pattern.compile("([^\\s]+?)\\s*([><!=]*)\\s*([-\\d+])\\s*");
+        Matcher matcher = regex.matcher(p);
+        while (matcher.find()) {
+            String key = matcher.group(1);  // ²ÎÊıkey
+            if (null == key) {
+                throw new IllegalArgumentException("²ÎÊı" + key + "²»´æÔÚÓÚ×ÖµäÖĞ");
+            }
+            int params = Integer.parseInt(String.valueOf(map.get(key))); //»ñÈ¡Ç°¶Ë´«¹ıÀ´µÄÖµ
+            String e = matcher.group(2);    // ±í´ïÊ½
+            int value = Integer.parseInt(matcher.group(3)); //ĞèÒªÑéÖ¤µÄÖµ
+            switch (e) {
+                case ">":
+                    return params > value;
+                case ">=":
+                    return params >= value;
+                case "<":
+                    return params < value;
+                case "<=":
+                    return params <= value;
+                case "<>":
+                case "!=":
+                    return params != value;
+            }
             return false;
-        if (v.equals(""))
-            return false;
-        if (TypeConv.toBoolean(v))
-            return true;
-        if (v.equals("True"))
-            return true;
-        if (v.equals("1"))
-            return true;
-        if (v.equals("0.0"))
-            return false;
-//        try {
-//            return TypeConv.toInt(v) != 0;
-//        } catch (Throwable ex) {
-//        }
-        String s = v.toString();
-        return !(s.equals("false") || s.equals("False"));
-        // v == null || v.equals("") ||
-        // !(TypeConv.toBoolean(v)||
-        // TypeConv.toString(v).length() > 0)
+        }
+        return false;
+    }
+
+
+
+    private static boolean checkTrue(Map<String, Object> data,String p) {
+        if (data.containsKey(p)) {
+            Object v = data.get(p);
+            if (v == null)
+                return false;
+            if (v.equals(""))
+                return false;
+            if (TypeConv.toBoolean(v))
+                return true;
+            if (v.equals("True"))
+                return true;
+            if (v.equals("1"))
+                return true;
+            if (v.equals("0.0"))
+                return false;
+            try {
+                return TypeConv.toInt(v) != 0;
+            } catch (Throwable ignored) {
+            }
+            String s = v.toString();
+            return !(s.equals("false") || s.equals("False") || s.equals("0"));
+        } else {
+            throw new IllegalArgumentException("²ÎÊı" + p + "²»´æÔÚÓÚ×ÖµäÖĞ");
+        }
     }
 }
