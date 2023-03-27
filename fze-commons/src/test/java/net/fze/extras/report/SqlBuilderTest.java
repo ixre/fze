@@ -19,6 +19,10 @@ class SqlBuilderTest {
                 "\t\t#if { kind = 0 }\n" +
                 "\t\t\tAND kind = 0 + {kind}\n" +
                 "\t\t#fi\n" +
+                "\t\t#if {trade_no == A111}\n" +
+                "\t\tAND\t(trade_no ='A111')\";\n" +
+                "\t\t#fi\n" +
+                "\t\t#fi\n" +
                 "\t\t#if {trade_no}\n" +
                 "\t\tAND\t(trade_no IS NULL OR outer_no LIKE '%{trade_no}%')\";\n" +
                 "\t\t#fi\n" +
@@ -29,7 +33,7 @@ class SqlBuilderTest {
         Map<String, Object> data = Maps.of("wallet_id", 0,
                 "keyword", "提现",
                 "kind", 0,
-                "trade_no", "F1",
+                "trade_no", "A111",
                 "check", false,
                 "unchecked", true);
         String sql1 = SqlBuilder.resolve(origin, data);

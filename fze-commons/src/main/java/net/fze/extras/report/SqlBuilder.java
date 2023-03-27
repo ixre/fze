@@ -80,7 +80,7 @@ public class SqlBuilder {
      * @return
      */
     private static boolean checkIfCompare(Map<String, Object> map, String p) {
-        Pattern regex = Pattern.compile("([\\S]+?)\\s*([><!=]*)\\s*([-\\d+])\\s*");
+        Pattern regex = Pattern.compile("(\\S+)\\s*([><!=]*)\\s*(\\S+)\\s*");
         Matcher matcher = regex.matcher(p);
         while (matcher.find()) {
             String key = matcher.group(1);  // 参数key
