@@ -186,6 +186,7 @@ public class ReportUtils {
                 return getTimeRangeSQL(arr, field, timestamp);
             }
         }
-        throw new Error("range only support List<Long> or List<String>");
+        //throw new Error("range only support List<Long> or List<String>");
+        return null;
     }
 }
