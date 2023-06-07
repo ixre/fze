@@ -24,7 +24,7 @@ public @interface Lock {
      * @return
      */
     int expires() default 0;
-
+    
     /**
      * 唯一编号,用于确定是否执行同一个批次,默认为空
      * 

@@ -13,6 +13,7 @@ dependencies {
     api("com.google.code.gson:gson:2.9.1")
     api("com.zaxxer:HikariCP:5.0.0")
     api("com.auth0:java-jwt:4.2.1")
+    implementation("org.aspectj:aspectjweaver:1.9.9")
     compileOnly("javax.servlet:javax.servlet-api:4.0.1")
     compileOnly("javax.xml.bind:jaxb-api:2.3.1")
     compileOnly("com.google.inject:guice:5.1.0")
@@ -24,6 +25,7 @@ dependencies {
     compileOnly("io.etcd:jetcd-core:0.5.11") //only jdk8
     compileOnly("redis.clients:jedis:4.2.3")
     compileOnly("mysql:mysql-connector-java:8.0.27")
+
     //compileOnly("com.github.dozermapper:dozer-core:6.5.2")
 
     compileOnly("com.belerweb:pinyin4j:2.5.0")
