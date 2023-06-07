@@ -29,6 +29,9 @@ public class InjectFactory {
      * @return 实例
      */
     public <T> T getInstance(Class<T> clazz) {
+        if(_injector == null){
+            throw new IllegalArgumentException("依赖注入器未初始化");
+        }
         return _injector.getInstance(clazz);
     }
 }
