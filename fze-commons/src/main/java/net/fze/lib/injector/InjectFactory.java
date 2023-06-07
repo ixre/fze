@@ -9,6 +9,14 @@ public class InjectFactory {
 
     /**
      * 设置注入器
+     * ```java
+     *  InjectFactory.configure(new Injector() {
+     *             @Override
+     *             public <T> T getInstance(Class<T> c) {
+     *                 return null;
+     *             }
+     *         });
+     * ```
      * @param injector 注入器
      */
     public static void configure(Injector injector) {
