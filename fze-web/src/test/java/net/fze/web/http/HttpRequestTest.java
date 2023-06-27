@@ -26,7 +26,7 @@ public class HttpRequestTest {
         if (query == null || query.equals("")) return;
         String[] pairs = query.split("&");
         for (String p : pairs) {
-            int i = p.indexOf((int) '=');
+            int i = p.indexOf('=');
             if (i != -1) {
                 dst.put(p.substring(0, i), URLDecoder.decode(p.substring(i + 1), "UTF-8"));
             }

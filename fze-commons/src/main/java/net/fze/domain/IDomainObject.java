@@ -3,7 +3,7 @@ package net.fze.domain;
 /**
  * 领域对象
  */
-public interface IDomain<T> {
+public interface IDomainObject<T> {
     /**
      * 获取领域对象编号
      *
