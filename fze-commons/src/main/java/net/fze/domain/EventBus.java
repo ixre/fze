@@ -27,59 +27,22 @@ import java.util.Map;
 
 public class EventBus {
 
-    /** 事件处理程序 */
-    public interface Handler<T> {
-        void Run(T t);
-    }
-
-    /** 异常处理程序 */
-    public interface ExceptionHandler {
-        void process(String eventName, Object event, Throwable ex);
-    }
-
-    /** 事件分发　*/
-    private static class EventDispatcher<T> {
-        private final Map<String, ArrayList<T>> _subMap = new HashMap<>();
-        private final Object _locker = new Object();
-
-        /**
-         * 订阅
-         */
-        void subscribe(String topic, T h) {
-            synchronized (this._locker) {
-                if (!this._subMap.containsKey(topic)) {
-                    this._subMap.put(topic, new ArrayList<>());
-                }
-                ArrayList<T> list = this._subMap.get(topic);
-                list.add(h);
-            }
-        }
-
-        List<T> gets(String topic) {
-            if (this._subMap.containsKey(topic))
-                return this._subMap.get(topic);
-            return new ArrayList<>();
-        }
-    }
-
     private final static EventBus defaultInstance = new EventBus("default");
-
     private final String _name;
+    private final EventDispatcher<Tuple2<Boolean, Handler>> dispatcher = new EventDispatcher<>();
+    private ExceptionHandler _exceptHandler;
 
     public EventBus(String name) {
         this._name = name;
-    }
-
-    public String getName() {
-        return _name;
     }
 
     public static EventBus getDefault() {
         return defaultInstance;
     }
 
-    private final EventDispatcher<Tuple2<Boolean, Handler>> dispatcher = new EventDispatcher<>();
-    private ExceptionHandler _exceptHandler;
+    public String getName() {
+        return _name;
+    }
 
     /**
      * 订阅事件
@@ -128,6 +91,47 @@ public class EventBus {
      */
     public void except(ExceptionHandler h) {
         this._exceptHandler = h;
+    }
+
+    /**
+     * 事件处理程序
+     */
+    public interface Handler<T> {
+        void Run(T t);
+    }
+
+    /**
+     * 异常处理程序
+     */
+    public interface ExceptionHandler {
+        void process(String eventName, Object event, Throwable ex);
+    }
+
+    /**
+     * 事件分发
+     */
+    private static class EventDispatcher<T> {
+        private final Map<String, ArrayList<T>> _subMap = new HashMap<>();
+        private final Object _locker = new Object();
+
+        /**
+         * 订阅
+         */
+        void subscribe(String topic, T h) {
+            synchronized (this._locker) {
+                if (!this._subMap.containsKey(topic)) {
+                    this._subMap.put(topic, new ArrayList<>());
+                }
+                ArrayList<T> list = this._subMap.get(topic);
+                list.add(h);
+            }
+        }
+
+        List<T> gets(String topic) {
+            if (this._subMap.containsKey(topic))
+                return this._subMap.get(topic);
+            return new ArrayList<>();
+        }
     }
 
 }

@@ -2,24 +2,26 @@ package net.fze.domain;
 
 /**
  * 仓库接口
- * @param <T>　聚合标识类型
- * @param <E> 实体
+ *
+ * @param <P> 　聚合标识类型
+ * @param <E> 实体类型
+ * @param <A> 聚合根接口类型
  */
-public interface IRepository<T, E> {
+public interface IRepository<P, E, A> {
     /**
      * 创建聚合
      */
-    E create(T t);
+    A create(E t);
 
     /**
      * 获取聚合
      */
-    E get(T t);
+    A get(P t);
 
     /**
      * 保存聚合值
      */
-    void save(E e);
+    P save(E e);
 
     /**
      * 删除聚合
