@@ -7,9 +7,8 @@ public interface IValueObject {
     /**
      * 值对象是否相同
      *
-     * @param src    源对象
      * @param target 目标对象
-     * @return 是或否
+     * @return 是或否相同
      */
-    boolean equals(Object src, Object target);
+    boolean equals(Object target);
 }

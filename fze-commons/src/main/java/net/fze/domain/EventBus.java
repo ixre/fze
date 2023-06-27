@@ -1,6 +1,5 @@
 package net.fze.domain;
 
-import kotlinx.coroutines.GlobalScope;
 import net.fze.common.Standard;
 import net.fze.util.tuple.Tuple;
 import net.fze.util.tuple.Tuple2;
@@ -27,29 +26,32 @@ import java.util.Map;
  */
 
 public class EventBus {
+
+    /** 事件处理程序 */
     public interface Handler<T> {
         void Run(T t);
     }
 
+    /** 异常处理程序 */
     public interface ExceptionHandler {
         void process(String eventName, Object event, Throwable ex);
     }
 
-    private class EventDispatcher<T> {
-        private Map<String, ArrayList<T>> _subMap = new HashMap<>();
-        private Object _locker = new Object();
+    /** 事件分发　*/
+    private static class EventDispatcher<T> {
+        private final Map<String, ArrayList<T>> _subMap = new HashMap<>();
+        private final Object _locker = new Object();
 
         /**
          * 订阅
          */
-        int subscribe(String topic, T h) {
+        void subscribe(String topic, T h) {
             synchronized (this._locker) {
                 if (!this._subMap.containsKey(topic)) {
                     this._subMap.put(topic, new ArrayList<>());
                 }
                 ArrayList<T> list = this._subMap.get(topic);
                 list.add(h);
-                return list.size();
             }
         }
 
@@ -60,18 +62,23 @@ public class EventBus {
         }
     }
 
-    private String name;
     private final static EventBus defaultInstance = new EventBus("default");
 
+    private final String _name;
+
     public EventBus(String name) {
-        this.name = name;
+        this._name = name;
+    }
+
+    public String getName() {
+        return _name;
     }
 
     public static EventBus getDefault() {
         return defaultInstance;
     }
 
-    private EventDispatcher<Tuple2<Boolean, Handler>> dispatcher = new EventDispatcher<>();
+    private final EventDispatcher<Tuple2<Boolean, Handler>> dispatcher = new EventDispatcher<>();
     private ExceptionHandler _exceptHandler;
 
     /**
@@ -95,7 +102,7 @@ public class EventBus {
         String eventName = event.getClass().getName();
         List<Tuple2<Boolean, Handler>> list = this.dispatcher.gets(eventName);
         try {
-            if (list.size() == 0) {
+            if (list.isEmpty()) {
                 throw new Exception("No subscribes for class " + eventName + ", please check class is match?");
             }
             list.forEach((it) -> {
