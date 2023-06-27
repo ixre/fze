@@ -45,9 +45,9 @@ public class Formatter {
             if (begin < 0)
                 begin = 0;
             // todo mysql limit 按分页数分页
-            int connt = over - begin;
+            int count = over - begin;
             sw.append(" LIMIT ").append(String.valueOf(begin))
-                    .append(",").append(String.valueOf(connt));
+                    .append(",").append(String.valueOf(count));
         }
     }
 
