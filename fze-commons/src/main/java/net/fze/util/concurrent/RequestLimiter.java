@@ -1,6 +1,6 @@
 package net.fze.util.concurrent;
 
-import net.fze.lib.storage.Storage;
+import net.fze.ext.storage.IStorage;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,10 +21,10 @@ public class RequestLimiter {
     private long lockSecond;
 
     // 数据存储
-    private Storage store;
+    private IStorage store;
 
     // 创建请求限制, store存储数据,lockSecond锁定时间,单位:秒,capacity: 最大容量,rate: 令牌放入速度(每秒放多少个)
-    public RequestLimiter(Storage store, long capacity, float rate, long lockSecond) {
+    public RequestLimiter(IStorage store, long capacity, float rate, long lockSecond) {
         this.store = store;
         this.capacity = capacity;
         this.rate = rate;

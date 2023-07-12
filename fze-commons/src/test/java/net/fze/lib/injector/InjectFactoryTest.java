@@ -1,8 +1,8 @@
 package net.fze.lib.injector;
 
+import net.fze.ext.injector.InjectFactory;
+import net.fze.ext.injector.Injector;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class InjectFactoryTest {
 

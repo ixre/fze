@@ -3,10 +3,10 @@ package net.fze.mock;
 import com.google.inject.Singleton;
 import net.fze.common.Context;
 import net.fze.common.Registry;
-import net.fze.lib.injector.Injector;
-import net.fze.lib.jdbc.ConnectorManager;
-import net.fze.lib.storage.RedisStorage;
-import net.fze.lib.storage.Storage;
+import net.fze.ext.injector.Injector;
+import net.fze.ext.jdbc.ConnectorManager;
+import net.fze.ext.storage.RedisStorage;
+import net.fze.ext.storage.IStorage;
 import redis.clients.jedis.JedisPool;
 
 /**
@@ -15,7 +15,7 @@ import redis.clients.jedis.JedisPool;
 @Singleton
 public class MockContextImpl implements Context {
     private Injector _injector;
-    private Storage _storage;
+    private IStorage _storage;
 
     @Override
     public Injector injector() {
@@ -53,7 +53,7 @@ public class MockContextImpl implements Context {
      * 存储
      */
     @Override
-    public Storage storage() {
+    public IStorage storage() {
         if (this._storage == null) {
             this._storage = RedisStorage.create(MockApp.getRedisPool());
         }

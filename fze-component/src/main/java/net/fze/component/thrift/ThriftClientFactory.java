@@ -1,4 +1,4 @@
-package net.fze.extras.thrift;
+package net.fze.ext.thrift;
 
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;

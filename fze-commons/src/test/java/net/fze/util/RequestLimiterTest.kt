@@ -1,7 +1,7 @@
 package net.fze.util
 
-import net.fze.lib.storage.RedisStorage
-import net.fze.lib.storage.Storage
+import net.fze.ext.storage.RedisStorage
+import net.fze.ext.storage.Storage
 import net.fze.util.concurrent.RequestLimiter
 import org.junit.jupiter.api.Test
 import redis.clients.jedis.JedisPool

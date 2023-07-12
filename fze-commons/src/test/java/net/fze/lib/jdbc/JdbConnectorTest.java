@@ -1,5 +1,9 @@
 package net.fze.lib.jdbc;
 
+import net.fze.ext.jdbc.DataSourceBuilder;
+import net.fze.ext.jdbc.IConnectionPool;
+import net.fze.ext.jdbc.JdbcConnection;
+import net.fze.ext.jdbc.Transaction;
 import org.junit.jupiter.api.Test;
 
 import java.beans.PropertyVetoException;
@@ -22,7 +26,7 @@ public class JdbConnectorTest {
         // 获取连接，通过连接器获得
         JdbcConnection conn = jdb.acquire();
         // 开启事务
-        Transcation tran = conn.transcation();
+        Transaction tran = conn.transcation();
         try {
             Long id = conn.execNonQuery(
                     "INSERT INTO user(user,host,password)VALUES(?,?,?)",

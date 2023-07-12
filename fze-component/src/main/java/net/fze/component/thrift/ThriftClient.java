@@ -1,4 +1,4 @@
-package net.fze.extras.thrift;
+package net.fze.ext.thrift;
 /*
  created for mzl-serve [ ThriftClient.java ]
  user: liuming (jarrysix@gmail.com)

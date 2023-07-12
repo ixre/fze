@@ -3,7 +3,7 @@ package net.fze.mock;
 
 import com.google.inject.Injector;
 
-class MockInjector implements net.fze.lib.injector.Injector {
+class MockInjector implements net.fze.ext.injector.Injector {
     private final Injector _injector;
 
     MockInjector(Injector i) {

@@ -1,0 +1,115 @@
+package net.fze.util;
+
+import net.fze.util.tuple.Tuple;
+import net.fze.util.tuple.Tuple2;
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
+/**
+ * 订单差异计算器
+ */
+public class DiffCalculator<T> {
+    private final List<T> _order;
+    private final List<T> _originOrder;
+    private final Map<Long, Long> _diffMap = new HashMap<>();
+    private final Function<T,Number> _p1;
+    private final Function<T, Number> _pk;
+    private List<T> _removedItems = new ArrayList<>();
+    private List<T> _addedItems = new ArrayList<>();
+    private List<T> _updatedItems = new ArrayList<>();
+
+    public DiffCalculator(List<T> order, List<T> originOrder,
+                          Function<T,Number> p1,
+                          Function<T,Number> pk
+                          ) {
+        this._p1 = p1;
+        this._pk = pk;
+        this._order = order;
+        this._originOrder = originOrder;
+    }
+
+    /**
+     * 检查差异
+     *
+     * @return 返回true包含差异, 返回false则表示没有差异
+     */
+    public boolean checkDiff() {
+        // 清理
+        this._diffMap.clear();
+        this._addedItems.clear();
+        this._updatedItems.clear();
+        this._removedItems.clear();
+
+        // 添加到变更记录里
+        Consumer<Tuple2<Integer, Integer>> consumer = a -> {
+            if(a.getItem2() == 0)return;
+            this._diffMap.put((long) a.getItem1(), (long) a.getItem2());
+        };
+
+        // 将新的项目存为Map
+        Map<Long, T> oldMap = this._originOrder.stream()
+                .collect(Collectors.toMap(a->this._pk.apply(a).longValue(), a -> a));
+
+        // 处理同一项目删除后又添加, id丢失的问题
+        this._order.forEach(a -> {
+            if (this._p1.apply(a).intValue() <= 0) {
+                T it = oldMap.get(this._pk.apply(a).longValue());
+                if (it != null) {
+                    a.setId(it.getId());
+                }
+            }
+        });
+
+        // 计算删除项
+        Map<Integer, T> newMap = this._order.stream()
+                .collect(Collectors.toMap(T::getGoodsItemsId, a -> a));
+        this._removedItems = this._originOrder.getItems().stream()
+                .filter(a -> !newMap.containsKey(a.getGoodsItemsId()))
+                .peek(a -> consumer.accept(Tuple.of(a.getGoodsItemsId(), -a.getQuantity())))
+                .collect(Collectors.toList());
+
+        // 计算新增项
+        this._addedItems = this._order.getItems().stream()
+                .filter(a -> a.getId() <= 0)
+                .peek(a -> consumer.accept(Tuple.of(a.getGoodsItemsId(), a.getQuantity())))
+                .collect(Collectors.toList());
+
+        // 计算更新项
+        this._updatedItems = this._order.getItems().stream()
+                .filter(a -> a.getId() > 0)
+                .peek(a -> {
+                    // 更新时,计算库存差异
+                   int quantity = a.getQuantity() - oldMap.get(a.getGoodsItemsId()).getQuantity();
+                    consumer.accept(Tuple.of(a.getGoodsItemsId(), quantity));
+                })
+                .collect(Collectors.toList());
+
+        return !this._diffMap.isEmpty();
+    }
+
+    public Map<Long, Long> getDiffValue() {
+        return this._diffMap;
+    }
+
+    public List<T> getAddItems() {
+        return this._addedItems;
+    }
+
+    public List<T> getRemovedItems() {
+        return this._removedItems;
+    }
+
+    public List<T> getUpdatedItems() {
+        return this._updatedItems;
+    }
+
+}

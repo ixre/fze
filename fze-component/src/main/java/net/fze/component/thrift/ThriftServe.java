@@ -1,4 +1,4 @@
-package net.fze.extras.thrift;
+package net.fze.ext.thrift;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.TMultiplexedProcessor;
