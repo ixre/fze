@@ -1,5 +1,6 @@
 package net.fze.ext.report
 
+import net.fze.common.data.PagingResult
 import java.sql.Connection
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
@@ -60,7 +61,7 @@ interface IReportPortal {
     fun getColumnMapping(): Array<ColumnMapping>
 
     //获取要导出的数据及表结构
-    fun getSchemaAndData(p: Params): DataResult
+    fun getSchemaAndData(p: Params): PagingResult<Map<String, Any>>
 
     //获取要导出的数据Json格式
     fun getJsonData(p: Params): String

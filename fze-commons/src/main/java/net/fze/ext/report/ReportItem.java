@@ -1,5 +1,6 @@
 package net.fze.ext.report;
 
+import net.fze.common.data.PagingResult;
 import net.fze.util.Strings;
 import net.fze.util.TypeConv;
 
@@ -43,9 +44,8 @@ public class ReportItem implements IReportPortal {
     }
 
     @Override
-    public DataResult getSchemaAndData(Params p) {
-        DataResult r = new DataResult();
-        r.setRows(new ArrayList<>());
+    public PagingResult<Map<String, Object>> getSchemaAndData(Params p) {
+
         // 初始化添加参数
         if (!p.contains("page_size")) {
             p.set("page_size", "10000000000");
@@ -56,6 +56,8 @@ public class ReportItem implements IReportPortal {
         // 获取页码和每页加载数量
         int pageIndex = TypeConv.toInt(p.get("page_index"));
         int pageSize = TypeConv.toInt(p.get("page_size"));
+        PagingResult<Map<String, Object>> r = new PagingResult<>();
+        r.setRows(new ArrayList<>());
         // 设置SQL分页信息
         if (pageIndex > 0) {
             String offset = String.valueOf((pageIndex - 1) * pageSize);
@@ -67,7 +69,7 @@ public class ReportItem implements IReportPortal {
         // 创建连接
         Connection conn = this.dbProvider.getConn();
         // 统计总行数
-        if (this.sqlConfig.getTotal() != "") {
+        if (!this.sqlConfig.getTotal().isEmpty()) {
             String sql = ReportUtils.sqlFormat(this.sqlConfig.getTotal(), p.getValue());
             try {
                 PreparedStatement stmt = conn.prepareStatement(this.check(sql));
@@ -79,22 +81,23 @@ public class ReportItem implements IReportPortal {
                 rs.close();
             } catch (Throwable ex) {
                 ex.printStackTrace();
-                r.setErr("[ Export][ Error] -" + ex.getMessage() + "\n" + sql);
+                r.setHint("[ Export][ Error] -" + ex.getMessage() + "\n" + sql);
             }
         }
         try {
             if (this.sqlConfig.getQuery() != "") {
                 r.setRows(this.execQuery(conn, this.sqlConfig.getQuery(), p));
             } else {
-                r.setErr("not contain any query");
+                r.setHint("not contain any query");
             }
-            if (this.sqlConfig.getSubQuery() != "") {
-                r.setSub(this.execQuery(conn, this.sqlConfig.getQuery(), p));
-            }
+            // 子查询可以考虑再单独一个文件
+//            if (this.sqlConfig.getSubQuery() != "") {
+//                //r.setSub(this.execQuery(conn, this.sqlConfig.getQuery(), p));
+//            }
             conn.close();
         } catch (Throwable ex) {
             ex.printStackTrace();
-            r.setErr("[ Export][ Error] -" + ex.getMessage() + "\n" + this.sqlConfig.getQuery());
+            r.setHint("[ Export][ Error] -" + ex.getMessage() + "\n" + this.sqlConfig.getQuery());
         }
         return r;
     }
@@ -127,7 +130,7 @@ public class ReportItem implements IReportPortal {
 
     @Override
     public Byte[] export(ExportParams ep, IExportProvider p, IExportFormatter f) {
-        DataResult r = this.getSchemaAndData(ep.getParams());
+        PagingResult<Map<String,Object>> r = this.getSchemaAndData(ep.getParams());
         String[] names = this.getExportColumnNames(ep.getExportFields());
         List<IExportFormatter> fmtArray = new ArrayList<>();
         fmtArray.add(new InternalFormatter());

@@ -21,6 +21,9 @@ public class PagingResult<T> {
      */
     private String hint;
 
+    public PagingResult(){
+
+    }
     public PagingResult(long total,List<T> rows) {
         this.rows = rows;
         this.total = total;

@@ -1,5 +1,9 @@
 package net.fze.ext.report;
 
+import net.fze.common.data.PagingResult;
+
+import java.util.Map;
+
 public class ReportHub {
     private IConnProvider provider;
     private String rootPath;
@@ -15,7 +19,7 @@ public class ReportHub {
 
     private ItemManager _manager;
 
-    public DataResult fetchData(String portal, Params p, int page, int size) {
+    public PagingResult<Map<String, Object>> fetchData(String portal, Params p, int page, int size) {
         IReportPortal item = _manager.getItem(portal);
         if (page > 0) {
             p.set("page_index", page);
