@@ -8,11 +8,11 @@ class LogsTest {
 
     @Test
     void log() {
-        Logs.log("--hello,jarry");
+        new Logs().log("--hello,jarry");
     }
 
     @Test
     void info() {
-        Logs.info("--hello,jarry");
+        new Logs().info("--hello,jarry");
     }
 }

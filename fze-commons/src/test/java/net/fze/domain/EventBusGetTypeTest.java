@@ -8,7 +8,7 @@ class EventBusGetTypeTest<T> {
     }
 
     public void test() {
-        EventBus.getDefault().subscribeAsync(EventBusTest.Test2Event.class, (event) -> {
+        EventBus.getDefault().asyncSubscribe(EventBusTest.Test2Event.class, (event) -> {
             System.out.println("--- ${it.name}");
             try {
                 Thread.sleep(1000);

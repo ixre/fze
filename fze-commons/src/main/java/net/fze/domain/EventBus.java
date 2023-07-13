@@ -1,6 +1,5 @@
 package net.fze.domain;
 
-import net.fze.common.Standard;
 import net.fze.util.tuple.Tuple;
 import net.fze.util.tuple.Tuple2;
 
@@ -54,7 +53,7 @@ public class EventBus {
     /**
      * 订阅异步事件
      */
-    public <T> void subscribeAsync(Class<T> event, Handler<T> h) {
+    public <T> void asyncSubscribe(Class<T> event, Handler<T> h) {
         this.dispatcher.subscribe(event.getName(), Tuple.of(true, h));
     }
 
@@ -63,18 +62,16 @@ public class EventBus {
      */
     public <T> Error publish(T event) {
         String eventName = event.getClass().getName();
-        List<Tuple2<Boolean, Handler>> list = this.dispatcher.gets(eventName);
+        List<Tuple2<Boolean, Handler<T>>> list = this.dispatcher.gets(eventName);
         try {
             if (list.isEmpty()) {
                 throw new Exception("No subscribes for class " + eventName + ", please check class is match?");
             }
             list.forEach((it) -> {
                 if (it.getItem1()) {
-                    Standard.std.coroutines2(() -> {
-                        it.getItem2().Run(event);
-                    });
+                    new Thread(()-> it.getItem2().handle(event)).start();
                 } else {
-                    it.getItem2().Run(event);
+                    it.getItem2().handle(event);
                 }
             });
         } catch (Throwable ex) {
@@ -97,7 +94,7 @@ public class EventBus {
      * 事件处理程序
      */
     public interface Handler<T> {
-        void Run(T t);
+        void handle(T t);
     }
 
     /**
@@ -127,9 +124,10 @@ public class EventBus {
             }
         }
 
-        List<T> gets(String topic) {
-            if (this._subMap.containsKey(topic))
-                return this._subMap.get(topic);
+       <R> List<Tuple2<Boolean, Handler<R>>> gets(String topic) {
+            if (this._subMap.containsKey(topic)) {
+                return (List<Tuple2<Boolean, Handler<R>>>)this._subMap.get(topic);
+            }
             return new ArrayList<>();
         }
     }

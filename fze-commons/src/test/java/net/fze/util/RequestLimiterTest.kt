@@ -1,14 +1,14 @@
 package net.fze.util
 
 import net.fze.ext.storage.RedisStorage
-import net.fze.ext.storage.Storage
+import net.fze.ext.storage.IStorage
 import net.fze.util.concurrent.RequestLimiter
 import org.junit.jupiter.api.Test
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 
 internal class RequestLimiterTest {
-    private fun getStorage(): Storage {
+    private fun getStorage(): IStorage {
         val host = "127.0.0.1"
         val port = 6379
         var pwd: String? = ""
