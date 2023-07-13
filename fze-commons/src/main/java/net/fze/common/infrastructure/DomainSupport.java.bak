@@ -1,5 +1,7 @@
 package net.fze.common.infrastructure;
 
+import net.fze.util.PinyinUtil;
+
 /**
  * 领域支持接口
  */
@@ -10,7 +12,7 @@ public interface DomainSupport {
      *
      * @return 拼音
      */
-    Pinyin4J pinyin();
+    PinyinUtil pinyin();
 
     /**
      * 格式化工具
@@ -18,12 +20,12 @@ public interface DomainSupport {
      * @return 实例
      */
     Formatter formatter();
-
-    /**
-     * 生成器
-     *
-     * @return 生成器
-     */
-    Generator generator();
+//
+//    /**
+//     * 生成器
+//     *
+//     * @return 生成器
+//     */
+//    Generator generator();
 
 }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 /** 参数 */
 public class Params {
-    private Map<String, Object> value;
+    private final Map<String, Object> value;
 
     public Params(Map<String, Object> value) {
         this.value = value;

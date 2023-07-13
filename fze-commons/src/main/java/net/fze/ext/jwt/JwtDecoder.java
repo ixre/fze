@@ -9,7 +9,7 @@ import java.util.Map;
  * JWT解码器
  */
 public class JwtDecoder {
-    private DecodedJWT jwt;
+    private final DecodedJWT jwt;
 
     JwtDecoder(DecodedJWT jwt) {
         this.jwt = jwt;

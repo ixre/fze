@@ -60,7 +60,7 @@ public class EventBus {
     /**
      * 发布事件
      */
-    public <T> Error publish(T event) {
+    public <T> void publish(T event) {
         String eventName = event.getClass().getName();
         List<Tuple2<Boolean, Handler<T>>> list = this.dispatcher.gets(eventName);
         try {
@@ -77,10 +77,8 @@ public class EventBus {
         } catch (Throwable ex) {
             if (this._exceptHandler != null)
                 this._exceptHandler.process(eventName, event, ex);
-            ex.printStackTrace();
-            return new Error(ex.getMessage());
+            throw new RuntimeException(ex);
         }
-        return null;
     }
 
     /**
