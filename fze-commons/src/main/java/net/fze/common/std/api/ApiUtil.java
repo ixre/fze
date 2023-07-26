@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /* API工具类 */
-public class ApiUtils {
+public class ApiUtil {
     // 签名
     public static String Sign(String signType, Map<String, String> r, String secret) {
         String data = SortedParamsString(r, secret);

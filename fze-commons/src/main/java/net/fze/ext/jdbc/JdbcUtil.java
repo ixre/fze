@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * 通用工具类
  */
-public class JdbcUtils {
+public class JdbcUtil {
     /**
      * 判断是否为空
      *

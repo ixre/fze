@@ -7,7 +7,7 @@ import java.io.InputStream;
 /**
  * IO工具类
  */
-public class IoUtils {
+public class IoUtil {
 
     public static byte[] streamToByteArray(InputStream stream) throws IOException {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();

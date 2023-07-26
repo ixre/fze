@@ -2,7 +2,7 @@ package net.fze.web.http;
 
 import net.fze.util.Strings;
 
-public class HttpUtils {
+public class HttpUtil {
     /**
      * 是否为HTTPS连接
      */

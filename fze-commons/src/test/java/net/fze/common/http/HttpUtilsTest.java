@@ -15,11 +15,11 @@ class HttpUtilsTest {
 
     @Test
     void join() {
-        String s = HttpUtils.join("http://fze.net", "info.html", "size=100");
+        String s = HttpUtil.join("http://fze.net", "info.html", "size=100");
         Assertions.assertEquals(s, "http://fze.net/info.html?size=100");
-        String s2 = HttpUtils.join("http://fze.net", "info.html?r=1", "size=100");
+        String s2 = HttpUtil.join("http://fze.net", "info.html?r=1", "size=100");
         Assertions.assertEquals(s2, "http://fze.net/info.html?r=1&size=100");
-        String s3 = HttpUtils.join("http://fze.net/info.html?r=1", "", "size=100");
+        String s3 = HttpUtil.join("http://fze.net/info.html?r=1", "", "size=100");
         Assertions.assertEquals(s3, "http://fze.net/info.html?r=1&size=100");
     }
 
@@ -45,7 +45,7 @@ class HttpUtilsTest {
     @Test
     void testGetBaseUrl(){
         String url ="http://baidu.com/fsdfsf";
-        String ret = HttpUtils.getBaseURL(url,null);
+        String ret = HttpUtil.getBaseURL(url,null);
         System.out.println("值为:"+ret);
 
     }

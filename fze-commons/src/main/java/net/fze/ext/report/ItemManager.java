@@ -62,7 +62,7 @@ public class ItemManager {
         if (f.isDirectory()) {
             throw new Error("[ Export][ Error]: report item config is a directory; path: " + filePath);
         }
-        ItemConfig cfg = ReportUtils.readItemConfigFromXml(filePath);
+        ItemConfig cfg = ReportUtil.readItemConfigFromXml(filePath);
         if (cfg == null) {
             throw new Error(
                     "[ Export][ Error]: can't load report item; path: " + filePath);

@@ -1,6 +1,6 @@
 package net.fze.common.std.api.wrapper;
 
-import net.fze.common.http.HttpUtils;
+import net.fze.common.http.HttpUtil;
 import net.fze.common.std.api.Request;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +44,7 @@ public class ServletRequest implements Request {
 
     @Override
     public String getRemoteAddr() {
-        return HttpUtils.remoteAddr(this.request);
+        return HttpUtil.remoteAddr(this.request);
     }
 
     @Override

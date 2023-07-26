@@ -24,7 +24,7 @@ public class ReportItem implements IReportPortal {
 
     /** 判断注入 */
     private String check(String sql) throws SQLException {
-        if (!ReportUtils.checkInject(sql))
+        if (!ReportUtil.checkInject(sql))
             throw new SQLException("sql is dangers");
         return sql;
     }
@@ -33,7 +33,7 @@ public class ReportItem implements IReportPortal {
     public ColumnMapping[] getColumnMapping() {
         if (this.mapping == null) {
             this.sqlConfig.setColumnMapping(this.formatMappingString(this.sqlConfig.getColumnMapping()));
-            this.mapping = ReportUtils.parseColumnMapping(this.sqlConfig.getColumnMapping());
+            this.mapping = ReportUtil.parseColumnMapping(this.sqlConfig.getColumnMapping());
         }
         return this.mapping;
     }
@@ -70,7 +70,7 @@ public class ReportItem implements IReportPortal {
         Connection conn = this.dbProvider.getConn();
         // 统计总行数
         if (!this.sqlConfig.getTotal().isEmpty()) {
-            String sql = ReportUtils.sqlFormat(this.sqlConfig.getTotal(), p.getValue());
+            String sql = ReportUtil.sqlFormat(this.sqlConfig.getTotal(), p.getValue());
             try {
                 PreparedStatement stmt = conn.prepareStatement(this.check(sql));
                 ResultSet rs = stmt.executeQuery();
@@ -142,7 +142,7 @@ public class ReportItem implements IReportPortal {
 
     private List<Map<String, Object>> execQuery(Connection conn, String query, Params p) {
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        String sql = ReportUtils.sqlFormat(query, p.getValue());
+        String sql = ReportUtil.sqlFormat(query, p.getValue());
         if (Strings.isNullOrEmpty(sql)){
             return new ArrayList<>();
         }

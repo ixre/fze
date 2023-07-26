@@ -22,23 +22,22 @@ dependencies {
     compileOnly("com.mchange:c3p0:0.9.5.5") //C3P0-Pool
     compileOnly("io.agroal:agroal-api:1.13")
     compileOnly("io.agroal:agroal-pool:1.13") // Agroal-Pool
-    compileOnly("io.etcd:jetcd-core:0.5.11") //only jdk8
+    compileOnly("io.etcd:jetcd-core:0.5.11") //only jdk8 = 0.5.11
     compileOnly("redis.clients:jedis:4.2.3")
     compileOnly("mysql:mysql-connector-java:8.0.28")
 
-    //compileOnly("com.github.dozermapper:dozer-core:6.5.2")
-
     compileOnly("com.belerweb:pinyin4j:2.5.0")
-    //compileOnly("com.esotericsoftware:reflectasm:1.11.9")
     // quarkus
     compileOnly("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
     // spring
     compileOnly("com.baomidou:mybatis-plus-core:3.5.3")
+    // grpc
+    compileOnly("io.grpc:grpc-stub:1.56.0")
+    compileOnly("com.google.protobuf:protobuf-java-util:3.22.3")
 
-
-    testImplementation("io.etcd:jetcd-core:0.5.4")
+    testCompileOnly("io.etcd:jetcd-core:0.5.4")
     compileOnly("org.junit.jupiter:junit-jupiter:5.7.0")
-    testImplementation( "redis.clients:jedis:4.2.3")
+    testCompileOnly("redis.clients:jedis:4.2.3")
     testCompileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
     compileOnly(kotlin("stdlib-jdk8"))

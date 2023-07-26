@@ -3,8 +3,8 @@ package net.fze.common.std.api.client;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.fze.common.http.HttpClient;
-import net.fze.common.http.HttpUtils;
-import net.fze.common.std.api.ApiUtils;
+import net.fze.common.http.HttpUtil;
+import net.fze.common.std.api.ApiUtil;
 import net.fze.util.TypeConv;
 import net.fze.util.Types;
 
@@ -81,8 +81,8 @@ public class ApiClient {
         data.put("key", this._key);
         data.put("version", this._version);
         data.put("sign_type", this._signType);
-        data.put("sign", ApiUtils.Sign(this._signType, data, this._secret));
-        String query = HttpUtils.toQuery(data);
+        data.put("sign", ApiUtil.Sign(this._signType, data, this._secret));
+        String query = HttpUtil.toQuery(data);
         return HttpClient.request(this._apiUrl, "POST", query.getBytes(), this._timeout);
     }
 

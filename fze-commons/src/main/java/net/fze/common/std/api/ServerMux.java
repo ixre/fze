@@ -215,7 +215,7 @@ public class ServerMux implements Server {
             return new CheckPermResult(p.getUserId(), Response.RAccessDenied);
         }
         Map<String, String> params = req.getParameterMap();
-        String resign = ApiUtils.Sign(signType, params, p.getSecret());
+        String resign = ApiUtil.Sign(signType, params, p.getSecret());
         // 检查签名
         if (!resign.equals(sign)) {
             ctx.form().set("$user_id", p.getUserId());
