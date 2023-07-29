@@ -4,8 +4,6 @@ import net.fze.ext.storage.IStorage;
 import net.fze.ext.storage.MemoryStorage;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class TrafficLimiterTest {
 
     @Test
