@@ -13,10 +13,10 @@ public interface IStorage {
     boolean exists(String key);
 
     // Set Value
-    Error set(String key, Object v);
+    void set(String key, Object v);
 
     // Auto Delete Set
-    Error setExpire(String key, Object v, long seconds);
+    void setExpire(String key, Object v, long seconds);
 
     // Get Value
     <T> T get(String key, Class<T> c);
@@ -37,5 +37,5 @@ public interface IStorage {
     byte[] getBytes(String key);
 
     // Delete Storage
-    void del(String pattern);
+    void remove(String pattern);
 }

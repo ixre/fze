@@ -8,9 +8,9 @@ public class TokenBucket {
     // 时间
     private long timestamp;
     // 桶的容量
-    private long capacity;
+    private final long capacity;
     // 令牌放入速度
-    private float rate;
+    private final float rate;
 
     // 当前令牌数量
     private long tokens;

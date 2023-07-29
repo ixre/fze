@@ -1,5 +1,6 @@
 package net.fze.ext.report;
 
+import net.fze.common.data.SqlUtil;
 import net.fze.util.Strings;
 import net.fze.util.Times;
 import net.fze.util.TypeConv;
@@ -13,10 +14,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ReportUtil {
-    private static final Pattern injectRegexp = Pattern.compile(
-            "\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|DELETE.+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)");
-
-    /**
+      /**
      * 获取列映射数组
      */
     public static ItemConfig readItemConfigFromXml(String xmlFilePath) {
@@ -69,10 +67,10 @@ public class ReportUtil {
                 String[] paramsArr = mapping.split(";");
                 String[] splitArr;
                 // 添加传入的参数
-                for (int i = 0; i < paramsArr.length; i++) {
-                    splitArr = paramsArr[i].split(":");
+                for (String s : paramsArr) {
+                    splitArr = s.split(":");
                     int l = splitArr[0].length() + 1;
-                    params.set(splitArr[0], paramsArr[i].substring(l));
+                    params.set(splitArr[0], s.substring(l));
                 }
             }
         }
@@ -83,7 +81,7 @@ public class ReportUtil {
      * 判断是否存在危险的注入操作
      */
     static boolean checkInject(String str) {
-        return !injectRegexp.matcher(str).find();
+        return SqlUtil.checkInject(str);
     }
 
     // 格式化sql语句

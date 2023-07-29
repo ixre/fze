@@ -2,7 +2,7 @@ package net.fze.util
 
 import net.fze.ext.storage.RedisStorage
 import net.fze.ext.storage.IStorage
-import net.fze.util.concurrent.RequestLimiter
+import net.fze.util.concurrent.TrafficLimiter
 import org.junit.jupiter.api.Test
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
@@ -27,7 +27,7 @@ internal class RequestLimiterTest {
     @Test
     fun acquire() {
         val storage = this.getStorage();
-        val rl = RequestLimiter(storage, 30, 5F, 10)
+        val rl = TrafficLimiter(storage, 30, 5F, 10)
         val ip = "172.17.0.1"
         while (true) {
             for (i in 0..100) {

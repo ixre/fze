@@ -39,19 +39,17 @@ public class RedisStorage implements IStorage {
     }
 
     @Override
-    public Error set(String key, Object v) {
+    public void set(String key, Object v) {
         Jedis rds = this.pool.getResource();
         rds.set(key, this.getObjectValue(v));
         rds.close();
-        return null;
     }
 
     @Override
-    public Error setExpire(String key, Object v, long seconds) {
+    public void setExpire(String key, Object v, long seconds) {
         Jedis rds = this.pool.getResource();
         rds.setex(key, seconds, this.getObjectValue(v));
         rds.close();
-        return null;
     }
 
     private String getObjectValue(Object v) {
@@ -126,13 +124,13 @@ public class RedisStorage implements IStorage {
     }
 
     @Override
-    public void del(String pattern) {
+    public void remove(String pattern) {
         Jedis rds = this.pool.getResource();
-        if (pattern.indexOf("*") == -1) {
+        if (!pattern.contains("*")) {
             rds.del(pattern);
         } else {
             Set<String> keys = rds.keys(pattern);
-            if (keys.size() > 0) {
+            if (!keys.isEmpty()) {
                 String[] keyArray = new String[keys.size()];
                 rds.del(keys.toArray(keyArray));
             }
