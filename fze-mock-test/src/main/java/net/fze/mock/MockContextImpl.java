@@ -4,7 +4,7 @@ import com.google.inject.Singleton;
 import net.fze.common.Context;
 import net.fze.common.Registry;
 import net.fze.ext.injector.Injector;
-import net.fze.ext.jdbc.ConnectorManager;
+import net.fze.ext.jdbc.IDataSourceManager;
 import net.fze.ext.storage.RedisStorage;
 import net.fze.ext.storage.IStorage;
 import redis.clients.jedis.JedisPool;
@@ -36,7 +36,7 @@ public class MockContextImpl implements Context {
      * @return
      */
     @Override
-    public ConnectorManager jdbc() {
+    public IDataSourceManager jdbc() {
         return MockApp.getJdbcManager();
     }
 

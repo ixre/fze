@@ -2,7 +2,7 @@ package net.fze.mock;
 
 import com.google.inject.Injector;
 import net.fze.common.Registry;
-import net.fze.ext.jdbc.ConnectorManager;
+import net.fze.ext.jdbc.IDataSourceManager;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -97,7 +97,7 @@ class MockApp {
         return _redisPool;
     }
 
-    public static ConnectorManager getJdbcManager() {
+    public static IDataSourceManager getJdbcManager() {
         throw new Error("不支持JDBC连接");
     }
 }

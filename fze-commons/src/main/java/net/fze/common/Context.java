@@ -1,7 +1,7 @@
 package net.fze.common;
 
 import net.fze.ext.injector.Injector;
-import net.fze.ext.jdbc.ConnectorManager;
+import net.fze.ext.jdbc.IDataSourceManager;
 import net.fze.ext.storage.IStorage;
 import redis.clients.jedis.JedisPool;
 
@@ -25,7 +25,7 @@ public interface Context {
      *
      * @return
      */
-    ConnectorManager jdbc();
+    IDataSourceManager jdbc();
 
     /**
      * 获取Redis实例

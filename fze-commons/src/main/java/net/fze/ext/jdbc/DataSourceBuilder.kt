@@ -3,17 +3,18 @@ package net.fze.ext.jdbc
 import net.fze.util.Strings
 import java.net.URLEncoder
 
-class DataSourceBuilder {
+class DataSourceBuilder// search class
+    (driverClass: String) {
     private val params = ConnectionParams()
-    private var poolType = Pools.Agroal
-    fun create(driverClass: String): DataSourceBuilder {
-        Class.forName(driverClass) // search class
+    private var poolType = Pools.HikariCP;
+
+    init {
+        Class.forName(driverClass)
         this.params.driverClass = driverClass
-        return this
     }
 
     fun setJdbcUrl(connUrl: String): DataSourceBuilder {
-        if (this.params.driverClass.isNullOrEmpty()) {
+        if (this.params.driverClass.isEmpty()) {
             throw Exception("please setting driver class first !")
         }
         this.params.connectionUrl = connUrl
@@ -41,6 +42,9 @@ class DataSourceBuilder {
     }
 
     companion object {
+        fun create(driverClass: String):DataSourceBuilder{
+            return DataSourceBuilder(driverClass)
+        }
         /**
          * 创建MySql连接URL
          *

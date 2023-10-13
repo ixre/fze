@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 连接器管理器
  */
-public class ConnectorManager {
+public abstract class ConnectorManager implements IDataSourceManager {
     public List<String> keys = new ArrayList<>();
     public Map<String, IConnectionPool> data = new LinkedHashMap<>();
     private String defaultKey = "";
@@ -27,7 +27,7 @@ public class ConnectorManager {
     /**
      * 获取第一个JDBC连接
      */
-    public IConnectionPool first() {
+    private IConnectionPool first() {
         if (this.keys.size() > 0) {
             return this.data.get(this.keys.get(0));
         }
