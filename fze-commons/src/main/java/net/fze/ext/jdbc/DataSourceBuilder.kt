@@ -42,6 +42,7 @@ class DataSourceBuilder// search class
     }
 
     companion object {
+        @JvmStatic
         fun create(driverClass: String):DataSourceBuilder{
             return DataSourceBuilder(driverClass)
         }
