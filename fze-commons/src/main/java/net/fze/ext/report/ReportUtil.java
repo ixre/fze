@@ -7,7 +7,9 @@ import net.fze.util.TypeConv;
 import net.fze.util.Types;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -19,6 +21,9 @@ public class ReportUtil {
      */
     public static ItemConfig readItemConfigFromXml(String xmlFilePath) {
         try {
+            if(xmlFilePath.startsWith("classpath:")){
+                return readItemConfigFromResources(xmlFilePath);
+            }
             File f = new File(xmlFilePath);
             JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
             return (ItemConfig) ctx.createUnmarshaller().unmarshal(f);
@@ -26,6 +31,19 @@ public class ReportUtil {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 从资源中读取配置文件内容
+     * @param resourcePath 资源路径
+     * @return 配置项
+     */
+    private static ItemConfig readItemConfigFromResources(String resourcePath) throws JAXBException {
+        String resPath = resourcePath.replace("classpath:","");
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        InputStream stream = loader.getResourceAsStream(resPath);
+        JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
+        return (ItemConfig) ctx.createUnmarshaller().unmarshal(stream);
     }
 
     /**
