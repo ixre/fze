@@ -1,19 +1,19 @@
 package net.fze.util;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 字符工具类
+ */
 public class Strings {
 
     /**
      * 是否为空字符串或空
      *
      * @param s 字符串
-     * @return
      */
     public static boolean isNullOrEmpty(String s) {
         return s == null || s.trim().isEmpty();
@@ -28,7 +28,7 @@ public class Strings {
 
     public static String template(String text, Map<String, String> args) {
         return replace(text, "\\{([^{]+?)}",
-                matcher -> Types.valueOrDefault(args.get(matcher.group(1)), matcher.group()));
+                matcher -> Types.orValue(args.get(matcher.group(1)), matcher.group()));
     }
 
     /**
@@ -43,73 +43,6 @@ public class Strings {
         return String.join(delimiter, dst);
     }
 
-    /**
-     * 生成md5
-     *
-     * @param str
-     * @return 32位MD5
-     */
-    public static String md5(String str) {
-        String md5str = "";
-        try {
-            // 1 创建一个提供信息摘要算法的对象，初始化为md5算法对象
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] input = str.getBytes(StandardCharsets.UTF_8);
-            // 3 计算后获得字节数组,这就是那128位了
-            byte[] buff = md.digest(input);
-            // 4 把数组每一字节（一个字节占八位）换成16进制连成md5字符串
-            md5str = bytesToHex(buff);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-        return md5str;
-    }
-
-    /** 返回[str]的16位md5 */
-
-    public static String shortMd5(String str) {
-        return md5(str).substring(8, 24);
-    }
-
-    /**
-     * 二进制转十六进制
-     *
-     * @param bytes
-     * @return
-     */
-    public static String bytesToHex(byte[] bytes) {
-        StringBuffer md5str = new StringBuffer();
-        // 把数组每一字节换成16进制连成md5字符串
-        int digital = 0;
-        for (int i = 0; i < bytes.length; i++) {
-            digital = (int) bytes[i];
-
-            if (digital < 0) {
-                digital += 256;
-            }
-            if (digital < 16) {
-                md5str.append("0");
-            }
-            md5str.append(Integer.toHexString(digital));
-        }
-        return md5str.toString().toUpperCase();
-    }
-
-    public static byte[] encodeBase64(byte[] bytes) {
-        return Base64.getEncoder().encode(bytes);
-    }
-
-    public static byte[] decodeBase64(byte[] bytes) {
-        return Base64.getDecoder().decode(bytes);
-    }
-
-    public static String encodeBase64String(byte[] bytes) {
-        return Base64.getEncoder().encodeToString(bytes);
-    }
-
-    public static byte[] decodeBase64String(String s) {
-        return Base64.getDecoder().decode(s);
-    }
 
     private static final String letterStr = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -156,9 +89,7 @@ public class Strings {
     // 重复字符串
     public static String repeat(String s, int n) {
         String[] arr = new String[n];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = s;
-        }
+        Arrays.fill(arr, s);
         return String.join("", arr);
     }
 
@@ -172,9 +103,8 @@ public class Strings {
     }
 
     public static int indexOfAny(String workspace, Iterable<String> arr) {
-        Iterator<String> iterator = arr.iterator();
-        while (iterator.hasNext()) {
-            int i = workspace.indexOf(iterator.next());
+        for (String s : arr) {
+            int i = workspace.indexOf(s);
             if (i != -1)
                 return i;
         }

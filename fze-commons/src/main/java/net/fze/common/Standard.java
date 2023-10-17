@@ -32,7 +32,7 @@ public class Standard {
      */
     public static ClassResolver classResolver = new ClassResolver();
 
-    private static boolean java9OrLater = detectIsJava9OrLater();
+    private static final boolean java9OrLater = detectIsJava9OrLater();
 
     private static Boolean detectIsJava9OrLater() {
         String version = System.getProperty("java.version");
@@ -57,13 +57,14 @@ public class Standard {
         String resName = pkg.replace(".", "/");
         URL pkgPath = c.getClassLoader().getResource(resName);
         String path = pkgPath != null ? pkgPath.getPath() : "";
-        return path.indexOf(".jar!") != -1
-                || path.indexOf(".war!") != -1;
+        return path.contains(".jar!")
+                || path.contains(".war!");
     }
 
-    /** 解析环境,如果是生产环境返回true,反之返回false */
-    public static boolean resolveEnvironment(Class<?> main) {
-
+    /**
+     * 解析环境,如果是生产环境返回true,反之返回false
+     */
+    public static void resolveEnvironment(Class<?> main) {
         devFlag = classInJar(main) ? 0 : 1;
         if (dev()) {
             // 在IDEA下开发时设置项目真实的工作空间
@@ -78,9 +79,7 @@ public class Standard {
             if (i != -1) {
                 System.setProperty("user.dir", workspace.substring(0, i));
             }
-            return false;
         }
-        return true;
     }
 
     /**
@@ -111,9 +110,9 @@ public class Standard {
     /** 捕获异常,执行操作 */
     public static <T> CatchResult<T> tryCatch(Supplier<T> p) {
         try {
-            return new CatchResult(null, p.get());
+            return new CatchResult<>(null, p.get());
         } catch (Throwable ex) {
-            return new CatchResult(ex, null);
+            return new CatchResult<>(ex, null);
         }
     }
 

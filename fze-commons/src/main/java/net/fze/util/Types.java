@@ -36,7 +36,7 @@ public class Types {
         return v == null ? d : v;
     }
 
-    private static Gson gson = new GsonBuilder()
+    private static final Gson gson = new GsonBuilder()
             .serializeNulls()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
             .create();
@@ -99,20 +99,14 @@ public class Types {
      * 克隆一个字典
      */
     public static <T, K> Map<T, K> cloneMap(Map<T, K> src) {
-        Map<T, K> dst = new HashMap<>();
-        for (Map.Entry<T, K> e : src.entrySet()) {
-            dst.put(e.getKey(), e.getValue());
-        }
-        return dst;
+        return new HashMap<>(src);
     }
 
     /**
      * 拷贝字典数据
      */
     public static <T, K> void copyMap(Map<T, K> src, Map<T, K> dst) {
-        for (Map.Entry<T, K> e : src.entrySet()) {
-            dst.put(e.getKey(), e.getValue());
-        }
+        dst.putAll(src);
     }
 
     /**

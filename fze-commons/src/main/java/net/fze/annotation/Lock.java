@@ -14,21 +14,18 @@ public @interface Lock {
     /**
      * 锁键
      * 
-     * @return
      */
     String value();
 
     /**
      * 过期时间(秒)
      * 
-     * @return
      */
     int expires() default 0;
     
     /**
      * 唯一编号,用于确定是否执行同一个批次,默认为空
      * 
-     * @return
      */
     String id() default "";
 
