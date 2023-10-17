@@ -46,4 +46,11 @@ class ReportUtilsTest {
         String create_time2 = ReportUtil.timeSQLByJSONTime(params.get("time_range"), "create_time");
         System.out.println(create_time2);
     }
+
+
+    @Test
+    void testLoadConfigItem(){
+        ItemConfig cfg = ReportUtil.readItemConfigFromXml("classpath:/query/test.xml");
+        System.out.println(Types.toJson(cfg));
+    }
 }
