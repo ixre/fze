@@ -15,7 +15,7 @@ public class RegexpTester {
 
     /**
      * 返回Kotlin正则表达式对象
-     * 
+     *
      * @param pattern
      * @return
      */
@@ -29,7 +29,7 @@ public class RegexpTester {
 
     /**
      * 验证参数是否未填写
-     * 
+     *
      * @param o 参数
      * @return
      */

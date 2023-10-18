@@ -22,7 +22,9 @@ public class ReportItem implements IReportPortal {
         this.sqlConfig = cfg;
     }
 
-    /** 判断注入 */
+    /**
+     * 判断注入
+     */
     private String check(String sql) throws SQLException {
         if (!ReportUtil.checkInject(sql))
             throw new SQLException("sql is dangers");
@@ -38,7 +40,9 @@ public class ReportItem implements IReportPortal {
         return this.mapping;
     }
 
-    /** 去掉空格和换行 */
+    /**
+     * 去掉空格和换行
+     */
     private String formatMappingString(String columnMapping) {
         return Strings.replace(columnMapping, "\\s|\\n", a -> "");
     }
@@ -130,7 +134,7 @@ public class ReportItem implements IReportPortal {
 
     @Override
     public Byte[] export(ExportParams ep, IExportProvider p, IExportFormatter f) {
-        PagingResult<Map<String,Object>> r = this.getSchemaAndData(ep.getParams());
+        PagingResult<Map<String, Object>> r = this.getSchemaAndData(ep.getParams());
         String[] names = this.getExportColumnNames(ep.getExportFields());
         List<IExportFormatter> fmtArray = new ArrayList<>();
         fmtArray.add(new InternalFormatter());
@@ -143,7 +147,7 @@ public class ReportItem implements IReportPortal {
     private List<Map<String, Object>> execQuery(Connection conn, String query, Params p) {
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         String sql = ReportUtil.sqlFormat(query, p.getValue());
-        if (Strings.isNullOrEmpty(sql)){
+        if (Strings.isNullOrEmpty(sql)) {
             return new ArrayList<>();
         }
         ResultSet rs = null;

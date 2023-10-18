@@ -5,18 +5,18 @@ import java.util.Map;
 
 public class HttpRequest {
     private String contentType = ContentTypes.NOT.getValue();
-    private int  timeout = 0;
+    private int timeout = 0;
     private Map<String, String> headers = new HashMap<>();
 
     private byte[] body = new byte[]{};
-    private String  method = "GET";
+    private String method = "GET";
     private String url = "";
 
     public String getMethod() {
         return method;
     }
 
-     void setMethod(String method) {
+    void setMethod(String method) {
         this.method = method;
     }
 
@@ -24,7 +24,7 @@ public class HttpRequest {
         return url;
     }
 
-     void setUrl(String url) {
+    void setUrl(String url) {
         this.url = url;
     }
 

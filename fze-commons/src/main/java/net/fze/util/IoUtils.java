@@ -7,7 +7,7 @@ import java.io.InputStream;
 /**
  * IO工具类
  */
-public class IoUtil {
+public class IoUtils {
 
     public static byte[] streamToByteArray(InputStream stream) throws IOException {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
@@ -28,7 +28,7 @@ public class IoUtil {
      * @return 字符
      */
     public static String readToEnd(InputStream stream, String charset) throws IOException {
-        if (charset == null || charset.equals("")) {
+        if (charset == null || charset.isEmpty()) {
             charset = "UTF-8";
         }
         return new String(streamToByteArray(stream), charset);

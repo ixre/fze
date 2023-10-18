@@ -7,7 +7,7 @@ package net.fze.domain;
  * @param <A> 聚合根接口类型
  * @param <E> 实体类型
  */
-public interface IRepository<P,A,E> {
+public interface IRepository<P, A, E> {
     /**
      * 创建聚合
      */

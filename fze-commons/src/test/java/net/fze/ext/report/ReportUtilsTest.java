@@ -48,9 +48,22 @@ class ReportUtilsTest {
     }
 
 
+    /**
+     * 测试配置读取
+     */
     @Test
     void testLoadConfigItem(){
         ItemConfig cfg = ReportUtil.readItemConfigFromXml("classpath:/query/test.xml");
+        System.out.println(Types.toJson(cfg));
+    }
+
+    /**
+     * 测试配置项管理器
+     */
+    @Test
+    void testItemManager(){
+        ItemManager manager = new ItemManager(null,"classpath:query",true);
+        IReportPortal cfg = manager.getItem("test.xml");
         System.out.println(Types.toJson(cfg));
     }
 }

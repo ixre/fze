@@ -10,14 +10,14 @@ public class InjectFactory {
     /**
      * 设置注入器
      * ```java
-     *  InjectFactory.configure(new Injector() {
-     *             @Override
-     *             public <T> T getInstance(Class<T> c) {
-     *                 return null;
-     *             }
-     *         });
-     * ```
+     * InjectFactory.configure(new Injector() {
+     *
      * @param injector 注入器
+     * @Override public <T> T getInstance(Class<T> c) {
+     * return null;
+     * }
+     * });
+     * ```
      */
     public static void configure(Injector injector) {
         _injector = injector;
@@ -25,11 +25,12 @@ public class InjectFactory {
 
     /**
      * 获取实例
+     *
      * @param clazz 类型
      * @return 实例
      */
     public static <T> T getInstance(Class<T> clazz) {
-        if(_injector == null){
+        if (_injector == null) {
             throw new IllegalArgumentException("依赖注入器未初始化");
         }
         return _injector.getInstance(clazz);

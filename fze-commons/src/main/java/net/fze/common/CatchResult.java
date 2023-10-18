@@ -1,7 +1,6 @@
 package net.fze.common;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class CatchResult<T> {
     private Throwable ex;
@@ -21,7 +20,9 @@ public class CatchResult<T> {
         return this;
     }
 
-    /** 获取错误 */
+    /**
+     * 获取错误
+     */
     public Error error() {
         if (this.ex != null)
             return new Error(this.ex.getMessage(), this.ex);
@@ -34,7 +35,9 @@ public class CatchResult<T> {
         return null;
     }
 
-    /** 应用错误回调, 如果无异常或错误则直接返回null */
+    /**
+     * 应用错误回调, 如果无异常或错误则直接返回null
+     */
     public Error applyError(Function<Error, Void> f) {
         Error err = this.error();
         if (err != null)

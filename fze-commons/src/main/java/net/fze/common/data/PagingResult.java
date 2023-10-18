@@ -21,10 +21,11 @@ public class PagingResult<T> {
      */
     private String hint;
 
-    public PagingResult(){
+    public PagingResult() {
 
     }
-    public PagingResult(long total,List<T> rows) {
+
+    public PagingResult(long total, List<T> rows) {
         this.rows = rows;
         this.total = total;
     }
@@ -45,12 +46,16 @@ public class PagingResult<T> {
         this.rows = rows;
     }
 
-    /** 获取信息提示 */
+    /**
+     * 获取信息提示
+     */
     public String getHint() {
         return hint;
     }
 
-    /** 设置信息提示 */
+    /**
+     * 设置信息提示
+     */
     public void setHint(String hint) {
         this.hint = hint;
     }

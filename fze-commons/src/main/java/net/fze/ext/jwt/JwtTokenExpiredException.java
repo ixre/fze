@@ -10,6 +10,6 @@ public class JwtTokenExpiredException extends RuntimeException {
     }
 
     public JwtTokenExpiredException(TokenExpiredException ex) {
-        super(ex.getMessage(),null);
+        super(ex.getMessage(), null);
     }
 }

@@ -6,15 +6,17 @@ import java.util.function.Consumer;
 
 /**
  * 本地调用消费监听器
+ *
  * @param <T>
  */
 class ConsumerStreamObserver<T> implements StreamObserver<T> {
 
     private final Consumer<T> _consumer;
 
-    public ConsumerStreamObserver(Consumer<T> consumer){
+    public ConsumerStreamObserver(Consumer<T> consumer) {
         this._consumer = consumer;
     }
+
     @Override
     public void onNext(T value) {
         this._consumer.accept(value);

@@ -8,27 +8,26 @@ import java.lang.annotation.Target;
 /**
  * 执行时请求加锁
  */
-@Target({ ElementType.METHOD })
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Lock {
     /**
      * 锁键
-     * 
      */
     String value();
 
     /**
      * 过期时间(秒)
-     * 
      */
     int expires() default 0;
-    
+
     /**
      * 唯一编号,用于确定是否执行同一个批次,默认为空
-     * 
      */
     String id() default "";
 
-    /** 延迟解锁, 以避免时间不同步时快速解锁导致的问题 */
+    /**
+     * 延迟解锁, 以避免时间不同步时快速解锁导致的问题
+     */
     int delayUnlock() default 0;
 }

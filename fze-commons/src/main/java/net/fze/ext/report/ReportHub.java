@@ -12,8 +12,9 @@ public class ReportHub {
 
     /**
      * 创建仓库实例
-     * @param provider 数据源提供者
-     * @param rootPath 跟路径,默认为: classpath:
+     *
+     * @param provider   数据源提供者
+     * @param rootPath   跟路径,默认为: classpath:
      * @param cacheFiles 是否缓存文件, 识别本地文件有效
      */
     public ReportHub(IConnProvider provider, String rootPath, boolean cacheFiles) {

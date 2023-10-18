@@ -13,6 +13,11 @@ import java.util.Map;
  * 字符串扩展对象
  */
 public class Types {
+    private static final Gson gson = new GsonBuilder()
+            .serializeNulls()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .create();
+
     /**
      * 获取值，如果v为空，返回默认值d
      *
@@ -35,11 +40,6 @@ public class Types {
     public static <T> T valueOrDefault(T v, T d) {
         return v == null ? d : v;
     }
-
-    private static final Gson gson = new GsonBuilder()
-            .serializeNulls()
-            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            .create();
 
     private static Gson getGson() {
         // return new Gson();
@@ -110,10 +110,20 @@ public class Types {
     }
 
     /**
+     * 判断ra,rb是否在la,lb区间内
+     */
+    public static Boolean inRange(int la, int lb, int ra, int rb) {
+        return (la >= ra && la < rb) ||
+                (la > ra && la <= rb) ||
+                (la <= ra && lb > rb) ||
+                (la < ra && lb >= ra);
+    }
+
+    /**
      * 将json数组反序列化为列表
      */
     public <T> List<T> fromArrayJson(String json, Class<T> typeOfT) {
-        Type gt = TypeToken.getParameterized(List.class, new Type[] { typeOfT }).getType();
+        Type gt = TypeToken.getParameterized(List.class, new Type[]{typeOfT}).getType();
         return new Gson().fromJson(json, gt);
     }
 
@@ -124,10 +134,6 @@ public class Types {
     public interface TCond<T> {
         boolean test(T t);
     }
-
-    public interface TFunc<T> {
-        void call(T t);
-    }
     /*
      * public static <T> void eachArray(Iterator<T> e, TFunc<T> f) {
      * while (e.hasNext()) {
@@ -136,14 +142,8 @@ public class Types {
      * }
      */
 
-    /**
-     * 判断ra,rb是否在la,lb区间内
-     */
-    public static Boolean inRange(int la, int lb, int ra, int rb) {
-        return (la >= ra && la < rb) ||
-                (la > ra && la <= rb) ||
-                (la <= ra && lb > rb) ||
-                (la < ra && lb >= ra);
+    public interface TFunc<T> {
+        void call(T t);
     }
 
 }

@@ -35,7 +35,9 @@ public interface CollectionUtil {
         return s;
     }
 
-    /** 去重 */
+    /**
+     * 去重
+     */
     static <E> Collection<E> removeRepeatElement(Iterable<E> list) {
         LinkedHashSet<E> set = new LinkedHashSet<E>();
         list.forEach((it) -> set.add(it));

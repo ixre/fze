@@ -4,6 +4,7 @@ package net.fze.valueobject
 class NodeObject {
     var id: String = ""
     var label: String = ""
+
     /** 是否为叶子,用于懒加载 */
     var isLeaf: Boolean = false
     var children: List<NodeObject> = listOf()

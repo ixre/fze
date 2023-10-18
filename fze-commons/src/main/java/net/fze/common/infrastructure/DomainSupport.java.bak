@@ -1,6 +1,6 @@
 package net.fze.common.infrastructure;
 
-import net.fze.util.PinyinUtil;
+import net.fze.util.PinyinUtils;
 
 /**
  * 领域支持接口

@@ -101,7 +101,7 @@ class ClassResolver internal constructor() {
     ): ArrayList<Class<*>> {
         val classArray = ArrayList<Class<*>>()
         val files = File(filePath).listFiles()
-         val pathRegexp = Regex("[\\\\/]")
+        val pathRegexp = Regex("[\\\\/]")
         files?.forEach { fi ->
             if (fi.isDirectory) {
                 classArray.addAll(getFilePathClasses(loader, basePkg, fi.path, pkgPathLen, fn))

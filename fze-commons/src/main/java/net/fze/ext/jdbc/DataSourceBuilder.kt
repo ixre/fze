@@ -43,9 +43,10 @@ class DataSourceBuilder// search class
 
     companion object {
         @JvmStatic
-        fun create(driverClass: String):DataSourceBuilder{
+        fun create(driverClass: String): DataSourceBuilder {
             return DataSourceBuilder(driverClass)
         }
+
         /**
          * 创建MySql连接URL
          *

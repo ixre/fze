@@ -7,15 +7,13 @@ apply("../deploy.gradle")
 
 
 dependencies {
-    //api("javax.xml.bind:jaxb-api:2.3.1")
     api("javax.inject:javax.inject:1")
     api("com.auth0:java-jwt:4.2.1")
     compileOnly("com.zaxxer:HikariCP:5.0.1")
     compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    compileOnly("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.code.gson:gson:2.10.1")
     compileOnly("org.aspectj:aspectjweaver:1.9.19")
     compileOnly("javax.servlet:javax.servlet-api:4.0.1")
-    compileOnly("javax.xml.bind:jaxb-api:2.3.1")
     compileOnly("com.google.inject:guice:7.0.0")
     compileOnly("com.moandjiezana.toml:toml4j:0.7.2")
     compileOnly("commons-cli:commons-cli:1.5.0")

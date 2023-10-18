@@ -1,47 +1,56 @@
 package net.fze.ext.report;
 
 import net.fze.common.data.SqlUtil;
-import net.fze.util.Strings;
-import net.fze.util.Times;
-import net.fze.util.TypeConv;
-import net.fze.util.Types;
+import net.fze.util.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * 报表工具类
+ */
 public class ReportUtil {
-      /**
+    /**
      * 获取列映射数组
      */
     public static ItemConfig readItemConfigFromXml(String xmlFilePath) {
         try {
-            if(xmlFilePath.startsWith("classpath:")){
+            if (xmlFilePath.startsWith("classpath:")) {
                 return readItemConfigFromResources(xmlFilePath);
             }
-            File f = new File(xmlFilePath);
-            JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
-            return (ItemConfig) ctx.createUnmarshaller().unmarshal(f);
-        } catch (Throwable ex) {
+            FileInputStream fs = new FileInputStream(xmlFilePath);
+            String xmlContent = IoUtils.readToEnd(fs, "UTF-8");
+            return XmlUtils.deserializeObject(xmlContent);
+        } catch (JAXBException ex) {
             ex.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
     /**
      * 从资源中读取配置文件内容
+     *
      * @param resourcePath 资源路径
      * @return 配置项
      */
     private static ItemConfig readItemConfigFromResources(String resourcePath) throws JAXBException {
-        String resPath = resourcePath.replace("classpath:","");
+        String resPath = resourcePath.replace("classpath:", "");
+        if (resPath.startsWith("/")) {
+            resPath = resPath.substring(1);
+        }
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         InputStream stream = loader.getResourceAsStream(resPath);
+        if (stream == null) {
+            throw new RuntimeException("not found query item in classpath");
+        }
         JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
         return (ItemConfig) ctx.createUnmarshaller().unmarshal(stream);
     }
@@ -74,22 +83,24 @@ public class ReportUtil {
     public static Params parseParams(String paramMappings) {
         Params params = new Params(new HashMap<>());
         if (paramMappings != null && paramMappings.length() > 1) {
-            String query = URLDecoder.decode(paramMappings);
-            if (query.charAt(0) == '{') {
-                Map<String, Object> mp = Types.fromJson(query, Map.class);
-                mp.forEach((k, v) -> {
-                    params.set(k, v);
-                });
-            } else {
-                String mapping = query.replace("%3d", "=");
-                String[] paramsArr = mapping.split(";");
-                String[] splitArr;
-                // 添加传入的参数
-                for (String s : paramsArr) {
-                    splitArr = s.split(":");
-                    int l = splitArr[0].length() + 1;
-                    params.set(splitArr[0], s.substring(l));
+            try {
+                String query = URLDecoder.decode(paramMappings, "UTF-8");
+                if (query.charAt(0) == '{') {
+                    Map<String, Object> mp = Types.fromJson(query, Map.class);
+                    mp.forEach(params::set);
+                } else {
+                    String mapping = query.replace("%3d", "=");
+                    String[] paramsArr = mapping.split(";");
+                    String[] splitArr;
+                    // 添加传入的参数
+                    for (String s : paramsArr) {
+                        splitArr = s.split(":");
+                        int l = splitArr[0].length() + 1;
+                        params.set(splitArr[0], s.substring(l));
+                    }
                 }
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
             }
         }
         return params;
@@ -135,7 +146,7 @@ public class ReportUtil {
                         Long l = TypeConv.toLong(it);
                         return l > 1E12 ? l / 1000 : l;
                     }
-                    return Times.unix(Times.parseISOTime(it.trim()));
+                    return Times.unix(Objects.requireNonNull(Times.parseISOTime(it.trim())));
                 })
                 .collect(Collectors.toList());
     }
@@ -145,7 +156,7 @@ public class ReportUtil {
             return "";
         if (range.size() == 1) {
             return timestamp ? String.format("%s >= %d", field, range.get(0))
-                    : String.format("%s >= '%s'", Times.formatUnix(range.get(0), "yyyy-MM-dd HH:mm:ss"));
+                    : String.format("%s >= '%s'", field, Times.formatUnix(range.get(0), "yyyy-MM-dd HH:mm:ss"));
         }
         if (range.get(1) % 3600L == 0L)
             range.set(1, range.get(1) + 3600L * 24 - 1); // 添加结束时间
@@ -160,7 +171,7 @@ public class ReportUtil {
     /**
      * 生成时间范围SQL,使用时间字符串
      *
-     * @range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     * @param range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
      */
     public static String timeSQLByJSONTime(Object range, String field) {
         return timeSQLByJSONTime(range, field, false);
@@ -169,7 +180,7 @@ public class ReportUtil {
     /**
      * 生成时间范围SQL,使用时间戳
      *
-     * @range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     * @param range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
      */
     public static String timestampSQLByJSONTime(Object range, String field) {
         return timeSQLByJSONTime(range, field, true);
@@ -178,7 +189,7 @@ public class ReportUtil {
     /**
      * 生成时间范围SQL
      *
-     * @range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     * @param range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
      */
     private static String timeSQLByJSONTime(Object range, String field, boolean timestamp) {
         if (range instanceof String) {

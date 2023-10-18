@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConsoleTable {
+    private static int margin = 2;
     private final List<String> titles;
     private int[] columnLen;
     private List<List<String>> stringRows = new ArrayList<>();
     private int colum = 2;
-    private static int margin = 2;
 
     public ConsoleTable(List<String> titles, List<List<Object>> values) {
         this.titles = titles;
@@ -41,6 +41,16 @@ public class ConsoleTable {
             }
             this.stringRows.add(sr);
         }
+    }
+
+    public static void main(String[] args) {
+        List<String> titles = Lists.of("学号", "姓名", "个人宣言", "性别");
+        List<List<Object>> values = new ArrayList<>();
+        values.add(Lists.of("101", "刘好", "困难像弹簧, 你弱他就强", "男"));
+        values.add(Lists.of("101", "谢毓婷", "幸福总是这样的突然...", "男"));
+
+        ConsoleTable t = new ConsoleTable(titles, values);
+        System.out.println(t.toString());
     }
 
     public String toString() {
@@ -87,15 +97,5 @@ public class ConsoleTable {
             buf.append(c);
         }
         return buf.toString();
-    }
-
-    public static void main(String[] args) {
-        List<String> titles = Lists.of("学号", "姓名", "个人宣言", "性别");
-        List<List<Object>> values = new ArrayList<>();
-        values.add(Lists.of("101", "刘好", "困难像弹簧, 你弱他就强", "男"));
-        values.add(Lists.of("101", "谢毓婷", "幸福总是这样的突然...", "男"));
-
-        ConsoleTable t = new ConsoleTable(titles, values);
-        System.out.println(t.toString());
     }
 }

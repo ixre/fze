@@ -3,10 +3,10 @@ package net.fze.common;
 /**
  * 用户异常
  */
-public class UserException extends RuntimeException{
+public class UserException extends RuntimeException {
     private final int _status;
 
-    public UserException(int status, String message){
+    public UserException(int status, String message) {
         super(message);
         this._status = status;
     }
@@ -18,6 +18,7 @@ public class UserException extends RuntimeException{
 
     /**
      * 获取状态
+     *
      * @return 状态
      */
     public int getStatus() {

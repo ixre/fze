@@ -2,9 +2,6 @@ package net.fze.common;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Result {
     public static final Result OK = new Result(0, "");
     /**

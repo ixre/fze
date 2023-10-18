@@ -2,8 +2,10 @@ package net.fze.common;
 
 //import com.esotericsoftware.reflectasm.FieldAccess;
 //import com.esotericsoftware.reflectasm.MethodAccess;
-;
+
 import java.util.UUID;
+
+;
 
 /**
  * 语言扩展

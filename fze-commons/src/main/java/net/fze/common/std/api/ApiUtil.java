@@ -98,7 +98,7 @@ public class ApiUtil {
         if (list.size() == 2) {
             list.add("0");
         }
-        String[] arr = new String[] { list.get(0), list.get(1), list.get(2) };
+        String[] arr = new String[]{list.get(0), list.get(1), list.get(2)};
         for (int i = 0; i < arr.length; i++) {
             String v = arr[i];
             int l = arr[i].length();

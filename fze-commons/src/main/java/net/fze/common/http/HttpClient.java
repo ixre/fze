@@ -27,7 +27,7 @@ public class HttpClient {
     }
 
     private static HttpRequestBuilder newRequest(String url, String method) {
-        Map<String, String> header =  new HashMap<>();
+        Map<String, String> header = new HashMap<>();
         header.put("User-Agent", USER_AGENT);
         return HttpRequestBuilder.create(url, method).headers(header);
     }

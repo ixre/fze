@@ -39,14 +39,14 @@ open class KotlinLangExtension {
     }
 
     /** 使用协程运行 */
-     fun coroutines2(block:Runnable) {
-         GlobalScope.async {
+    fun coroutines2(block: Runnable) {
+        GlobalScope.async {
             block.run()
         }
     }
 
     /** 使用协程运行 */
-    suspend fun <T> coroutines(block:Runnable) {
+    suspend fun <T> coroutines(block: Runnable) {
         return coroutineScope {
             async {
                 block.run()

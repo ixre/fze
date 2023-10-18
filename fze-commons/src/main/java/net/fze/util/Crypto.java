@@ -2,7 +2,6 @@ package net.fze.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.util.Base64;
 
 /**
  * 加密类
@@ -30,7 +29,9 @@ public class Crypto {
         return md5str;
     }
 
-    /** 返回[str]的16位md5 */
+    /**
+     * 返回[str]的16位md5
+     */
 
     public static String shortMd5(String str) {
         return md5(str).substring(8, 24);

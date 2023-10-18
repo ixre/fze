@@ -31,9 +31,13 @@ public class PagingParams {
     private boolean orderDesc; // required
 
 
-    public static PagingParams of(int pageIndex,int pageSize,Map<String, String> params){
-        if(params == null){
-            params =new HashMap<>();
+    PagingParams(Map<String, String> params) {
+        this.params = params;
+    }
+
+    public static PagingParams of(int pageIndex, int pageSize, Map<String, String> params) {
+        if (params == null) {
+            params = new HashMap<>();
         }
         PagingParams p = new PagingParams(params);
         p.pageIndex = pageIndex;
@@ -41,16 +45,12 @@ public class PagingParams {
         return fix(p);
     }
 
-    PagingParams(Map<String, String> params){
-        this.params = params;
-    }
-
     /**
      * 修正参数,去除某些空的参数
      *
      * @param opt 分页参数
      */
-     static PagingParams fix(PagingParams opt) {
+    static PagingParams fix(PagingParams opt) {
         if (opt.getOrderField() == null) {
             opt.setOrderField("");
         }

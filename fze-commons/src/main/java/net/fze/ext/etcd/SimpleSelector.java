@@ -21,7 +21,7 @@ public class SimpleSelector implements ISelector {
         AtomicInteger index = new AtomicInteger();
         Arrays.stream(servers).forEachOrdered((addr) -> {
             long id = TypeConv.toLong(index.getAndIncrement());
-            Node node = new Node(id,addr);
+            Node node = new Node(id, addr);
             this.nodes.add(node);
         });
     }

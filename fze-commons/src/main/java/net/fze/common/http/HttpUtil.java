@@ -60,19 +60,20 @@ public class HttpUtil {
 
     /**
      * 获取当前请求的BaseURL,该方法自动检测https
+     *
      * @param url URL
-     * @param h h
-     * @return  返回域名前缀
-     * */
-    public static String getBaseURL(String url,IHeaderValue h){
+     * @param h   h
+     * @return 返回域名前缀
+     */
+    public static String getBaseURL(String url, IHeaderValue h) {
         Pattern pattern = Pattern.compile("^([^/]+//[^/]+)/*");
         Matcher matcher = pattern.matcher(url);
-        if(!matcher.find()){
+        if (!matcher.find()) {
             return "";
         }
         String prefix = matcher.group(1);
         if (h != null && IsHttpsProxyRequest(k -> h.get(k))) {
-           return prefix.replace("http://", "https://");
+            return prefix.replace("http://", "https://");
         }
         return prefix;
     }

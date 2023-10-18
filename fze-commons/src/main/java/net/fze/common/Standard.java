@@ -16,8 +16,6 @@ import java.util.regex.Pattern;
  * 自定义标准库扩展
  */
 public class Standard {
-    private static int devFlag = -1;
-
     /**
      * 标准库扩展
      */
@@ -26,13 +24,12 @@ public class Standard {
      * 编码器
      */
     public static final EncoderExtensions encoder = new EncoderExtensions();
-
+    private static final boolean java9OrLater = detectIsJava9OrLater();
     /**
      * 类型解析器
      */
     public static ClassResolver classResolver = new ClassResolver();
-
-    private static final boolean java9OrLater = detectIsJava9OrLater();
+    private static int devFlag = -1;
 
     private static Boolean detectIsJava9OrLater() {
         String version = System.getProperty("java.version");
@@ -107,7 +104,9 @@ public class Standard {
         return pt.getActualTypeArguments()[index];
     }
 
-    /** 捕获异常,执行操作 */
+    /**
+     * 捕获异常,执行操作
+     */
     public static <T> CatchResult<T> tryCatch(Supplier<T> p) {
         try {
             return new CatchResult<>(null, p.get());
@@ -116,7 +115,9 @@ public class Standard {
         }
     }
 
-    /** 捕获错误 */
+    /**
+     * 捕获错误
+     */
     public static <T> Error catchError(Supplier<T> p) {
         return tryCatch(p).error();
     }

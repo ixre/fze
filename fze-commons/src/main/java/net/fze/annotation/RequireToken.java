@@ -10,8 +10,10 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Inherited
-public @interface RequireToken{
-    /** 是否必须,默认:是 */
+public @interface RequireToken {
+    /**
+     * 是否必须,默认:是
+     */
     boolean required() default true;
 }
 

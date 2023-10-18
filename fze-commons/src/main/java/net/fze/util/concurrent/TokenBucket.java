@@ -5,13 +5,12 @@ import net.fze.util.TypeConv;
 
 // 令牌桶算法, 参见: https://github.com/ixre/gof/blob/master/util/concurrent/token_bucket.go
 public class TokenBucket {
-    // 时间
-    private long timestamp;
     // 桶的容量
     private final long capacity;
     // 令牌放入速度
     private final float rate;
-
+    // 时间
+    private long timestamp;
     // 当前令牌数量
     private long tokens;
 

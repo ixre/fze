@@ -4,7 +4,6 @@ public interface ITransactionManager {
 
     /**
      * 创建开启事务
-     *
      */
     ITransaction beginTransaction();
 }

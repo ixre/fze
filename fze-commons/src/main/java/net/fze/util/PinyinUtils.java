@@ -10,7 +10,7 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 /**
  * 汉语拼音辅助类
  */
-public class PinyinUtil {
+public class PinyinUtils {
 
     /**
      * 将文字转为汉语拼音

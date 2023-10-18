@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
  */
 public class Strings {
 
+    private static final String letterStr = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
     /**
      * 是否为空字符串或空
      *
@@ -21,7 +23,7 @@ public class Strings {
 
     /**
      * 字符模板
-     * 
+     *
      * @param text 文本
      * @param args 参数
      */
@@ -42,9 +44,6 @@ public class Strings {
         arr.forEach(a -> dst.add(a.toString()));
         return String.join(delimiter, dst);
     }
-
-
-    private static final String letterStr = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     // 返回随机字符串,[n]:长度
     public static String randomLetters(int n) {

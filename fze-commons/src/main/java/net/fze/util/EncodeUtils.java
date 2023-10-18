@@ -5,7 +5,7 @@ import java.util.Base64;
 /**
  * 编码工具
  */
-public class EncodeUtil {
+public class EncodeUtils {
     public static byte[] encodeBase64(byte[] bytes) {
         return Base64.getEncoder().encode(bytes);
     }

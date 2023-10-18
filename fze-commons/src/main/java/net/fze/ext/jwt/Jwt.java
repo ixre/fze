@@ -92,9 +92,9 @@ public class Jwt {
         try {
             DecodedJWT jwt = jwtVerifier.verify(token);
             return new JwtDecoder(jwt);
-        }catch(Throwable ex){
-            if(ex instanceof TokenExpiredException){
-                throw new JwtTokenExpiredException((TokenExpiredException)ex);
+        } catch (Throwable ex) {
+            if (ex instanceof TokenExpiredException) {
+                throw new JwtTokenExpiredException((TokenExpiredException) ex);
             }
             throw ex;
         }

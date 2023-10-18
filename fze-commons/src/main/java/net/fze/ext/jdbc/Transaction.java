@@ -29,7 +29,6 @@ public class Transaction {
 
     /**
      * 提交事务
-     *
      */
     public void commit() throws SQLException {
         this.conn.commit();

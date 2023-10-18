@@ -1,6 +1,8 @@
 package net.fze.util;
 
-/** 计算工具 */
+/**
+ * 计算工具
+ */
 public class MathUtil {
     /**
      * 求两个数的最大公约数

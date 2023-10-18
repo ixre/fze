@@ -69,7 +69,7 @@ public class EventBus {
             }
             list.forEach((it) -> {
                 if (it.getItem1()) {
-                    new Thread(()-> it.getItem2().handle(event)).start();
+                    new Thread(() -> it.getItem2().handle(event)).start();
                 } else {
                     it.getItem2().handle(event);
                 }
@@ -122,9 +122,9 @@ public class EventBus {
             }
         }
 
-       <R> List<Tuple2<Boolean, Handler<R>>> gets(String topic) {
+        <R> List<Tuple2<Boolean, Handler<R>>> gets(String topic) {
             if (this._subMap.containsKey(topic)) {
-                return (List<Tuple2<Boolean, Handler<R>>>)this._subMap.get(topic);
+                return (List<Tuple2<Boolean, Handler<R>>>) this._subMap.get(topic);
             }
             return new ArrayList<>();
         }
