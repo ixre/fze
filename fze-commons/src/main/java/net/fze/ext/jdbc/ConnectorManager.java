@@ -28,7 +28,7 @@ public abstract class ConnectorManager implements IDataSourceManager {
      * 获取第一个JDBC连接
      */
     private IConnectionPool first() {
-        if (this.keys.size() > 0) {
+        if (!this.keys.isEmpty()) {
             return this.data.get(this.keys.get(0));
         }
         return null;

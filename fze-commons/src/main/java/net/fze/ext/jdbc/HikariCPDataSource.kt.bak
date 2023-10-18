@@ -6,7 +6,7 @@ import java.sql.Connection
 import java.sql.SQLException
 import javax.sql.DataSource
 
-class HikariCPWrapper(p: ConnectionParams) : IConnectionPool {
+class HikariCPWrapper1(p: ConnectionParams) : IConnectionPool {
     private lateinit var ds: HikariDataSource
     private val driverUrl: String
     private val usr: String
@@ -20,7 +20,7 @@ class HikariCPWrapper(p: ConnectionParams) : IConnectionPool {
     init {
         val config = HikariConfig()
         config.setJdbcUrl(p.connectionUrl);
-        config.setUsername(p.user);
+        config.username = p.user;
         config.setPassword(p.pwd);
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");

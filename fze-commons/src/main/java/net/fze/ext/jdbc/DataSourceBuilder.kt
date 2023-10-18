@@ -33,8 +33,11 @@ class DataSourceBuilder// search class
     }
 
     fun build(): IConnectionPool {
+        if(!Strings.isNullOrEmpty(this.params.driverClass)){
+            Class.forName(this.params.driverClass);
+        }
         return when (this.poolType) {
-            Pools.HikariCP -> HikariCPWrapper(this.params)
+            Pools.HikariCP -> HikariCPDataSource(this.params)
             Pools.C3p0 -> Cp30PoolWrapper(this.params)
             Pools.Agroal -> AgroalDataSourceImpl(this.params)
             //else -> throw IllegalArgumentException("nonsupport connection pool")
@@ -57,13 +60,13 @@ class DataSourceBuilder// search class
          */
         @JvmStatic
         fun createDriverUrl(driverName: String, host: String?, port: Int, db: String?): String {
-            var driverName = driverName
-            var db = db
-            driverName = driverName.toLowerCase()
-            when (driverName) {
-                "mysql", "mariadb" -> db += "?allowMultiQueries=true&autoReconnect=true&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf-8"
+            var retDriverName = driverName
+            var retDb = db
+            retDriverName = retDriverName.lowercase()
+            when (retDriverName) {
+                "mysql", "mariadb" -> retDb += "?allowMultiQueries=true&autoReconnect=true&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf-8"
             }
-            return String.format("jdbc:%s://%s:%d/%s", driverName, host, port, db)
+            return String.format("jdbc:%s://%s:%d/%s", retDriverName, host, port, retDb)
         }
 
 
