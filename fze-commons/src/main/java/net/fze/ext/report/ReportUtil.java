@@ -49,7 +49,7 @@ public class ReportUtil {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         InputStream stream = loader.getResourceAsStream(resPath);
         if (stream == null) {
-            throw new RuntimeException("not found query item in classpath");
+            throw new RuntimeException("not found query item in classpath; path: "+resPath);
         }
         JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
         return (ItemConfig) ctx.createUnmarshaller().unmarshal(stream);
