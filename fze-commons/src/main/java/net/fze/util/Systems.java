@@ -1,21 +1,24 @@
-package net.fze.common;
+package net.fze.util;
 
-import net.fze.util.Strings;
-import net.fze.util.TypeConv;
-import net.fze.util.Types;
+import net.fze.common.CatchResult;
+import net.fze.common.ClassResolver;
+import net.fze.common.EncoderExtensions;
+import net.fze.common.LangExtension;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 /**
  * 自定义标准库扩展
  */
-public class Standard {
+public class Systems {
     /**
      * 标准库扩展
      */
@@ -133,5 +136,28 @@ public class Standard {
         // throw throwable
         // }
         // }
+    }
+
+    /**
+     * 是否当前运行单元测试
+     *
+     * @return 是或否
+     */
+    public static boolean isTestEnvironment() {
+        Hashtable<Object, Object> properties = System.getProperties();
+        String classPath = properties.get("java.class.path").toString();
+        if (!classPath.contains("java/test")) {
+            return false;
+        }
+        for (Map.Entry<Object, Object> k : properties.entrySet()) {
+            if (k.getKey().toString().endsWith("java.command")) {
+                String command = k.getValue().toString().toLowerCase();
+                if (command.contains("test")) {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
     }
 }

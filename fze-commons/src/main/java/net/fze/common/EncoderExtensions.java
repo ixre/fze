@@ -4,7 +4,7 @@ import net.fze.util.DigestEncode;
 
 public class EncoderExtensions {
 
-    EncoderExtensions() {
+    public EncoderExtensions() {
     }
 
     /**

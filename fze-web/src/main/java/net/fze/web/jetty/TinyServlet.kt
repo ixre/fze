@@ -2,7 +2,7 @@ package net.fze.web.jetty
 
 import freemarker.template.Configuration
 import freemarker.template.Template
-import net.fze.common.Standard
+import net.fze.util.Systems
 import net.fze.common.std.Creator
 import org.eclipse.jetty.server.Request
 import org.eclipse.jetty.server.handler.AbstractHandler
@@ -58,7 +58,7 @@ class RouteResolver {
     }
 
     private fun load(pkg: String, creator: Creator<*>?) {
-        val array = Standard.getPkgClasses(pkg) {
+        val array = Systems.getPkgClasses(pkg) {
             !it.name.endsWith("Test") && (!it.isAnnotation && it.getAnnotationsByType(Controller::class.java)
                 .isNotEmpty())
         }
@@ -192,7 +192,7 @@ class TinyServletHandler() : AbstractHandler() {
     }
 
     private fun notfound(rsp: HttpServletResponse): Error? {
-        return Standard.tryCatch {
+        return Systems.tryCatch {
             rsp.status = 404
             rsp.setHeader("Content-Type", "text/plain; charset=utf-8")
             rsp.resetBuffer()

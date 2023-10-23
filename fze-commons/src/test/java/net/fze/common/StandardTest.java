@@ -1,14 +1,13 @@
 package net.fze.common;
 
+import net.fze.util.Systems;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StandardTest {
 
     @Test
     void dev() {
-        Standard.resolveEnvironment(StandardTest.class);
+        Systems.resolveEnvironment(StandardTest.class);
         System.out.println("haha");
     }
 }
