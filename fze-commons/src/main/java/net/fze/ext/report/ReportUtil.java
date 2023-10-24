@@ -6,6 +6,7 @@ import net.fze.util.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.*;
@@ -25,14 +26,22 @@ public class ReportUtil {
                 return readItemConfigFromResources(xmlFilePath);
             }
             FileInputStream fs = new FileInputStream(xmlFilePath);
-            String xmlContent = IoUtils.readToEnd(fs, "UTF-8");
-            return XmlUtils.deserializeObject(xmlContent);
-        } catch (JAXBException ex) {
-            ex.printStackTrace();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            return parseItemConfig(fs);
+          //  String xmlContent = IoUtils.readToEnd(fs, "UTF-8");
+           // return XmlUtils.deserializeObject(xmlContent);
+        } catch (Throwable ex) {
+            throw new RuntimeException("resolve xml file failed! filepath="+xmlFilePath,ex);
         }
-        return null;
+    }
+
+    private static ItemConfig parseItemConfig(InputStream fs) throws JAXBException, IOException {
+        // 不能使用XmlDecoder因为Xml中的字段为大写,无法映射到Java类的小写开头属性
+//        String xmlContent = IoUtils.readToEnd(fs, "UTF-8");
+//        return XmlUtils.deserializeObject(xmlContent);
+        JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
+        ItemConfig cfg = (ItemConfig) ctx.createUnmarshaller().unmarshal(fs);
+        fs.close();
+        return cfg;
     }
 
     /**
@@ -41,18 +50,17 @@ public class ReportUtil {
      * @param resourcePath 资源路径
      * @return 配置项
      */
-    private static ItemConfig readItemConfigFromResources(String resourcePath) throws JAXBException {
+    private static ItemConfig readItemConfigFromResources(String resourcePath) throws JAXBException, IOException {
         String resPath = resourcePath.replace("classpath:", "");
         if (resPath.startsWith("/")) {
             resPath = resPath.substring(1);
         }
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        InputStream stream = loader.getResourceAsStream(resPath);
-        if (stream == null) {
-            throw new RuntimeException("not found query item in classpath; path: "+resPath);
+        InputStream fs = loader.getResourceAsStream(resPath);
+        if (fs == null) {
+            throw new RuntimeException("not found query item in classpath; path: " + resPath);
         }
-        JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
-        return (ItemConfig) ctx.createUnmarshaller().unmarshal(stream);
+        return parseItemConfig(fs);
     }
 
     /**

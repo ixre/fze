@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 
 public class XmlUtils {
     /**
-     * 反序列化
+     * 反序列化,适用于属性与xml一致(区分大小写)的情况使用
      */
     @SuppressWarnings("unchecked")
     public static <T> T deserializeObject(String xml) {
@@ -20,7 +20,7 @@ public class XmlUtils {
     }
 
     /**
-     * 序列化对象
+     * 序列化对象,适用于属性与xml一致(区分大小写)的情况使用
      */
     public static <T> String serializeObject(T entity) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();

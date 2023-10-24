@@ -34,8 +34,11 @@ public class ItemManager {
         if (!this.rootPath.endsWith("/")) {
             this.rootPath = this.rootPath + "/";
         }
+        // 以文件形式加载时以"/"开头
+        if (!this.rootPath.startsWith("classpath:") && !this.rootPath.startsWith("/")) {
+            this.rootPath = "/" + this.rootPath;
+        }
     }
-
     /**
      * 获取导出项
      */
@@ -62,7 +65,7 @@ public class ItemManager {
         if (!this.rootPath.startsWith("classpath:")) {
             pwd = System.getProperty("user.dir");
         }
-        String filePath = Strings.join(Lists.of(pwd, this.rootPath, portalKey, this.cfgFileExt), "");
+        String filePath = Strings.join(Lists.of(pwd,this.rootPath, portalKey, this.cfgFileExt), "");
         ItemConfig cfg = ReportUtil.readItemConfigFromXml(filePath);
         if (cfg == null) {
             throw new Error(

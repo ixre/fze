@@ -16,30 +16,6 @@ class ColumnMapping {
     var name: String = ""
 }
 
-/** 导入导出项目配置 */
-@XmlRootElement(name = "ExportItemConfig")
-@XmlAccessorType(XmlAccessType.FIELD)
-class ItemConfig {
-    /** 字段映射 */
-    @XmlElement(name = "ColumnMapping")
-    var columnMapping: String = ""
-
-    /** 查询 */
-    @XmlElement(name = "Query")
-    var query: String = ""
-
-    /** 查询总条数 */
-    @XmlElement(name = "Total")
-    var total: String = ""
-
-    /** 子查询 */
-    @XmlElement(name = "SubQuery")
-    var subQuery: String = ""
-
-    @XmlElement(name = "Import")
-    var import: String = ""
-}
-
 //导出参数
 class ExportParams {
     /** 参数 */

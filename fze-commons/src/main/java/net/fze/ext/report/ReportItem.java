@@ -12,8 +12,8 @@ import java.util.Map;
 
 // 导出项目
 public class ReportItem implements IReportPortal {
-    private IConnProvider dbProvider;
-    private ItemConfig sqlConfig;
+    private final IConnProvider dbProvider;
+    private final ItemConfig sqlConfig;
 
     private ColumnMapping[] mapping = null;
 
@@ -89,7 +89,7 @@ public class ReportItem implements IReportPortal {
             }
         }
         try {
-            if (this.sqlConfig.getQuery() != "") {
+            if (!this.sqlConfig.getQuery().equals("")) {
                 r.setRows(this.execQuery(conn, this.sqlConfig.getQuery(), p));
             } else {
                 r.setHint("not contain any query");
