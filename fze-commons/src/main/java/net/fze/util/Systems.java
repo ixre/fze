@@ -33,6 +33,8 @@ public class Systems {
      */
     public static ClassResolver classResolver = new ClassResolver();
     private static int devFlag = -1;
+    // 是否已解析环境
+    private static boolean resolved = false;
 
     private static Boolean detectIsJava9OrLater() {
         String version = System.getProperty("java.version");
@@ -65,6 +67,7 @@ public class Systems {
      * 解析环境,如果是生产环境返回true,反之返回false
      */
     public static void resolveEnvironment(Class<?> main) {
+        if(resolved)return;
         devFlag = classInJar(main) ? 0 : 1;
         if (dev()) {
             // 在IDEA下开发时设置项目真实的工作空间
@@ -80,6 +83,7 @@ public class Systems {
                 System.setProperty("user.dir", workspace.substring(0, i));
             }
         }
+        resolved = true;
     }
 
     /**
