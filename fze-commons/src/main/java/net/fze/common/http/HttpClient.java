@@ -9,7 +9,7 @@ import java.util.Map;
  * HttpClient 客户端
  */
 public class HttpClient {
-    private static final String USER_AGENT = "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:82.0) Gecko/20100101 Firefox/82.0";
+    private static final String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0";
 
     /**
      * 发起HTTP/HTTPS请求
@@ -66,22 +66,5 @@ public class HttpClient {
         return HttpUtilsKt.doRequest(r);
     }
 
-    /**
-     * 将参数转为二进制数组
-     */
-    public static byte[] parseBody(Map<String, String> params) {
-        return HttpUtilsKt.parseBody(params, false);
-    }
 
-    /**
-     * 将参数转为JSON二进制数组
-     *
-     * @param params
-     * @return
-     */
-    public static byte[] parseJsonBody(Object params) {
-        if (params == null)
-            return null;
-        return Types.toJson(params).getBytes();
-    }
 }

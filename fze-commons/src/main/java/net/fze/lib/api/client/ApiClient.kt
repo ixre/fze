@@ -2,9 +2,10 @@ package net.fze.lib.api.client
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import net.fze.common.http.ContentTypes
+import net.fze.common.http.ContentType
 import net.fze.common.http.HttpClient
 import net.fze.common.http.HttpRequestBuilder
+import net.fze.common.http.HttpUtils
 import net.fze.util.Times
 import net.fze.util.Types
 import java.lang.reflect.Type
@@ -67,7 +68,7 @@ class ApiClient {
      * @return 响应字节
      */
     @Throws(Exception::class)
-    fun request(apiPath: String, method: String, body: ByteArray?, contentType: String?): ByteArray {
+    fun request(apiPath: String, method: String, body: ByteArray?, contentType:ContentType?): ByteArray {
         //val data = Types.cloneMap(params)
         //Types.copyMap(extraParams, data)
         //data["\$key"] = key
@@ -83,7 +84,7 @@ class ApiClient {
             .body(body).timeout(this._timeout)
         // 设置格式
         //application/json
-        if (!contentType.isNullOrEmpty()) b.setHeader("Content-Type", contentType)
+        if (contentType != null) b.setHeader("Content-Type", contentType.encodeType)
         // 请求
         return HttpClient.request(b.build())
     }
@@ -94,43 +95,43 @@ class ApiClient {
     }
 
     fun post(apiPath: String, params: Map<String, String>?): ByteArray {
-        val bytes = HttpClient.parseBody(params)
-        return this.request(apiPath, "POST", bytes, ContentTypes.FORM.value)
+        val bytes = HttpUtils.parseBody(params)
+        return this.request(apiPath, "POST", bytes, ContentType.FORM)
     }
 
     fun patch(apiPath: String, params: Map<String, String>?): ByteArray {
-        val bytes = HttpClient.parseBody(params)
-        return this.request(apiPath, "PATCH", bytes, ContentTypes.FORM.value)
+        val bytes = HttpUtils.parseBody(params)
+        return this.request(apiPath, "PATCH", bytes, ContentType.FORM)
     }
 
     fun put(apiPath: String, params: Map<String, String>?): ByteArray {
-        val bytes = HttpClient.parseBody(params)
-        return this.request(apiPath, "PUT", bytes, ContentTypes.FORM.value)
+        val bytes = HttpUtils.parseBody(params)
+        return this.request(apiPath, "PUT", bytes, ContentType.FORM)
     }
 
     fun delete(apiPath: String, params: Map<String, String>?): ByteArray {
-        val bytes = HttpClient.parseBody(params)
+        val bytes = HttpUtils.parseBody(params)
         return this.request(apiPath, "DELETE", bytes, null)
     }
 
     fun postJSON(apiPath: String, params: Any): ByteArray {
-        val bytes = HttpClient.parseJsonBody(params)
-        return this.request(apiPath, "POST", bytes, ContentTypes.JSON.value)
+        val bytes = HttpUtils.parseJsonBody(params)
+        return this.request(apiPath, "POST", bytes, ContentType.JSON)
     }
 
     fun patchJSON(apiPath: String, params: Any): ByteArray {
-        val bytes = HttpClient.parseJsonBody(params)
-        return this.request(apiPath, "PATCH", bytes, ContentTypes.JSON.value)
+        val bytes = HttpUtils.parseJsonBody(params)
+        return this.request(apiPath, "PATCH", bytes, ContentType.JSON)
     }
 
     fun putJSON(apiPath: String, params: Any): ByteArray {
-        val bytes = HttpClient.parseJsonBody(params)
-        return this.request(apiPath, "PUT", bytes, ContentTypes.JSON.value)
+        val bytes = HttpUtils.parseJsonBody(params)
+        return this.request(apiPath, "PUT", bytes, ContentType.JSON)
     }
 
     fun deleteJSON(apiPath: String, params: Any): ByteArray {
-        val bytes = HttpClient.parseJsonBody(params)
-        return this.request(apiPath, "DELETE", bytes, ContentTypes.JSON.value)
+        val bytes = HttpUtils.parseJsonBody(params)
+        return this.request(apiPath, "DELETE", bytes, ContentType.JSON)
     }
 
     private fun concat(apiName: String): String {
@@ -164,7 +165,7 @@ class ApiClient {
     @Throws(Exception::class)
     fun <T> deserize(bytes: ByteArray, gt: Type?): T? {
         val ret = String(bytes)
-        if (ret.isNullOrEmpty()) return null
+        if (ret.isEmpty()) return null
         this.except(ret)
         return Gson().fromJson(ret, gt)
     }

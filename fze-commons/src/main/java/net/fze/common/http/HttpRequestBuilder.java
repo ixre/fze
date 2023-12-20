@@ -35,8 +35,10 @@ public class HttpRequestBuilder {
         return this;
     }
 
-    public HttpRequestBuilder contentType(String s) {
-        this.req.setContentType(s);
+    public HttpRequestBuilder contentType(ContentType contentType) {
+        if (contentType != ContentType.NONE) {
+            this.req.setContentType(contentType.getEncodeType());
+        }
         return this;
     }
 
@@ -47,6 +49,7 @@ public class HttpRequestBuilder {
     }
 
     public HttpRequestBuilder body(byte[] bytes) {
+        Assert.isNullOrEmpty(bytes, "body can not be null");
         this.req.setBody(bytes);
         return this;
     }

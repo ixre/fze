@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HttpUtil {
+public class HttpUtils {
     /**
      * 是否为HTTPS连接
      */
@@ -202,5 +202,28 @@ public class HttpUtil {
             ex.printStackTrace();
             return url;
         }
+    }
+
+    /**
+     * 将参数转为二进制数组
+     */
+    public static byte[] parseBody(Map<String, String> params) {
+        return HttpUtilsKt.parseBody(params, false);
+    }
+
+    /**
+     * 将参数转为JSON二进制数组
+     *
+     * @param params
+     * @return
+     */
+    public static byte[] parseJsonBody(Object params) {
+        if (params == null)
+            return null;
+        String s = Types.toJson(params);
+        if(s.equals("null")){
+            return null;
+        }
+        return s.getBytes();
     }
 }

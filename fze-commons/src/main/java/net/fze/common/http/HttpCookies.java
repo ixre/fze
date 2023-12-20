@@ -23,7 +23,6 @@ public class HttpCookies {
             }
             sb.append(entry.getKey()).append("=").append(entry.getValue());
         }
-        System.out.println(sb.toString());
         return sb.toString();
     }
 }

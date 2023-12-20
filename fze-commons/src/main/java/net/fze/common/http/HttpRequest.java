@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpRequest {
-    private String contentType = ContentTypes.NOT.getValue();
+    private String contentType = ContentType.NONE.getEncodeType();
     private int timeout = 0;
     private Map<String, String> headers = new HashMap<>();
 

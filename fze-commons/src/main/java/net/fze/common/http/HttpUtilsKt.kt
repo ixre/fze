@@ -38,14 +38,45 @@ class HttpUtilsKt {
         private fun httpRequest(req: HttpRequest): ByteArray {
             // 从上述SSLContext对象中得到SSLSocketFactory对象
             val conn = URL(req.url).openConnection() as HttpURLConnection
+            this.applyRequestParams(conn, req)
+            return getResponse(conn, req.body)
+        }
+
+        private fun applyRequestParams(conn: HttpURLConnection, req: HttpRequest) {
             prepareConnection(conn, req.headers)
             setContentType(conn, req.contentType)
             // 设置请求方式（GET/POST）
             conn.requestMethod = req.method
             if (req.timeout > 0) conn.connectTimeout = req.timeout
-            if(req.cookies != null) conn.setRequestProperty("Cookie",req.cookies.toString());
+            if (req.cookies != null) conn.setRequestProperty("Cookie", req.cookies.toString())
+        }
+
+        /**
+         * 发送https请求
+         *
+         * @param requestUrl 请求地址
+         * @param method     请求方式（GET、POST）
+         * @param data       提交的数据
+         * @param headers    头部
+         * @param timeout    超时时间
+         * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
+         */
+        @Throws(Exception::class)
+        @JvmStatic
+        private fun httpsRequest(req: HttpRequest): ByteArray {
+            val conn = URL(req.url).openConnection() as HttpsURLConnection
+            // 创建SSLContext对象，并使用我们指定的信任管理器初始化
+            val tm = arrayOf<TrustManager>(TrustAnyTrustManager())
+            val sslContext = SSLContext.getInstance("SSL", "SunJSSE")
+            sslContext.init(null, tm, SecureRandom())
+            // 从上述SSLContext对象中得到SSLSocketFactory对象
+            val ssf = sslContext.socketFactory
+            conn.sslSocketFactory = ssf
+            this.applyRequestParams(conn, req)
+            val body = String(req.body)
             return getResponse(conn, req.body)
         }
+
 
         // 设置请求内容格式
         private fun setContentType(conn: HttpURLConnection, contentType: String?) {
@@ -74,36 +105,6 @@ class HttpUtilsKt {
                 }
                 conn.setRequestProperty(key, value)
             }
-        }
-
-
-        /**
-         * 发送https请求
-         *
-         * @param requestUrl 请求地址
-         * @param method     请求方式（GET、POST）
-         * @param data       提交的数据
-         * @param headers    头部
-         * @param timeout    超时时间
-         * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
-         */
-        @Throws(Exception::class)
-        @JvmStatic
-        private fun httpsRequest(req: HttpRequest): ByteArray {
-            // 创建SSLContext对象，并使用我们指定的信任管理器初始化
-            val tm = arrayOf<TrustManager>(TrustAnyTrustManager())
-            val sslContext = SSLContext.getInstance("SSL", "SunJSSE")
-            sslContext.init(null, tm, SecureRandom())
-            // 从上述SSLContext对象中得到SSLSocketFactory对象
-            val ssf = sslContext.socketFactory
-            val conn = URL(req.url).openConnection() as HttpsURLConnection
-            prepareConnection(conn, req.headers)
-            conn.sslSocketFactory = ssf
-            setContentType(conn, req.contentType)
-            // 设置请求方式（GET/POST）
-            conn.requestMethod = req.method
-            if (req.timeout > 0) conn.connectTimeout = req.timeout
-            return getResponse(conn, req.body)
         }
 
 
@@ -181,7 +182,7 @@ class HttpUtilsKt {
         @JvmStatic
         fun parseBody(params: Map<String, String>?, json: Boolean): ByteArray? {
             if (params == null || params.isEmpty()) return null
-            if (json) return Types.toJson(params).toByteArray();
+            if (json) return Types.toJson(params).toByteArray()
             return toQuery(params).toByteArray()
         }
     }
