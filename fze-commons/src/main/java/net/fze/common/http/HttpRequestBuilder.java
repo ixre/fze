@@ -1,5 +1,7 @@
 package net.fze.common.http;
 
+import net.fze.util.Assert;
+
 import java.util.Map;
 
 public class HttpRequestBuilder {
@@ -38,10 +40,22 @@ public class HttpRequestBuilder {
         return this;
     }
 
+    public HttpRequestBuilder userAgent(String userAgent) {
+        Assert.isNullOrEmpty(userAgent, "userAgent can not be null");
+        this.req.getHeaders().put("User-Agent", userAgent);
+        return this;
+    }
+
     public HttpRequestBuilder body(byte[] bytes) {
         this.req.setBody(bytes);
         return this;
     }
+
+    public HttpRequestBuilder setCookies(HttpCookies cookies) {
+        this.req.setCookies(cookies);
+        return this;
+    }
+
 
     public HttpRequest build() {
         if (this.req.getUrl().isEmpty()) throw new IllegalArgumentException("url");

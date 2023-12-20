@@ -43,6 +43,7 @@ class HttpUtilsKt {
             // 设置请求方式（GET/POST）
             conn.requestMethod = req.method
             if (req.timeout > 0) conn.connectTimeout = req.timeout
+            if(req.cookies != null) conn.setRequestProperty("Cookie",req.cookies.toString());
             return getResponse(conn, req.body)
         }
 

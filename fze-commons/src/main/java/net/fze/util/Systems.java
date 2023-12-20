@@ -164,4 +164,22 @@ public class Systems {
         }
         return false;
     }
+
+    /**
+     * 获取版本号数值
+     * @param version 版本号
+     * @return 数字版本号
+     */
+    public static int getVersionCode(String version){
+       String[] arr = version.split("\\.");
+       for(int i=0;i< arr.length;i++){
+           int l = arr[i].length();
+           if(l < 3) {
+               arr[i] = Strings.repeat("0", 3 - l) + arr[i];
+           }
+       }
+       return TypeConv.toInt(String.join("",arr));
+    }
+
+
 }

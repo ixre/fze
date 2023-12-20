@@ -11,6 +11,7 @@ public class HttpRequest {
     private byte[] body = new byte[]{};
     private String method = "GET";
     private String url = "";
+    private HttpCookies _cookies;
 
     public String getMethod() {
         return method;
@@ -58,5 +59,13 @@ public class HttpRequest {
 
     public void setBody(byte[] body) {
         this.body = body;
+    }
+
+    public void setCookies(HttpCookies cookies) {
+        this._cookies = cookies;
+    }
+
+    public HttpCookies getCookies() {
+        return this._cookies;
     }
 }
