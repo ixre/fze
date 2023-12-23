@@ -73,7 +73,6 @@ class HttpUtilsKt {
             val ssf = sslContext.socketFactory
             conn.sslSocketFactory = ssf
             this.applyRequestParams(conn, req)
-            val body = String(req.body)
             return getResponse(conn, req.body)
         }
 

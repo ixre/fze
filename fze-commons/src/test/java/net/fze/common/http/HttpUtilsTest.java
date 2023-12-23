@@ -1,11 +1,13 @@
 package net.fze.common.http;
 
+import net.fze.jdk.jdk8.Lists;
 import net.fze.util.Types;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class HttpUtilsTest {
@@ -100,6 +102,27 @@ class HttpUtilsTest {
         cookies.put("uuid", "1b16b6c8a60a4e359be6.1700902228.1.0.0");
         cookies.put("WEBDFPID", "1702956495177KGUAECC2960edaad10e294fa6f28397fe2285903589-1702956495177-1702956495177KGUAECC2960edaad10e294fa6f28397fe2285903589");
         return cookies;
+    }
+
+
+    @Test
+    void getRemoteDeviceList() {
+        String url = "https://hwpartner.meituan.com/apigw/outer/open/copp/device/list";
+        Map<String, Object> data = new HashMap<>();
+        data.put("groupId", null);
+        data.put("modelIds", Lists.of());
+        data.put("sn", null);
+        data.put("pageNum", 1);
+        data.put("pageSize", 1000);
+        String jsonData = Types.toJson(data);
+        HttpRequest req = HttpRequestBuilder.create(url, "POST")
+                .setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0")
+                .setCookies(getHttpCookies())
+                .contentType(ContentType.JSON)
+                .body(jsonData.getBytes())
+                .build();
+        String ret = new String(HttpClient.request(req));
+        System.out.print(ret);
     }
 }
 
