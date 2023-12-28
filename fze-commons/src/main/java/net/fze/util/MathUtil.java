@@ -19,4 +19,19 @@ public class MathUtil {
         }
         return v2;
     }
+
+    /**
+     * 随机数
+     *
+     * @param n 位数
+     * @return 数字
+     */
+    public static int randNumber(int n) {
+        double min = Math.pow(10, n - 1);
+        double rand = Math.random() * Math.pow(10, n);
+        if (rand < min) {
+            return (int) (min + rand);
+        }
+        return (int) rand;
+    }
 }

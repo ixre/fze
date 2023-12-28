@@ -109,4 +109,23 @@ public class Strings {
         }
         return -1;
     }
+
+    /**
+     * 生成UUID
+     *
+     * @return UUID
+     */
+    public static String uuid() {
+        return UUID.randomUUID().toString();
+    }
+
+    /**
+     * 生成不含"-"的UUID
+     *
+     * @return UUID
+     */
+    public static String uuidTrim() {
+        return uuid().replaceAll("-", "");
+    }
+
 }
