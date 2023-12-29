@@ -34,7 +34,7 @@ dependencies {
     compileOnly("io.grpc:grpc-stub:1.56.0")
     compileOnly("com.google.protobuf:protobuf-java-util:3.22.3")
     // thrift
-    compileOnly("org.apache.thrift:libthrift:0.13.0")
+    compileOnly("org.apache.thrift:libthrift:0.19.0")
     testCompileOnly("io.etcd:jetcd-core:0.5.4")
     compileOnly("org.junit.jupiter:junit-jupiter:5.7.0")
     testCompileOnly("redis.clients:jedis:4.2.3")

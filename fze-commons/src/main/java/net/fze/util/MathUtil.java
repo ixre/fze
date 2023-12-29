@@ -34,4 +34,25 @@ public class MathUtil {
         }
         return (int) rand;
     }
+
+    /**
+     * 将浮点数向下取整
+     *
+     * @param f 浮点数
+     * @return 整数
+     */
+    public static int floatCeil(Float f) {
+        return (int) Math.ceil((double) f);
+    }
+
+    /**
+     * 将浮点数向上取整
+     *
+     * @param f 浮点数
+     * @return 整数
+     */
+    public static int floatFloor(Float f) {
+        return (int) Math.floor((double) f);
+    }
+
 }

@@ -8,7 +8,7 @@ dependencies {
     implementation(project(":fze-commons"))
     //implementation(kotlin("stdlib"))
     api("javax.xml.bind:jaxb-api:2.3.1")
-    compileOnly("org.apache.thrift:libthrift:0.13.0")
+    compileOnly("org.apache.thrift:libthrift:0.19.0")
 
     /** Hibernate 依赖项开始 */
     //implementation("javax.activation:activation:1.1.1")
