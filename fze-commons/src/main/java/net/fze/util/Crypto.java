@@ -14,13 +14,22 @@ public class Crypto {
      * @return 32位MD5
      */
     public static String md5(String str) {
+        byte[] input = str.getBytes(StandardCharsets.UTF_8);
+        return md5(input);
+    }
+
+    /**
+     * 生成md5
+     *
+     * @return 32位MD5
+     */
+    public static String md5(byte[] bytes) {
         String md5str;
         try {
             // 1 创建一个提供信息摘要算法的对象，初始化为md5算法对象
             MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] input = str.getBytes(StandardCharsets.UTF_8);
             // 3 计算后获得字节数组,这就是那128位了
-            byte[] buff = md.digest(input);
+            byte[] buff = md.digest(bytes);
             // 4 把数组每一字节（一个字节占八位）换成16进制连成md5字符串
             md5str = bytesToHex(buff);
         } catch (Throwable e) {
