@@ -90,7 +90,7 @@ class AgroalDataSourceImpl(p: ConnectionParams) : IConnectionPool {
      */
     @Throws(SQLException::class)
     override fun open(): Connection {
-        return this.ds!!.connection
+        return this.ds.connection
     }
 
     /**
@@ -110,7 +110,7 @@ class AgroalDataSourceImpl(p: ConnectionParams) : IConnectionPool {
      */
     override fun acquire(): JdbcConnection {
         try {
-            val conn = this.ds!!.connection
+            val conn = this.ds.connection
             return JdbcConnection(conn)
         } catch (ex: Throwable) {
             ex.printStackTrace()

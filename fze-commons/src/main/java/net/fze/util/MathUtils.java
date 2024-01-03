@@ -3,7 +3,7 @@ package net.fze.util;
 /**
  * 计算工具
  */
-public class MathUtil {
+public class MathUtils {
     /**
      * 求两个数的最大公约数
      * 如： 2个机器每隔几秒操作一次,如何确保他们不会同时操作. 其中时间间隔的最大公倍不能为１

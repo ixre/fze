@@ -6,9 +6,9 @@ class OsUtilsTest {
 
     @Test
     void getExternalIp() {
-        String ip = OsUtil.getExternalIp();
+        String ip = OsUtils.getExternalIp();
         System.out.println("ip="+ip);
-         ip = OsUtil.getExternalIp();
+         ip = OsUtils.getExternalIp();
         System.out.println("ip2="+ip);
     }
 }

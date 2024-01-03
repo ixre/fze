@@ -66,7 +66,7 @@ public class ItemManager {
             pwd = System.getProperty("user.dir");
         }
         String filePath = Strings.join(Lists.of(pwd,this.rootPath, portalKey, this.cfgFileExt), "");
-        ItemConfig cfg = ReportUtil.readItemConfigFromXml(filePath);
+        ItemConfig cfg = ReportUtils.readItemConfigFromXml(filePath);
         if (cfg == null) {
             throw new Error(
                     "[ Export][ Error]: can't load report item; path: " + filePath);
