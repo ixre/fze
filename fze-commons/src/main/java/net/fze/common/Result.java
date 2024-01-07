@@ -1,6 +1,9 @@
 package net.fze.common;
 
 import com.google.gson.annotations.SerializedName;
+import net.fze.util.Assert;
+
+import java.util.Map;
 
 public class Result {
     public static final Result OK = new Result(0, "");
@@ -47,6 +50,17 @@ public class Result {
 
     public String getErrMsg() {
         return this.errMsg;
+    }
+
+    public Object getData(){
+        return this.data;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String,Object> asMap(){
+        String s = this.data.getClass().getTypeName();
+        Assert.checkType(this.data,Map.class);
+        return (Map<String,Object>) this.data;
     }
 
     public Result setData(Object data) {

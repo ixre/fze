@@ -1,4 +1,4 @@
-package net.fze.util;
+package net.fze.util.crypto;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 /**
  * 加密类
  */
-public class Crypto {
+public class CryptoUtils {
 
     /**
      * 生成md5

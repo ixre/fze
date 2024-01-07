@@ -9,7 +9,11 @@ import java.io.InputStream;
  */
 public class IoUtils {
 
-    public static byte[] streamToByteArray(InputStream stream) throws IOException {
+    /**
+     * 读取流中的所有字节
+     * @param stream 流
+     */
+    public static byte[] readAllBytes(InputStream stream) throws IOException {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         int l;
         byte[] buff = new byte[100];
@@ -31,6 +35,6 @@ public class IoUtils {
         if (charset == null || charset.isEmpty()) {
             charset = "UTF-8";
         }
-        return new String(streamToByteArray(stream), charset);
+        return new String(readAllBytes(stream), charset);
     }
 }

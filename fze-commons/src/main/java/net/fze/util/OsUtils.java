@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class OsUtil {
+public class OsUtils {
     /**
      * 获取 IP 地址的服务列表
      */

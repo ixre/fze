@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * 报表工具类
  */
-public class ReportUtil {
+public class ReportUtils {
     /**
      * 获取列映射数组
      */
@@ -209,7 +209,7 @@ public class ReportUtil {
             if (r.size() == 0)
                 return "";
             if (r.get(0) instanceof String) {
-                List<Long> arr = r.stream().map(a -> Times.unix(Times.parseISOTime(((String) a).trim())))
+                List<Long> arr = r.stream().map(a -> Times.unix(Objects.requireNonNull(Times.parseISOTime(((String) a).trim()))))
                         .collect(Collectors.toList());
                 return getTimeRangeSQL(arr, field, timestamp);
             }

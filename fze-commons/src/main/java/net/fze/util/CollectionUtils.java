@@ -9,14 +9,13 @@ import java.util.*;
 /**
  * 主要为了解决JDK高版本不支持Map.of方法
  */
-public interface CollectionUtil {
+public interface CollectionUtils {
     /**
      * exclude keys
      */
     static <K, V> Map<K, V> excludes(Map<K, V> s, K... keys) {
         for (K k : keys) {
-            if (s.containsKey(k))
-                s.remove(k);
+            s.remove(k);
         }
         return s;
     }
@@ -26,12 +25,7 @@ public interface CollectionUtil {
      */
     static <K, V> Map<K, V> picks(Map<K, V> s, K... keys) {
         List<K> ks = Lists.of(keys);
-        Iterator<K> iterator = s.keySet().iterator();
-        while (iterator.hasNext()) {
-            K k = iterator.next();
-            if (!ks.contains(k))
-                iterator.remove();
-        }
+        s.keySet().removeIf(k -> !ks.contains(k));
         return s;
     }
 
@@ -40,7 +34,7 @@ public interface CollectionUtil {
      */
     static <E> Collection<E> removeRepeatElement(Iterable<E> list) {
         LinkedHashSet<E> set = new LinkedHashSet<E>();
-        list.forEach((it) -> set.add(it));
+        list.forEach(set::add);
         return set;
     }
 
@@ -68,8 +62,9 @@ public interface CollectionUtil {
      * @param p    表达式
      * @return 数组
      */
+    @SuppressWarnings("unchecked")
     static <T, K> K[] asArray(List<T> list, Types.TProp<T, K> p) {
-        if (list == null || list.size() == 0)
+        if (list == null || list.isEmpty())
             return null;
         int i = 0;
         K tmp;
@@ -91,8 +86,9 @@ public interface CollectionUtil {
     /**
      * 将集合转成数组
      */
+    @SuppressWarnings("unchecked")
     static <T> T[] toArray(Collection<T> list) {
-        if (list == null || list.size() == 0)
+        if (list == null || list.isEmpty())
             return null;
         int i = 0;
         T[] arr = null;
