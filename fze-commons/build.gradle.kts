@@ -35,7 +35,19 @@ dependencies {
     compileOnly("com.google.protobuf:protobuf-java-util:3.22.3")
     // thrift
     compileOnly("org.apache.thrift:libthrift:0.19.0")
+    // etcd
     testCompileOnly("io.etcd:jetcd-core:0.5.4")
+    // hibernate
+    // hibernate6 使用HQL报错:https://github.com/quarkusio/quarkus/issues/32016
+    // api("org.hibernate.orm:hibernate-core:6.4.1.Final")
+    // api("org.hibernate.orm:hibernate-c3p0:6.4.1.Final")
+    // api("org.hibernate.orm:hibernate-hikaricp:6.4.1.Final")
+    // api("org.hibernate.orm:hibernate-jcache:6.4.1.Final")
+    compileOnly("org.hibernate:hibernate-core:5.6.15.Final")
+    compileOnly("org.hibernate:hibernate-c3p0:5.6.15.Final")
+    compileOnly("org.hibernate:hibernate-hikaricp:5.6.15.Final")
+    compileOnly("org.hibernate:hibernate-jcache:5.6.15.Final")
+
     compileOnly("org.junit.jupiter:junit-jupiter:5.7.0")
     testCompileOnly("redis.clients:jedis:4.2.3")
     testCompileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
