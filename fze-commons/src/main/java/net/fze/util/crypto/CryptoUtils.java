@@ -1,5 +1,7 @@
 package net.fze.util.crypto;
 
+import net.fze.util.DigestEncode;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
@@ -66,6 +68,20 @@ public class CryptoUtils {
             md5str.append(Integer.toHexString(digital));
         }
         return md5str.toString().toUpperCase();
+    }
+
+    /**
+     * 加密密码
+     *
+     * @param s 原密码
+     * @return 加密后的密码
+     */
+    public static String sha1(String s) {
+        return DigestEncode.encode("sha1", s);
+    }
+
+    public static String sha1(byte[] bytes) {
+        return DigestEncode.encode("sha1", bytes);
     }
 
 

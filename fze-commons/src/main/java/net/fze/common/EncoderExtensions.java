@@ -7,15 +7,6 @@ public class EncoderExtensions {
     public EncoderExtensions() {
     }
 
-    /**
-     * 加密密码
-     *
-     * @param s 原密码
-     * @return 加密后的密码
-     */
-    public String sha1Pwd(String s, String salt) {
-        return DigestEncode.encode("sha1", s + salt);
-    }
 
     public String md5(byte[] bytes) {
         return DigestEncode.encode("md5", bytes);
@@ -27,10 +18,6 @@ public class EncoderExtensions {
             return s.substring(8, 24);
         }
         return s;
-    }
-
-    public String sha1(byte[] bytes) {
-        return DigestEncode.encode("sha1", bytes);
     }
 
     /**
