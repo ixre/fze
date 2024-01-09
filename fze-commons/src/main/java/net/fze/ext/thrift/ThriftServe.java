@@ -9,6 +9,8 @@ import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.layered.TFramedTransport;
 
+import java.util.List;
+
 /**
  * THRIFT服务加载器
  */
@@ -63,5 +65,9 @@ public class ThriftServe {
      */
     public void register(String serviceName, TProcessor serviceImpl) {
         this.processor.registerProcessor(serviceName, serviceImpl);
+    }
+
+    public void apply(IServeSupplier supplier){
+        supplier.apply(this);
     }
 }

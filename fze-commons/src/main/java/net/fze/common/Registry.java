@@ -1,15 +1,15 @@
 package net.fze.common;
 
 import com.moandjiezana.toml.Toml;
+import net.fze.util.Strings;
 
 import java.io.File;
 
 /**
  * 配置
  */
-public class Registry {
-    private final String _confPath;
-    private Toml _toml;
+public class Registry implements IRegistry {
+    private final Toml _toml;
 
     /**
      * 初始化配置存储
@@ -17,16 +17,22 @@ public class Registry {
      * @param confPath 配置文件目录，默认为./conf
      */
     public Registry(String confPath) {
-        if (confPath.equals("")) {
+        if (confPath.isEmpty()) {
             IllegalArgumentException exc = new IllegalArgumentException("no such file");
             exc.printStackTrace();
             System.exit(1);
         }
-        if (confPath.substring(0, 1) == ".") {
-            confPath = System.getenv("user.dir") + confPath;
+        if (confPath.charAt(0) == '.') {
+            String userDir = System.getenv("user.dir");
+            if (Strings.isNullOrEmpty(userDir)) {
+                userDir = System.getProperty("user.dir");
+            }
+            if(Strings.isNullOrEmpty(userDir)) {
+                confPath = userDir + confPath.substring(1);
+            }
         }
-        this._confPath = confPath;
-        this._toml = new Toml().read(new File(this._confPath));
+        String _confPath = confPath;
+        this._toml = new Toml().read(new File(_confPath));
     }
 
     /**
@@ -46,7 +52,7 @@ public class Registry {
      * @return 值
      */
     public Long getLong(String key) {
-        return this._toml.getLong(key);
+        return this._toml.getLong(key, 0L);
     }
 
     /**
@@ -57,5 +63,15 @@ public class Registry {
      */
     public Boolean getBoolean(String key) {
         return this._toml.getBoolean(key);
+    }
+
+    /**
+     * 获取int32
+     *
+     * @param key 键
+     */
+    @Override
+    public Integer getInteger(String key) {
+        return this._toml.getLong(key, 0L).intValue();
     }
 }
