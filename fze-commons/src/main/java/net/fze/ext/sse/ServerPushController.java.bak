@@ -1,0 +1,122 @@
+package cn.aoxueqi.apiadmin.controller;
+
+import cn.aoxueqi.apiadmin.service.SysAppV2VersionService;
+import cn.aoxueqi.apiadmin.util.sse.EventMessage;
+import cn.aoxueqi.apiadmin.util.sse.IServerEventProvider;
+import cn.aoxueqi.common.entity.sys.SysAppV2VersionEntity;
+import net.fze.annotation.RequireToken;
+import net.fze.jdk.jdk8.Maps;
+import net.fze.util.Types;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.AsyncContext;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+public class ServerPushController {
+
+    @Autowired
+    private IServerEventProvider server;
+    @Autowired
+    private SysAppV2VersionService appService;
+
+    @RequestMapping("/subscribe")
+    @RequireToken(required = false)
+    public void subscribe(@RequestParam("id") String id, HttpServletRequest req, HttpServletResponse rsp) {
+        //this.check(id);
+        AsyncContext ctx = server.connect("erp-sse", req, null);
+        this.check(ctx);
+    }
+
+
+    @GetMapping(value = "/subscribe2")
+    @RequireToken(required = false)
+    public void subscribe2(HttpServletResponse response) {
+        response.setContentType("text/event-stream");
+        response.setCharacterEncoding("utf-8");
+
+        try {
+            PrintWriter pw = response.getWriter();
+            while (true) {
+                if (pw.checkError()) {
+                    System.out.println("客户端断开连接");
+                    break;
+                }
+                Thread.sleep(1000);
+                pw.write("data:行情:" + Math.random() + "\n\n");
+                pw.flush();
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping(value = "/subscribe3")
+    @RequireToken(required = false)
+    public void subscribe3(HttpServletRequest request) {
+        AsyncContext ctx = request.startAsync();
+        ServletResponse response = ctx.getResponse();
+        response.setContentType("text/event-stream");
+        response.setCharacterEncoding("utf-8");
+
+        try {
+            PrintWriter pw = response.getWriter();
+            while (true) {
+                if (pw.checkError()) {
+                    System.out.println("客户端断开连接");
+                    break;
+                }
+                Thread.sleep(1000);
+                pw.write("id:1\n");
+                pw.write("retry:1000\n");
+                //pw.write("event:onupdate\n"); // 要以on开头
+                pw.write("data:行情:" + Math.random() + "\n");
+                pw.write("\n\n");
+                pw.flush();
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @RequestMapping("/sse/test")
+    @RequireToken(required = false)
+    public void push(HttpServletRequest req, HttpServletResponse rsp) {
+        this.check(null);
+    }
+
+    /**
+     * 连接后检测推送
+     */
+    private void check(AsyncContext ctx) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<SysAppV2VersionEntity> list = appService.findAppV2VersionListBy(new SysAppV2VersionEntity()
+                .setType(3)
+                .setIsEndNotification(0));
+        if (!list.isEmpty()) {
+            Map<String, Object> data = Maps.of("type", "erp-update", "data", list.get(0));
+            EventMessage msg = new EventMessage("001", Types.toJson(data), 1000);
+            server.push("erp-sse", msg.toString(), (event) -> {
+                return ctx == null || event == ctx;
+//                String reqId = event.getRequest().getParameter("id");
+//                if (Strings.isNullOrEmpty(reqId)) return false;
+//                return reqId.equals(id);
+            });
+        }
+    }
+}
