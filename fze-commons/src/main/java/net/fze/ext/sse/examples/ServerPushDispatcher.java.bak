@@ -1,0 +1,32 @@
+package net.fze.ext.sse.examples;
+
+import cn.aoxueqi.apiadmin.util.sse.EventMessage;
+import cn.aoxueqi.apiadmin.util.sse.IAsyncContextFilter;
+import cn.aoxueqi.apiadmin.util.sse.IServerEventProvider;
+import cn.aoxueqi.common.entity.sys.SysAppV2VersionEntity;
+import cn.aoxueqi.common.service.SysAppV2VersionService;
+import net.fze.jdk.jdk8.Maps;
+import net.fze.util.Types;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
+
+@Component
+public class ServerPushDispatcher {
+
+    @Autowired
+    private IServerEventProvider server;
+
+    @Autowired
+    SysAppV2VersionService appService;
+
+    public void checkErpPush(IAsyncContextFilter filter) {
+        SysAppV2VersionEntity version = this.appService.findLatestAppVersionByType(3);
+        if (version != null) {
+            Map<String, Object> mp = Maps.of("event", "erp-update", "data", version);
+            EventMessage msg = new EventMessage("001", Types.toJson(mp), 1000);
+            server.push("erp-sse", msg.toString(), filter);
+        }
+    }
+}

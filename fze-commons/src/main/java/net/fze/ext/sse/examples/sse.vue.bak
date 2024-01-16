@@ -11,16 +11,16 @@
 -->
 <template>
   <div id="app">
-    <div class="a-notity" v-if="ws.update.isWillUpdate">
+    <div class="a-notity" v-if="data.updateData">
       <i class="iconfont icon-tongzhi"></i>
       <h3>
         ERP将于{{
-          timesFormat(ws.update.info.startTime)
+          timesFormat((data.updateData?.startTime || 0) * 1000)
         }}进行系统升级，届时系统将无法使用，请合理安排工作内容，给同事们带来的工作不便，敬请谅解！
       </h3>
       <el-dialog
         class="n-dialog-update"
-        :visible="data.isShowDialogUpdate"
+        :visible="data.isShowUpdateDialog"
         width="40%"
       >
         <div class="u-bg">
@@ -31,20 +31,21 @@
             <h2>更新通知</h2>
             <img src="/image/update_arrow.png" />
           </div>
-          <div class="v-t">
-            <span>V{{ ws.update.info.version }}更新内容：</span>
+
+          <div class="update-hint">
+            <span v-if="data.updateData?.updateDuration > 0">
+              本次更新约耗时：{{ data.updateData?.updateDuration }}分钟，</span
+            >
+
+            请耐心等待升级，升级完成后系统会弹出提示！
           </div>
-        </div>
-        <div class="u-text">
-          <div class="t-item" v-if="ws.update.info.updateContent">
-            <div class="i-title">
-              <span>更新内容：</span>
-            </div>
-            <div class="i-main" v-html="ws.update.info.updateContent"></div>
+          <div class="v-t-1">
+            <div class="i-title"><br /><strong>更新内容：</strong></div>
+            <div v-html="data.updateData?.updateContent"></div>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click.native="reloadPage"
+          <el-button v-if="false" type="primary" @click.native="reloadPage"
             >刷新页面</el-button
           >
         </div>
@@ -57,45 +58,23 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  onMounted,
-  reactive,
-  watch,
-  provide,
-  ref,
-  nextTick,
-  onUnmounted,
-} from "vue";
-import { useSysStore } from "./store";
-import { storeToRefs } from "pinia";
-import { Times, useRouter } from "@/utils";
-import { checkRole } from "@/modules/rbac";
-import { sessionLib } from "./libs/js/session";
+import { onMounted, reactive, provide, ref, nextTick } from "vue";
+import { useStaffStore } from "./store";
+import { MessageBox, Times, sleep, uuid } from "@/utils";
+import { checkRole, useRbacStore } from "@/modules/rbac";
 
-const route = useRouter();
+const rbacStore = useRbacStore();
+const store = useStaffStore();
 
 const routerState = ref<boolean>(true);
 
 const data = reactive<{
-  timerUpdate: any;
-  isShowDialogUpdate: any;
+  updateData?: any;
+  isShowUpdateDialog: boolean;
 }>({
-  timerUpdate: null,
-  isShowDialogUpdate: false,
+  updateData: null,
+  isShowUpdateDialog: false,
 });
-
-const sysStore = useSysStore();
-const { ws } = storeToRefs(sysStore);
-// watch(() => sysStore.ws.update.isWillUpdate, (e) => {
-//   if (!e) {
-//     data.timerUpdate && clearInterval(data.timerUpdate);
-//     data.isShowDialogUpdate = false;
-//     return;
-//   } else {
-//     keepDialogUpdate();
-//     sysStore.getUpdateVersion();
-//   }
-// });
 
 // 刷新vue组件页面
 const reload = () => {
@@ -115,34 +94,31 @@ const timesFormat = (time: number) => {
 provide("reload", reload);
 
 onMounted(() => {
-  //sysStore.initWs();
   createConnect();
 });
 
-function keepDialogUpdate() {
-  if (!checkRole("master")) {
-    data.timerUpdate = setInterval(() => {
-      if (Date.now() > sysStore.ws.update.info.startTime) {
-        data.isShowDialogUpdate = true;
-      }
-    }, 3000);
-  }
-}
 function reloadPage() {
   window.location.reload();
 }
 
 let retry = false;
-const createConnect = () => {
+let isCompleted = false;
+const createConnect = async () => {
+  while (true) {
+    if (rbacStore.roles.length > 0) {
+      break;
+    }
+    await sleep(1000);
+  }
   retry = false;
-  const nonce = "001";
-  const url = "http://localhost:4000/subscribe?id=" + nonce;
+  const nonce = uuid();
+  const url = "/api/admin/subscribe?id=" + nonce;
   // 建立连接
   var source = new EventSource(url);
   // 连接一旦建立，就会触发open事件
   source.addEventListener(
     "open",
-    function (e) {
+    function () {
       console.log("已建立连接...");
     },
     false
@@ -150,7 +126,12 @@ const createConnect = () => {
 
   // 客户端收到服务器发来的数据
   source.addEventListener("message", function (e) {
-    console.log("接收数据", e.data);
+    console.log("--接收到:", e.data);
+    const { event, data } = JSON.parse(e.data);
+    if (event === "erp-update") {
+      applyUpdate(data);
+    }
+    console.log("接收数据", event, data);
   });
 
   // 如果发生通信错误（比如连接中断），就会触发error事件
@@ -170,9 +151,55 @@ const createConnect = () => {
     false
   );
 };
+
+const applyUpdate = (ret: {
+  startTime: number;
+  isEndNotification: boolean;
+}) => {
+  //console.log("--接收到:", ret);
+  if (ret.isEndNotification) {
+    if (data.updateData != null) {
+      // 更新完成
+      data.isShowUpdateDialog = false;
+      data.updateData = null;
+      if (!isCompleted) {
+        // 判断是否弹出更新完成提示，并处理不重复弹框
+        isCompleted = true;
+        MessageBox.confirm(
+          "系统已更新完成,点击确定刷新浏览器后使用！",
+          "提示",
+          {
+            confirmButtonText: "确认",
+            showCancelButton: false,
+            type: "warning",
+          }
+        ).then(async () => {
+          location.replace(location.href);
+        });
+      }
+    }
+  } else {
+    // 绑定更新信息
+    data.updateData = ret;
+    // 验证时间是否到达更新时间
+    var timer = setInterval(() => {
+      const now = new Date().getTime() / 1000;
+      if (now >= ret.startTime) {
+        if (store.isLogin && !checkRole("master")) {
+          // 登陆状态下弹出更新框,如果未登陆只提示更新不弹框
+          data.isShowUpdateDialog = true;
+        }
+        clearInterval(timer);
+      }
+    }, 1000);
+  }
+};
 </script>
 
 <style lang="less">
+.update-hint {
+  color: #f00;
+}
 .el-message {
   z-index: 9000 !important;
 }

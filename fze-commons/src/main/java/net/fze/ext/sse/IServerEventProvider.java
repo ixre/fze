@@ -13,15 +13,11 @@ public interface IServerEventProvider {
      */
     AsyncContext connect(String topic);
 
-    /**
-     * 创建SSE连接
-     */
-    AsyncContext connect(String topic, IAsyncEventHandler handler);
 
     /**
      * 创建SSE连接
      */
-    AsyncContext connect(String topic, HttpServletRequest request, IAsyncEventHandler handler);
+    AsyncContext connect(String topic, HttpServletRequest request);
 
     /**
      * 推送消息

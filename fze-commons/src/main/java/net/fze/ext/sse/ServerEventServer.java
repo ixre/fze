@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Server-sent-events服务器
@@ -25,15 +26,17 @@ public class ServerEventServer {
     private int _timeout;
 
     /**
-     * 订阅列表，存储所有主题的订阅请求，每个topic对应一个ArrayList，ArrayList里该topic的所有订阅请求
+     * 订阅列表，存储所有主题的订阅请求，每个topic对应一个ArrayList，ArrayList里该topic的所有订阅请求,
+     * 应使用CopyOnWriteArrayList，为遇到并发问题
      */
-    private final ConcurrentHashMap<String, ArrayList<AsyncContext>> contextMaps = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, CopyOnWriteArrayList<AsyncContext>> contextMaps = new ConcurrentHashMap<>();
 
     /**
      * 上下文监听
      */
     private AsyncListener _listener = null;
 
+    //Logger logger = LoggerFactory.getLogger(ServerEventServer.class);
 
     public ServerEventServer() {
         this._timeout = 3600 * 1000;
@@ -52,7 +55,7 @@ public class ServerEventServer {
     /**
      * 创建SSE连接
      */
-    public AsyncContext connect(String topic, HttpServletRequest request, IAsyncEventHandler handler) {
+    public AsyncContext connect(String topic, HttpServletRequest request) {
         if (Strings.isNullOrEmpty(topic)) {
             throw new RuntimeException("SSE topic can not be empty");
         }
@@ -67,7 +70,7 @@ public class ServerEventServer {
         response.setContentType("text/event-stream");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Connection", "keep-alive");
-
+        response.setHeader("X-Accel-Buffering", "no");
         //设置响应编码类型
         response.setCharacterEncoding("utf-8");
 
@@ -87,13 +90,13 @@ public class ServerEventServer {
 //            e.printStackTrace();
 //        }
 
-        this.addListener(ctx, topic, handler);
-        ArrayList<AsyncContext> ctxList = contextMaps.computeIfAbsent(topic, k -> new ArrayList<>());
+        this.addListener(ctx, topic);
+        List<AsyncContext> ctxList = contextMaps.computeIfAbsent(topic, k -> new CopyOnWriteArrayList<>());
         ctxList.add(ctx);
         return ctx;
     }
 
-    private void addListener(AsyncContext ctx, String topic, IAsyncEventHandler handler) {
+    private void addListener(AsyncContext ctx, String topic) {
         if (this._listener != null) {
             ctx.addListener(this._listener);
         }
@@ -104,7 +107,7 @@ public class ServerEventServer {
              */
             private void removeContext(AsyncEvent event) {
                 AsyncContext ctx = event.getAsyncContext();
-                ArrayList<AsyncContext> asyncContexts = contextMaps.get(topic);
+                List<AsyncContext> asyncContexts = contextMaps.get(topic);
                 if (asyncContexts != null) {
                     // 移除会话
                     asyncContexts.remove(ctx);
@@ -132,9 +135,9 @@ public class ServerEventServer {
             @Override
             public void onStartAsync(AsyncEvent event) throws IOException {
                 // 当连接建立，线程启动后执行
-                if (handler != null) {
-                    handler.handle(event);
-                }
+//                if (handler != null) {
+//                    handler.handle(event);
+//                }
             }
         });
     }
@@ -157,14 +160,18 @@ public class ServerEventServer {
      * @param filter 筛选符合条件的上下文进行推送
      */
     public void push(String topic, String data, IAsyncContextFilter filter) {
-        ArrayList<AsyncContext> ctxList = contextMaps.get(topic);
-        if (ctxList == null) return;
-        ctxList.forEach(ctx -> {
-            if (filter != null && !filter.filter(ctx)) {
+        List<AsyncContext> ctxList = contextMaps.get(topic);
+
+        if (ctxList.isEmpty()) return;
+        for (AsyncContext ctx : ctxList) {
+            // java.util.ConcurrentModificationException: null
+            if (ctx == null || (filter != null && !filter.filter(ctx))) {
+                //logger.error("开始获取会话1" + (ctxList.isEmpty()) + ";" + ctxList.size());
                 // 过滤请求
-                return;
+                continue;
             }
             try {
+                // logger.error("开始获取会话2" + (ctxList.isEmpty()) + ";" + ctxList.size());
                 PrintWriter out = ctx.getResponse().getWriter();
                 out.print(data);
                 out.print("\n\n"); // an empty line dispatches the event 结束发送
@@ -174,7 +181,7 @@ public class ServerEventServer {
                 //java.lang.IllegalStateException: The request associated with the AsyncContext has already completed processing.
                 //throw new RuntimeException(e);
             }
-        });
+        }
     }
 
     /**

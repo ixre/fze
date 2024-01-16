@@ -1,0 +1,40 @@
+package net.fze.ext.sse.examples;
+
+import cn.aoxueqi.apiadmin.util.sse.IAsyncContextFilter;
+import cn.aoxueqi.apiadmin.util.sse.IServerEventProvider;
+import cn.aoxueqi.apiadmin.util.sse.ServerEventServer;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.AsyncContext;
+import javax.servlet.http.HttpServletRequest;
+
+@Component
+public class ServerEventServerImpl implements IServerEventProvider {
+    private final ServerEventServer _server = new ServerEventServer();
+
+    @Override
+    public AsyncContext connect(String topic) {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attr == null) {
+            throw new RuntimeException("未识别到上下文");
+        }
+        return _server.connect(topic, attr.getRequest());
+    }
+
+    @Override
+    public AsyncContext connect(String topic, HttpServletRequest request) {
+        return _server.connect(topic, request);
+    }
+
+    @Override
+    public void push(String topic, String data) {
+        this._server.push(topic, data);
+    }
+
+    @Override
+    public void push(String topic, String data, IAsyncContextFilter filter) {
+        this._server.push(topic, data, filter);
+    }
+}
