@@ -1,8 +1,6 @@
 package net.fze.ext.hibernate;
 
-import net.fze.common.ClassResolver;
 import net.fze.ext.jdbc.ConnectionParams;
-import net.fze.util.Systems;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -11,10 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.engine.transaction.jta.platform.internal.AtomikosJtaPlatform;
 
-import javax.persistence.Entity;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -29,7 +24,7 @@ public class Hibernate {
     private static String _dbUser;
     private static Properties selfSettings;
     private static boolean _cache;
-    private static String[] _scanPackages;
+    private static IConfigurationProvider _provider;
 
     /**
      * 启用hibernate缓存
@@ -44,7 +39,14 @@ public class Hibernate {
     /**
      * 配置Hibernate
      */
-    public static void configure(ConnectionParams r, Properties settings, String... scanPackages) {
+    public static void configure(ConnectionParams r, Properties settings) {
+         configure(r, settings, null);
+    }
+
+    /**
+     * 配置Hibernate
+     */
+    public static void configure(ConnectionParams r, Properties settings,IConfigurationProvider provider) {
 //        _driverClass = r.getString("database.driver_class");
 //        _driverUrl = String.format(
 //                        "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8",
@@ -59,7 +61,6 @@ public class Hibernate {
         _driverUrl = r.getConnectionUrl();
         _dbPwd = r.getPwd();
         _dbUser = r.getUser();
-        _scanPackages = scanPackages;
         if (!r.getTimeZone().isEmpty()) {
             try {
                 _driverUrl += "&serverTimezone=" + URLEncoder.encode(r.getTimeZone(), "utf-8");
@@ -68,6 +69,7 @@ public class Hibernate {
             }
         }
         selfSettings = settings;
+        _provider = provider;
         // System.out.println("[ Log] Driver Url = " + _driverUrl);
     }
 
@@ -79,7 +81,7 @@ public class Hibernate {
     public static Session getSession() {
         if (_sessionFactory == null) {
             synchronized (_locker) {
-                _sessionFactory = createSessionFactory(selfSettings);
+                _sessionFactory = createSessionFactory(_provider);
             }
         }
         return _sessionFactory.openSession();
@@ -94,13 +96,13 @@ public class Hibernate {
      *
      * @return 返回工厂
      */
-    private static SessionFactory createSessionFactory(Properties properties) {
+    private static SessionFactory createSessionFactory(IConfigurationProvider supplier) {
 //        if (path == null || path.isEmpty()) {
 //            throw new Error("[ System][ Crash] - not set hibernate.cfg.xml path for Hibernate");
 //        }
 
         Configuration configuration = new Configuration();
-        configuration.setProperties(properties);
+        if(supplier != null)supplier.apply(configuration);
 //        for (String pkgPath : _scanPackages) {
 //            Arrays.stream(Systems.getPkgClasses(pkgPath,
 //                            (c) -> c.isAnnotationPresent(Entity.class)))
@@ -135,7 +137,7 @@ public class Hibernate {
         builder.applySetting("hibernate.c3p0.testConnectionOnCheckin", true);
         builder.applySetting("hibernate.c3p0.testConnectionOnCheckout", false);
         builder.applySetting("hibernate.c3p0.idle_test_period", 3600);
-        appendCustomSetting(builder, properties);
+        appendCustomSetting(builder, selfSettings);
         StandardServiceRegistry registry = builder.build();
         return new MetadataSources(registry)
                 .buildMetadata()
