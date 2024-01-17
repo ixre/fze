@@ -1,6 +1,7 @@
 package net.fze.ext.hibernate;
 
 import net.fze.ext.jdbc.ConnectionParams;
+import net.fze.util.Strings;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -25,6 +26,7 @@ public class Hibernate {
     private static Properties selfSettings;
     private static boolean _cache;
     private static IConfigurationProvider _provider;
+    private static String _confPath;
 
     /**
      * 启用hibernate缓存
@@ -40,13 +42,13 @@ public class Hibernate {
      * 配置Hibernate
      */
     public static void configure(ConnectionParams r, Properties settings) {
-         configure(r, settings, null);
+         configure(r, settings, null,"hibernate.cfg.xml");
     }
 
     /**
      * 配置Hibernate
      */
-    public static void configure(ConnectionParams r, Properties settings,IConfigurationProvider provider) {
+    public static void configure(ConnectionParams r, Properties settings,IConfigurationProvider provider,String confPath) {
 //        _driverClass = r.getString("database.driver_class");
 //        _driverUrl = String.format(
 //                        "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8",
@@ -68,6 +70,7 @@ public class Hibernate {
                 ex.printStackTrace();
             }
         }
+        _confPath = confPath;
         selfSettings = settings;
         _provider = provider;
         // System.out.println("[ Log] Driver Url = " + _driverUrl);
@@ -111,8 +114,12 @@ public class Hibernate {
         // 读取配置文件信息
         final StandardServiceRegistryBuilder builder =
                 new StandardServiceRegistryBuilder()
-                        .applySettings(configuration.getProperties())
-                        .configure("hibernate.cfg.xml");
+                        .applySettings(configuration.getProperties());
+        if(Strings.isNullOrEmpty(_confPath)) {
+            builder.configure();
+        }else{
+            builder.configure("hibernate.cfg.xml");
+        }
         //  .configure(path);
         builder.applySetting("hibernate.connection.driver_class", _driverClass);
         builder.applySetting("hibernate.connection.url", _driverUrl);
