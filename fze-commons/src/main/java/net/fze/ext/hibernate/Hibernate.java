@@ -156,6 +156,7 @@ public class Hibernate {
 //                .buildSessionFactory();
 
         // hibernate 5.x
+        //configuration.addAnnotatedClass(this.getClass());
         if (Strings.isNullOrEmpty(_confPath)) {
             configuration.configure();
         } else {
