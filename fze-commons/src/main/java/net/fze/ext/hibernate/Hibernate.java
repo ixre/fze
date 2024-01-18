@@ -41,13 +41,13 @@ public class Hibernate {
      * 配置Hibernate
      */
     public static void configure(ConnectionParams r, Properties settings) {
-         configure(r, settings, null,"hibernate.cfg.xml");
+        configure(r, settings, null, "hibernate.cfg.xml");
     }
 
     /**
      * 配置Hibernate
      */
-    public static void configure(ConnectionParams r, Properties settings,IConfigurationProvider provider,String confPath) {
+    public static void configure(ConnectionParams r, Properties settings, IConfigurationProvider provider, String confPath) {
 //        _driverClass = r.getString("database.driver_class");
 //        _driverUrl = String.format(
 //                        "jdbc:%s://%s:%d/%s?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8",
@@ -104,14 +104,21 @@ public class Hibernate {
 //        }
 
         Configuration configuration = new Configuration();
-        if(supplier != null)supplier.apply(configuration);
+        if (supplier != null) supplier.apply(configuration);
 //        for (String pkgPath : _scanPackages) {
 //            Arrays.stream(Systems.getPkgClasses(pkgPath,
 //                            (c) -> c.isAnnotationPresent(Entity.class)))
 //                    .forEach(configuration::addClass);
 //        }
 
+        // org.hibernate.MappingException: Unknown entity
         // https://blog.csdn.net/weixin_34280237/article/details/91672332 Hibernate4.x
+
+//        if(Strings.isNullOrEmpty(_confPath)) {
+//            configuration.configure();
+//        }else{
+//            configuration.configure("hibernate.cfg.xml");
+//        }
         // 读取配置文件信息
 //        final StandardServiceRegistryBuilder builder =
 //                new StandardServiceRegistryBuilder()
@@ -148,14 +155,12 @@ public class Hibernate {
 //                .buildMetadata()
 //                .buildSessionFactory();
 
-
-        if(Strings.isNullOrEmpty(_confPath)) {
+        // hibernate 5.x
+        if (Strings.isNullOrEmpty(_confPath)) {
             configuration.configure();
-        }else{
+        } else {
             configuration.configure("hibernate.cfg.xml");
         }
-
-        //  .configure(path);
         configuration.setProperty("hibernate.connection.driver_class", _driverClass);
         configuration.setProperty("hibernate.connection.url", _driverUrl);
         configuration.setProperty("hibernate.connection.username", _dbUser);
