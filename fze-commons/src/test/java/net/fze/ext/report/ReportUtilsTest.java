@@ -53,7 +53,7 @@ class ReportUtilsTest {
      */
     @Test
     void testLoadConfigItem(){
-        ItemConfig cfg = ReportUtils.readItemConfigFromXml("classpath:/query/test.xml");
+        ItemConfig cfg = ReportUtils.readItemConfigFromXml("classpath:/query/test.xml",XmlResolver.Beans);
         System.out.println(Types.toJson(cfg));
     }
 
@@ -62,7 +62,7 @@ class ReportUtilsTest {
      */
     @Test
     void testItemManager(){
-        ItemManager manager = new ItemManager(null,"classpath:query",true);
+        ItemManager manager = new ItemManager(null,"classpath:query",XmlResolver.Beans,true);
         IReportPortal cfg = manager.getItem("test.xml");
         System.out.println(Types.toJson(cfg));
     }
