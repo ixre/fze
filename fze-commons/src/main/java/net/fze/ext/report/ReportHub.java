@@ -18,7 +18,7 @@ public class ReportHub {
      * @param cacheFiles 是否缓存文件, 识别本地文件有效
      */
     public ReportHub(IConnProvider provider, String rootPath, boolean cacheFiles) {
-        _manager = new ItemManager(provider, rootPath.isEmpty() ? "classpath:" : rootPath, XmlResolver.Beans, cacheFiles);
+        _manager = new ItemManager(provider, rootPath.isEmpty() ? "classpath:" : rootPath, cacheFiles);
     }
 
     public PagingResult<Map<String, Object>> fetchData(String portal, Params p, int page, int size) {

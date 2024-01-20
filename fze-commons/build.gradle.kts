@@ -51,6 +51,8 @@ dependencies {
     compileOnly("org.junit.jupiter:junit-jupiter:5.7.0")
     testCompileOnly("redis.clients:jedis:4.2.3")
     testCompileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
+    compileOnly(kotlin("stdlib-jdk8"))
 }
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"

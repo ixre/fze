@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ItemConfig>
-    <columnMapping>
-    </columnMapping>
-    <query>
+<ExportItemConfig>
+    <ColumnMapping>
+    </ColumnMapping>
+    <Query>
         <![CDATA[
         SELECT * FROM mch_merchant
         WHERE {where}
         ORDER BY {order_by}
         LIMIT {page_size} OFFSET {page_offset}
      ]]>
-    </query>
-    <import><![CDATA[]]></import>
-    <total>
+    </Query>
+    <Import><![CDATA[]]></Import>
+    <Total>
         <![CDATA[
             SELECT COUNT(1) FROM mch_merchant WHERE {where}
         ]]>
-    </total>
-</ItemConfig>
+    </Total>
+</ExportItemConfig>

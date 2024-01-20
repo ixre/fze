@@ -19,19 +19,14 @@ public class ItemManager {
     private final Map<String, ReportItem> exportItems;
     // 缓存配置文件
     private final Boolean cacheFiles;
-    /**
-     * resolver
-     */
-    private final XmlResolver _resolver;
     // 配置存放路径
     private String rootPath;
 
-    public ItemManager(IConnProvider db, String rootPath, XmlResolver resolver, Boolean cache) {
+    public ItemManager(IConnProvider db, String rootPath, Boolean cache) {
         this.rootPath = rootPath;
         this.dbGetter = db;
         this.cfgFileExt = ".xml";
         this.cacheFiles = cache;
-        this._resolver = resolver;
         this.exportItems = new HashMap<>();
         if (this.rootPath.isEmpty()) {
             this.rootPath = "/query/";
@@ -71,7 +66,7 @@ public class ItemManager {
             pwd = System.getProperty("user.dir");
         }
         String filePath = Strings.join(Lists.of(pwd,this.rootPath, portalKey, this.cfgFileExt), "");
-        ItemConfig cfg = ReportUtils.readItemConfigFromXml(filePath,this._resolver);
+        ItemConfig cfg = ReportUtils.readItemConfigFromXml(filePath);
         if (cfg == null) {
             throw new Error(
                     "[ Export][ Error]: can't load report item; path: " + filePath);
