@@ -8,7 +8,7 @@
     <Query>
         <![CDATA[
  select * from agent_info WHERE c.agent_level=2  and g.agent_name like '%{agent_name}%'
-   ORDER BY g.id DESC limit {page_start},{page_size}
+   ORDER BY g.id DESC limit {page_offset},{page_size}
      ]]>
     </Query>
     <Import><![CDATA[]]></Import>

@@ -34,14 +34,16 @@ public class ReportUtils {
         }
     }
 
-    private static ItemConfig parseItemConfig(InputStream fs) throws JAXBException, IOException {
+    private static ItemConfig parseItemConfig(InputStream fs) throws Exception {
+        return SAXConfigItemParser.parse(fs);
         // 不能使用XmlDecoder因为Xml中的字段为大写,无法映射到Java类的小写开头属性
 //        String xmlContent = IoUtils.readToEnd(fs, "UTF-8");
 //        return XmlUtils.deserializeObject(xmlContent);
-        JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
-        ItemConfig cfg = (ItemConfig) ctx.createUnmarshaller().unmarshal(fs);
-        fs.close();
-        return cfg;
+        // 需要引用其他的库
+//        JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
+//        ItemConfig cfg = (ItemConfig) ctx.createUnmarshaller().unmarshal(fs);
+//        fs.close();
+//        return cfg;
     }
 
     /**
@@ -50,7 +52,7 @@ public class ReportUtils {
      * @param resourcePath 资源路径
      * @return 配置项
      */
-    private static ItemConfig readItemConfigFromResources(String resourcePath) throws JAXBException, IOException {
+    private static ItemConfig readItemConfigFromResources(String resourcePath) throws Exception {
         String resPath = resourcePath.replace("classpath:", "");
         if (resPath.startsWith("/")) {
             resPath = resPath.substring(1);

@@ -62,4 +62,16 @@ public class ItemConfig {
     public void setColumnMapping(String s) {
         this.columnMapping = s;
     }
+
+    public void setQuerySQL(String value) {
+        this.query = value;
+    }
+
+    public void setImportSQL(String value) {
+        this.importSQL = value;
+    }
+
+    public void setTotalSQL(String value) {
+        this.total = value;
+    }
 }

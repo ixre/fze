@@ -62,13 +62,13 @@ public class ReportItem implements IReportPortal {
         int pageSize = TypeConv.toInt(p.get("page_size"));
         PagingResult<Map<String, Object>> r = new PagingResult<>();
         r.setRows(new ArrayList<>());
+        String offset = "0";
         // 设置SQL分页信息
         if (pageIndex > 0) {
-            String offset = String.valueOf((pageIndex - 1) * pageSize);
-            p.set("page_offset", offset);
-        } else {
-            p.set("page_offset", "0");
+             offset = String.valueOf((pageIndex - 1) * pageSize);
         }
+        p.set("page_offset", offset);
+        p.set("page_begin", offset); // same of page_offset
         p.set("page_end", String.valueOf(pageIndex * pageSize));
         // 创建连接
         Connection conn = this.dbProvider.getConn();
