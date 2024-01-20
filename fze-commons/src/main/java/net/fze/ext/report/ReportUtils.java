@@ -20,24 +20,24 @@ public class ReportUtils {
     /**
      * 获取列映射数组
      */
-    public static ItemConfig readItemConfigFromXml(String xmlFilePath,XmlResolver resolver) {
+    public static ItemConfig readItemConfigFromXml(String xmlFilePath) {
         try {
             if (xmlFilePath.startsWith("classpath:")) {
-                return readItemConfigFromResources(xmlFilePath,resolver);
+                return readItemConfigFromResources(xmlFilePath);
             }
             FileInputStream fs = new FileInputStream(xmlFilePath);
-            return parseItemConfig(fs,resolver);
+            return parseItemConfig(fs);
+          //  String xmlContent = IoUtils.readToEnd(fs, "UTF-8");
+           // return XmlUtils.deserializeObject(xmlContent);
         } catch (Throwable ex) {
             throw new RuntimeException("resolve xml file failed! filepath="+xmlFilePath,ex);
         }
     }
 
-    private static ItemConfig parseItemConfig(InputStream fs,XmlResolver resolver) throws JAXBException, IOException {
-        if(resolver == XmlResolver.Beans) {
-            // 不能使用XmlDecoder因为Xml中的字段为大写,无法映射到Java类的小写开头属性
-            String xmlContent = IoUtils.readToEnd(fs, "UTF-8");
-            return XmlUtils.deserializeObject(xmlContent);
-        }
+    private static ItemConfig parseItemConfig(InputStream fs) throws JAXBException, IOException {
+        // 不能使用XmlDecoder因为Xml中的字段为大写,无法映射到Java类的小写开头属性
+//        String xmlContent = IoUtils.readToEnd(fs, "UTF-8");
+//        return XmlUtils.deserializeObject(xmlContent);
         JAXBContext ctx = JAXBContext.newInstance(ItemConfig.class);
         ItemConfig cfg = (ItemConfig) ctx.createUnmarshaller().unmarshal(fs);
         fs.close();
@@ -50,7 +50,7 @@ public class ReportUtils {
      * @param resourcePath 资源路径
      * @return 配置项
      */
-    private static ItemConfig readItemConfigFromResources(String resourcePath,XmlResolver resolver) throws JAXBException, IOException {
+    private static ItemConfig readItemConfigFromResources(String resourcePath) throws JAXBException, IOException {
         String resPath = resourcePath.replace("classpath:", "");
         if (resPath.startsWith("/")) {
             resPath = resPath.substring(1);
@@ -60,7 +60,7 @@ public class ReportUtils {
         if (fs == null) {
             throw new RuntimeException("not found query item in classpath; path: " + resPath);
         }
-        return parseItemConfig(fs,resolver);
+        return parseItemConfig(fs);
     }
 
     /**
