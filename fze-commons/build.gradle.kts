@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version ("1.9.0")
     `maven-publish`
+    signing
 }
 //apply("../deploy/deploy.gradle.kts")
 
@@ -84,7 +85,6 @@ tasks.javadoc {
         (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
     }
 }
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -93,9 +93,16 @@ publishing {
             version = "0.4.7"
 
             from(components["java"])
-        }
 
-        create<MavenPublication>("mavenJava") {
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+                usage("java-runtime") {
+                    fromResolutionResult()
+                }
+            }
+
             pom {
                 name = "fze-commons"
                 description = "A commons java library"
@@ -137,3 +144,8 @@ publishing {
         }
     }
 }
+
+signing {
+    sign(publishing.publications["maven"])
+}
+

@@ -25,3 +25,4 @@ pom.xml*
 gradle
 gradlew.bat
 bin
+gradle.properties1
