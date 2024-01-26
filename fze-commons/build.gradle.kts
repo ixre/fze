@@ -76,15 +76,7 @@ compileTestKotlin.kotlinOptions {
 //apply(plugin ="signing")
 //
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-tasks.javadoc {
-    if (JavaVersion.current().isJava9Compatible) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
-    }
-}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -142,6 +134,16 @@ publishing {
                 password = System.getenv("SONATYPE_PASSWORD")
             }
         }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
     }
 }
 
