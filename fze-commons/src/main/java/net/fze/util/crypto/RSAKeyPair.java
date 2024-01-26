@@ -21,7 +21,9 @@ public class RSAKeyPair {
      * 生成RSA密钥对
      */
     public static KeyPair generate(int bits) throws NoSuchAlgorithmException {
-        if (bits <= 0) bits = 2048;
+        if (bits <= 0) {
+            bits = 2048;
+        }
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
         keyGen.initialize(bits);
         java.security.KeyPair pair = keyGen.generateKeyPair();
@@ -37,7 +39,6 @@ public class RSAKeyPair {
      *
      * @param pemStream - input stream of classpath file
      * @return PrivateKey
-     * @throws Exception on decode failure
      */
     public static PrivateKey readFromStream(InputStream pemStream) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] tmp = new byte[4096];
@@ -50,7 +51,6 @@ public class RSAKeyPair {
      *
      * @param privateKey - PEM string for private key
      * @return PrivateKey
-     * @throws Exception on decode failure
      */
     public static PrivateKey decodePrivateKey(String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] encodedBytes = toEncodedBytes(privateKey);

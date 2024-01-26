@@ -31,7 +31,7 @@ package net.fze.ext.jdbc;
  * IS_AUTOINCREMENT String => 指示此列是否自动增加，YES --- 如果该列自动增加 ， NO --- 如果该列不自动增加，
  * 空字符串 --- 如果不能确定该列是否是自动增加参数<br>
  *
- * <pre>
+ * </pre>
  */
 public enum ResultSetColumnLabel {
     /**

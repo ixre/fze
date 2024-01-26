@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.Java
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -73,6 +74,16 @@ compileTestKotlin.kotlinOptions {
 //apply(plugin = "maven-publish")
 //apply(plugin ="signing")
 //
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    }
+}
 
 publishing {
     publications {

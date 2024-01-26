@@ -67,6 +67,7 @@ public abstract class AbstractRedisLocker implements ILocker {
      *
      * @param key     Key
      * @param expires 过期时间
+     * @return 锁id
      */
     public String lock(String key, int expires) {
         return this.mutexLock(key, expires);

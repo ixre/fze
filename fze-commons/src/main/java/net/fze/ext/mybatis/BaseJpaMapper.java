@@ -11,8 +11,9 @@ import java.util.function.Function;
 /**
  * 适配JPA规范的Mapper基础类型
  *
- * @param <P>
- * @param <T>
+ * @author jarrysix
+ * @param <P> 主键
+ * @param <T> 实体
  */
 public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> {
     /**
@@ -27,7 +28,7 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
      */
     default T save(T e, Function<T, P> f) {
         Object pk = f.apply(e);
-        if (pk == null || pk.equals("") || pk.equals(0)) {
+        if (pk == null || "".equals(pk) || pk.equals(0)) {
             this.insert(e);
         } else {
             this.updateById(e);

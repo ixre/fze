@@ -1,5 +1,8 @@
 package net.fze.common.std;
 
+/**
+ * @author jarrysix
+ */
 public interface Creator<T> {
     Creator<?> CLASS = it -> {
         try {

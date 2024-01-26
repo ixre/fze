@@ -106,9 +106,12 @@ public interface TinySession {
 
     /**
      * 执行SQL语句查询
-     * 如：select * FROM mysql.user WHERE user=:user AND host=:host
-     * Map<String,Object> data = new HashMap<>();
-     * data.add("user","jarrysix");
+     *
+     * <pre>
+     *      如：select * FROM mysql.user WHERE user=:user AND host=:host
+     *      Map data = new HashMap();
+     *      data.add("user","jarrysix");
+     * </pre>
      *
      * @param sql  SQL语句
      * @param data 数据参数

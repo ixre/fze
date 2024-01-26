@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class TypeConv {
     /**
-     * <将obj转换为string，如果obj为null则返回defaultVal>
+     * 将obj转换为string，如果obj为null则返回defaultVal
      *
      * @param obj        需要转换为string的对象
      * @param defaultVal 默认值
@@ -25,7 +25,7 @@ public class TypeConv {
     }
 
     /**
-     * <将obj转换为string，默认为空>
+     * 将obj转换为string，默认为空
      *
      * @param obj 需要转换为string的对象
      * @return 将对象转换为string的字符串
@@ -35,7 +35,7 @@ public class TypeConv {
     }
 
     /**
-     * <将对象转换为int>
+     * 将对象转换为int
      *
      * @param obj        需要转换为int的对象
      * @param defaultVal 默认值
@@ -61,7 +61,7 @@ public class TypeConv {
     }
 
     /**
-     * <将对象转换为int>
+     * 将对象转换为int
      *
      * @param obj 需要转换为int的对象
      * @return obj转换成的int值
@@ -71,7 +71,7 @@ public class TypeConv {
     }
 
     /**
-     * <将对象转换为int>
+     * 将对象转换为int
      *
      * @param obj 需要转换为int的对象
      * @return obj转换成的int值
@@ -81,7 +81,7 @@ public class TypeConv {
     }
 
     /**
-     * <将对象转换为int>
+     * 将对象转换为int
      *
      * @param obj        需要转换为int的对象
      * @param defaultVal 默认值
@@ -107,7 +107,7 @@ public class TypeConv {
     }
 
     /**
-     * <将对象转换为Float>
+     * 将对象转换为Float
      *
      * @param obj 需要转换为Float的对象
      * @return obj转换成的Float值
@@ -117,7 +117,7 @@ public class TypeConv {
     }
 
     /**
-     * <将obj转换为long>
+     * 将obj转换为long
      *
      * @param obj        需要转换的对象
      * @param defaultVal 默认值
@@ -141,7 +141,7 @@ public class TypeConv {
     }
 
     /**
-     * <将obj转换为long>
+     * 将obj转换为long
      *
      * @param obj 需要转换的对象
      * @return 如果obj为空则返回默认的0l，不为空则返回转换后的long结果

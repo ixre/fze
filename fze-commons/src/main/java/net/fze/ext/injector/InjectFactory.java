@@ -13,7 +13,6 @@ public class InjectFactory {
      * InjectFactory.configure(new Injector() {
      *
      * @param injector 注入器
-     * @Override public <T> T getInstance(Class<T> c) {
      * return null;
      * }
      * });
