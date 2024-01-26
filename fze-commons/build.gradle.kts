@@ -2,8 +2,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version ("1.9.0")
+    `maven-publish`
 }
-apply("../deploy.gradle")
+//apply("../deploy/deploy.gradle.kts")
 
 
 dependencies {
@@ -30,6 +31,8 @@ dependencies {
     compileOnly("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
     // spring
     compileOnly("com.baomidou:mybatis-plus-core:3.5.3")
+    compileOnly("org.springframework.data:spring-data-redis:2.7.12")
+
     // grpc
     compileOnly("io.grpc:grpc-stub:1.56.0")
     compileOnly("com.google.protobuf:protobuf-java-util:3.22.3")
@@ -65,4 +68,61 @@ compileKotlin.kotlinOptions {
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
+}
+
+//apply(plugin = "maven-publish")
+//apply(plugin ="signing")
+//
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "net.fze"
+            artifactId = "fze-commons"
+            version = "0.4.7"
+
+            from(components["java"])
+        }
+
+        create<MavenPublication>("mavenJava") {
+            pom {
+                name = "fze-commons"
+                description = "A commons java library"
+                url = "http://github.com/ixre/fze"
+                properties = mapOf(
+                    "myProps" to "value",
+                )
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "jarrysix"
+                        name = "jarrysix"
+                        email = "jarrysix@gmail.com"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/ixre/fze.git"
+                    developerConnection = "scm:git:ssh://github.com/ixre/fze.git"
+                    url = "http://github.com/ixre/fze"
+                }
+            }
+        }
+    }
+    repositories {
+        // 如果 Sonatype 官方人员给你发的域名不是 s01.oss.sonatype，请把域名替换成官方人员告知你的域名
+        val snapshotsRepoUrl =  "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+        maven {
+            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+            credentials{
+                username = "jarrysix"
+                password = System.getenv("SONATYPE_PASSWORD")
+            }
+        }
+    }
 }
