@@ -1,23 +1,35 @@
-添加仓库：
+# FZE-COMMONS
 
-```
-repositories {
-  maven("http://git.tech.meizhuli.net:8082/repository/maven-public")
-}
+JAVA通用类库，提供如下模块:
+
+- 基本类库和类型转换函数
+- 常用的注解和接口定义
+- HTTP请求库
+- 领域驱动设计库
+- 事件总线
+- Etcd包装类及基于etcd的服务发现
+- Grpc包装类
+- 依赖注入工厂
+- JDBC数据访问库(支持Agroal/HikariCP/C3P0)
+- JWT包装类
+- 通用数据查询组件
+- 通用缓存存储组件
+- 若干工具类
+
+## 快速使用
+
+使用`gradle`作为依赖管理
+
+```kts
+implementation("net.fze:fze-commons:0.4.7")
 ```
 
-添加依赖：
+使用`maven`作为依赖管理
 
-```
-implementation("net.fze.arch:fze-commons:0.1.10")
-```
-maven中引用
-```
+```xml
 <dependency>
     <groupId>net.fze</groupId>
     <artifactId>fze-commons</artifactId>
-    <version>0.3.9</version>
-    <scope>system</scope>
-    <systemPath>${project.basedir}/lib/fze-commons-0.3.9.jar</systemPath>
+    <version>0.4.7</version>
 </dependency>
 ```
