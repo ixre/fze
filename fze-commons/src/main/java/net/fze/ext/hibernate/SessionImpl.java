@@ -1,5 +1,6 @@
 package net.fze.ext.hibernate;
 
+import net.fze.util.TypeConv;
 import net.fze.util.Types;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -7,7 +8,9 @@ import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 
+import javax.persistence.Id;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -241,13 +244,49 @@ public class SessionImpl implements TinySession {
      * @param t 对象
      */
     @Override
-    public void save(Object t) {
+    public void saveOrUpdate(Object t) {
         Session s = this._session;
         Transaction trans = s.beginTransaction();
         try {
+            // unsaved-value
+            // https://blog.csdn.net/daryl715/article/details/1756325
+
             // Caused by: javax.persistence.OptimisticLockException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1; statement executed
             // 使用的是hibernate的saveOrUpdate方法保存实例。saveOrUpdate方法要求ID为null时才执行SAVE，在其它情况下执行UPDATE。在保存实例的时候是新增，但你的ID不为null，所以使用的是UPDATE，但是数据库里没有主键相关的值，所以出现异常。
             s.saveOrUpdate(t);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            s.close();
+        }
+    }
+
+    @Override
+    public Serializable add(Object t) {
+        Session s = this._session;
+        Transaction trans = s.beginTransaction();
+        try {
+            Serializable save = s.save(t);
+            trans.commit();
+            return save;
+        } catch (Exception ex) {
+            trans.rollback();
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            s.close();
+        }
+    }
+
+    @Override
+    public void update(Object t) {
+        Session s = this._session;
+        Transaction trans = s.beginTransaction();
+        try {
+            s.update(t);
             trans.commit();
         } catch (Exception ex) {
             trans.rollback();

@@ -102,7 +102,21 @@ public interface TinySession {
      *
      * @param t 对象
      */
-    void save(Object t);
+    void saveOrUpdate(Object t);
+
+    /**
+     * create
+     *
+     * @param t 对象
+     */
+    Serializable add(Object t);
+
+    /**
+     * 保存
+     *
+     * @param t 对象
+     */
+    void update(Object t);
 
     /**
      * 执行SQL语句查询
