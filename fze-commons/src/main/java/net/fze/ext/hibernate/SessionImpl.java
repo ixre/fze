@@ -1,5 +1,6 @@
 package net.fze.ext.hibernate;
 
+import net.fze.util.Types;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
@@ -33,6 +34,7 @@ public class SessionImpl implements TinySession {
      *
      * @return 会话
      */
+    @Override
     public Session session() {
         return this._session;
     }
@@ -42,6 +44,7 @@ public class SessionImpl implements TinySession {
      *
      * @return 返回事物
      */
+    @Override
     public Transaction beginTrans() {
         this._trans = this._session.beginTransaction();
         return this._trans;
@@ -53,13 +56,14 @@ public class SessionImpl implements TinySession {
      * @param hql HQL语句
      * @return 结果集
      */
+    @Override
     public <T> List<T> select(String hql, Object... params) {
         Session s = this._session;
         Query query = s.createQuery(hql);
         for (int i = 0; i < params.length; i++) {
             query.setParameter(i, params[i]);
         }
-        List<T> list = this.cacheQuery(query).list();
+        List list = this.cacheQuery(query).list();
         s.close();
         return list;
     }
@@ -71,6 +75,7 @@ public class SessionImpl implements TinySession {
      * @param data 数据
      * @return 列表
      */
+    @Override
     public <T> List<T> select(String hql, Map<String, Object> data) {
         Session s = this._session;
         Query query = s.createQuery(hql);
@@ -90,6 +95,7 @@ public class SessionImpl implements TinySession {
      * @param <T> 对象
      * @return 返回对象, 如果不存在，将返回null
      */
+    @Override
     public <T> T get(Class<T> c, Serializable id) {
         Session s = this._session;
         T t = s.get(c, id);
@@ -104,6 +110,7 @@ public class SessionImpl implements TinySession {
      * @param params 数据
      * @return 对象，需拆箱
      */
+    @Override
     public <T> T get(Class<T> c, String where, Object... params) {
         String[] arr = new String[]{"FROM ", c.getName(), " WHERE ", where};
         String hql = String.join("", arr);
@@ -129,6 +136,7 @@ public class SessionImpl implements TinySession {
      * @param params 数据
      * @return 对象，需拆箱
      */
+    @Override
     public <T> T get(Class<T> c, String where, Map<String, Object> params) {
         String[] arr = new String[]{"FROM ", c.getSimpleName(), " WHERE ", where};
         String hql = String.join("", arr);
@@ -159,6 +167,7 @@ public class SessionImpl implements TinySession {
      * @param data  数据
      * @return 返回对象列表
      */
+    @Override
     public <T> List<T> pagingSelect(String hql, int begin, int end, Map<String, Object> data) {
         Session s = this._session;
         Query query = s.createQuery(hql).setProperties(data);
@@ -209,6 +218,7 @@ public class SessionImpl implements TinySession {
      *
      * @param t 对象
      */
+    @Override
     public void delete(Object t) {
         Session s = this._session;
         Transaction trans = s.beginTransaction();
@@ -217,9 +227,9 @@ public class SessionImpl implements TinySession {
             trans.commit();
             // this._session.flush();
         } catch (Exception ex) {
-            ex.printStackTrace();
             trans.rollback();
-            throw new Error(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         } finally {
             s.close();
         }
@@ -230,16 +240,19 @@ public class SessionImpl implements TinySession {
      *
      * @param t 对象
      */
+    @Override
     public void save(Object t) {
         Session s = this._session;
         Transaction trans = s.beginTransaction();
         try {
+            // Caused by: javax.persistence.OptimisticLockException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1; statement executed
+            // 使用的是hibernate的saveOrUpdate方法保存实例。saveOrUpdate方法要求ID为null时才执行SAVE，在其它情况下执行UPDATE。在保存实例的时候是新增，但你的ID不为null，所以使用的是UPDATE，但是数据库里没有主键相关的值，所以出现异常。
             s.saveOrUpdate(t);
             trans.commit();
         } catch (Exception ex) {
-            ex.printStackTrace();
             trans.rollback();
-            throw new Error(ex);
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
         } finally {
             s.close();
         }
@@ -303,6 +316,7 @@ public class SessionImpl implements TinySession {
      * @param data 数据参数
      * @return 返回受影响的行数
      */
+    @Override
     public int execute(String sql, Map<String, Object> data) {
         Session s = this._session;
         NativeQuery query = this.createNativeQuery(s, sql, data);
@@ -314,7 +328,7 @@ public class SessionImpl implements TinySession {
         } catch (Exception ex) {
             ex.printStackTrace();
             trans.rollback();
-            throw new Error(ex);
+            throw new RuntimeException(ex);
         } finally {
             s.close();
         }
@@ -327,6 +341,7 @@ public class SessionImpl implements TinySession {
      * @param data 参数
      * @return 结果
      */
+    @Override
     public Object executeScalar(String sql, Map<String, Object> data) {
         Session s = this._session;
         NativeQuery query = this.createNativeQuery(s, sql, data);
@@ -342,6 +357,7 @@ public class SessionImpl implements TinySession {
      * @param data 参数
      * @return 结果
      */
+    @Override
     public Object executeScalar(String sql, Object... data) {
         Session s = this._session;
         NativeQuery query = this.createNativeQuery(s, sql, data);
@@ -350,6 +366,7 @@ public class SessionImpl implements TinySession {
         return r;
     }
 
+    @Override
     public <T> List<T> select(Class<T> c, String sql, Map<String, Object> data) {
         Session s = this._session;
         NativeQuery query = this.createNativeQuery(s, sql, data).addEntity(c);
@@ -388,6 +405,7 @@ public class SessionImpl implements TinySession {
     /**
      * 关闭数据库连接
      */
+    @Override
     public void close() {
         if (this._session != null) {
             this._session.close();
@@ -398,8 +416,9 @@ public class SessionImpl implements TinySession {
     /**
      * 测试连接
      */
+    @Override
     public boolean ping() {
         Object obj = this.executeScalar("SELECT 1");
-        return obj != null && obj.toString().equals("1");
+        return obj != null && "1".equals(obj.toString());
     }
 }
