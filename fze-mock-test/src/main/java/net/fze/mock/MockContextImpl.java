@@ -1,7 +1,6 @@
 package net.fze.mock;
 
 import com.google.inject.Singleton;
-import net.fze.common.Context;
 import net.fze.common.Registry;
 import net.fze.ext.injector.Injector;
 import net.fze.ext.jdbc.IDataSourceManager;

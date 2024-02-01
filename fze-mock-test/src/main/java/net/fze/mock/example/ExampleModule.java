@@ -1,11 +1,7 @@
 package net.fze.mock.example;
 
 import com.google.inject.Binder;
-import com.google.inject.Module;
-import net.fze.common.Context;
-import net.fze.mock.MockContextImpl;
-
-/**
+import com.google.inject.Module;/**
  * 服务初始化
  */
 class ExampleModule implements Module {
@@ -28,7 +24,7 @@ class ExampleModule implements Module {
      * @param binder 绑定器
      */
     private void injectContext(Binder binder) {
-        binder.bind(Context.class).to(MockContextImpl.class);
+      //  binder.bind(Context.class).to(MockContextImpl.class);
     }
 
     /**

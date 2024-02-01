@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 连接器管理器
  */
-public abstract class ConnectorManager implements IDataSourceManager {
+public class ConnectorManager implements IDataSourceManager {
     public List<String> keys = new ArrayList<>();
     public Map<String, IConnectionPool> data = new LinkedHashMap<>();
     private String defaultKey = "";

@@ -13,4 +13,9 @@ public interface IDataSourceManager {
      * 获取连接池
      */
     IConnectionPool get(String key);
+
+    /**
+     * 获取默认的JDBC连接
+     */
+     IConnectionPool getDefault();
 }

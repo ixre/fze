@@ -100,7 +100,7 @@ class HttpUtilsKt {
             if (headers == null) return
             for ((key, value) in headers) {
                 if (Strings.isNullOrEmpty(key) || Strings.isNullOrEmpty(value)) {
-                    throw Exception("Headers contain null key or null value")
+                    continue
                 }
                 conn.setRequestProperty(key, value)
             }

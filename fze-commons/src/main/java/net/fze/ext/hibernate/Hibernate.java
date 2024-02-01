@@ -99,6 +99,9 @@ public class Hibernate {
      * @return 返回工厂
      */
     private static SessionFactory createSessionFactory(IConfigurationProvider supplier) {
+        if(_driverUrl == null || _driverClass == null){
+            throw new IllegalArgumentException("please hibernate configure first");
+        }
 //        if (path == null || path.isEmpty()) {
 //            throw new Error("[ System][ Crash] - not set hibernate.cfg.xml path for Hibernate");
 //        }
