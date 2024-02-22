@@ -26,8 +26,8 @@ dependencies {
     compileOnly("io.agroal:agroal-pool:1.13") // Agroal-Pool
     compileOnly("io.etcd:jetcd-core:0.5.11") //only jdk8 = 0.5.11
     compileOnly("redis.clients:jedis:4.2.3")
+    compileOnly("io.nats:jnats:2.16.14")
     compileOnly("mysql:mysql-connector-java:8.0.28")
-
     compileOnly("com.belerweb:pinyin4j:2.5.0")
     // quarkus
     compileOnly("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")

@@ -49,7 +49,6 @@ public class ReportItem implements IReportPortal {
 
     @Override
     public PagingResult<Map<String, Object>> getSchemaAndData(Params p) {
-
         // 初始化添加参数
         if (!p.contains("page_size")) {
             p.set("page_size", "10000000000");
@@ -68,7 +67,8 @@ public class ReportItem implements IReportPortal {
              offset = String.valueOf((pageIndex - 1) * pageSize);
         }
         p.set("page_offset", offset);
-        p.set("page_begin", offset); // same of page_offset
+        // same of page_offset
+        p.set("page_begin", offset);
         p.set("page_end", String.valueOf(pageIndex * pageSize));
         // 创建连接
         Connection conn = this.dbProvider.getConn();
@@ -144,7 +144,7 @@ public class ReportItem implements IReportPortal {
         return p.export(r.getRows(), ep.getExportFields(), names, fmtArray);
     }
 
-    private List<Map<String, Object>> execQuery(Connection conn, String query, Params p) {
+    private List<Map<String, Object>> execQuery(Connection conn, String query, Params p) throws SQLException {
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         String sql = ReportUtils.sqlFormat(query, p.getValue());
         if (Strings.isNullOrEmpty(sql)) {
@@ -184,6 +184,7 @@ public class ReportItem implements IReportPortal {
         } catch (Throwable ex) {
             ex.printStackTrace();
             System.out.println("[ Export][ Error] -" + ex.getMessage() + "\n" + sql);
+            throw ex;
         } finally {
             try {
                 rs.close();
