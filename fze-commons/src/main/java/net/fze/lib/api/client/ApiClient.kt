@@ -81,7 +81,10 @@ class ApiClient {
         // 发送请求
         val b = HttpRequestBuilder.create(this.concat(apiPath), method)
             .setHeader(this.authHeaderKey, this.accessToken)
-            .body(body).timeout(this._timeout)
+        if(body!= null){
+            b.body(body);
+        }
+        b.timeout(this._timeout)
         // 设置格式
         //application/json
         if (contentType != null) b.setHeader("Content-Type", contentType.encodeType)
