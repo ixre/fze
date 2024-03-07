@@ -13,6 +13,9 @@ public interface CredentialFunc {
      */
     Pair get(Context ctx, String key);
 
+    /**
+     * 凭据信息
+     */
     class Pair {
         private int userId;
         private String secret;

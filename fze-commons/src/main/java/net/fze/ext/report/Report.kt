@@ -27,7 +27,23 @@ class ExportParams {
 
 /** 数据库提供者 */
 interface IConnProvider {
-    /** 获取数据库连接 */
+    /**
+     * 获取数据库连接
+     *
+     * <pre>
+     *  // 实现可参考如下：
+     *
+     * @Override
+     *  public Connection getConn() {
+     *       try {
+     *         DataSource ds = InjectFactory.getInstance(DataSource.class);
+     *         return ds.getConnection();
+     *       } catch (SQLException e) {
+     *         throw new RuntimeException("can't get any connection, message:"+e.getMessage());
+     *       }
+     *  }
+     *</pre>
+     * */
     fun getConn(): Connection
 }
 

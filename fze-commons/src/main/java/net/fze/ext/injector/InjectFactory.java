@@ -2,10 +2,11 @@ package net.fze.ext.injector;
 
 /**
  * 注入工厂
+ * @author jarrysix
  */
 public class InjectFactory {
 
-    private static Injector _injector;
+    private static Injector injectorInstance;
 
     /**
      * 设置注入器
@@ -19,7 +20,7 @@ public class InjectFactory {
      * ```
      */
     public static void configure(Injector injector) {
-        _injector = injector;
+        injectorInstance = injector;
     }
 
     /**
@@ -29,9 +30,9 @@ public class InjectFactory {
      * @return 实例
      */
     public static <T> T getInstance(Class<T> clazz) {
-        if (_injector == null) {
+        if (injectorInstance == null) {
             throw new IllegalArgumentException("依赖注入器未初始化");
         }
-        return _injector.getInstance(clazz);
+        return injectorInstance.getInstance(clazz);
     }
 }

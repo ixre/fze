@@ -2,6 +2,7 @@ package net.fze.ext.injector;
 
 /**
  * 注入器接口
+ * @author jarrysix
  */
 public interface Injector {
     /**

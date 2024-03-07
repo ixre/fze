@@ -18,25 +18,15 @@ public abstract class AbstractReportDataProvider implements IConnProvider, IRepo
     private final HashMap<String, ReportHub> ReportHubMap = new HashMap<>();
     private final String cfgPath;
 
-    public AbstractReportDataProvider(String cfgPath) {
-        if (Strings.isNullOrEmpty(cfgPath)) {
-            throw new IllegalArgumentException("cfgPath like \"classpath:query\"");
-        }
-        this.cfgPath = cfgPath;
+    protected AbstractReportDataProvider(){
+        this.cfgPath = "classpath:query";
     }
 
-    @NotNull
-    @Override
-    public Connection getConn() {
-        throw new RuntimeException("请在实现类中重写数据源获取实现");
-
-        // 实现可参考如下：
-        //    @Inject private DataSource ds;
-        //        try {
-        //            return this.ds.getConnection();
-        //        } catch (SQLException e) {
-        //            throw new RuntimeException("can't get any connection, message:"+e.getMessage());
-        //        }
+    protected AbstractReportDataProvider(String cfgPath) {
+        if (Strings.isNullOrEmpty(cfgPath)) {
+            throw new IllegalArgumentException("cfgPath like \"super(\"classpath:query\");\"");
+        }
+        this.cfgPath = cfgPath;
     }
 
     /**

@@ -1,5 +1,8 @@
 package net.fze.ext.injector;
 
+/**
+ * @author jarrysix
+ */
 public class InjectorWrapper implements Injector {
     private final com.google.inject.Injector _injector;
 
@@ -13,6 +16,7 @@ public class InjectorWrapper implements Injector {
      * @param c 实例类型
      * @return 实例
      */
+    @Override
     public <T> T getInstance(Class<T> c) {
         return this._injector.getInstance(c);
     }
