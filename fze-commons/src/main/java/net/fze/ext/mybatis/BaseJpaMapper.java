@@ -30,6 +30,9 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
     default T save(T e, Function<T, P> f) {
         Object pk = f.apply(e);
         if (pk == null || "".equals(pk) || TypeConv.toFloat(pk) <= 0) {
+            // 自增主键应该添加生成策略,才能返回主键. 如:
+            //  @TableId(value = "id", type = IdType.AUTO)
+            //  private Long id;
             this.insert(e);
         } else {
             this.updateById(e);
