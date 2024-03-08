@@ -1,19 +1,18 @@
 package net.fze.ext.report;
 
-import io.quarkus.runtime.annotations.ConfigItem;
 import org.xml.sax.Attributes;
-import org.xml.sax.HandlerBase;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author jarrysix
+ */
 public class SAXConfigItemParser {
-    private static final SAXParserFactory factory = SAXParserFactory.newInstance();
+    private static final SAXParserFactory FACTORY = SAXParserFactory.newInstance();
 
     static class Handler extends DefaultHandler {
         private String value = "";
@@ -39,6 +38,8 @@ public class SAXConfigItemParser {
         public void endElement(String uri, String localName, String qName)
                 throws SAXException {
             super.endElement(uri, localName, qName);
+            // 替换<!-- -->注释
+            value = value.replaceAll("\\u003c!--(.+?)--\\u003e","");
             switch (qName) {
                 case "ColumnMapping":
                     cfg.setColumnMapping(value);
@@ -67,7 +68,7 @@ public class SAXConfigItemParser {
     }
 
     public static ItemConfig parse(InputStream stream) throws Exception {
-        SAXParser saxParser = factory.newSAXParser();
+        SAXParser saxParser = FACTORY.newSAXParser();
         Handler handler = new Handler();
         saxParser.parse(stream, handler);
         return handler.getItem();

@@ -4,7 +4,13 @@
     </ColumnMapping>
     <Query>
         <![CDATA[
-        SELECT * FROM mch_merchant
+        SELECT
+         id as id,
+ <!--    mch_province_id as mchProvinceId-->
+         mch_name as mchName,
+<!--     mch_city_id as mchCityId-->
+
+         FROM mch_merchant
         WHERE {where}
         ORDER BY {order_by}
         LIMIT {page_size} OFFSET {page_offset}
