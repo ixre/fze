@@ -2,6 +2,7 @@ package net.fze.ext.mybatis;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import net.fze.util.TypeConv;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,7 +29,7 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
      */
     default T save(T e, Function<T, P> f) {
         Object pk = f.apply(e);
-        if (pk == null || "".equals(pk) || pk.equals(0)) {
+        if (pk == null || "".equals(pk) || TypeConv.toFloat(pk) <= 0) {
             this.insert(e);
         } else {
             this.updateById(e);
