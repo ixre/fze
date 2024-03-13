@@ -50,7 +50,7 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
     /**
      * 根据对象条件查找
      */
-    default List<T> findAll(T o) {
+    default List<T> findBy(T o) {
         return this.selectList(new QueryWrapper<>(o));
     }
 }

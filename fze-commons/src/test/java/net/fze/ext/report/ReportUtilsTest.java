@@ -15,7 +15,8 @@ class ReportUtilsTest {
         System.out.println(create_time2);
         String create_time3 = ReportUtils.timestampSQLByJSONTime("[1661335074674,1661939874674]", "create_time");
         System.out.println(create_time3);
-
+        create_time = ReportUtils.timestampSQLByJSONTime("1661335074674,1661939874607", "create_time");
+        System.out.println(create_time);
 
 
     }

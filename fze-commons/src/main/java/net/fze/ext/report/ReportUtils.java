@@ -135,11 +135,16 @@ public class ReportUtils {
     }
 
     /**
-     * parse time range like [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     * parse time range like
+     * [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     * 2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z
+     * [1661335074674,1661939874674]
+     * 1661335074674,1661939874674
      */
     public static List<Long> parseTimeRange(String s) {
-        if (Strings.isNullOrEmpty(s))
+        if (Strings.isNullOrEmpty(s)) {
             return new ArrayList<>();
+        }
         String src = s;
         if (src.charAt(0) == '[') {
             src = src.substring(1);
@@ -148,8 +153,9 @@ public class ReportUtils {
         if (src.charAt(len - 1) == ']') {
             src = src.substring(0, len - 1);
         }
-        if (src.isEmpty())
+        if (src.isEmpty()) {
             return new ArrayList<>();
+        }
         return Arrays.stream(src.split(","))
                 .map(it -> {
                     if (Pattern.matches("^\\d+$", it)) {
@@ -162,14 +168,17 @@ public class ReportUtils {
     }
 
     public static String getTimeRangeSQL(List<Long> range, String field, boolean timestamp) {
-        if (range.isEmpty())
+        if (range.isEmpty()) {
             return "";
+        }
         if (range.size() == 1) {
             return timestamp ? String.format("%s >= %d", field, range.get(0))
                     : String.format("%s >= '%s'", field, Times.formatUnix(range.get(0), "yyyy-MM-dd HH:mm:ss"));
         }
-        if (range.get(1) % 3600L == 0L)
-            range.set(1, range.get(1) + 3600L * 24 - 1); // 添加结束时间
+        if (range.get(1) % 3600L == 0L) {
+            // 添加结束时间
+            range.set(1, range.get(1) + 3600L * 24 - 1);
+        }
         if (!timestamp) {
             return String.format("%s BETWEEN '%s' AND '%s'", field,
                     Times.formatUnix(range.get(0), "yyyy-MM-dd HH:mm:ss"),
@@ -190,7 +199,7 @@ public class ReportUtils {
     /**
      * 生成时间范围SQL,使用时间戳
      *
-     * @param range : [2020-05-06T16:00:00.000Z, 2020-05-08T16:00:00.000Z]
+     * @param range : [1661335074674,1661939874674]
      */
     public static String timestampSQLByJSONTime(Object range, String field) {
         return timeSQLByJSONTime(range, field, true);
@@ -208,8 +217,9 @@ public class ReportUtils {
         }
         if (range instanceof List) {
             List<Object> r = (List) range;
-            if (r.size() == 0)
+            if (r.isEmpty()) {
                 return "";
+            }
             if (r.get(0) instanceof String) {
                 List<Long> arr = r.stream().map(a -> Times.unix(Objects.requireNonNull(Times.parseISOTime(((String) a).trim()))))
                         .collect(Collectors.toList());
