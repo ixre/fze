@@ -8,16 +8,20 @@ import redis.clients.jedis.JedisPool;
 
 import java.util.Set;
 
-public class RedisStorage implements IStorage {
+/**
+ * Redis存储实现
+ * @author jarrysix
+ */
+public class RedisStorageProvider implements IStorageProvider {
     private final JedisPool pool;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
-    private RedisStorage(JedisPool pool) {
+    private RedisStorageProvider(JedisPool pool) {
         this.pool = pool;
     }
 
-    public static IStorage create(JedisPool pool) {
-        return new RedisStorage(pool);
+    public static IStorageProvider create(JedisPool pool) {
+        return new RedisStorageProvider(pool);
     }
 
     @Override
@@ -75,7 +79,7 @@ public class RedisStorage implements IStorage {
     public Boolean getBool(String key) {
         String s = this.getString(key);
         if (!Strings.isNullOrEmpty(s)) {
-            return s.equals("true") || s.equals("1");
+            return "true".equals(s) || "1".equals(s);
         }
         return false;
     }

@@ -1,7 +1,7 @@
 package net.fze.util.concurrent;
 
-import net.fze.ext.storage.IStorage;
-import net.fze.ext.storage.MemoryStorage;
+import net.fze.ext.storage.IStorageProvider;
+import net.fze.ext.storage.MemoryStorageProvider;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +25,7 @@ public class TrafficLimiter {
     private final long lockSecond;
 
     // 数据存储
-    private final IStorage store;
+    private final IStorageProvider store;
 
     /**
      * 创建限流器, 默认使用内存存储信息
@@ -35,7 +35,7 @@ public class TrafficLimiter {
      * @param rate       令牌放入速度(每秒放多少个)
      */
     public TrafficLimiter(long capacity, float rate, long lockSecond) {
-        this.store = new MemoryStorage();
+        this.store = new MemoryStorageProvider();
         this.capacity = capacity;
         this.rate = rate;
         this.lockSecond = lockSecond;
@@ -49,7 +49,7 @@ public class TrafficLimiter {
      * @param capacity   最大容量
      * @param rate       令牌放入速度(每秒放多少个)
      */
-    public TrafficLimiter(IStorage store, long capacity, float rate, long lockSecond) {
+    public TrafficLimiter(IStorageProvider store, long capacity, float rate, long lockSecond) {
         this.store = store;
         this.capacity = capacity;
         this.rate = rate;

@@ -1,14 +1,14 @@
 package net.fze.util
 
-import net.fze.ext.storage.RedisStorage
-import net.fze.ext.storage.IStorage
+import net.fze.ext.storage.RedisStorageProvider
+import net.fze.ext.storage.IStorageProvider
 import net.fze.util.concurrent.TrafficLimiter
 import org.junit.jupiter.api.Test
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 
 internal class RequestLimiterTest {
-    private fun getStorage(): IStorage {
+    private fun getStorage(): IStorageProvider {
         val host = "127.0.0.1"
         val port = 6379
         var pwd: String? = ""
@@ -21,7 +21,7 @@ internal class RequestLimiterTest {
         conf.maxIdle = idle
         if (pwd != null && pwd == "") pwd = null
         val pool = JedisPool(conf, host, port, timeout, pwd, database, ssl)
-        return RedisStorage.create(pool)
+        return RedisStorageProvider.create(pool)
     }
 
     @Test

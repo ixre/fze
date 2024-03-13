@@ -9,8 +9,9 @@ import java.util.stream.Collectors;
 
 /**
  * 基于内存实现的存储
+ * @author jarrysix
  */
-public class MemoryStorage implements IStorage {
+public class MemoryStorageProvider implements IStorageProvider {
     private final HashMap<String, Object> data = new HashMap<>();
     private final HashMap<String, Long> expires = new HashMap<>();
 

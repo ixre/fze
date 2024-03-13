@@ -1,8 +1,12 @@
 package net.fze.ext.storage;
 
-// 移植自< gof >: https://github.com/jsix/gof/tree/master/storage
+/**
+ * 存储提供者
+ *  移植自 gof: <a href="https://github.com/jsix/gof/tree/master/storage">github.com/jsix/gof</a>
+ * @author jarrysix
+ */
 // Storage
-public interface IStorage {
+public interface IStorageProvider {
     // Return storage driver name
     String driver();
 
