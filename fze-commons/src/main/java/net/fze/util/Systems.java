@@ -67,7 +67,9 @@ public class Systems {
      * 解析环境,如果是生产环境返回true,反之返回false
      */
     public static void resolveEnvironment(Class<?> main) {
-        if(resolved)return;
+        if(resolved) {
+            return;
+        }
         devFlag = classInJar(main) ? 0 : 1;
         if (dev()) {
             // 在IDEA下开发时设置项目真实的工作空间
@@ -90,8 +92,9 @@ public class Systems {
      * 是否为开发环境
      */
     public static boolean dev() {
-        if (devFlag == -1)
+        if (devFlag == -1) {
             throw new Error("should call method Standard.resolveEnvironment first");
+        }
         return devFlag == 1;
     }
 
