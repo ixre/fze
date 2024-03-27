@@ -105,6 +105,14 @@ public interface TinySession {
     void saveOrUpdate(Object t);
 
     /**
+     * 根据主键值判断保存或更新
+     *
+     * @param id 主键, 为空,为0时新增数据,反之保存
+     * @param t 对象
+     */
+    void saveOrUpdateById(Object t,Object id);
+
+    /**
      * create
      *
      * @param t 对象

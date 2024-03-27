@@ -265,6 +265,15 @@ public class SessionImpl implements TinySession {
     }
 
     @Override
+    public void saveOrUpdateById(Object t, Object id) {
+        if (id == null || "".equals(id) || TypeConv.toFloat(id) <= 0) {
+            this.add(t);
+        } else {
+            this.update(t);
+        }
+    }
+
+    @Override
     public Serializable add(Object t) {
         Session s = this._session;
         Transaction trans = s.beginTransaction();
