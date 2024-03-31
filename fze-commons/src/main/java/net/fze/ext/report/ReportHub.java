@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * 报表项仓库
+ * @author jarrysix
  */
 public class ReportHub {
     private final ItemManager _manager;

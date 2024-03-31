@@ -27,10 +27,12 @@ public class Jwt {
      * @param privateKey 私钥
      * @param claims     JWT数据
      * @param expires    过期时间(单位：s)
-     * @return
+     * @return 令牌
      */
     public static String create(String privateKey, Map<String, String> claims, long expires) {
-        if (Strings.isNullOrEmpty(privateKey)) throw new IllegalArgumentException("privateKey");
+        if (Strings.isNullOrEmpty(privateKey)) {
+            throw new IllegalArgumentException("privateKey");
+        }
         // 去掉头尾信息
         privateKey = RSAKeyPair.removeBeginEnd(privateKey);
         Algorithm algorithm = Algorithm.HMAC256(privateKey);
@@ -47,7 +49,7 @@ public class Jwt {
      * @param privateKey 私钥
      * @param claims     JWT数据
      * @param expires    过期时间(单位：s)
-     * @return
+     * @return 令牌
      */
     public static String createWithClaims(String privateKey, Map<String, Claim> claims, long expires) {
         Map<String, String> map = new HashMap<>();
@@ -65,7 +67,7 @@ public class Jwt {
      * @param sub        主题
      * @param aud        接收方用户
      * @param exp        过期时间,时间戳,精确到秒
-     * @return
+     * @return 令牌
      */
     public static String create(String privateKey, String issuer, String sub, String aud, long exp) {
         Map<String, String> claims = new HashMap<>();
@@ -80,11 +82,15 @@ public class Jwt {
      *
      * @param privateKey 私钥
      * @param token      令牌
-     * @return
+     * @return 令牌解码器
      */
     public static JwtDecoder decode(String privateKey, String token) {
-        if (Strings.isNullOrEmpty(token)) throw new IllegalArgumentException("token");
-        if (Strings.isNullOrEmpty(privateKey)) throw new IllegalArgumentException("privateKey");
+        if (Strings.isNullOrEmpty(token)) {
+            throw new IllegalArgumentException("token");
+        }
+        if (Strings.isNullOrEmpty(privateKey)) {
+            throw new IllegalArgumentException("privateKey");
+        }
         // 去掉头尾信息
         privateKey = RSAKeyPair.removeBeginEnd(privateKey);
         Algorithm algorithm = Algorithm.HMAC256(privateKey);

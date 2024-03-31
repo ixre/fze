@@ -3,6 +3,7 @@ package net.fze.ext.report;
 import net.fze.common.data.PagingResult;
 import net.fze.util.Strings;
 import net.fze.util.TypeConv;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,8 +27,9 @@ public class ReportItem implements IReportPortal {
      * 判断注入
      */
     private String check(String sql) throws SQLException {
-        if (!ReportUtils.checkInject(sql))
+        if (!ReportUtils.checkInject(sql)) {
             throw new SQLException("sql is dangers");
+        }
         return sql;
     }
 
@@ -116,15 +118,15 @@ public class ReportItem implements IReportPortal {
         return null;
     }
 
+    @NotNull
     @Override
     public String[] getExportColumnNames(String[] exportColumnNames) {
         List<String> names = new ArrayList<>();
         ColumnMapping[] mapping = this.getColumnMapping();
-        for (int i = 0; i < exportColumnNames.length; i++) {
-            String colName = exportColumnNames[i];
-            for (int j = 0; j < mapping.length; j++) {
-                if (mapping[j].getField().equals(colName)) {
-                    names.add(mapping[j].getName());
+        for (String colName : exportColumnNames) {
+            for (ColumnMapping columnMapping : mapping) {
+                if (columnMapping.getField().equals(colName)) {
+                    names.add(columnMapping.getName());
                     break;
                 }
             }
@@ -132,6 +134,7 @@ public class ReportItem implements IReportPortal {
         return names.toArray(new String[names.size()]);
     }
 
+    @NotNull
     @Override
     public Byte[] export(ExportParams ep, IExportProvider p, IExportFormatter f) {
         PagingResult<Map<String, Object>> r = this.getSchemaAndData(ep.getParams());
@@ -187,6 +190,7 @@ public class ReportItem implements IReportPortal {
             throw ex;
         } finally {
             try {
+                assert rs != null;
                 rs.close();
                 stmt.close();
             } catch (Throwable ex) {

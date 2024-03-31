@@ -2,6 +2,7 @@ package net.fze.common.std.api;
 
 /**
  * 鉴权方法
+ * @author jarrysix
  */
 public interface CredentialFunc {
     /**
@@ -17,8 +18,8 @@ public interface CredentialFunc {
      * 凭据信息
      */
     class Pair {
-        private int userId;
-        private String secret;
+        private final int userId;
+        private final String secret;
 
         public Pair(int userId, String secret) {
             this.userId = userId;

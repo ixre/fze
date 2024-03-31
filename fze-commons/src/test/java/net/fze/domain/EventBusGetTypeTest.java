@@ -1,5 +1,7 @@
 package net.fze.domain;
 
+import net.fze.domain.event.EventBus;
+
 class EventBusGetTypeTest<T> {
     private T t;
 
