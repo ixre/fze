@@ -87,9 +87,19 @@ public class Types {
     }
 
     /**
-     * 使用Dozer将对象隐式转换
-     *
+     * 使用反射拷贝对象
+     * @param raw 原对象
+     * @param target 目标对象
+     * @param <T> 类型
      */
+    public static <T> void copyObject(T raw,T target) {
+        ReflectUtils.copyObject(raw, target);
+    }
+
+    // **
+    // * 使用Dozer将对象隐式转换
+    // *
+    // *
     // public static <T> T mapObject(Object src, Class<T> classes) {
     // Mapper mapper = DozerBeanMapperBuilder.buildDefault();
     // return mapper.map(src, classes);
