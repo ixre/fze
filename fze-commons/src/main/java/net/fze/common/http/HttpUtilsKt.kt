@@ -180,9 +180,10 @@ class HttpUtilsKt {
 
         @JvmStatic
         fun parseBody(params: Map<String, String>?, json: Boolean): ByteArray? {
-            if (params == null || params.isEmpty()) return null
+            if (params.isNullOrEmpty()) return null
             if (json) return Types.toJson(params).toByteArray()
-            return toQuery(params).toByteArray()
+            val str = toQuery(params)
+            return str.toByteArray()
         }
     }
 }
