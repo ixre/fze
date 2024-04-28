@@ -1,24 +1,29 @@
 package net.fze.common.data;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
 /**
  * 分页结果
+ * @author jarrysix
  */
 public class PagingResult<T> {
     /**
      * 总数
      */
-
+    @Schema(description = "总数")
     private long total;
     /**
      * 数据
      */
+    @Schema(description = "数据")
     private List<T> rows;
 
     /**
      * 信息提示
      */
+    @Schema(description = "信息提示")
     private String hint;
 
     public PagingResult() {

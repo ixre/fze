@@ -1,5 +1,7 @@
 package net.fze.common.data;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,31 +12,45 @@ public class PagingParams {
     /**
      * 参数
      */
-    private final Map<String, String> params; // required
+    @Schema(description = "参数")
+    private final Map<String, String> params;
 
     /**
      * 页码索引
      */
-    private int pageIndex; // required
+    @Schema(description = "页码索引")
+    private int pageIndex;
 
     /**
      * 页码条数
      */
-    private int pageSize; // required
+    @Schema(description = "页码条数")
+    private int pageSize;
+
     /**
      * 排序字段
      */
-    private String orderField; // required
+    @Schema(description = "排序字段")
+    private String orderField;
+
     /**
      * 是否倒序排列
      */
-    private boolean orderDesc; // required
+    @Schema(description = "是否倒序排列")
+    private boolean orderDesc;
 
 
     PagingParams(Map<String, String> params) {
         this.params = params;
     }
 
+    /**
+     * 创建分页参数
+     * @param pageIndex 页码索引
+     * @param pageSize  页码条数
+     * @param params    参数
+     * @return 参数
+     */
     public static PagingParams of(int pageIndex, int pageSize, Map<String, String> params) {
         if (params == null) {
             params = new HashMap<>();
@@ -56,8 +72,9 @@ public class PagingParams {
         }
         if (opt.getParams() != null) {
             for (Map.Entry<String, String> e : opt.getParams().entrySet()) {
-                if (e.getValue() == null)
+                if (e.getValue() == null) {
                     opt.getParams().remove(e.getKey());
+                }
             }
         }
         return opt;

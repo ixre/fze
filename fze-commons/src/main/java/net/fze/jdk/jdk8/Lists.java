@@ -2,8 +2,12 @@ package net.fze.jdk.jdk8;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author jarrysix
+ */
 public interface Lists {
     /**
      * Returns an unmodifiable list containing zero elements.
@@ -13,7 +17,6 @@ public interface Lists {
      * @param <E> the {@code List}'s element type
      * @return an empty {@code List}
      */
-    @SuppressWarnings("unchecked")
     static <E> List<E> of() {
         return new ArrayList<>();
     }
@@ -27,11 +30,10 @@ public interface Lists {
      * @return a {@code List} containing the specified element
      * @throws NullPointerException if the element is {@code null}
      */
+    @SafeVarargs
     static <E> List<E> of(E... args) {
         List<E> l = of();
-        for (E e : args) {
-            l.add(e);
-        }
+        Collections.addAll(l, args);
         return l;
     }
 

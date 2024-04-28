@@ -40,6 +40,8 @@ dependencies {
     compileOnly("com.google.protobuf:protobuf-java-util:3.22.3")
     // thrift
     compileOnly("org.apache.thrift:libthrift:0.19.0")
+    // swagger3
+    compileOnly("io.swagger.core.v3:swagger-annotations:2.2.21")
     // etcd
     testCompileOnly("io.etcd:jetcd-core:0.5.4")
     // hibernate

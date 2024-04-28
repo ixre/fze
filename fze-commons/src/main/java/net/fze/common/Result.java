@@ -1,6 +1,7 @@
 package net.fze.common;
 
 import com.google.gson.annotations.SerializedName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import net.fze.util.Assert;
 
 import java.util.Map;
@@ -11,16 +12,19 @@ public class Result {
      * 错误代码
      */
     @SerializedName("ErrCode")
+    @Schema(description = "错误代码")
     public int errCode;
     /**
      * 错误消息
      */
     @SerializedName("ErrMsg")
+    @Schema(description = "错误消息")
     public String errMsg;
     /**
-     * 数据字典
+     * 数据
      */
     @SerializedName("Data")
+    @Schema(description = "数据")
     public Object data;
 
     Result(int code, String msg) {
