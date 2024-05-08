@@ -12,6 +12,9 @@ plugins {
 dependencies {
     api("javax.inject:javax.inject:1")
     api("com.auth0:java-jwt:4.2.1")
+    // bean utils
+    compileOnly("commons-beanutils:commons-beanutils:1.9.4")
+
     //api("javax.xml.bind:jaxb-api:2.3.1") //JDK已内置
     compileOnly("com.zaxxer:HikariCP:4.0.3")
     compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")

@@ -3,7 +3,9 @@ package net.fze.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.beanutils.BeanUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +98,20 @@ public class Types {
         ReflectUtils.copyObject(raw, target);
     }
 
+    /**
+     * 拷贝属性(使用BeanUtils)
+     * @param dst 目标对象
+     * @param src 源对象
+     */
+    public static void copyProperties(Object dst, Object src) {
+        try {
+            BeanUtils.copyProperties(dst, src);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     // **
     // * 使用Dozer将对象隐式转换
     // *
@@ -155,5 +171,6 @@ public class Types {
     public interface TFunc<T> {
         void call(T t);
     }
+
 
 }
