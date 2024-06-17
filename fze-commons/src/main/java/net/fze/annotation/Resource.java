@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * 资源注解
+ * @author jarrysix
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
