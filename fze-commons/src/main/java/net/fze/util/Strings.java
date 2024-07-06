@@ -104,8 +104,9 @@ public class Strings {
     public static int indexOfAny(String workspace, Iterable<String> arr) {
         for (String s : arr) {
             int i = workspace.indexOf(s);
-            if (i != -1)
+            if (i != -1) {
                 return i;
+            }
         }
         return -1;
     }
@@ -128,4 +129,15 @@ public class Strings {
         return uuid().replaceAll("-", "");
     }
 
+    /**
+     * 去除空格
+     * @param s 字符串
+     * @return 去除空格后的字符串
+     */
+    public static String trim(String s) {
+        if (s == null) {
+            return "";
+        }
+        return s.trim();
+    }
 }
