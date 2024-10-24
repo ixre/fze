@@ -44,7 +44,11 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
      * 根据对象条件查找
      */
     default Optional<T> findOne(T o) {
-        return Optional.of(this.selectOne(new QueryWrapper<>(o)));
+        T v=  this.selectOne(new QueryWrapper<>(o));
+        if (v == null) {
+            return Optional.empty();
+        }
+        return Optional.of(v);
     }
 
     /**
