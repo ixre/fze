@@ -10,15 +10,24 @@ import java.util.Set;
 
 /**
  * Redis存储实现
+ *
+ * example:
+ * // @Component
+ * public class RedisStorageImpl extends RedisStorageProvider {
+ *    public RedisStorageImpl(JedisPool pool) {
+ *         super(pool);
+ *     }
+ * }
  * @author jarrysix
  */
 public class RedisStorageProvider implements IStorageProvider {
     private final JedisPool pool;
     private final Gson gson = new Gson();
 
-    private RedisStorageProvider(JedisPool pool) {
+    protected RedisStorageProvider(JedisPool pool) {
         this.pool = pool;
     }
+
 
     public static IStorageProvider create(JedisPool pool) {
         return new RedisStorageProvider(pool);

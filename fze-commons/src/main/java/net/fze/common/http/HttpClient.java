@@ -1,7 +1,5 @@
 package net.fze.common.http;
 
-import net.fze.util.Types;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +21,11 @@ public class HttpClient {
     public static byte[] request(String url, String method, byte[] data, int timeout) {
         HttpRequest req = newRequest(url, method)
                 .body(data).timeout(timeout).build();
-        return HttpUtilsKt.doRequest(req);
+        try {
+            return HttpRequestUtils.doRequest(req);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static HttpRequestBuilder newRequest(String url, String method) {
@@ -35,13 +37,21 @@ public class HttpClient {
     public static byte[] get(String url, int timeout) {
         HttpRequest req = newRequest(url, "GET")
                 .timeout(timeout).build();
-        return HttpUtilsKt.doRequest(req);
+        try {
+            return HttpRequestUtils.doRequest(req);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static byte[] post(String url, byte[] data, int timeout) {
         HttpRequest req = newRequest(url, "POST")
                 .body(data).timeout(timeout).build();
-        return HttpUtilsKt.doRequest(req);
+        try {
+            return HttpRequestUtils.doRequest(req);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -56,15 +66,22 @@ public class HttpClient {
     public static byte[] request(String url, String method, byte[] data, Map<String, String> headers, int timeout) {
         HttpRequestBuilder b = newRequest(url, method)
                 .headers(headers).body(data).timeout(timeout);
-        return HttpUtilsKt.doRequest(b.build());
+        try {
+            return HttpRequestUtils.doRequest(b.build());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * 发起HTTP/HTTPS请求
      */
     public static byte[] request(HttpRequest r) {
-        return HttpUtilsKt.doRequest(r);
+        try {
+            return HttpRequestUtils.doRequest(r);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-
 
 }

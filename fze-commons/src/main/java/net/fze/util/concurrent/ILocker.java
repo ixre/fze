@@ -29,4 +29,10 @@ public interface ILocker {
      * @param lockId 锁id
      */
     void unlock(String key, String lockId);
+
+    /***
+     * 批量重置锁
+     * @param keys 锁键
+     */
+    void reset(String... keys);
 }

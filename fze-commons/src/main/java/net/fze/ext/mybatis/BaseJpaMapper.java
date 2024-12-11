@@ -2,7 +2,10 @@ package net.fze.ext.mybatis;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import net.fze.common.data.PagingResult;
 import net.fze.util.TypeConv;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
 import java.util.List;
@@ -56,5 +59,33 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
      */
     default List<T> findBy(T o) {
         return this.selectList(new QueryWrapper<>(o));
+    }
+
+
+    /**
+     * 分页查询
+     *
+     *  // var queryWrapper = new QueryWrapper();
+     *  //       if(!Strings.isNullOrEmpty(keywords)) {
+     *  //           queryWrapper.like("name", "%" + keywords + "%");
+     *  //       }
+     *  //       if(!Strings.isNullOrEmpty(orderBy)){
+     *  //           queryWrapper.orderByDesc(orderBy);
+     *   //      }
+     *   //      Pageable pageable = PageRequest.of(pageNum, pageSize);
+     *   //      PagingResult pageResult = this.repo.queryPagedData(queryWrapper, pageable);
+     *    //     return pageResult;
+     * @param query
+     * @param pageable
+     * @return
+     */
+    default PagingResult<T> queryPagedData(QueryWrapper<T> query, Pageable pageable) {
+        throw new UnsupportedOperationException("未实现分页查询");
+//        // 获取总条数
+//        long count = this.selectCount(query);
+//        // 转换分页参数
+//        Page<T> p = new Paging<>(pageable.getPageNumber(), pageable.getPageSize(), count);
+//        Page<T> page = this.selectPage(p, query);
+//        return new PagingResult<T>(count, page.getRecords());
     }
 }

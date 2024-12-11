@@ -164,7 +164,7 @@ public class HttpUtils {
      * 将查询转换为字典
      */
     public static Map<String, String> parseQuery(String query) {
-        return HttpUtilsKt.parseQuery(query);
+        return HttpRequestUtils.parseQuery(query);
     }
 
     /**
@@ -174,7 +174,7 @@ public class HttpUtils {
      * @return 查询
      */
     public static String toQuery(Map<String, String> params) {
-        return HttpUtilsKt.toQuery(params);
+        return HttpRequestUtils.toQuery(params);
     }
 
     /**
@@ -208,7 +208,7 @@ public class HttpUtils {
      * 将参数转为二进制数组
      */
     public static byte[] parseBody(Map<String, String> params) {
-        return HttpUtilsKt.parseBody(params, false);
+        return HttpRequestUtils.parseBody(params, false);
     }
 
     /**

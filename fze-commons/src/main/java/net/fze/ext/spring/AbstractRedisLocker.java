@@ -13,6 +13,16 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Redis分步式锁
+ *
+ * example:
+ * //<code>
+ * //@Component
+ * public class RedisLocker extends AbstractRedisLocker {
+ *     public RedisLocker(@Autowired  StringRedisTemplate redisTemplate) {
+ *         super(redisTemplate);
+ *     }
+ * }
+ * //</code>
  * @author jarrysix
  */
 public abstract class AbstractRedisLocker implements ILocker {
@@ -102,5 +112,16 @@ public abstract class AbstractRedisLocker implements ILocker {
                 ("_lock_" + key).getBytes(),
                 uuid.getBytes()));
 
+    }
+
+    /**
+     * 重置锁
+     * @param keys 锁键
+     */
+    @Override
+    public void reset(String... keys) {
+        for(String s : keys) {
+            redisTemplate.delete("_lock_" + s);
+        }
     }
 }

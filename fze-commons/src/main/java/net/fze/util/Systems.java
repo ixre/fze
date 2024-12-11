@@ -150,11 +150,11 @@ public class Systems {
      *
      * @return 是或否
      */
-    public static boolean isTestEnvironment() {
+    public static boolean isUnitTesting() {
         Hashtable<Object, Object> properties = System.getProperties();
         String classPath = properties.get("java.class.path").toString();
-        if (!classPath.contains("java/test")) {
-            return false;
+        if (classPath.contains("java/test")) {
+            return true;
         }
         for (Map.Entry<Object, Object> k : properties.entrySet()) {
             if (k.getKey().toString().endsWith("java.command")) {
