@@ -10,7 +10,7 @@ public class RegexpTester {
     private static final Pattern userRegexp = Pattern.compile("^[a-zA-Z0-9_]{6,}$");
     private static final Pattern emailRegexp = Pattern.compile("^[A-Za-z0-9_\\-]+@[a-zA-Z0-9\\-]+(\\.[a-zA-Z0-9]+)+$");
     private static final Pattern phoneRegexp = Pattern.compile(
-            "^(13[0-9]|14[5|6|7]|15[0-9]|16[5|6|7|8]|18[0-9]|17[0|1|2|3|4|5|6|7|8]|19[0|1|2|3|4|6|7|8|9])(\\d{8})$");
+            "^(13[0-9]|14[567]|15[0-9]|16[5678]|18[0-9]|17[012345678]|19[0-9])(\\d{8})$");
     private static final Pattern specCharRegexp = Pattern.compile("(.+)(\\|\\$|\\^|%|#|!|\\\\/)+(.+)");
 
     /**

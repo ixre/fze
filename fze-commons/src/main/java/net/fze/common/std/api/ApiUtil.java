@@ -36,7 +36,7 @@ public class ApiUtil {
         }
         i = 0;
         Arrays.sort(keys);
-        StringBuffer b = new StringBuffer();
+        StringBuilder b = new StringBuilder();
         for (String key : keys) {
             if (key.equals("sign") || key.equals("sign_type")) {
                 continue;
