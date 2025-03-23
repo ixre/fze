@@ -1,7 +1,8 @@
 package net.fze.ext.locale;
 
-import ext.Strings;
-import ext.utils.OsUtils;
+
+import net.fze.util.OsUtils;
+import net.fze.util.Strings;
 import org.json.JSONArray;
 
 import java.io.BufferedReader;

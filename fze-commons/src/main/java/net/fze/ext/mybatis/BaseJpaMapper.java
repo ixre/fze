@@ -2,10 +2,12 @@ package net.fze.ext.mybatis;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.fze.common.data.PagingResult;
 import net.fze.util.TypeConv;
-import org.springframework.data.domain.Pageable;
 
+import javax.naming.ldap.PagedResultsControl;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +65,6 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
 
     /**
      * 分页查询
-     *
      *  // var queryWrapper = new QueryWrapper();
      *  //       if(!Strings.isNullOrEmpty(keywords)) {
      *  //           queryWrapper.like("name", "%" + keywords + "%");
@@ -71,19 +72,19 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
      *  //       if(!Strings.isNullOrEmpty(orderBy)){
      *  //           queryWrapper.orderByDesc(orderBy);
      *   //      }
-     *   //      Pageable pageable = PageRequest.of(pageNum, pageSize);
-     *   //      PagingResult pageResult = this.repo.queryPagedData(queryWrapper, pageable);
+     *   //      PagingResult pageResult = this.repo.queryPagedData(queryWrapper, pageNum,pageSize);
      *    //     return pageResult;
-     * @param query
-     * @param pageable
-     * @return
+     * @param query 查询条件
+     * @param pageNum 页码
+     * @param pageSize 每页数量
+     * @return 分页数据
      */
-    default PagingResult<T> queryPagedData(QueryWrapper<T> query, Pageable pageable) {
+    default PagingResult<T> queryPagedData(QueryWrapper<T> query, int pageNum,int pageSize) {
         // 获取总条数
         long count = this.selectCount(query);
         // 转换分页参数
-        Page<T> p = new Page<>(pageable.getPageNumber(), pageable.getPageSize(), count);
-        Page<T> page = this.selectPage(p, query);
+        IPage<T> p = new Page<>(pageNum,pageSize, count);
+        IPage<T> page = this.selectPage(p, query);
         return new PagingResult<T>(count, page.getRecords());
     }
 }

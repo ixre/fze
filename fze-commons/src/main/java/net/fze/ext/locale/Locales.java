@@ -1,6 +1,7 @@
 package net.fze.ext.locale;
 
-import ext.Strings;
+
+import net.fze.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
