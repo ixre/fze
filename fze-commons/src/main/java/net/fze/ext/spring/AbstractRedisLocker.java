@@ -50,6 +50,16 @@ public abstract class AbstractRedisLocker implements ILocker {
     }
 
     /**
+     * 是否被锁定
+     * @param key 锁键
+     * @return boolean
+     */
+    @Override
+    public boolean existLock(String key) {
+        return redisTemplate.hasKey("_lock_" + key);
+    }
+
+    /**
      * 互斥锁,如果拿不到锁,直接返回空
      *
      * @param key     锁键

@@ -23,6 +23,13 @@ public interface ILocker {
     String mutexLock(String key, int maxLife);
 
     /**
+     * 是否被锁定
+     * @param key 锁键
+     * @return boolean
+     */
+    boolean existLock(String key);
+
+    /**
      * unlock 解锁
      *
      * @param key    锁键
