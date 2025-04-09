@@ -1,5 +1,8 @@
 package net.fze.common.http;
 
+
+
+
 import net.fze.util.Strings;
 import net.fze.util.Types;
 
@@ -72,7 +75,7 @@ public class HttpUtils {
             return "";
         }
         String prefix = matcher.group(1);
-        if (h != null && IsHttpsProxyRequest(k -> h.get(k))) {
+        if (h != null && IsHttpsProxyRequest(h)) {
             return prefix.replace("http://", "https://");
         }
         return prefix;

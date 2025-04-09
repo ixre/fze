@@ -25,7 +25,8 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
      * 根据主键查找
      */
     default Optional<T> findById(P id) {
-        return Optional.of(this.selectById(id));
+        T t = this.selectById(id);
+        return t == null? Optional.empty():Optional.of(t);
     }
 
     /**
@@ -79,7 +80,7 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
      * @param pageSize 每页数量
      * @return 分页数据
      */
-    default PagingResult<T> queryPagedData(QueryWrapper<T> query, int pageNum,int pageSize) {
+    default PagingResult<T> queryPaging(QueryWrapper<T> query, int pageNum,int pageSize) {
         // 获取总条数
         long count = this.selectCount(query);
         // 转换分页参数

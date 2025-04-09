@@ -88,7 +88,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "net.fze"
             artifactId = "fze-commons"
-            version = "0.4.8"
+            version = "0.5.0"
 
             from(components["java"])
 

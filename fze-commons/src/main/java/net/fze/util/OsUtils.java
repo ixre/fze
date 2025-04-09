@@ -1,7 +1,10 @@
 package net.fze.util;
 
+
+
 import net.fze.common.http.HttpClient;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -76,7 +79,7 @@ public class OsUtils {
      * @param stream 流
      * @return 字符
      */
-    private static String readStream(InputStream stream) throws IOException {
+    public static String readStream(InputStream stream) throws IOException {
         StringBuilder sb = new StringBuilder();
         byte[] offset = new byte[1024];
         int size;
@@ -146,5 +149,31 @@ public class OsUtils {
             return matcher.group(1);
         }
         throw new IOException("invalid IPv4 address: " + content);
+    }
+
+    public static byte[] readAllBytes(InputStream inputStream) throws IOException {
+        final int bufLen = 4 * 0x400; // 4KB
+        byte[] buf = new byte[bufLen];
+        int readLen;
+        IOException exception = null;
+
+        try {
+            try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+                while ((readLen = inputStream.read(buf, 0, bufLen)) != -1)
+                    outputStream.write(buf, 0, readLen);
+
+                return outputStream.toByteArray();
+            }
+        } catch (IOException e) {
+            exception = e;
+            throw e;
+        } finally {
+            if (exception == null) inputStream.close();
+            else try {
+                inputStream.close();
+            } catch (IOException e) {
+                exception.addSuppressed(e);
+            }
+        }
     }
 }

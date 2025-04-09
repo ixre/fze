@@ -12,21 +12,20 @@ public class HttpRequest {
     private String method = "GET";
     private String url = "";
     private HttpCookies _cookies;
+    private String _proxyHost;
+    private int _proxyPort;
 
-    public String getMethod() {
-        return method;
-    }
-
-    void setMethod(String method) {
+    protected HttpRequest(String url,String method){
+        this.url = url;
         this.method = method;
     }
+
 
     public String getUrl() {
         return url;
     }
-
-    void setUrl(String url) {
-        this.url = url;
+    public String getMethod() {
+        return method;
     }
 
     public Map<String, String> getHeaders() {
@@ -67,5 +66,17 @@ public class HttpRequest {
 
     public HttpCookies getCookies() {
         return this._cookies;
+    }
+
+    public void setHttpProxy(String host, int port) {
+        this._proxyHost = host;
+        this._proxyPort = port;
+    }
+
+    public String getProxyHost() {
+        return this._proxyHost;
+    }
+    public int getProxyPort() {
+        return this._proxyPort;
     }
 }

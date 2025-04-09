@@ -1,17 +1,19 @@
 package net.fze.common.http;
 
+
+
+
 import net.fze.util.Assert;
 
 import java.util.Map;
 
 public class HttpRequestBuilder {
 
-    private final HttpRequest req = new HttpRequest();
+    private final HttpRequest req;
 
 
     private HttpRequestBuilder(String url, String method) {
-        this.req.setUrl(url);
-        this.req.setMethod(method);
+      this.req = new HttpRequest(url,method);
     }
 
     public static HttpRequestBuilder create(String url, String method) {
@@ -62,6 +64,11 @@ public class HttpRequestBuilder {
 
     public HttpRequest build() {
         if (this.req.getUrl().isEmpty()) throw new IllegalArgumentException("url");
+        return this.req;
+    }
+
+    public HttpRequest setProxy(String host, int port) {
+        this.req.setHttpProxy(host,port);
         return this.req;
     }
 }

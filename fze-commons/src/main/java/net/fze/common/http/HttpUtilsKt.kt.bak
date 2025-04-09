@@ -1,4 +1,4 @@
-package net.fze.common.http
+package http
 
 import net.fze.util.IoUtils
 import net.fze.util.Strings

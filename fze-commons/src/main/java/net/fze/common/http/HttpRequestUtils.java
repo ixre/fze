@@ -1,8 +1,11 @@
 package net.fze.common.http;
 
-
 import net.fze.util.Types;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -13,8 +16,10 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
-import java.util.*;
-import javax.net.ssl.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.zip.GZIPInputStream;
 
 public class HttpRequestUtils {
 
@@ -23,10 +28,10 @@ public class HttpRequestUtils {
      *
      * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
      */
-    public static byte[] doRequest(HttpRequest req) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
+    public static byte[] doRequest(HttpRequest req,Consumer<HttpURLConnection> consumer) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
         String prefix = req.getUrl().substring(0, 5).toLowerCase();
         if ("https".equals(prefix)) {
-            return httpsRequest(req);
+            return httpsRequest(req,consumer);
         }
         return httpRequest(req);
     }
@@ -40,7 +45,7 @@ public class HttpRequestUtils {
         // 从上述SSLContext对象中得到SSLSocketFactory对象
         HttpURLConnection conn = (HttpURLConnection) new URL(req.getUrl()).openConnection();
         applyRequestParams(conn, req);
-        return getResponse(conn, req.getBody());
+        return getResponse(conn, req.getBody(),null);
     }
 
     private static void applyRequestParams(HttpURLConnection conn, HttpRequest req) throws IOException {
@@ -61,7 +66,7 @@ public class HttpRequestUtils {
      *
      * @return JSONObject(通过JSONObject.get ( key)的方式获取json对象的属性值)
      */
-    private static byte[] httpsRequest(HttpRequest req) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
+    private static byte[] httpsRequest(HttpRequest req,Consumer<HttpURLConnection> consumer) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
         HttpsURLConnection conn = (HttpsURLConnection) new URL(req.getUrl()).openConnection();
         // 创建SSLContext对象，并使用我们指定的信任管理器初始化
         TrustManager[] tm = new TrustManager[]{new TrustAnyTrustManager()};
@@ -71,12 +76,12 @@ public class HttpRequestUtils {
         SSLSocketFactory ssf = sslContext.getSocketFactory();
         conn.setSSLSocketFactory(ssf);
         applyRequestParams(conn, req);
-        return getResponse(conn, req.getBody());
+        return getResponse(conn, req.getBody(),consumer);
     }
 
     /**
      * 设置请求头
-      */
+     */
     private static void setContentType(HttpURLConnection conn, String contentType) {
         if (contentType != null && !contentType.isEmpty()) {
             conn.setRequestProperty("Content-Type", contentType);
@@ -96,35 +101,45 @@ public class HttpRequestUtils {
         if (headers == null) {
             return;
         }
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                if (entry.getKey() != null && entry.getValue() != null) {
-                    conn.setRequestProperty(entry.getKey(), entry.getValue());
-                }
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            if (entry.getKey() != null && entry.getValue() != null) {
+                conn.setRequestProperty(entry.getKey(), entry.getValue());
             }
+        }
     }
 
     /**
      * 获取响应
+     *
      * @param conn 连接
      * @param data 数据
      * @return 字节数组
      */
-    private static byte[] getResponse(HttpURLConnection conn, byte[] data) throws IOException {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+    private static byte[] getResponse(HttpURLConnection conn, byte[] data, Consumer<HttpURLConnection> consumer ) throws IOException {
+        try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
             if (data != null && data.length > 0) {
                 OutputStream os = conn.getOutputStream();
                 os.write(data);
                 os.flush();
                 os.close();
             }
-            try (InputStream is = conn.getInputStream()) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = is.read(buffer)) != -1) {
-                    baos.write(buffer, 0, bytesRead);
-                }
+
+            InputStream is = conn.getInputStream();
+            String encoding = conn.getHeaderField("content-encoding");
+            if ("gzip".equalsIgnoreCase(encoding)) {
+                // gzip解压缩
+                is = new GZIPInputStream(is);
             }
-            return baos.toByteArray();
+            if (consumer != null) {
+                consumer.accept(conn);
+            }
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = is.read(buffer)) != -1) {
+                stream.write(buffer, 0, bytesRead);
+            }
+            is.close();
+            return stream.toByteArray();
         } finally {
             conn.disconnect();
         }
@@ -149,7 +164,7 @@ public class HttpRequestUtils {
                         .append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8.name()));
             }
             return buf.toString();
-        }catch(UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
@@ -172,7 +187,7 @@ public class HttpRequestUtils {
                 }
             }
             return mp;
-        }catch(UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
