@@ -62,6 +62,16 @@ public class PagingParams {
     }
 
     /**
+     * 创建分页参数
+     * @param pageIndex 页码索引
+     * @param pageSize  页码条数
+     * @return 参数
+     */
+    public static PagingParams of(int pageIndex, int pageSize) {
+        return of(pageIndex, pageSize, null);
+    }
+
+    /**
      * 修正参数,去除某些空的参数
      *
      * @param opt 分页参数

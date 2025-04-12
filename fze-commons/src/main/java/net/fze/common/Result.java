@@ -11,25 +11,25 @@ public class Result {
     /**
      * 错误代码
      */
-    @SerializedName("ErrCode")
+    @SerializedName("code")
     @Schema(description = "错误代码")
-    public int errCode;
+    public int code;
     /**
      * 错误消息
      */
-    @SerializedName("ErrMsg")
+    @SerializedName("message")
     @Schema(description = "错误消息")
-    public String errMsg;
+    public String message;
     /**
      * 数据
      */
-    @SerializedName("Data")
+    @SerializedName("data")
     @Schema(description = "数据")
     public Object data;
 
     Result(int code, String msg) {
-        this.errCode = code;
-        this.errMsg = msg;
+        this.code = code;
+        this.message = msg;
     }
 
     public static Result error(int errCode, String errMsg) {
@@ -48,12 +48,12 @@ public class Result {
         return error(0, "").setData(data);
     }
 
-    public int getErrCode() {
-        return this.errCode;
+    public int getCode() {
+        return this.code;
     }
 
-    public String getErrMsg() {
-        return this.errMsg;
+    public String getMessage() {
+        return this.message;
     }
 
     public Object getData(){

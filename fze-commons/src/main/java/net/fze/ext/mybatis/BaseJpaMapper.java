@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import net.fze.common.data.PagingParams;
 import net.fze.common.data.PagingResult;
+import net.fze.domain.IOrmRepository;
 import net.fze.util.TypeConv;
 
-import javax.naming.ldap.PagedResultsControl;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -17,14 +18,13 @@ import java.util.function.Function;
  * 适配JPA规范的Mapper基础类型
  *
  * @author jarrysix
- * @param <P> 主键
  * @param <T> 实体
  */
-public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> {
+public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
     /**
      * 根据主键查找
      */
-    default Optional<T> findById(P id) {
+    default Optional<T> findById(Serializable id) {
         T t = this.selectById(id);
         return t == null? Optional.empty():Optional.of(t);
     }
@@ -32,7 +32,7 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
     /**
      * 保存实体
      */
-    default T save(T e, Function<T, P> f) {
+    default T save(T e, Function<T, Serializable> f) {
         Object pk = f.apply(e);
         if (pk == null || "".equals(pk) || TypeConv.toFloat(pk) <= 0) {
             // 自增主键应该添加生成策略,才能返回主键. 如:
@@ -76,15 +76,42 @@ public interface BaseJpaMapper<P extends Serializable, T> extends BaseMapper<T> 
      *   //      PagingResult pageResult = this.repo.queryPagedData(queryWrapper, pageNum,pageSize);
      *    //     return pageResult;
      * @param query 查询条件
-     * @param pageNum 页码
-     * @param pageSize 每页数量
+     * @param params 分页参数
      * @return 分页数据
      */
-    default PagingResult<T> queryPaging(QueryWrapper<T> query, int pageNum,int pageSize) {
+    default PagingResult<T> selectPaging(Object query, PagingParams params) {
+        assert query != null;
+       @SuppressWarnings("unchecked")
+        T t = (T)query;
+        // 获取总条数
+        long count = this.selectCount(new QueryWrapper<T>(t));
+        // 转换分页参数
+        IPage<T> p = new Page<>(params.getPageIndex(),params.getPageSize(), count);
+        IPage<T> page = this.selectPage(p, new QueryWrapper<>(t));
+        return new PagingResult<T>(count, page.getRecords());
+    }
+
+
+    /**
+     * 分页查询
+     *  // var queryWrapper = new QueryWrapper();
+     *  //       if(!Strings.isNullOrEmpty(keywords)) {
+     *  //           queryWrapper.like("name", "%" + keywords + "%");
+     *  //       }
+     *  //       if(!Strings.isNullOrEmpty(orderBy)){
+     *  //           queryWrapper.orderByDesc(orderBy);
+     *   //      }
+     *   //      PagingResult pageResult = this.repo.queryPagedData(queryWrapper, pageNum,pageSize);
+     *    //     return pageResult;
+     * @param query 查询条件
+     * @param params 分页参数
+     * @return 分页数据
+     */
+    default PagingResult<T> queryPaging(QueryWrapper<T> query, PagingParams params) {
         // 获取总条数
         long count = this.selectCount(query);
         // 转换分页参数
-        IPage<T> p = new Page<>(pageNum,pageSize, count);
+        IPage<T> p = new Page<>(params.getPageIndex(),params.getPageSize(), count);
         IPage<T> page = this.selectPage(p, query);
         return new PagingResult<T>(count, page.getRecords());
     }

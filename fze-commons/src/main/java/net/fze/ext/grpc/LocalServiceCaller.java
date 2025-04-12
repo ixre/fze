@@ -14,7 +14,7 @@ import java.util.function.Function;
  *            .setBrandType(2)
  *            .setPortalType(1);
  *            MemberLoginResponse ret = LocalServiceCaller.of(MemberServiceGrpcImpl.class)
- *            .call(s -> s::checkLogin, builder.build());
+ *            .call( s::checkLogin, builder.build());
  *            System.out.println("----"+Types.toJson(ret));
  */
 public class LocalServiceCaller<S> {

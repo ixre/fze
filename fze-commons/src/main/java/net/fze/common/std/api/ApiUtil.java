@@ -85,7 +85,7 @@ public class ApiUtil {
      * @return 字符
      */
     public static String encodeResult(Result msg) {
-        return String.format("{\"ErrCode\":\"%d\",\"ErrMsg\":\"%s\"}", msg.getErrCode(), msg.getErrMsg());
+        return String.format("{\"ErrCode\":\"%d\",\"ErrMsg\":\"%s\"}", msg.getCode(), msg.getMessage());
     }
 
     /* 比较版本 */
