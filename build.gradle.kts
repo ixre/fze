@@ -1,6 +1,6 @@
 allprojects {
     group = "net.fze"
-    version = "0.5.1"
+    version = "0.5.5"
 }
 
 subprojects {

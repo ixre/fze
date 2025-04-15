@@ -35,7 +35,7 @@ dependencies {
     // quarkus
     compileOnly("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
     // spring
-    compileOnly("com.baomidou:mybatis-plus-core:3.5.3")
+    implementation("com.baomidou:mybatis-plus-core:3.5.3")
     compileOnly("org.springframework.data:spring-data-redis:2.7.12")
     compileOnly("com.baomidou:mybatis-plus-extension:3.4.3.2");
 
@@ -88,7 +88,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "net.fze"
             artifactId = "fze-commons"
-            version = "0.5.1"
+            version = "0.5.5"
 
             from(components["java"])
 

@@ -1,6 +1,8 @@
 package net.fze.domain;
 
+import net.fze.common.data.PagingParams;
 import net.fze.common.data.PagingResult;
+import net.fze.domain.query.IQueryWrapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,23 +17,34 @@ public interface IOrmRepository<T> {
     /**
      * 根据主键查找
      */
-    Optional<T> findById(Serializable id);
+    T findById(Serializable id);
 
     /**
      * 保存实体
      */
-    T save(T e, Function<T, Serializable> f);
+    void save(T e, Function<T, Serializable> f);
 
     /**
      * 根据对象条件查找
      */
-    Optional<T> findOne(T o);
+    T findBy(T o);
 
     /**
      * 根据对象条件查找
      */
-    List<T> findBy(T o);
+    T findBy(IQueryWrapper query);
 
+    /**
+     * 根据对象条件查找
+     */
+    List<T> selectListBy(T o);
+
+    /**
+     * 根据条件查询
+     * @param query 查询条件
+     * @return 查询结果
+     */
+    List<T> selectListBy(IQueryWrapper query);
     /**
      * 删除数据，返回影响行数
      */
@@ -53,9 +66,8 @@ public interface IOrmRepository<T> {
      *   //      PagingResult pageResult = this.repo.queryPagedData(queryWrapper, pageNum,pageSize);
      *    //     return pageResult;
      * @param query 查询条件
-     * @param pageNum 页码
-     * @param pageSize 每页数量
+     * @param page 分页参数
      * @return 分页数据
      */
-    PagingResult<T> selectPaging(Object query, int pageNum, int pageSize);
+    PagingResult<T> selectPaging(IQueryWrapper query, PagingParams page);
 }

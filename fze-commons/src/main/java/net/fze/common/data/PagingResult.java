@@ -2,6 +2,7 @@ package net.fze.common.data;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -63,5 +64,12 @@ public class PagingResult<T> {
      */
     public void setHint(String hint) {
         this.hint = hint;
+    }
+
+    /**
+     * 返回空分页结果
+     */
+    public static PagingResult<?> emptyResult() {
+        return new PagingResult<>(0, Collections.emptyList());
     }
 }

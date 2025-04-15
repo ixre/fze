@@ -8,7 +8,7 @@ class SystemsTest {
 
     @Test
     void isTestEnvironment() {
-       System.out.println( Systems.isTestEnvironment());
+       System.out.println( Systems.isUnitTesting());
     }
 
     @Test
