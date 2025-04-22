@@ -67,6 +67,12 @@ public abstract class AbstractServiceImpl<T> implements IBaseService<T> {
     }
 
     @Override
+    public long count(IQueryWrapper o) {
+        this.check();
+        return r.count(o);
+    }
+
+    @Override
     public List<T> selectListBy(IQueryWrapper o) {
         this.check();
         List<T> list = r.selectListBy(o);

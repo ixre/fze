@@ -60,10 +60,14 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
         assert queryWrapper instanceof Wrapper;
         @SuppressWarnings("unchecked")
         T t = this.selectOne((Wrapper<T>) queryWrapper);
-        if (t == null) {
-            return null;
-        }
         return t;
+    }
+
+    default long count(IQueryWrapper queryWrapper) {
+        assert queryWrapper instanceof Wrapper;
+        @SuppressWarnings("unchecked")
+        long count = this.selectCount((Wrapper<T>) queryWrapper);
+        return count;
     }
 
     /**

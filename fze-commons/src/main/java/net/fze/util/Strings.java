@@ -51,6 +51,15 @@ public class Strings {
     }
 
     /**
+     * 返回随机数字字符串
+     * @param n 长度
+     * @return 随机数字字符串
+     */
+    public static String randomNumberCode(int n){
+        return randomLetters(n,"1234567890");
+    }
+
+    /**
      * 返回随机字符串,[n]:长度,letters字段
      */
     public static String randomLetters(int n, String letters) {

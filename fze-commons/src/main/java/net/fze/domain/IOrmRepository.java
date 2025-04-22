@@ -35,6 +35,10 @@ public interface IOrmRepository<T> {
     T findBy(IQueryWrapper query);
 
     /**
+     * 根据查询条件统计数量
+     */
+    long count(IQueryWrapper query);
+    /**
      * 根据对象条件查找
      */
     List<T> selectListBy(T o);

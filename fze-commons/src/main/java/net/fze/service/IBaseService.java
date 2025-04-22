@@ -33,6 +33,11 @@ public interface IBaseService<T> {
     T findBy(IQueryWrapper o);
 
     /**
+     * 根据查询条件统计数量
+     */
+    long count(IQueryWrapper query);
+
+    /**
      * 根据对象条件查找
      */
     List<T> selectListBy(T o);

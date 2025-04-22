@@ -6,8 +6,9 @@ import net.fze.util.Assert;
 
 import java.util.Map;
 
-public class Result {
-    public static final Result OK = new Result(0, "");
+
+public class Result<T> {
+    public static final Result<?> OK = new Result<>(0, "");
     /**
      * 错误代码
      */
@@ -25,27 +26,27 @@ public class Result {
      */
     @SerializedName("data")
     @Schema(description = "数据")
-    public Object data;
+    public T data;
 
     Result(int code, String msg) {
         this.code = code;
         this.message = msg;
     }
 
-    public static Result error(int errCode, String errMsg) {
-        return new Result(errCode, errMsg);
+    public static <T> Result<T> error(int errCode, String errMsg) {
+        return new Result<>(errCode, errMsg);
     }
 
-    public static Result of(Error err) {
+    public static <T> Result<T> of(Error err) {
         return err != null ? error(1, err.getMessage()) : success();
     }
 
-    public static Result success() {
+    public static <T> Result<T> success() {
         return error(0, "");
     }
 
-    public static Result success(Object data) {
-        return error(0, "").setData(data);
+    public static <T> Result<T> success(T data) {
+        return new Result<T>(0, "").setData(data);
     }
 
     public int getCode() {
@@ -56,7 +57,7 @@ public class Result {
         return this.message;
     }
 
-    public Object getData(){
+    public T getData(){
         return this.data;
     }
 
@@ -67,7 +68,7 @@ public class Result {
         return (Map<String,Object>) this.data;
     }
 
-    public Result setData(Object data) {
+    public Result<T> setData(T data) {
         this.data = data;
         return this;
     }

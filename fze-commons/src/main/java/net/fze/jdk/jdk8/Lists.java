@@ -1,9 +1,12 @@
 package net.fze.jdk.jdk8;
 
 
+import net.fze.util.TypeConv;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author jarrysix
@@ -37,4 +40,23 @@ public interface Lists {
         return l;
     }
 
+    /**
+     * Returns an unmodifiable list containing the elements of the specified array.
+     * @param s the array whose elements are to be placed into the list
+     * @param delimiter 分隔符
+     * @return a {@code List} containing the elements of the specified array
+     */
+    static List<String> split(String s,String delimiter){
+        return of(s.split(delimiter));
+    }
+
+    /**
+     * Returns an unmodifiable list containing the elements of the specified array.
+     * @param s the array whose elements are to be placed into the list
+     * @param delimiter 分隔符
+     * @return a {@code List} containing the elements of the specified array
+     */
+    static List<Integer> splitInt(String s,String delimiter){
+        return split(s,delimiter).stream().map(TypeConv::toInt).collect(Collectors.toList());
+    }
 }
