@@ -4,12 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 字符串扩展对象
@@ -19,6 +24,7 @@ public class Types {
             .serializeNulls()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
             .create();
+    private static final Logger log = LoggerFactory.getLogger(Types.class);
 
     /**
      * 获取值，如果v为空，返回默认值d
@@ -135,6 +141,25 @@ public class Types {
         dst.putAll(src);
     }
 
+
+    /**
+     * 将对象转换为字典
+     * @param obj 对象
+     * @return 字典
+     */
+    public static Map<String, Object> objectToMap(Object obj,String ...ignoreFields) {
+        return Arrays.stream(obj.getClass().getDeclaredFields())
+                .peek(field -> field.setAccessible(true))
+                .filter(field -> !Arrays.asList(ignoreFields).contains(field.getName()))
+                .collect(Collectors.toMap(Field::getName, field -> {
+                    try {
+                        return field.get(obj);
+                    } catch (IllegalAccessException e) {
+                        log.error("objectToMap error", e);
+                        return null;
+                    }
+                }));
+    }
     /**
      * 判断ra,rb是否在la,lb区间内
      */

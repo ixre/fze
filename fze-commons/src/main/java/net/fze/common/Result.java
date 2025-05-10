@@ -28,7 +28,7 @@ public class Result<T> {
     @Schema(description = "数据")
     public T data;
 
-    Result(int code, String msg) {
+    private Result(int code, String msg) {
         this.code = code;
         this.message = msg;
     }
@@ -37,16 +37,37 @@ public class Result<T> {
         return new Result<>(errCode, errMsg);
     }
 
-    public static <T> Result<T> of(Error err) {
-        return err != null ? error(1, err.getMessage()) : success();
+    public static <T> Result<T> fail(int errCode, String errMsg) {
+        return of(errCode, errMsg);
+    }
+
+    public static <T> Result<T> fail(String errMsg) {
+        return of(1, errMsg);
+    }
+
+    private static <T> Result<T> of(int errCode, String message) {
+        return new Result<>(errCode, message);
     }
 
     public static <T> Result<T> success() {
-        return error(0, "");
+        return of(0, "success");
+    }
+
+    public static <T> Result<T> fail() {
+        return of(1, "failed");
+    }
+
+    public static <T> Result<T> fail(Throwable ex) {
+        if (ex == null) {
+            return success();
+        }
+        return error(1, ex.getMessage());
     }
 
     public static <T> Result<T> success(T data) {
-        return new Result<T>(0, "").setData(data);
+        Result<T> objectResult = success();
+        objectResult.setData(data);
+        return objectResult;
     }
 
     public int getCode() {
@@ -57,19 +78,19 @@ public class Result<T> {
         return this.message;
     }
 
-    public T getData(){
+    public T getData() {
         return this.data;
-    }
-
-    @SuppressWarnings("unchecked")
-    public Map<String,Object> asMap(){
-        String s = this.data.getClass().getTypeName();
-        Assert.checkType(this.data,Map.class);
-        return (Map<String,Object>) this.data;
     }
 
     public Result<T> setData(T data) {
         this.data = data;
         return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> asMap() {
+        String s = this.data.getClass().getTypeName();
+        Assert.checkType(this.data, Map.class);
+        return (Map<String, Object>) this.data;
     }
 }

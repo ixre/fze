@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
@@ -128,8 +129,11 @@ public class Systems {
     /**
      * 捕获错误
      */
-    public static <T> Error catchError(Supplier<T> p) {
-        return tryCatch(p).error();
+    public static <T> Error catchError(Runnable p) {
+        return tryCatch(()->{
+            p.run();
+            return null;
+        }).error();
     }
 
     public static void setDefaultExceptionHandler(Thread.UncaughtExceptionHandler handler) {

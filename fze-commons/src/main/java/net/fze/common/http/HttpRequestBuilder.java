@@ -27,7 +27,7 @@ public class HttpRequestBuilder {
         return this;
     }
 
-    public HttpRequestBuilder setHeader(String key, String value) {
+    public HttpRequestBuilder addHeader(String key, String value) {
         this.req.getHeaders().put(key, value);
         return this;
     }

@@ -1,6 +1,7 @@
 package net.fze.jdk.jdk8;
 
 
+import net.fze.util.Strings;
 import net.fze.util.TypeConv;
 
 import java.util.ArrayList;
@@ -47,6 +48,9 @@ public interface Lists {
      * @return a {@code List} containing the elements of the specified array
      */
     static List<String> split(String s,String delimiter){
+        if(Strings.isNullOrEmpty(s)){
+            return of();
+        }
         return of(s.split(delimiter));
     }
 

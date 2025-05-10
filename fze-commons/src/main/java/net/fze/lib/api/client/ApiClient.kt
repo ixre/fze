@@ -80,14 +80,14 @@ class ApiClient {
         }
         // 发送请求
         val b = HttpRequestBuilder.create(this.concat(apiPath), method)
-            .setHeader(this.authHeaderKey, this.accessToken)
+            .addHeader(this.authHeaderKey, this.accessToken)
         if(body!= null){
             b.body(body);
         }
         b.timeout(this._timeout)
         // 设置格式
         //application/json
-        if (contentType != null) b.setHeader("Content-Type", contentType.encodeType)
+        if (contentType != null) b.addHeader("Content-Type", contentType.encodeType)
         // 请求
         return HttpClient.request(b.build())
     }

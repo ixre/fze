@@ -106,7 +106,7 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
      */
     default PagingResult<T> selectPaging(IQueryWrapper query, PagingParams params) {
         assert query != null;
-        assert query instanceof QueryWrapper;
+        assert query instanceof Wrapper;
         @SuppressWarnings("unchecked")
         Wrapper<T> t = (Wrapper<T>) query;
         // 获取总条数
@@ -114,7 +114,7 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
         // 转换分页参数
         IPage<T> p = new Page<>(params.getPageIndex(), params.getPageSize(), count);
         IPage<T> page = this.selectPage(p, t);
-        return new PagingResult<>(count, page.getRecords());
+        return PagingResult.of(count,page.getRecords());
     }
 
 
@@ -140,6 +140,6 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
         // 转换分页参数
         IPage<T> p = new Page<>(params.getPageIndex(), params.getPageSize(), count);
         IPage<T> page = this.selectPage(p, query);
-        return new PagingResult<>(count, page.getRecords());
+        return PagingResult.of(count, page.getRecords());
     }
 }

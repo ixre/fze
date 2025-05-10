@@ -61,7 +61,7 @@ public class ReportItem implements IReportPortal {
         // 获取页码和每页加载数量
         int pageIndex = TypeConv.toInt(p.get("page_index"));
         int pageSize = TypeConv.toInt(p.get("page_size"));
-        PagingResult<Map<String, Object>> r = new PagingResult<>();
+        PagingResult<Map<String, Object>> r = PagingResult.of(0, new ArrayList<>());
         r.setRows(new ArrayList<>());
         String offset = "0";
         // 设置SQL分页信息

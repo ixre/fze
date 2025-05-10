@@ -27,13 +27,17 @@ public class PagingResult<T> {
     @Schema(description = "信息提示")
     private String hint;
 
-    public PagingResult() {
+    private PagingResult() {
 
     }
 
-    public PagingResult(long total, List<T> rows) {
+    private PagingResult(long total, List<T> rows) {
         this.rows = rows;
         this.total = total;
+    }
+
+    public static <T> PagingResult<T> of(long total,List<T> rows){
+        return new PagingResult<>(total,rows);
     }
 
     public long getTotal() {
