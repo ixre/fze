@@ -20,6 +20,13 @@ public interface IOrmRepository<T> {
     T findById(Serializable id);
 
     /**
+     * 根据主键查找列表
+     */
+    List<T> findByIds(List<Serializable> ids);
+    /**
+     * 根据主键查找
+     */
+    /**
      * 保存实体
      */
     void save(T e, Function<T, Serializable> f);

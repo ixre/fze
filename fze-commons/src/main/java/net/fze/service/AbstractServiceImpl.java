@@ -49,6 +49,11 @@ public abstract class AbstractServiceImpl<T> implements IBaseService<T> {
     }
 
     @Override
+    public List<T> findByIds(List<Serializable> ids) {
+        this.check();
+        return r.findByIds(ids);
+    }
+    @Override
     public void save(T e, Function<T, Serializable> f) {
         this.check();
         r.save(e, f);

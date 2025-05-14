@@ -18,6 +18,10 @@ public interface IBaseService<T> {
     T findById(Serializable id);
 
     /**
+     * 根据主键根据多个实体
+     */
+    List<T> findByIds(List<Serializable> ids);
+    /**
      * 保存实体
      */
     void save(T e, Function<T, Serializable> f);

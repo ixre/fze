@@ -50,14 +50,14 @@ public class Result<T> {
     }
 
     public static <T> Result<T> success() {
-        return of(0, "success");
+        return of(0, "");
     }
 
     public static <T> Result<T> fail() {
         return of(1, "failed");
     }
 
-    public static <T> Result<T> fail(Throwable ex) {
+    public static <T> Result<T> of(Throwable ex) {
         if (ex == null) {
             return success();
         }
