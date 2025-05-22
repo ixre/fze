@@ -12,6 +12,7 @@ import net.fze.domain.query.IQueryWrapper;
 import net.fze.util.TypeConv;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,9 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
         return this.selectById(id);
     }
 
+    default List<T> findByIds(Collection<Serializable> ids) {
+        return this.selectBatchIds(ids);
+    }
     /**
      * 保存实体
      */

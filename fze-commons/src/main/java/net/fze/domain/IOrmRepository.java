@@ -5,8 +5,8 @@ import net.fze.common.data.PagingResult;
 import net.fze.domain.query.IQueryWrapper;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -22,7 +22,7 @@ public interface IOrmRepository<T> {
     /**
      * 根据主键查找列表
      */
-    List<T> findByIds(List<Serializable> ids);
+    List<T> findByIds(Collection<Serializable> ids);
     /**
      * 根据主键查找
      */

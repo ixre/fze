@@ -41,6 +41,18 @@ public class CryptoUtils {
     }
 
     /**
+     * 生成sha256
+     *
+     * @return 32位sha256
+     */
+    public static String sha265Hex(byte[] bytes) {
+        return DigestEncode.encode("SHA-256", bytes);
+    }
+
+    public static String sha265Hex(String str) {
+        return DigestEncode.encode("SHA-256", str);
+    }
+    /**
      * 返回[str]的16位md5
      */
 

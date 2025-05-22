@@ -5,7 +5,9 @@ import net.fze.common.data.PagingResult;
 import net.fze.domain.query.IQueryWrapper;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -20,7 +22,7 @@ public interface IBaseService<T> {
     /**
      * 根据主键根据多个实体
      */
-    List<T> findByIds(List<Serializable> ids);
+    List<T> findByIds(Collection<?> ids);
     /**
      * 保存实体
      */
@@ -70,4 +72,22 @@ public interface IBaseService<T> {
      * 批量删除国家
      */
     int batchDelete(List<Serializable> id);
+
+    /**
+     * 批量获取实体并转换为 Map
+     * @param ids 实体 ID 列表
+     * @param idGetter 获取实体 ID 的函数
+     * @return 实体 ID 到实体转换后的 Map 的映射
+     */
+     <P> Map<P,T> selectAsMap(List<P> ids, Function<T, P> idGetter);
+
+     /**
+     * 从源实体列表中提取 ID 列表，批量获取目标实体并转换为 Map
+     * @param sourceEntities 源实体列表
+     * @param sourceExtractor 从源实体中提取 ID 的函数
+     * @param dstExtractor 获取目标实体 ID 的函数
+     * @param <S> 源实体类型
+     * @return 目标实体 ID 到目标实体转换后的 Map 的映射
+     */
+    <S,P> Map<P, T> selectAsMap(List<S> sourceEntities, Function<S, P> sourceExtractor, Function<T, P> dstExtractor);
 }

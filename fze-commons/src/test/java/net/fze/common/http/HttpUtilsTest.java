@@ -62,7 +62,7 @@ class HttpUtilsTest {
         String url = "https://hwpartner.meituan.com/apigw/outer/open/copp/device/view/app?sn=S4PAC21233100073&appName=";
         HttpCookies cookies = getHttpCookies();
         HttpRequest req = HttpRequestBuilder.create(url, "GET")
-                .setHeader("User-Agent","Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0")
+                .addHeader("User-Agent","Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0")
                 .setCookies(cookies)
                 .build();
         String ret = new String(HttpClient.request(req));
@@ -79,7 +79,7 @@ class HttpUtilsTest {
             data.put("groupId", "1705094386771316818");
             data.put("sn", "S4PAC21234000194");
         HttpRequest req = HttpRequestBuilder.create(url, "POST")
-                .setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0")
+                .addHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0")
                 .setCookies(getHttpCookies())
                 .contentType(ContentType.JSON)
                 .body(HttpUtils.parseJsonBody(data))
@@ -116,7 +116,7 @@ class HttpUtilsTest {
         data.put("pageSize", 1000);
         String jsonData = Types.toJson(data);
         HttpRequest req = HttpRequestBuilder.create(url, "POST")
-                .setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0")
+                .addHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0")
                 .setCookies(getHttpCookies())
                 .contentType(ContentType.JSON)
                 .body(jsonData.getBytes())
