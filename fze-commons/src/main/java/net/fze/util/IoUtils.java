@@ -1,8 +1,7 @@
 package net.fze.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
 
 /**
  * IO工具类
@@ -36,5 +35,17 @@ public class IoUtils {
             charset = "UTF-8";
         }
         return new String(readAllBytes(stream), charset);
+    }
+
+    public static InputStream getResourceAsStream(String path) {
+        return IoUtils.class.getClassLoader().getResourceAsStream(path);
+    }
+
+    public static InputStream getFileStream(String path) throws IOException {
+        File file = new File(path);
+        if(!file.exists()){
+            throw new RuntimeException("文件不存在");
+        }
+        return Files.newInputStream(file.toPath());
     }
 }
