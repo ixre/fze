@@ -59,6 +59,16 @@ public interface IBaseService<T> {
     PagingResult<T> selectPaging(IQueryWrapper o, PagingParams page);
 
     /**
+     * 自定义条件分页查询
+     * @param sql 自定义sql查询，通常用于联表查询
+     *             如: select * from tb_country LEFT JOIN tb_province ON tb_country.id = tb_province.country_id
+     * @param o 条件构造器
+     * @param page 分页参数
+     * @return 分页数据
+     */
+    PagingResult<?> selectCustomPaging(String sql,IQueryWrapper o, PagingParams page);
+
+    /**
      * 批量保存
      */
     void saveAll(Iterable<T> entities, Function<T, Serializable> f);

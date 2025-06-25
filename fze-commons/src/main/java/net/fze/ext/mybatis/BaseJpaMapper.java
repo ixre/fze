@@ -4,19 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.fze.common.data.PagingParams;
 import net.fze.common.data.PagingResult;
 import net.fze.domain.IOrmRepository;
 import net.fze.domain.query.IQueryWrapper;
 import net.fze.util.TypeConv;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 适配JPA规范的Mapper基础类型
@@ -113,14 +115,60 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
         assert query instanceof Wrapper;
         @SuppressWarnings("unchecked")
         Wrapper<T> t = (Wrapper<T>) query;
-        // 获取总条数
-        long count = this.selectCount(t);
+//        // 获取总条数
+//        long count = this.selectCount(t);
         // 转换分页参数
-        IPage<T> p = new Page<>(params.getPageIndex(), params.getPageSize(), count);
+        IPage<T> p = new Page<>(params.getPageIndex(), params.getPageSize());
         IPage<T> page = this.selectPage(p, t);
-        return PagingResult.of(count,page.getRecords());
+        return PagingResult.of(page.getTotal(),page.getRecords());
     }
 
+    default PagingResult<?> selectCustomPaging(String sql, IQueryWrapper query,PagingParams params) {
+        assert query != null;
+        assert query instanceof Wrapper;
+        @SuppressWarnings("unchecked")
+        Wrapper<T> t = (Wrapper<T>) query;
+
+        Page<?> page = new Page<>(params.getPageIndex(), params.getPageSize());
+        IPage<?> ret = this.selectCustomPaging(sql,t,page);
+        ret.getRecords().forEach(e->{
+            @SuppressWarnings("unchecked")
+            Map<String,Object> mp = (Map<String,Object>)e;
+            if(mp == null){
+                throw new IllegalArgumentException("records is null");
+            }
+            Map<String, Object> cpMp = new HashMap<>(mp);
+            // 使用 Matcher 和 Pattern 将下划线后的字母转换为大写
+            Pattern pattern = Pattern.compile("_(.)");
+            for(String key: cpMp.keySet()){
+                Matcher matcher = pattern.matcher(key);
+                StringBuffer buffer = new StringBuffer();
+                boolean hasMatch = false;
+                while (matcher.find()) {
+                    hasMatch = true;
+                    matcher.appendReplacement(buffer, matcher.group(1).toUpperCase());
+                }
+                if(hasMatch) {
+                    matcher.appendTail(buffer);
+                    // 使用正则表达式将下划线后的字母转换为大写
+                    String newKey = buffer.toString();
+                    mp.put(newKey, cpMp.get(key));
+                    mp.remove(key);
+                }
+            }
+        });
+        return PagingResult.of(ret.getTotal(),ret.getRecords());
+    }
+
+    /**
+     * 自定义分页查询
+     * @param sql 自定义sql查询，通常用于联表查询
+     * @param page 分页参数
+     * @param wrapper 条件构造器
+     * @return 分页数据
+     */
+    @Select("${sql} ${ew.customSqlSegment}")
+    IPage<Map<String,Object>> selectCustomPaging(@Param("sql") String sql,  @Param(Constants.WRAPPER) Wrapper<T> wrapper,Page<?> page);
 
     /**
      * 分页查询

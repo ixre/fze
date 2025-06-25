@@ -110,7 +110,12 @@ public abstract class AbstractServiceImpl<T> implements IBaseService<T> {
     public PagingResult<T> selectPaging(IQueryWrapper o, PagingParams page) {
         this.check();
         return r.selectPaging(o, page);
-//        throw new RuntimeException("未实现分页查询");
+    }
+
+    @Override
+    public PagingResult<?> selectCustomPaging(String sql, IQueryWrapper o,PagingParams page) {
+        this.check();
+        return r.selectCustomPaging(sql,o,page);
     }
 
     @Override
