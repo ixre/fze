@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -160,6 +157,46 @@ public class Types {
                     }
                 }));
     }
+
+
+    /**
+     * 设置实体默认值
+     * @param dst 目标对象
+     * @param <T> 类型
+     */
+    public static <T> void setDefaultValues(T dst) {
+        try {
+            // 获取实体的所有声明字段
+            java.lang.reflect.Field[] fields = dst.getClass().getDeclaredFields();
+            for (java.lang.reflect.Field field : fields) {
+                // 设置字段可访问
+                field.setAccessible(true);
+                Class<?> fieldType = field.getType();
+                if (fieldType == Integer.class) {
+                    // 为 Integer 类型字段设置默认值 0
+                    field.set(dst, 0);
+                } else if (fieldType == String.class) {
+                    // 为 String 类型字段设置默认值空字符串
+                    field.set(dst, "");
+                } else if (fieldType == Date.class) {
+                    // 为 Date 类型字段设置当前时间
+                    field.set(dst, new Date());
+                } else if (fieldType == Long.class) {
+                    // 为 Long 类型字段设置默认值 0L
+                    field.set(dst, 0L);
+                } else if (fieldType == java.math.BigDecimal.class) {
+                    // 为 BigDecimal 类型字段设置默认值 BigDecimal.ZERO
+                    field.set(dst, java.math.BigDecimal.ZERO);
+                } else if (fieldType == Boolean.class) {
+                    // 为 Boolean 类型字段设置默认值 false
+                    field.set(dst, false);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Failed to set default values using reflection", e);
+        }
+    }
+
     /**
      * 判断ra,rb是否在la,lb区间内
      */
