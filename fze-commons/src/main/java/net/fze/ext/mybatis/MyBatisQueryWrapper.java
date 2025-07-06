@@ -12,6 +12,33 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
     public QueryWrapper<T> toQueryWrapper() {
         return this;
     }
+
+    /**
+     * 排序
+     * @param column 列名
+     */
+    public MyBatisQueryWrapper<T> orderByAsc(String column) {
+        super.orderByAsc(column);
+        return this;
+    }
+
+    /**
+     * 排序
+     * @param column 列名
+     */
+    public MyBatisQueryWrapper<T> orderByDesc(String column) {
+        super.orderByDesc(column);
+        return this;
+    }
+
+    /**
+     * 或
+     */
+    public MyBatisQueryWrapper<T> or(){
+        super.or();
+        return this;
+    }
+
     /**
      * 判断相等
      * @param column 列名
@@ -23,6 +50,16 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
     }
 
     /**
+     * 判断相等，为空则不加入条件
+     * @param column 列名
+     * @param val 值
+     */
+    public MyBatisQueryWrapper<T> eqIfPresent(String column, Object val) {
+        if(val == null || val.equals(""))return this;
+        return this.eq(column, val);
+    }
+
+    /**
      * 判断是否相似
      * @param column    列名
      * @param val       值
@@ -30,6 +67,11 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
     public MyBatisQueryWrapper<T> like(String column, Object val) {
         super.like(column, val);
         return this;
+    }
+
+    public MyBatisQueryWrapper<T> likeIfPresent(String column, Object val) {
+        if(val == null || val.equals(""))return this;
+        return this.like(column, val);
     }
 
     /**
@@ -155,6 +197,16 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
     public MyBatisQueryWrapper<T> in(String column, List<?> coll) {
         super.in(column, coll);
         return this;
+    }
+
+    /**
+     * 判断是否在集合中，为空则不加入条件
+     * @param column 列名
+     * @param coll 集合
+     */
+    public MyBatisQueryWrapper<T> inIfPresent(String column, List<?> coll) {
+        if(coll == null || coll.isEmpty())return this;
+        return this.in(column, coll);
     }
 
     /**
