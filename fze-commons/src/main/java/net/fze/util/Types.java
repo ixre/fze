@@ -147,18 +147,24 @@ public class Types {
     public static Map<String, Object> objectToMap(Object obj,String ...ignoreFields) {
         return Arrays.stream(obj.getClass().getDeclaredFields())
                 .peek(field -> field.setAccessible(true))
-                .filter(field -> !Arrays.asList(ignoreFields).contains(field.getName()))
+                .filter(field -> {
+                    if(Arrays.asList(ignoreFields).contains(field.getName())){
+                        return false;
+                    }
+                    try {
+                        return field.get(obj) != null;
+                    } catch (IllegalAccessException e) {
+                        return false;
+                    }
+                })
                 .collect(Collectors.toMap(Field::getName, field -> {
                     try {
                         return field.get(obj);
                     } catch (IllegalAccessException e) {
-                        log.error("objectToMap error", e);
-                        return null;
+                        return "";
                     }
                 }));
     }
-
-
     /**
      * 设置实体默认值
      * @param dst 目标对象
