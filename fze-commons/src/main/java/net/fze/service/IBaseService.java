@@ -23,6 +23,12 @@ public interface IBaseService<T> {
      * 根据主键根据多个实体
      */
     List<T> findByIds(Collection<?> ids);
+
+    /**
+     * 插入
+     */
+    void insert(T e);
+
     /**
      * 保存实体
      */

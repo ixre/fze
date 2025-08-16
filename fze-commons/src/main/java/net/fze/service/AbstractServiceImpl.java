@@ -62,6 +62,13 @@ public abstract class AbstractServiceImpl<T> implements IBaseService<T> {
                 }).collect(Collectors.toList());
         return r.findByIds(list);
     }
+
+    @Override
+    public void insert(T e) {
+        this.check();
+        r.save(e, a -> null);
+    }
+
     @Override
     public void save(T e, Function<T, Serializable> f) {
         this.check();
