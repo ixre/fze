@@ -36,6 +36,16 @@ public class MathUtils {
     }
 
     /**
+     * 保留n位小数
+     * @param v 数值
+     * @param n 保留小数位数
+     * @return 保留n位小数后的数值
+     */
+    public static double toFixed(double v, int n) {
+        return ((int)(TypeConv.toDouble(v)*Math.pow(10,n)))/Math.pow(10,n);
+    }
+
+    /**
      * 将浮点数向下取整
      *
      * @param f 浮点数

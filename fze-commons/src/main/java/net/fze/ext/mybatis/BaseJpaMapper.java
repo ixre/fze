@@ -10,6 +10,7 @@ import net.fze.common.data.PagingParams;
 import net.fze.common.data.PagingResult;
 import net.fze.domain.IOrmRepository;
 import net.fze.domain.query.IQueryWrapper;
+import net.fze.domain.query.QueryUtils;
 import net.fze.util.TypeConv;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -17,8 +18,6 @@ import org.apache.ibatis.annotations.Select;
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 适配JPA规范的Mapper基础类型
@@ -137,25 +136,7 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
             if(mp == null){
                 throw new IllegalArgumentException("records is null");
             }
-            Map<String, Object> cpMp = new HashMap<>(mp);
-            // 使用 Matcher 和 Pattern 将下划线后的字母转换为大写
-            Pattern pattern = Pattern.compile("_(.)");
-            for(String key: cpMp.keySet()){
-                Matcher matcher = pattern.matcher(key);
-                StringBuffer buffer = new StringBuffer();
-                boolean hasMatch = false;
-                while (matcher.find()) {
-                    hasMatch = true;
-                    matcher.appendReplacement(buffer, matcher.group(1).toUpperCase());
-                }
-                if(hasMatch) {
-                    matcher.appendTail(buffer);
-                    // 使用正则表达式将下划线后的字母转换为大写
-                    String newKey = buffer.toString();
-                    mp.put(newKey, cpMp.get(key));
-                    mp.remove(key);
-                }
-            }
+            QueryUtils.formatRowFields(mp);
         });
         return PagingResult.of(ret.getTotal(),ret.getRecords());
     }

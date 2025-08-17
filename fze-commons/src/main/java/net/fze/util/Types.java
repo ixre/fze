@@ -145,6 +145,9 @@ public class Types {
      * @return 字典
      */
     public static Map<String, Object> objectToMap(Object obj,String ...ignoreFields) {
+        if(obj instanceof Map){
+            return (Map<String, Object>) obj;
+        }
         return Arrays.stream(obj.getClass().getDeclaredFields())
                 .peek(field -> field.setAccessible(true))
                 .filter(field -> {
