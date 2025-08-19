@@ -2,7 +2,10 @@ package net.fze.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -27,6 +30,24 @@ public class Times {
         if (zone == null) zone = ZoneAsiaShangHai;
         System.setProperty("user.timezone", zone.getId());
         TimeZone.setDefault(TimeZone.getTimeZone(zone));
+    }
+
+    public static ZoneId getZoneId() {
+        return TimeZone.getDefault().toZoneId();
+    }
+    /**
+     * 转换为时间
+     */
+    public static Date parseZonedDateTime(LocalDateTime dt) {
+        return parseZonedDateTime(dt,Times.getZoneId());
+    }
+
+    /**
+     * 转换为时间
+     */
+    public static Date parseZonedDateTime(LocalDateTime dt,ZoneId zone) {
+        ZonedDateTime zonedDateTime = dt.atZone(zone);
+        return Date.from(zonedDateTime.toInstant());
     }
 
     /**
