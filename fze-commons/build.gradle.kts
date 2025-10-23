@@ -32,6 +32,9 @@ dependencies {
     compileOnly("io.nats:jnats:2.16.14")
     compileOnly("mysql:mysql-connector-java:8.0.28")
     compileOnly("com.belerweb:pinyin4j:2.5.0")
+    // poi
+    implementation("org.apache.poi:poi:5.3.0")
+    implementation("org.apache.poi:poi-ooxml:5.3.0")
     // quarkus
     compileOnly("io.quarkus:quarkus-hibernate-orm-panache:1.8.0.Final")
     // spring
@@ -88,7 +91,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "net.fze"
             artifactId = "fze-commons"
-            version = "0.5.5"
+            version = "0.5.6"
 
             from(components["java"])
 

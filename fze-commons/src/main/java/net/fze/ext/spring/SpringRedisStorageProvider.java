@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author jarrysix
  */
-public class SpringRedisStorageProvider implements IStorageProvider {
+public abstract class SpringRedisStorageProvider implements IStorageProvider {
     private final StringRedisTemplate redisTemplate;
     private final Gson gson = new Gson();
 

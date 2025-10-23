@@ -60,8 +60,13 @@ public class Systems {
         String resName = pkg.replace(".", "/");
         URL pkgPath = c.getClassLoader().getResource(resName);
         String path = pkgPath != null ? pkgPath.getPath() : "";
-        return path.contains(".jar!")
-                || path.contains(".war!");
+
+        if(path.contains(".jar!")
+                || path.contains(".war!")){
+            return true;
+        }
+        // 排除以解压运行的应用
+        return !path.contains("/target/classes");
     }
 
     /**
