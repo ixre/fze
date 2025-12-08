@@ -14,6 +14,9 @@ import java.util.List;
 /**
  * 数据权限过滤切面，适配MyBatisQueryWrapper
  * 用于拦截使用MyBatisQueryWrapper的查询方法，动态添加数据权限条件
+ * @author jarrysix
+ *
+ *
  */
 // @Aspect
 // @Component
@@ -24,7 +27,7 @@ public abstract class AbstractDataScopeAspectForQueryWrapper {
 
     public abstract String getCustomDataScopeSql(long userId);
 
-    @Before(value = "@annotation(net.fze.ext.rbac.DataScope)")
+    @Before(value = "@annotation(net.fze.ext.rbac.scope.DataScope)")
     public void doBefore(JoinPoint point){
         handleDataScope(point);
     }
@@ -46,19 +49,35 @@ public abstract class AbstractDataScopeAspectForQueryWrapper {
      * @param joinPoint 切点
      * @param user      用户
      */
-    public void dataScopeFilter(JoinPoint joinPoint, User user) {
+    protected void dataScopeFilter(JoinPoint joinPoint, User user) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         DataScope annotation = method.getAnnotation(DataScope.class);
         if (annotation == null) {
             return;
         }
+        this.applyDataScopeFilter(joinPoint, user,  annotation.departField(), annotation.userField());
+    }
 
+    /**
+     * 应用数据范围过滤
+     *
+     * @param joinPoint 切点
+     * @param user      用户
+     * @param deptField 部门字段
+     * @param userField 用户字段
+     */
+    protected void applyDataScopeFilter(JoinPoint joinPoint, User user, String deptField, String userField) {
         // 获取方法参数
         Object[] args = joinPoint.getArgs();
         if (args == null || args.length == 0) {
             return;
         }
+
+        // 部门权限字段
+        String finalDeptField = !Strings.isNullOrEmpty(deptField) ? deptField : "depart_id";
+        // 用户权限字段
+        String finalUserField = !Strings.isNullOrEmpty(userField) ? userField : "user_id";
 
         // 查找MyBatisQueryWrapper或MyBatisLambdaQueryWrapper参数
         MyBatisQueryWrapper<?> queryWrapper = null;
@@ -74,8 +93,6 @@ public abstract class AbstractDataScopeAspectForQueryWrapper {
             return;
         }
 
-        String deptAliasField = annotation.departField();
-        String userAliasField = annotation.userField();
 
         // 获取用户角色的数据权限
         List<DataScopes> dataScopes = new ArrayList<>();
@@ -96,10 +113,7 @@ public abstract class AbstractDataScopeAspectForQueryWrapper {
         // 构建数据权限条件
         StringBuilder sqlString = new StringBuilder();
 
-        // 部门权限字段
-        String deptField =!Strings.isNullOrEmpty(deptAliasField) ? deptAliasField : "depart_id";
-        // 用户权限字段
-        String userField = !Strings.isNullOrEmpty(userAliasField) ? userAliasField : "user_id";
+
 
         for (DataScopes dataScope : dataScopes) {
             if (DataScopes.DATA_SCOPE_CUSTOM.equals(dataScope)) {
@@ -109,10 +123,10 @@ public abstract class AbstractDataScopeAspectForQueryWrapper {
                     // 默认查询角色关联部门
                     sql = String.format("SELECT dept_id FROM sys_role_dept WHERE role_id IN (SELECT role_id FROM sys_user_role WHERE user_id = %s)", user.getUserId());
                 }
-                sqlString.append(String.format(" OR %s IN (%s)", deptField, sql));
+                sqlString.append(String.format(" OR %s IN (%s)", finalDeptField, sql));
             } else if (DataScopes.DATA_SCOPE_DEPT.equals(dataScope)) {
                 // 部门数据权限
-                sqlString.append(String.format(" OR %s = %s", deptField, user.getDepartId()));
+                sqlString.append(String.format(" OR %s = %s", finalDeptField, user.getDepartId()));
             } else if (DataScopes.DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope)) {
                 // 部门及以下数据权限
                 String sql = this.getDepartAndChildrenSql(user.getDepartId());
@@ -120,10 +134,10 @@ public abstract class AbstractDataScopeAspectForQueryWrapper {
                     // 默认查询下级和下级部门
                     sql = String.format("SELECT dept_id FROM sys_dept WHERE dept_id = %s OR find_in_set(%s, ancestors)", user.getDepartId(), user.getDepartId());
                 }
-                sqlString.append(String.format(" OR %s IN (%s)", deptField, sql));
+                sqlString.append(String.format(" OR %s IN (%s)", finalDeptField, sql));
             } else if (DataScopes.DATA_SCOPE_SELF.equals(dataScope)) {
                 // 仅本人数据权限
-                sqlString.append(String.format(" OR %s = %s", userField, user.getUserId()));
+                sqlString.append(String.format(" OR %s = %s", finalUserField, user.getUserId()));
             }
         }
 

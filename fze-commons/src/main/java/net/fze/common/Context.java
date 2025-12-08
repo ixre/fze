@@ -5,7 +5,8 @@ import net.fze.ext.web.RequestPayload;
 
 /**
  * 请求上下文
+ * @author jarrysix
  */
-public interface RequestContext<T> {
-    T getContext();
+public interface Context {
+    Object getContext();
 }

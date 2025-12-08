@@ -1,7 +1,7 @@
 package net.fze.ext.spring;
 
-import net.fze.annotation.Context;
-import net.fze.common.RequestContext;
+import net.fze.annotation.RequireContext;
+import net.fze.common.Context;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -25,17 +25,17 @@ import javax.servlet.http.HttpServletRequest;
  */
  public abstract class AbstractRequestContextArgumentResolver implements HandlerMethodArgumentResolver {
 
-        public abstract RequestContext<HttpServletRequest> createRequestContext(HttpServletRequest req);
+        public abstract Context createRequestContext(HttpServletRequest req);
         @Override
         public boolean supportsParameter(MethodParameter parameter) {
-            return parameter.hasParameterAnnotation(Context.class);
+            return parameter.hasParameterAnnotation(RequireContext.class);
         }
 
         @Override
         public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest request, WebDataBinderFactory binderFactory) throws Exception {
             HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             Class<?> parameterType = parameter.getParameterType();
-            if (parameter.getParameterType().isAssignableFrom(RequestContext.class)) {
+            if (parameter.getParameterType().isAssignableFrom(Context.class)) {
                 return createRequestContext(req);
             }
             throw new IllegalArgumentException("parameter " + parameterType.getName() + " type is invalid");
