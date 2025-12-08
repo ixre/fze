@@ -1,5 +1,8 @@
 package net.fze.ext.web;
 
+import net.fze.util.TypeConv;
+
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 /**
@@ -10,19 +13,28 @@ public class RequestPayload extends HashMap<String, Object> {
         return (String) this.get(key);
     }
 
-    public int getInt(String key) {
-        return Integer.parseInt(getString(key));
+    public Integer getInt(String key) {
+        return TypeConv.toInteger(this.get(key));
     }
 
-    public long getLong(String key) {
-        return Long.parseLong(getString(key));
+    public Long getLong(String key) {
+        return TypeConv.toLong(this.get(key));
     }
 
     public boolean getBoolean(String key) {
         return Boolean.parseBoolean(getString(key));
     }
 
-    public double getDouble(String key) {
-        return Double.parseDouble(getString(key));
+    public Double getDouble(String key) {
+        return TypeConv.toDouble(this.get(key));
     }
+
+    public Float getFloat(String key) {
+        return TypeConv.toFloat(this.get(key));
+    }
+
+    public BigDecimal getBigDecimal(String key) {
+        return TypeConv.toBigDecimal(this.get(key));
+    }
+
 }
