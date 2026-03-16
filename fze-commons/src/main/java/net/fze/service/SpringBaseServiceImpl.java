@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Spring服务基类,与BaseServiceImpl不同的是,这里使用了@Autowired注解，能根据泛型类型注入
  *
+ * @author jarrysix
  * @param <T>
  */
 public abstract class SpringBaseServiceImpl<T> extends AbstractServiceImpl<T> implements IBaseService<T> {

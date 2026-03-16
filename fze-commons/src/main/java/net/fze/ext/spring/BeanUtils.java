@@ -1,20 +1,14 @@
-package net.fze.ext.mybatis;
+package net.fze.ext.spring;
 
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 实体工具
+ * @author jarrysix
  */
 public class BeanUtils {
     /**

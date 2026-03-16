@@ -3,10 +3,8 @@ package net.fze.ext.mybatis;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import net.fze.domain.query.IQueryWrapper;
-import net.fze.domain.query.MapQueryWrapper;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class BaseJpaMapperTest {
 

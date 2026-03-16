@@ -41,6 +41,8 @@ dependencies {
     implementation("com.baomidou:mybatis-plus-core:3.5.3")
     compileOnly("org.springframework.data:spring-data-redis:2.7.12")
     compileOnly("org.springframework:spring-web:5.3.18")
+    compileOnly("org.springframework:spring-webmvc:5.3.18")
+
     compileOnly("com.baomidou:mybatis-plus-extension:3.4.3.2");
 
     // grpc

@@ -2,6 +2,7 @@ package net.fze.ext.mybatis;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
@@ -10,10 +11,12 @@ import net.fze.common.data.PagingParams;
 import net.fze.common.data.PagingResult;
 import net.fze.domain.IOrmRepository;
 import net.fze.domain.query.IQueryWrapper;
+import net.fze.domain.query.IUpdateWrapper;
 import net.fze.domain.query.QueryUtils;
 import net.fze.util.TypeConv;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.io.Serializable;
 import java.util.*;
@@ -29,16 +32,22 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
     /**
      * 根据主键查找
      */
+    @Override
     default T findById(Serializable id) {
         return this.selectById(id);
     }
-
+    /**
+     * 根据主键查找列表
+     */
+    @Override
     default List<T> findByIds(Collection<Serializable> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
         return this.selectBatchIds(ids);
     }
-    /**
-     * 保存实体
-     */
+
+    @Override
     default void save(T e, Function<T, Serializable> f) {
         Object pk = f.apply(e);
         if (pk == null || "".equals(pk) || TypeConv.toFloat(pk) <= 0) {
@@ -54,6 +63,7 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
     /**
      * 根据对象条件查找
      */
+    @Override
     default T findBy(T o) {
         return this.selectOne(new QueryWrapper<>(o));
     }
@@ -61,13 +71,17 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
     /**
      * 根据查询条件查找
      */
+    @Override
     default T findBy(IQueryWrapper queryWrapper) {
         assert queryWrapper instanceof Wrapper;
         @SuppressWarnings("unchecked")
         T t = this.selectOne((Wrapper<T>) queryWrapper);
         return t;
     }
-
+    /**
+     * 统计查询
+     */
+    @Override
     default long count(IQueryWrapper queryWrapper) {
         assert queryWrapper instanceof Wrapper;
         @SuppressWarnings("unchecked")
@@ -78,10 +92,18 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
     /**
      * 根据对象条件查找
      */
+    /**
+     * 根据对象条件查找列表
+     */
+    @Override
     default List<T> selectListBy(T o) {
         return this.selectList(new QueryWrapper<>(o));
     }
 
+     /**
+     * 根据查询条件查找列表
+     */
+    @Override
     default List<T> selectListBy(IQueryWrapper queryWrapper) {
         assert queryWrapper instanceof Wrapper;
         @SuppressWarnings("unchecked")
@@ -92,6 +114,13 @@ public interface BaseJpaMapper<T> extends BaseMapper<T>, IOrmRepository<T> {
         return list;
     }
 
+    @Override
+    default int update(IUpdateWrapper updateWrapper) {
+        assert updateWrapper instanceof UpdateWrapper;
+        @SuppressWarnings("unchecked")
+        int ret = this.update(null, (Wrapper<T>) updateWrapper);
+        return ret;
+    }
 
     /**
      * 分页查询

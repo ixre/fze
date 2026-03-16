@@ -17,6 +17,7 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
      * 排序
      * @param column 列名
      */
+    @Override
     public MyBatisQueryWrapper<T> orderByAsc(String column) {
         super.orderByAsc(column);
         return this;
@@ -26,6 +27,7 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
      * 排序
      * @param column 列名
      */
+    @Override
     public MyBatisQueryWrapper<T> orderByDesc(String column) {
         super.orderByDesc(column);
         return this;
@@ -34,6 +36,8 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
     /**
      * 或
      */
+
+    @Override
     public MyBatisQueryWrapper<T> or(){
         super.or();
         return this;
@@ -44,6 +48,8 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
      * @param column 列名
      * @param val 值
      */
+
+    @Override
     public MyBatisQueryWrapper<T> eq(String column, Object val) {
         super.eq(column, val);
         return this;
@@ -54,6 +60,7 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
      * @param column 列名
      * @param val 值
      */
+
     public MyBatisQueryWrapper<T> eqIfPresent(String column, Object val) {
         if(val == null || val.equals(""))return this;
         return this.eq(column, val);
@@ -64,6 +71,8 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
      * @param column    列名
      * @param val       值
      */
+
+    @Override
     public MyBatisQueryWrapper<T> like(String column, Object val) {
         super.like(column, val);
         return this;
@@ -79,6 +88,7 @@ public class MyBatisQueryWrapper<T> extends QueryWrapper<T> implements IQueryWra
      * @param column 列名
      * @param val 值
      */
+    @Override
     public MyBatisQueryWrapper<T> ne(String column, Object val) {
         super.ne(column, val);
         return this;

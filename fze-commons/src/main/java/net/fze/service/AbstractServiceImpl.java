@@ -4,6 +4,7 @@ import net.fze.common.data.PagingParams;
 import net.fze.common.data.PagingResult;
 import net.fze.domain.IOrmRepository;
 import net.fze.domain.query.IQueryWrapper;
+import net.fze.domain.query.IUpdateWrapper;
 import net.fze.jdk.jdk8.Lists;
 
 import java.io.Serializable;
@@ -73,6 +74,17 @@ public abstract class AbstractServiceImpl<T> implements IBaseService<T> {
     public void save(T e, Function<T, Serializable> f) {
         this.check();
         r.save(e, f);
+    }
+
+    /**
+     * 更新实体
+     * @param update 更新包装类
+     * @return 影响行数
+     */
+    @Override
+    public int update(IUpdateWrapper update) {
+        this.check();
+        return r.update(update);
     }
 
     @Override

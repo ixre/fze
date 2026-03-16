@@ -30,9 +30,9 @@ public class JdbcUtil {
     /**
      * * 将ResultSet结果集转化为Map
      *
-     * @param rs
-     * @return
-     * @throws SQLException
+     * @param rs      结果集
+     * @return 映射
+     * @throws SQLException 数据库异常
      */
     public static Map<String, Object> toMapFromResultSet(ResultSetWrapper rs) throws SQLException {
         Map<String, Object> map = null;
@@ -53,10 +53,10 @@ public class JdbcUtil {
     /**
      * 将ResultSet结果集转化为object
      *
-     * @param rs
-     * @param clazz
-     * @return
-     * @throws SQLException
+     * @param rs      结果集
+     * @param clazz   类
+     * @return 对象
+     * @throws SQLException 数据库异常
      */
     public static Object toClassFromResultSet(ResultSetWrapper rs, Class clazz) throws SQLException {
         Object beans = null;
@@ -94,10 +94,10 @@ public class JdbcUtil {
     /**
      * 二次封装执行查询集合操作，减少重复代码 返回MAP集合
      *
-     * @param connection
-     * @param sql
-     * @param isBreak
-     * @param params
+     * @param connection 数据库连接
+     * @param sql     SQL语句
+     * @param isBreak 是否中断查询
+     * @param params  参数
      * @return
      */
     public static List<Map<String, Object>> executeQueryRowForListMap(

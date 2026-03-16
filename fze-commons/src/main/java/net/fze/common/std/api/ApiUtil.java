@@ -14,13 +14,15 @@ import java.util.Map;
 /* API工具类 */
 public class ApiUtil {
     // 签名
-    public static String Sign(String signType, Map<String, String> r, String secret) {
-        String data = SortedParamsString(r, secret);
+    public static String sign(String signType, Map<String, String> r, String secret) {
+        String data = sortedParamsString(r, secret);
         switch (signType) {
             case "md5":
                 return DigestEncode.encode("md5", data);
             case "sha1":
                 return DigestEncode.encode("sha1", data);
+            case "sha256":
+                return DigestEncode.encode("sha256", data);
         }
         return "";
     }
@@ -28,7 +30,7 @@ public class ApiUtil {
     /**
      * 将字典转为字节
      */
-    public static String SortedParamsString(Map<String, String> r, String secret) {
+    private static String sortedParamsString(Map<String, String> r, String secret) {
         String[] keys = new String[r.size()];
         int i = 0;
         for (String k : r.keySet()) {

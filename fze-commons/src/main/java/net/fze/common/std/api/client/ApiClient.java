@@ -81,7 +81,7 @@ public class ApiClient {
         data.put("key", this._key);
         data.put("version", this._version);
         data.put("sign_type", this._signType);
-        data.put("sign", ApiUtil.Sign(this._signType, data, this._secret));
+        data.put("sign", ApiUtil.sign(this._signType, data, this._secret));
         String query = HttpUtils.toQuery(data);
         return HttpClient.request(this._apiUrl, "POST", query.getBytes(), this._timeout);
     }

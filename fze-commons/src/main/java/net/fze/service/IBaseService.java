@@ -3,6 +3,7 @@ package net.fze.service;
 import net.fze.common.data.PagingParams;
 import net.fze.common.data.PagingResult;
 import net.fze.domain.query.IQueryWrapper;
+import net.fze.domain.query.IUpdateWrapper;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.function.Function;
 
 /**
  * 基础服务接口
+ * @author jarrysix
  */
 public interface IBaseService<T> {
     /**
@@ -34,6 +36,12 @@ public interface IBaseService<T> {
      */
     void save(T e, Function<T, Serializable> f);
 
+    /**
+     * 更新实体
+     * @param update 更新包装类
+     * @return 影响行数
+     */
+    int update(IUpdateWrapper update);
     /**
      * 根据对象条件查找
      */

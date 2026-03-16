@@ -1,6 +1,6 @@
 package net.fze.util;
 
-import net.fze.ext.mybatis.BeanUtils;
+import net.fze.ext.spring.BeanUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

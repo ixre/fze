@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 /**
  * 查询工具
+ * @author jarrysix
  */
 public class QueryUtils {
 

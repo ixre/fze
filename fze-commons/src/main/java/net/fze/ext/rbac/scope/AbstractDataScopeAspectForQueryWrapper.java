@@ -27,47 +27,47 @@ public abstract class AbstractDataScopeAspectForQueryWrapper {
 
     public abstract String getCustomDataScopeSql(long userId);
 
-    @Before(value = "@annotation(net.fze.ext.rbac.scope.DataScope)")
+    @Before(value =  "@annotation(net.fze.ext.rbac.scope.DataScope)")
     public void doBefore(JoinPoint point){
-        handleDataScope(point);
+        handleDataScope(point,getDataScopeAnnotation(point));
     }
 
-    protected void handleDataScope(final JoinPoint joinPoint) {
+    /**
+     * 获取数据范围注解参数
+     * @param joinPoint 切点
+     * @return 数据范围注解参数
+     */
+    private DataScopeFields getDataScopeAnnotation(JoinPoint joinPoint) {
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
+        DataScope annotation = method.getAnnotation(DataScope.class);
+        if (annotation == null) {
+            throw new RuntimeException(joinPoint.getSignature().getDeclaringTypeName()
+                    + " cannot find @DataScope annotation");
+        }
+        return new DataScopeFields(annotation.departField(), annotation.userField());
+    }
+
+    protected void handleDataScope(final JoinPoint joinPoint,DataScopeFields dataScopeFields) {
        // 获取当前的用户
         User currentUser = getCurrentUser();
         if (currentUser != null) {
             // 如果是超级管理员，则不过滤数据
             if (!currentUser.isAdministrator()) {
-                dataScopeFilter(joinPoint, currentUser);
+                applyDataScopeFilter(joinPoint, currentUser,dataScopeFields);
             }
         }
     }
 
-    /**
-     * 数据范围过滤
-     *
-     * @param joinPoint 切点
-     * @param user      用户
-     */
-    protected void dataScopeFilter(JoinPoint joinPoint, User user) {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
-        DataScope annotation = method.getAnnotation(DataScope.class);
-        if (annotation == null) {
-            return;
-        }
-        this.applyDataScopeFilter(joinPoint, user,  annotation.departField(), annotation.userField());
-    }
 
     /**
      * 应用数据范围过滤
      *
      * @param joinPoint 切点
      * @param user      用户
-     * @param deptField 部门字段
-     * @param userField 用户字段
+     * @param fields 数据范围字段
      */
-    protected void applyDataScopeFilter(JoinPoint joinPoint, User user, String deptField, String userField) {
+    protected void applyDataScopeFilter(JoinPoint joinPoint, User user,DataScopeFields fields) {
         // 获取方法参数
         Object[] args = joinPoint.getArgs();
         if (args == null || args.length == 0) {
@@ -75,11 +75,11 @@ public abstract class AbstractDataScopeAspectForQueryWrapper {
         }
 
         // 部门权限字段
-        String finalDeptField = !Strings.isNullOrEmpty(deptField) ? deptField : "depart_id";
+        String finalDeptField = !Strings.isNullOrEmpty(fields.getDepartField()) ? fields.getDepartField() : "depart_id";
         // 用户权限字段
-        String finalUserField = !Strings.isNullOrEmpty(userField) ? userField : "user_id";
+        String finalUserField = !Strings.isNullOrEmpty(fields.getUserField()) ? fields.getUserField() : "user_id";
 
-        // 查找MyBatisQueryWrapper或MyBatisLambdaQueryWrapper参数
+        // 查找 MyBatisQueryWrapper 或 MyBatisLambdaQueryWrapper 参数
         MyBatisQueryWrapper<?> queryWrapper = null;
         for (Object arg : args) {
             if (arg instanceof MyBatisQueryWrapper<?> || arg instanceof MyBatisLambdaQueryWrapper) {
@@ -144,9 +144,10 @@ public abstract class AbstractDataScopeAspectForQueryWrapper {
         if (sqlString.length() > 0) {
             // 移除第一个OR
             String condition = sqlString.substring(4);
-            boolean isEmptyQuery = queryWrapper.toQueryWrapper().isEmptyOfWhere();
-            // 使用last方法添加原生SQL条件
-            queryWrapper.last(String.format(isEmptyQuery?" WHERE (%s)":" AND (%s)", condition));
+//            boolean isEmptyQuery = queryWrapper.toQueryWrapper().isEmptyOfWhere();
+//            // 使用apply方法添加原生SQL条件, apply会自动添加Where关键字
+//            queryWrapper.apply(String.format(isEmptyQuery?" WHERE (%s)":" AND (%s)", condition));
+            queryWrapper.apply(String.format("(%s)", condition));
         }
     }
 }
